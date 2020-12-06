@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Arctic.Web</name>
+    </assembly>
+    <members>
+        <member name="T:Arctic.Web.Books.BookDetail">
+            <summary>
+            图书详细页的数据项。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookDetail.BookId">
+            <summary>
+            图书 Id。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookDetail.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookDetail.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookDetail.Price">
+            <summary>
+            价格
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Books.BookList">
+            <summary>
+            表示列表页结果
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Books.BookListArgs">
+            <summary>
+            图书列表查询参数
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.Title">
+            <summary>
+            标题，支持模糊查找
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.PublicationDateFrom">
+            <summary>
+            出版日期
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.PublicationDateTo">
+            <summary>
+            出版日期
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.Current">
+            <summary>
+            基于 1 的当前页面。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.PageSize">
+            <summary>
+            每页大小
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Books.BookListItem">
+            <summary>
+            图书列表页的数据项。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListItem.BookId">
+            <summary>
+            图书 Id。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListItem.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListItem.Price">
+            <summary>
+            价格
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.List(Arctic.Web.Books.BookListArgs)">
+            <summary>
+            图书列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.Detail(System.Int32)">
+            <summary>
+            详细信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.Create(Arctic.Web.Books.CreateBookArgs)">
+            <summary>
+            创建图书
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.Update(System.Int32,Arctic.Web.Books.UpdateBookArgs)">
+            <summary>
+            更新图书
+            </summary>
+            <param name="id"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.Delete(System.Int32)">
+            <summary>
+            删除图书
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.Books.CreateBookArgs">
+            <summary>
+            创建图书操作的参数
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.CreateBookArgs.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.CreateBookArgs.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.CreateBookArgs.Price">
+            <summary>
+            价格
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.CreateBookArgs.PublicationDate">
+            <summary>
+            出版日期
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Books.UpdateBookArgs">
+            <summary>
+            更新图书操作的参数
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.UpdateBookArgs.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.UpdateBookArgs.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.UpdateBookArgs.Price">
+            <summary>
+            价格
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Controllers.ExportSchemaController">
+            <summary>
+            向数据库导出表结构的工具。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.Controllers.ExportSchemaController.Create">
+            <summary>
+            根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Controllers.HelloController">
+            <summary>
+            SimpleEventBus 示例。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.Controllers.HelloController.FireHelloEventAsync(System.String)">
+            <summary>
+            引发 Hello 事件，默认配置使用 <see cref="T:Arctic.EventBus.HelloEventHandler"/> 将事件参数写入日志。
+            </summary>
+            <returns>将参数原样返回。</returns>
+        </member>
+        <member name="M:Arctic.Web.Controllers.HelloController.GetNextValAsync(System.String)">
+            <summary>
+            获取序列值
+            </summary>
+            <param name="seqName">序列名</param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.DebugShowArgsAttribute">
+            <summary>
+            向日志写入 Action 的参数。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.DebugShowArgsAttribute.#ctor">
+            <summary>
+            初始化新实例。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.IListArgs`1">
+            <summary>
+            定义列表页参数。
+            </summary>
+            <typeparam name="T">目标类型</typeparam>
+        </member>
+        <member name="P:Arctic.Web.IListArgs`1.Sort">
+            <summary>
+            获取或设置排序信息。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.IListArgs`1.Current">
+            <summary>
+            获取或设置基于 1 的分页索引。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.IListArgs`1.PageSize">
+            <summary>
+            获取或设置每页大小。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.ListArgsExtensions">
+            <summary>
+            为 <see cref="T:Arctic.Web.IListArgs`1"/> 提供动态查询方法。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.ListArgsExtensions.ToPagedListAsync``1(System.Linq.IQueryable{``0},Arctic.Web.IListArgs{``0})">
+            <summary>
+            使用列表参数进行查询，返回分页的列表。
+            </summary>
+            <typeparam name="T">目标类型</typeparam>
+            <param name="q">目标类型上的查询对象</param>
+            <param name="listArgs">列表参数</param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.ListArgsExtensions.SqlMethods">
+            <summary>
+            代替 <see cref="M:NHibernate.Linq.SqlMethods.Like(System.String,System.String)"/>，以提供内存里的简单模糊查询。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.ListFilterAttribute">
+            <summary>
+            用于修饰 <see cref="T:Arctic.Web.IListArgs`1"/> 中的属性，<see cref="M:Arctic.Web.ListArgsExtensions.ToPagedListAsync``1(System.Linq.IQueryable{``0},Arctic.Web.IListArgs{``0})"/> 
+            方法会根据 ListFilterAttribute 配置自动生成查询对象。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.ListFilterAttribute.#ctor">
+            <summary>
+            使用 == 操作符在同名属性上查询。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.ListFilterAttribute.#ctor(Arctic.Web.ListFilterOperator)">
+            <summary>
+            使用指定的操作符在同名属性上查询。
+            </summary>
+            <param name="op"></param>
+        </member>
+        <member name="M:Arctic.Web.ListFilterAttribute.#ctor(System.String)">
+            <summary>
+            使用 == 操作符在指定的属性上查询。
+            </summary>
+            <param name="targetProperty"></param>
+        </member>
+        <member name="M:Arctic.Web.ListFilterAttribute.#ctor(System.String,Arctic.Web.ListFilterOperator)">
+            <summary>
+            使用指定的操作符在指定的属性上查询。
+            </summary>
+            <param name="targetProperty"></param>
+            <param name="op"></param>
+        </member>
+        <member name="P:Arctic.Web.ListFilterAttribute.TargetProperty">
+            <summary>
+            指示在目标类型的哪个属性上查询。如果为 null，则在同名属性上查询。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ListFilterAttribute.Operator">
+            <summary>
+            指示使用哪个操作符进行查询。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.ListFilterOperator">
+            <summary>
+            查询操作符。
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.E">
+            <summary>
+            相等
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.Like">
+            <summary>
+            like
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.GT">
+            <summary>
+            大于
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.GTE">
+            <summary>
+            大于等于
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.LT">
+            <summary>
+            小于
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.LTE">
+            <summary>
+            小于等于
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.PagedList`1">
+            <summary>
+            表示分页的列表。
+            CurrentPage 基于 1。
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Arctic.Web.PagedList`1.#ctor(System.Collections.Generic.List{`0},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            表示分页的列表。
+            CurrentPage 基于 1。
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Arctic.Web.OperationResult">
+            <summary>
+            表示操作结果
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.OperationResult.Success">
+            <summary>
+            指示操作是否成功
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.OperationResult.Message">
+            <summary>
+            描述操作结果的消息
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.DefaultOperaionTypePermissions">
+            <summary>
+            <see cref="T:Arctic.Web.IOperaionTypePermissions"/> 接口的默认实现
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.DefaultOperaionTypePermissions.#ctor(NHibernate.ISessionFactory)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="sessionFactory"></param>
+        </member>
+        <member name="M:Arctic.Web.DefaultOperaionTypePermissions.GetAllowedRoles(System.String)">
+            <summary>
+            指定操作类型，获取允许执行此操作的角色。
+            </summary>
+            <param name="opType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.IOperaionTypePermissions">
+            <summary>
+            提供为操作类型获取授权的方法。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.IOperaionTypePermissions.GetAllowedRoles(System.String)">
+            <summary>
+            指定操作类型，获取允许执行此操作的角色。
+            </summary>
+            <param name="operationType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.OperationTypeAttribute">
+            <summary>
+            指示 Action 的操作类型，并对用户授权。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.OperationTypeAttribute.#ctor(System.String)">
+            <summary>
+            初始化新实例
+            </summary>
+            <param name="operationType"></param>
+        </member>
+        <member name="P:Arctic.Web.OperationTypeAttribute.OperationType">
+            <summary>
+            获取或设置操作类型
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.OperationTypeAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)"/>。
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Arctic.Web.OperationTypeAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)"/>。
+            </summary>
+            <param name="context"></param>
+        </member>
+    </members>
+</doc>
