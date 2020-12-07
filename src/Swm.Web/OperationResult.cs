@@ -32,4 +32,5 @@ namespace Swm.Web
         /// </summary>
         public string? Message { get; init; }
     }
+
 }

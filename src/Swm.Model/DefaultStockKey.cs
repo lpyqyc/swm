@@ -15,9 +15,10 @@
 namespace Swm.Model
 {
     /// <summary>
-    /// 默认库存键。
+    /// 默认库存键
     /// </summary>
 
     public record DefaultStockKey(Material Material, string Batch, string StockStatus, string Uom) : StockKeyBase;
+
 }
 

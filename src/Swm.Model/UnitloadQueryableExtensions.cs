@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.NHibernateExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Swm.Model
         {
             return await q
                 .Where(x => x.ContainerCode == containerCode)
-                .SingleOrDefaultXAsync()
+                .WrappedSingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 
@@ -39,7 +40,7 @@ namespace Swm.Model
 
             List<Unitload> list = await q
                 .Where(x => containerCodes.Contains(x.ContainerCode))
-                .ToListXAsync()
+                .WrappedToListAsync()
                 .ConfigureAwait(false);
             return list.ToHashSet();
         }
@@ -52,7 +53,7 @@ namespace Swm.Model
                 q = q.Where(x => x.BeingMoved == beingMoved);
             }
 
-            List<Unitload> list = await q.ToListXAsync().ConfigureAwait(false);
+            List<Unitload> list = await q.WrappedToListAsync().ConfigureAwait(false);
             return list.ToHashSet();
         }
 
@@ -61,7 +62,7 @@ namespace Swm.Model
         {
             var list = await q
                 .Where(x => x.OpHintType == opHintType && x.OpHintInfo == opHintInfo)
-                .ToListXAsync()
+                .WrappedToListAsync()
                 .ConfigureAwait(false);
             return list.ToHashSet();
         }
@@ -70,7 +71,7 @@ namespace Swm.Model
         {
             return await q
                 .Where(x => x.ContainerCode == containerCode)
-                .AnyXAsync()
+                .WrappedAnyAsync()
                 .ConfigureAwait(false);
         }
     }

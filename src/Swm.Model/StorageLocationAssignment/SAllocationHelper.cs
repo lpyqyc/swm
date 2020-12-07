@@ -61,7 +61,7 @@ namespace Swm.Model.StorageLocationAssignment
         {
             if (laneway == null)
             {
-                throw new ArgumentNullException("laneway");
+                throw new ArgumentNullException(nameof(laneway));
             }
 
             if (string.IsNullOrWhiteSpace(orderBy))

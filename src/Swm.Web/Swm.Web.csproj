@@ -11,10 +11,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arctic.AppCodes" Version="1.0.0-main-local" />
+    <Compile Remove="Controllers\Location\**" />
+    <Content Remove="Controllers\Location\**" />
+    <EmbeddedResource Remove="Controllers\Location\**" />
+    <None Remove="Controllers\Location\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\LocController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Arctic.AppCodes" Version="1.0.1" />
     <PackageReference Include="Arctic.AppSeqs" Version="1.0.0-main-local" />
     <PackageReference Include="Arctic.EventBus" Version="1.0.0-main-local" />
-    <PackageReference Include="Arctic.NHibernateExtensions" Version="1.0.0-main-local" />
+    <PackageReference Include="Arctic.NHibernateExtensions" Version="1.0.1" />
     <PackageReference Include="Arctic.NHibernateExtensions.AspNetCore" Version="1.0.0-main-local" />
     <PackageReference Include="Autofac" Version="6.0.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />

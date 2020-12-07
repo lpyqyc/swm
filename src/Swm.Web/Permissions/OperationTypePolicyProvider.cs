@@ -22,14 +22,13 @@ namespace Swm.Web
 {
     internal class OperationTypePolicyProvider : IAuthorizationPolicyProvider
     {
-        const string POLICY_PREFIX = "OPTYPE_";
-        readonly IOperaionTypePermissions _opTypePermissions;
+        readonly IOperaionTypePermissions _permissions;
         readonly ILogger _logger;
         public DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
 
-        public OperationTypePolicyProvider(IOperaionTypePermissions opTypePermissions, IOptions<AuthorizationOptions> options, ILogger logger)
+        public OperationTypePolicyProvider(IOperaionTypePermissions permissions, IOptions<AuthorizationOptions> options, ILogger logger)
         {
-            _opTypePermissions = opTypePermissions;
+            _permissions = permissions;
             FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
             _logger = logger;
         }
@@ -41,10 +40,10 @@ namespace Swm.Web
 
         public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
         {
-            if (policyName.StartsWith(POLICY_PREFIX, StringComparison.OrdinalIgnoreCase))
+            if (policyName.StartsWith(OperationTypePolicyConstant.POLICY_PREFIX, StringComparison.OrdinalIgnoreCase))
             {
-                string opType = policyName[POLICY_PREFIX.Length..];
-                var roles = _opTypePermissions.GetAllowedRoles(opType).ToArray();
+                string opType = policyName[OperationTypePolicyConstant.POLICY_PREFIX.Length..];
+                var roles = _permissions.GetAllowedRoles(opType).ToArray();
                 if (roles.Length > 0)
                 {
                     var policy = new AuthorizationPolicyBuilder()

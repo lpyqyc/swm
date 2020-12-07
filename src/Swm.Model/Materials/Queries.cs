@@ -14,6 +14,7 @@
 
 using Arctic.NHibernateExtensions;
 using NHibernate;
+using NHibernate.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,14 +35,14 @@ namespace Swm.Model
         /// <returns></returns>
         public static async Task<TransportTask> GetTaskAsync(this IQueryable<TransportTask> q, string taskCode)
         {
-            return await q.SingleOrDefaultAsync(x => x.TaskCode == taskCode).ConfigureAwait(false);
+            return await q.WrappedSingleOrDefaultAsync(x => x.TaskCode == taskCode).ConfigureAwait(false);
         }
 
         public static async Task<List<Location>> GetAsync(this IQueryable<Location> q, IEnumerable<int> locationIdList)
         {
             return await q
                 .Where(x => locationIdList.Contains(x.LocationId))
-                .ToListAsync()
+                .WrappedToListAsync()
                 .ConfigureAwait(false);
         }
 
@@ -49,7 +50,7 @@ namespace Swm.Model
         {
             return await q
                 .Where(x => x.LocationCode == locationCode)
-                .SingleOrDefaultAsync()
+                .WrappedSingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 
@@ -69,20 +70,21 @@ namespace Swm.Model
         {
             return await q
                 .Where(x => x.PortCode == portCode)
-                //  TODO sss
-                // .WithOptions(x => x.SetCacheable(true))
-                .SingleOrDefaultAsync()
+                .WithOptions(x => x.SetCacheable(true))
+                .WrappedSingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 
         // TODO 不是查询
         public static async Task SaveLocationOpAsync(this ISession session, Location loc, string opType, string comment)
         {
-            LocationOp op = new LocationOp();
-            op.OpType = opType;
-            op.Comment = comment;
-            op.ctime = DateTime.Now;
-            op.Location = loc;
+            LocationOp op = new LocationOp
+            {
+                OpType = opType,
+                Comment = comment,
+                ctime = DateTime.Now,
+                Location = loc
+            };
             await session.SaveAsync(op).ConfigureAwait(false);
         }
 
@@ -90,9 +92,8 @@ namespace Swm.Model
         {
             return await q
                 .Where(x => x.LocationCode == Cst.None)
-                //  TODO sss
-                // .WithOptions(x => x.SetCacheable(true))
-                .SingleOrDefaultAsync()
+                .WithOptions(x => x.SetCacheable(true))
+                .WrappedSingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 
@@ -100,32 +101,31 @@ namespace Swm.Model
         {
             return await q
                 .Where(x => x.MaterialCode == materialCode)
-                //  TODO sss
-                // .WithOptions(x => x.SetCacheable(true))
-                .SingleOrDefaultAsync()
+                .WithOptions(x => x.SetCacheable(true))
+                .WrappedSingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 
         public static IQueryable<Material> FilterByKeyword(this IQueryable<Material> q, string keyword, string type = null)
         {
             throw new NotImplementedException();
-            //keyword = keyword?.Trim();
-            //type = type?.Trim();
+            keyword = keyword?.Trim();
+            type = type?.Trim();
 
-            //if (string.IsNullOrEmpty(keyword) == false)
-            //{
-            //    q = q.Where(x =>
-            //        x.MaterialCode.Like(keyword)
-            //        || x.Description.Like(keyword)
-            //        || x.MnemonicCode.Like(keyword)
-            //    );
-            //}
+            if (string.IsNullOrEmpty(keyword) == false)
+            {
+                q = q.Where(x =>
+                    x.MaterialCode.Like(keyword)
+                    || x.Description.Like(keyword)
+                    || x.MnemonicCode.Like(keyword)
+                );
+            }
 
-            //if (type != null)
-            //{
-            //    q = q.Where(x => x.MaterialType == type);
-            //}
-            //return q;
+            if (type != null)
+            {
+                q = q.Where(x => x.MaterialType == type);
+            }
+            return q;
         }
 
         public static IQueryable<T> OfStockKey<T>(this IQueryable<T> q, StockKeyBase stockKey) where T : class, IHasStockKey

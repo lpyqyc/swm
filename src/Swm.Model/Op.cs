@@ -12,49 +12,61 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.Auditing;
 using System;
-using System.Collections.Specialized;
+using System.ComponentModel.DataAnnotations;
 
-namespace Swm.Web.Books
+namespace Swm.Model
 {
     /// <summary>
-    /// 图书列表查询参数
+    /// 表示操作记录。
     /// </summary>
-    public class BookListArgs : IListArgs<Book>
+    public class Op : IHasCtime, IHasCuser
     {
         /// <summary>
-        /// 标题，支持模糊查找
+        /// 初始化此类的新实例。
         /// </summary>
-        [ListFilter(ListFilterOperator.Like)]
-        public string? Title { get; set; }
+        public Op()
+        {
+        }
 
         /// <summary>
-        /// 出版日期
+        /// Id
         /// </summary>
-        [ListFilter("PublicationDate", ListFilterOperator.GTE )]
-        public DateTime? PublicationDateFrom { get; set; }
+        public virtual int OpId { get; protected set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public virtual DateTime ctime { get; set; }
+
+        /// <summary>
+        /// 操作人
+        /// </summary>
+        [Required]
+        [MaxLength(FIELD_LENGTH.USERNAME)]
+        public virtual string cuser { get; set; }
 
 
         /// <summary>
-        /// 出版日期
+        /// 操作类型
         /// </summary>
-        [ListFilter("PublicationDate", ListFilterOperator.LT)]
-        public DateTime? PublicationDateTo { get; set; }
+        [Required]
+        [MaxLength(FIELD_LENGTH.OP_TYPE)]
+        public virtual string OpType { get; set; }
 
         /// <summary>
-        /// 排序字段
+        /// 产生此记录的 Url
         /// </summary>
-        public OrderedDictionary? Sort { get; set; }
+        public virtual string Url { get; set; }
 
         /// <summary>
-        /// 基于 1 的当前页面。
+        /// 备注
         /// </summary>
-        public int? Current { get; set; }
-
-        /// <summary>
-        /// 每页大小
-        /// </summary>
-        public int? PageSize { get; set; }
+        [MaxLength(2048)]
+        public virtual string Comment { get; set; }
 
     }
+
 }
+

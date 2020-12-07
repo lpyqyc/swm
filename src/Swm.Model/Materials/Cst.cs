@@ -34,6 +34,8 @@ namespace Swm.Model
         public const string NA = "NA";
 
 
+        public const string 更改位置 = "更改位置";
+
         /// <summary>
         /// 表示默认的存储分组。
         /// </summary>

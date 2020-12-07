@@ -21,6 +21,31 @@ namespace Swm.Model.Mappings
     {
         public SwmModelMapper()
         {
+            Component<LanewayUsageKey>(comp =>
+            {
+                comp.Property(cl => cl.StorageGroup);
+                comp.Property(cl => cl.Specification);
+                comp.Property(cl => cl.WeightLimit);
+                comp.Property(cl => cl.HeightLimit);
+            });
+
+            Component<LanewayUsageData>(comp =>
+            {
+                comp.Property(cl => cl.mtime);
+                comp.Property(cl => cl.Total);
+                comp.Property(cl => cl.Available);
+                comp.Property(cl => cl.Loaded);
+                comp.Property(cl => cl.InboundDisabled);
+            });
+
+            Component<UnitloadStorageInfo>(comp => {
+                comp.Property(cl => cl.ContainerSpecification);
+                comp.Property(cl => cl.Weight, prop => prop.Column("xWeight"));
+                comp.Property(cl => cl.Height);
+                comp.Property(cl => cl.OutFlag);
+                comp.Property(cl => cl.StorageGroup);
+            });
+
             // 添加映射类
             this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
         }

@@ -17,8 +17,7 @@ namespace Swm.Model
         readonly ILogger _logger;
 
         readonly IAppSeqService _appSeqService;
-
-        UnitloadSnapshopHelper _unitloadSnapshopHelper;
+        readonly UnitloadSnapshopHelper _unitloadSnapshopHelper;
 
         public TaskHelper(ISession session, IAppSeqService appSeqService, UnitloadSnapshopHelper unitloadSnapshopHelper, ILogger logger)
         {
@@ -411,7 +410,7 @@ namespace Swm.Model
             // 创建任务并立即完成
             TransportTask transTask = new TransportTask();
             transTask.Comment = comment;
-            await BuildAsync(transTask, Cst.更改货载位置, orig, dest, unitload, false);
+            await BuildAsync(transTask, Cst.更改位置, orig, dest, unitload, false);
             var archived = await CompleteAsync(transTask, dest, false);
 
             _logger.Information("已将托盘 {palletCode} 的位置改为 {dest}", unitload.ContainerCode, dest.LocationCode);

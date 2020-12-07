@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,25 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-
-namespace Swm.Web.Books
+namespace Swm.Web
 {
     /// <summary>
-    /// 表示列表页结果
+    /// 实现 OperationTypePolicy 用到的常数
     /// </summary>
-    public class BookList : OperationResult
+    internal static class OperationTypePolicyConstant
     {
         /// <summary>
-        /// 当前分页的数据
+        /// POLICY 常数
         /// </summary>
-        public IEnumerable<BookListItem>? Data { get; init; }
-
-        /// <summary>
-        /// 总共有多少个数据
-        /// </summary>
-        public int Total { get; init; }
+        public const string POLICY_PREFIX = "OPERATION_TYPE_";
     }
-
 
 }

@@ -24,7 +24,7 @@ namespace Swm.Model
     {
         internal protected UnitloadItem()
         {
-            this.Uom = Locations.Cst.None;
+            this.Uom = Cst.None;
         }
 
         public virtual Int32 UnitloadItemId { get; set; }

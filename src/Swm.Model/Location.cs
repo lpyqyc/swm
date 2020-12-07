@@ -180,20 +180,6 @@ namespace Swm.Model
         [MaxLength(30)]
         public virtual string Tag { get; set; }
 
-
-        //// TODO 预定功能
-        ///// <summary>
-        ///// 获取或设置一个值，在入库分配货位时，指示此货位是否已被预订。
-        ///// </summary>
-        //public virtual bool Booked { get; set; }
-
-        //// TODO 
-        ///// <summary>
-        ///// 获取或设置此货位的预定信息。
-        ///// </summary>
-        //[MaxLength(30)]
-        //public virtual string BookingInformation { get; set; }
-
         /// <summary>
         /// 获取或设置此位置上的请求类型，仅适用于关键点。
         /// </summary>

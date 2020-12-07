@@ -97,9 +97,10 @@ namespace Swm.Web
             builder.AddAppSeqs();
             builder.AddSwm();
 
-            //builder.RegisterType<OperaionTypePermissions>().AsImplementedInterfaces().SingleInstance();
             builder.AddEventBus(Configuration.GetSection("EventBus").Get<SimpleEventBusOptions>());
             builder.AddNHibernate();
+
+            builder.RegisterType<OpHelper>().AsSelf().InstancePerLifetimeScope();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
