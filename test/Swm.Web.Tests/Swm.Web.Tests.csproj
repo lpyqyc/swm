@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Arctic.Web\Arctic.Web.csproj" />
+    <ProjectReference Include="..\..\src\Swm.Web\Swm.Web.csproj" />
   </ItemGroup>
 
 </Project>

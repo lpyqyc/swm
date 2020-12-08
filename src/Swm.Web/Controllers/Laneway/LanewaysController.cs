@@ -89,8 +89,8 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 脱机巷道
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="args"></param>
+        /// <param name="id">巷道id</param>
+        /// <param name="args">参数</param>
         /// <returns></returns>
         [HttpPost]
         [Route("take-offline/{id}")]

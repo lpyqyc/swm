@@ -20,7 +20,7 @@ namespace Swm.Web
     /// <summary>
     /// 提供为操作类型获取授权的方法。
     /// </summary>
-    public interface IOperaionTypePermissions
+    public interface IOperaionTypeAuthoriztion
     {
         /// <summary>
         /// 指定操作类型，获取允许执行此操作的角色。

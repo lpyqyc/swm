@@ -14,15 +14,14 @@
 
 namespace Swm.Web
 {
-    /// <summary>
-    /// 实现 OperationTypePolicy 用到的常数
-    /// </summary>
-    internal static class OperationTypePolicyConstant
+    internal static class POLICY_PREFIX
     {
         /// <summary>
         /// POLICY 常数
         /// </summary>
-        public const string POLICY_PREFIX = "OPERATION_TYPE_";
+        public const string Value = "OPERATION_TYPE_";
     }
+
+
 
 }

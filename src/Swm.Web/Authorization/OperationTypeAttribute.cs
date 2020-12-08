@@ -24,6 +24,7 @@ namespace Swm.Web
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public sealed class OperationTypeAttribute : AuthorizeAttribute, IActionFilter
     {
+
         /// <summary>
         /// 初始化新实例
         /// </summary>
@@ -44,11 +45,11 @@ namespace Swm.Web
                 {
                     throw new Exception();
                 }
-                return Policy[OperationTypePolicyConstant.POLICY_PREFIX.Length..];
+                return Policy[POLICY_PREFIX.Value.Length..];
             }
             set
             {
-                Policy = $"{OperationTypePolicyConstant.POLICY_PREFIX}{value}";
+                Policy = $"{POLICY_PREFIX.Value}{value}";
             }
         }
 

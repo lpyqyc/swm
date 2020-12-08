@@ -4,6 +4,95 @@
         <name>Swm.Web</name>
     </assembly>
     <members>
+        <member name="T:Swm.Web.DefaultOperaionTypeAuthoriztion">
+            <summary>
+            <see cref="T:Swm.Web.IOperaionTypeAuthoriztion"/> 接口的默认实现
+            </summary>
+        </member>
+        <member name="M:Swm.Web.DefaultOperaionTypeAuthoriztion.#ctor(NHibernate.ISessionFactory)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="sessionFactory"></param>
+        </member>
+        <member name="M:Swm.Web.DefaultOperaionTypeAuthoriztion.GetAllowedRoles(System.String)">
+            <summary>
+            指定操作类型，获取允许执行此操作的角色。
+            </summary>
+            <param name="opType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.IOperaionTypeAuthoriztion">
+            <summary>
+            提供为操作类型获取授权的方法。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.IOperaionTypeAuthoriztion.GetAllowedRoles(System.String)">
+            <summary>
+            指定操作类型，获取允许执行此操作的角色。
+            </summary>
+            <param name="operationType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.OperationTypeAttribute">
+            <summary>
+            指示 Action 的操作类型，并对用户授权。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.OperationTypeAttribute.#ctor(System.String)">
+            <summary>
+            初始化新实例
+            </summary>
+            <param name="operationType"></param>
+        </member>
+        <member name="P:Swm.Web.OperationTypeAttribute.OperationType">
+            <summary>
+            获取或设置操作类型
+            </summary>
+        </member>
+        <member name="M:Swm.Web.OperationTypeAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)"/>。
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Swm.Web.OperationTypeAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)"/>。
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Swm.Web.OpHelper">
+            <summary>
+            提供操作记录相关的方法
+            </summary>
+        </member>
+        <member name="M:Swm.Web.OpHelper.#ctor(NHibernate.ISession,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            初始化新实例
+            </summary>
+            <param name="session"></param>
+            <param name="httpContextAccessor"></param>
+        </member>
+        <member name="M:Swm.Web.OpHelper.SaveOpAsync(System.String,System.Object[])">
+            <summary>
+            当 action 使用 <see cref="T:Swm.Web.OperationTypeAttribute"/> 标记时，根据 <see cref="P:Swm.Web.OperationTypeAttribute.OperationType"/> 的值创建一个 Op 对象并保存到数据库。
+            </summary>
+            <param name="format">用于填充 <see cref="P:Swm.Model.Op.Comment"/> 属性的格式化字符串。</param>
+            <param name="args">用于填充 <see cref="P:Swm.Model.Op.Comment"/> 属性的格式化参数。</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.OpHelper.GetOperationType">
+            <summary>
+            当 action 使用 <see cref="T:Swm.Web.OperationTypeAttribute"/> 标记时，获取 <see cref="P:Swm.Web.OperationTypeAttribute.OperationType"/> 的值。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Swm.Web.POLICY_PREFIX.Value">
+            <summary>
+            POLICY 常数
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.ExportSchemaController">
             <summary>
             向数据库导出表结构的工具。
@@ -229,8 +318,8 @@
             <summary>
             脱机巷道
             </summary>
-            <param name="id"></param>
-            <param name="args"></param>
+            <param name="id">巷道id</param>
+            <param name="args">参数</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.LanewaysController.TakeOnlineAsync(System.Int32,Swm.Web.Controllers.TakeOnlineArgs)">
@@ -448,100 +537,6 @@
             <summary>
             描述操作结果的消息
             </summary>
-        </member>
-        <member name="T:Swm.Web.DefaultOperaionTypePermissions">
-            <summary>
-            <see cref="T:Swm.Web.IOperaionTypePermissions"/> 接口的默认实现
-            </summary>
-        </member>
-        <member name="M:Swm.Web.DefaultOperaionTypePermissions.#ctor(NHibernate.ISessionFactory)">
-            <summary>
-            初始化新实例。
-            </summary>
-            <param name="sessionFactory"></param>
-        </member>
-        <member name="M:Swm.Web.DefaultOperaionTypePermissions.GetAllowedRoles(System.String)">
-            <summary>
-            指定操作类型，获取允许执行此操作的角色。
-            </summary>
-            <param name="opType"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Swm.Web.IOperaionTypePermissions">
-            <summary>
-            提供为操作类型获取授权的方法。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.IOperaionTypePermissions.GetAllowedRoles(System.String)">
-            <summary>
-            指定操作类型，获取允许执行此操作的角色。
-            </summary>
-            <param name="operationType"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Swm.Web.OperationTypeAttribute">
-            <summary>
-            指示 Action 的操作类型，并对用户授权。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.OperationTypeAttribute.#ctor(System.String)">
-            <summary>
-            初始化新实例
-            </summary>
-            <param name="operationType"></param>
-        </member>
-        <member name="P:Swm.Web.OperationTypeAttribute.OperationType">
-            <summary>
-            获取或设置操作类型
-            </summary>
-        </member>
-        <member name="M:Swm.Web.OperationTypeAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
-            <summary>
-            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)"/>。
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:Swm.Web.OperationTypeAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
-            <summary>
-            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)"/>。
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="T:Swm.Web.OperationTypePolicyConstant">
-            <summary>
-            实现 OperationTypePolicy 用到的常数
-            </summary>
-        </member>
-        <member name="F:Swm.Web.OperationTypePolicyConstant.POLICY_PREFIX">
-            <summary>
-            POLICY 常数
-            </summary>
-        </member>
-        <member name="T:Swm.Web.OpHelper">
-            <summary>
-            提供操作记录相关的方法
-            </summary>
-        </member>
-        <member name="M:Swm.Web.OpHelper.#ctor(NHibernate.ISession,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
-            <summary>
-            初始化新实例
-            </summary>
-            <param name="session"></param>
-            <param name="httpContextAccessor"></param>
-        </member>
-        <member name="M:Swm.Web.OpHelper.SaveOpAsync(System.String,System.Object[])">
-            <summary>
-            当 action 使用 <see cref="T:Swm.Web.OperationTypeAttribute"/> 标记时，根据 <see cref="P:Swm.Web.OperationTypeAttribute.OperationType"/> 的值创建一个 Op 对象并保存到数据库。
-            </summary>
-            <param name="format">用于填充 <see cref="P:Swm.Model.Op.Comment"/> 属性的格式化字符串。</param>
-            <param name="args">用于填充 <see cref="P:Swm.Model.Op.Comment"/> 属性的格式化参数。</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.OpHelper.GetOperationType">
-            <summary>
-            当 action 使用 <see cref="T:Swm.Web.OperationTypeAttribute"/> 标记时，获取 <see cref="P:Swm.Web.OperationTypeAttribute.OperationType"/> 的值。
-            </summary>
-            <returns></returns>
         </member>
     </members>
 </doc>

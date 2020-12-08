@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using Swm.Web;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using static Arctic.Web.ListFilterOperator;
 
 namespace Arctic.Web.Tests
 {
@@ -33,7 +32,7 @@ namespace Arctic.Web.Tests
 
         class FooListArgs : IListArgs<Foo>
         {
-            [ListFilter(Operator = Like)]
+            [ListFilter(Operator = ListFilterOperator.Like)]
             public string? Title { get; set; }
 
             [ListFilter]
