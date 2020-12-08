@@ -36,7 +36,6 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.巷道列表)]
-        [Route("list")]
         public async Task<LanewayList> List(LanewayListArgs args)
         {
             var pagedList = await _session.Query<Laneway>().ToPagedListAsync(args);
@@ -92,8 +91,8 @@ namespace Swm.Web.Controllers
         /// <param name="id">巷道id</param>
         /// <param name="args">参数</param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("take-offline/{id}")]
+        [HttpPut]
+        [Route("{id}/take-offline")]
         [OperationType(OperationTypes.脱机巷道)]
         [AutoTransaction]
         public async Task<ActionResult<OperationResult>> TakeOfflineAsync(int id, [FromBody]TakeOfflineArgs args)
@@ -138,8 +137,8 @@ namespace Swm.Web.Controllers
         /// <param name="id"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("take-online/{id}")]
+        [HttpPut]
+        [Route("{id}/take-online")]
         [OperationType(OperationTypes.联机巷道)]
         [AutoTransaction]
         public async Task<ActionResult<OperationResult>> TakeOnlineAsync(int id, [FromBody]TakeOnlineArgs args)
@@ -208,8 +207,8 @@ namespace Swm.Web.Controllers
         /// <param name="id"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("set-ports/{id}")]
+        [HttpPut]
+        [Route("{id}/set-ports")]
         [OperationType(OperationTypes.设置出口)]
         [AutoTransaction]
         public async Task<ActionResult> SetLanewaysPortsAsync(int id, [FromBody]SetPortsArgs args)
