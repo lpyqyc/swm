@@ -9,5 +9,6 @@ namespace Swm.Web
         public const string 设置出口 = "位置.设置出口";
         public const string 出口列表 = "位置.出口列表";
         public const string 货位列表 = "位置.货位列表";
+        public const string 关键点列表 = "位置.关键点列表";
     }
 }
