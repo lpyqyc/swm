@@ -67,9 +67,38 @@ namespace Swm.Web
 
                 object? val = GetPropertyValue(prop, listArgs);
 
-                if (val != null)
+                if (val == null)
                 {
+                    continue;
+                }
 
+
+                if (attr.Operator == ListFilterOperator.Linq)
+                {
+                    string exprProp = prop.Name + "Expr";
+
+                    PropertyInfo? pi = argsType.GetProperty(exprProp, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                    if (pi == null)
+                    {
+                        throw new InvalidOperationException($"表达式属性不存在，{exprProp}");
+                    }
+
+                    object? expr = pi.GetValue(listArgs, null);
+                    if (expr == null)
+                    {
+                        continue;
+                    }
+                    if (expr is Expression<Func<T, bool>> e)
+                    {
+                        q = q.Where(e);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"{exprProp} 的类型不是 {typeof(Expression<Func<T, bool>>)}");
+                    }
+                }
+                else
+                {
                     string targetProperty;
                     if (attr.TargetProperty != null)
                     {
@@ -100,8 +129,11 @@ namespace Swm.Web
                         case ListFilterOperator.LTE:
                             q = q.Where($"{targetProperty} <= @0", val);
                             break;
-                        default:
+                        case ListFilterOperator.IN:
+                            q = q.Where($"@0.Contains({targetProperty})", val);
                             break;
+                        default:
+                            throw new NotSupportedException("不支持的查询操作");
                     }
                 }
             }
