@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Model
 {
+
     public class Port : IHasCtime
     {
         public Port()
@@ -26,46 +27,46 @@ namespace Swm.Model
         [Required]
         public virtual Location KP1 { get; set; }
 
-        public virtual Location KP2 { get; set; }
+        public virtual Location? KP2 { get; set; }
 
-        public virtual String Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
 
         public virtual ISet<Laneway> Laneways { get; protected set; }
 
-        // TODO 
-        //public virtual IUnitloadAllocationTable CurrentUat { get; protected set; }
+        // TODO 重命名
+        public virtual IUnitloadAllocationTable? CurrentUat { get; protected set; }
 
-        public virtual DateTime CheckedAt { get; set; }
+        public virtual DateTime CheckedAt { get; set; } = default;
 
-        public virtual String CheckMessage { get; set; }
+        public virtual string? CheckMessage { get; set; }
 
+        // TODO 重命名
+        public virtual void SetCurrentUat(IUnitloadAllocationTable uat)
+        {
+            if (uat == null)
+            {
+                throw new ArgumentNullException(nameof(uat));
+            }
 
-        //public virtual void SetCurrentUat(IUnitloadAllocationTable uat)
-        //{
-        //    if (uat == null)
-        //    {
-        //        throw new ArgumentNullException(nameof(uat));
-        //    }
+            if (this.CurrentUat == uat)
+            {
+                return;
+            }
 
-        //    if (this.CurrentUat == uat)
-        //    {
-        //        return;
-        //    }
+            if (this.CurrentUat != null)
+            {
+                throw new InvalidOperationException($"出口已被占用。【{this.CurrentUat}】");
+            }
 
-        //    if (this.CurrentUat != null)
-        //    {
-        //        throw new InvalidOperationException($"出口已被占用。【{this.CurrentUat}】");
-        //    }
+            this.CurrentUat = uat;
+        }
 
-        //    this.CurrentUat = uat;
-        //}
-
-        // TODO 
-        //public virtual void ResetCurrentUat()
-        //{
-        //    this.CurrentUat = null;
-        //}
+        // TODO 重命名
+        public virtual void ResetCurrentUat()
+        {
+            this.CurrentUat = null;
+        }
 
         public override string ToString()
         {

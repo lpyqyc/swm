@@ -64,18 +64,19 @@ namespace Swm.Model.Mappings
                 });
             });
 
-            // TODO 
-            //Any(cl => cl.CurrentUat, typeof(int), m => {
-            //    m.Lazy(false);
-            //    m.Columns(x =>
-            //    {
-            //        x.Name("CurrentUatId");
-            //    }, x =>
-            //    {
-            //        x.Name("CurrentUatType");
-            //        x.Length(30);
-            //    });
-            //});
+            // TODO 重命名
+            Any(cl => cl.CurrentUat, typeof(int), m =>
+            {
+                m.Lazy(false);
+                m.Columns(x =>
+                {
+                    x.Name("CurrentUatId");
+                }, x =>
+                {
+                    x.Name("CurrentUatType");
+                    x.Length(30);
+                });
+            });
 
 
             Property(cl => cl.CheckedAt);

@@ -121,41 +121,6 @@
             <param name="seqName">序列名</param>
             <returns></returns>
         </member>
-        <member name="T:Swm.Web.Controllers.CreateLanewayArgs">
-            <summary>
-            创建操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateLanewayArgs.Prop1">
-            <summary>
-            Prop1
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateLanewayArgs.Prop2">
-            <summary>
-            Prop2
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.LanewayDetail">
-            <summary>
-            详细页的数据项
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LanewayDetail.LanewayId">
-            <summary>
-            Id
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LanewayDetail.Prop1">
-            <summary>
-            Prop1
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LanewayDetail.Prop">
-            <summary>
-            Prop2
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.LanewayList">
             <summary>
             列表页结果
@@ -194,36 +159,6 @@
         <member name="P:Swm.Web.Controllers.LanewayListArgs.PageSize">
             <summary>
             每页大小，默认值为 10。
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.TakeOfflineArgs">
-            <summary>
-            脱机巷道的操作参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.TakeOfflineArgs.Comment">
-            <summary>
-            脱机操作备注
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.TakeOnlineArgs">
-            <summary>
-            联机巷道的操作参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.TakeOnlineArgs.Comment">
-            <summary>
-            联机操作备注，非必填
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.SetPortsArgs">
-            <summary>
-            设置巷道出口的操作参数。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SetPortsArgs.PortIdList">
-            <summary>
-            出口Id列表
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.LanewayListItem">
@@ -301,7 +236,7 @@
             出口编码
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.List(Swm.Web.Controllers.LanewayListArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.ListAsync(Swm.Web.Controllers.LanewayListArgs)">
             <summary>
             巷道列表
             </summary>
@@ -369,19 +304,152 @@
             是否离线
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.UpdateLanewayArgs">
+        <member name="T:Swm.Web.Controllers.SetPortsArgs">
             <summary>
-            更新操作的参数
+            设置巷道出口的操作参数。
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UpdateLanewayArgs.Prop1">
+        <member name="P:Swm.Web.Controllers.SetPortsArgs.PortIdList">
             <summary>
-            
+            出口Id列表
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UpdateLanewayArgs.Prop2">
+        <member name="T:Swm.Web.Controllers.TakeOfflineArgs">
             <summary>
-            
+            脱机巷道的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TakeOfflineArgs.Comment">
+            <summary>
+            脱机操作备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.TakeOnlineArgs">
+            <summary>
+            联机巷道的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TakeOnlineArgs.Comment">
+            <summary>
+            联机操作备注，非必填
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.PortList">
+            <summary>
+            列表页结果
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.PortListArgs">
+            <summary>
+            列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListArgs.PortCode">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.PortListItem">
+            <summary>
+            列表页的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListItem.PortId">
+            <summary>
+            出口Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListItem.PortCode">
+            <summary>
+            出口编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListItem.KP1">
+            <summary>
+            出口的关键点1，不为 null
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListItem.KP2">
+            <summary>
+            出口的关键点2，可能为 null
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListItem.Laneways">
+            <summary>
+            可到达此出口的巷道
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListItem.CurrentUat">
+            <summary>
+            当前下架的单据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListItem.CheckedAt">
+            <summary>
+            检查时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortListItem.CheckMessage">
+            <summary>
+            检查时间
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.PortsController.ListAsync(Swm.Web.Controllers.PortListArgs)">
+            <summary>
+            巷道列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.PortsController.SelectListAsync">
+            <summary>
+            巷道选择列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.PortSelectListItem">
+            <summary>
+            选择列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortSelectListItem.PortId">
+            <summary>
+            巷道Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortSelectListItem.PortCode">
+            <summary>
+            巷道编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.PortSelectListItem.CurrentUat">
+            <summary>
+            当前下架的单据
             </summary>
         </member>
         <member name="T:Swm.Web.DebugShowArgsAttribute">
