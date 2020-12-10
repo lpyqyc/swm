@@ -22,6 +22,11 @@ namespace Swm.Web.Controllers
     public class TakeOfflineArgs
     {
         /// <summary>
+        /// 要脱机的巷道Id
+        /// </summary>
+        public int LanewayId { get; set; }
+
+        /// <summary>
         /// 脱机操作备注
         /// </summary>
         [Required]

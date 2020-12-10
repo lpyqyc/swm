@@ -67,29 +67,12 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 可到达的出口
         /// </summary>
-        public PortInfo[] Ports { get; init; } = default!;
+        public PortSelectListItem[] Ports { get; init; } = default!;
 
         /// <summary>
         /// 总脱机时间
         /// </summary>
         public double TotalOfflineHours { get; init; }
-
-
-        /// <summary>
-        /// 出口信息
-        /// </summary>
-        public class PortInfo
-        {
-            /// <summary>
-            /// 出口Id
-            /// </summary>
-            public int PortId { get; init; }
-
-            /// <summary>
-            /// 出口编码
-            /// </summary>
-            public string PortCode { get; init; }        
-        }
 
     }
 

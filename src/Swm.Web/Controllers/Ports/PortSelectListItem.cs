@@ -20,12 +20,12 @@ namespace Swm.Web.Controllers
     public class PortSelectListItem
     {
         /// <summary>
-        /// 巷道Id
+        /// 出口Id
         /// </summary>
         public int PortId { get; init; }
 
         /// <summary>
-        /// 巷道编码
+        /// 出口编码
         /// </summary>
         public string PortCode { get; init; } = default!;
         

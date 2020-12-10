@@ -10,5 +10,9 @@ namespace Swm.Web
         public const string 出口列表 = "位置.出口列表";
         public const string 货位列表 = "位置.货位列表";
         public const string 关键点列表 = "位置.关键点列表";
+        public const string 禁止入站 = "位置.禁止入站";
+        public const string 允许入站 = "位置.允许入站";
+        public const string 禁止出站 = "位置.禁止出站";
+
     }
 }

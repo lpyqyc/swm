@@ -32,11 +32,13 @@ namespace Swm.Web.Controllers
     {
         readonly ISession _session;
         readonly OpHelper _opHelper;
+        readonly LocationHelper _locHelper;
         readonly ILogger _logger;
 
-        public LanewaysController(ISession session, OpHelper opHelper, ILogger logger)
+        public LanewaysController(ISession session, LocationHelper locHelper, OpHelper opHelper, ILogger logger)
         {
             _session = session;
+            _locHelper = locHelper;
             _opHelper = opHelper;
             _logger = logger;
         }
@@ -47,6 +49,7 @@ namespace Swm.Web.Controllers
         /// <param name="args">查询参数</param>
         /// <returns></returns>
         [HttpPost]
+        [Route("list")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.巷道列表)]
@@ -69,9 +72,11 @@ namespace Swm.Web.Controllers
                     AvailableLocationCount = x.GetAvailableLocationCount(),
                     ReservedLocationCount = x.ReservedLocationCount,
                     Ports = x.Ports
-                        .Select(x => new LanewayListItem.PortInfo { 
+                        .Select(x => new PortSelectListItem { 
                             PortId = x.PortId, 
-                            PortCode = x.PortCode })
+                            PortCode = x.PortCode,
+                            CurrentUat = x.CurrentUat?.ToString()
+                        })
                         .ToArray(),
                     TotalOfflineHours = x.TotalOfflineHours,
                 }),
@@ -100,31 +105,20 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 脱机巷道
+        /// 使巷道脱机
         /// </summary>
-        /// <param name="id">巷道id</param>
         /// <param name="args">参数</param>
         /// <returns></returns>
-        [HttpPut]
-        [Route("{id}/take-offline")]
+        [HttpPost]
+        [Route("take-offline")]
         [OperationType(OperationTypes.脱机巷道)]
         [AutoTransaction]
-        public async Task<ActionResult<OperationResult>> TakeOfflineAsync(int id, [FromBody]TakeOfflineArgs args)
+        public async Task<OperationResult> TakeOfflineAsync(TakeOfflineArgs args)
         {
-            HttpContext.SetResultFactoryOnError(ex =>
-            {
-                string errMsg = "使巷道脱机时出错。" + ex.Message;
-                return Ok(new OperationResult
-                {
-                    Success = false,
-                    Message = errMsg,
-                });
-            });
-
-            Laneway laneway = await _session.GetAsync<Laneway>(id);
+            Laneway laneway = await _session.GetAsync<Laneway>(args.LanewayId);
             if (laneway == null)
             {
-                throw new InvalidOperationException($"巷道不存在#{id}。");
+                throw new InvalidOperationException($"巷道不存在#{args.LanewayId}。");
             }
             if (laneway.Offline == true)
             {
@@ -138,39 +132,29 @@ namespace Swm.Web.Controllers
             _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】，备注【{args.Comment}】。");
             _logger.Information("已将巷道 {lanewayCode} 脱机", laneway.LanewayCode);
 
-            return Ok(new OperationResult {
+            return new OperationResult
+            {
                 Success = true,
                 Message = "操作成功",
-            });
+            };
         }
 
 
         /// <summary>
-        /// 联机巷道
+        /// 使巷道联机
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPut]
-        [Route("{id}/take-online")]
+        [HttpPost]
+        [Route("take-online")]
         [OperationType(OperationTypes.联机巷道)]
         [AutoTransaction]
-        public async Task<ActionResult<OperationResult>> TakeOnlineAsync(int id, [FromBody]TakeOnlineArgs args)
+        public async Task<OperationResult> TakeOnlineAsync(TakeOnlineArgs args)
         {
-            HttpContext.SetResultFactoryOnError(ex =>
-            {
-                string errMsg = "使巷道联机时出错。" + ex.Message;
-                return Ok(new OperationResult
-                {
-                    Success = false,
-                    Message = errMsg,
-                });
-            });
-
-            Laneway laneway = await _session.GetAsync<Laneway>(id);
+            Laneway laneway = await _session.GetAsync<Laneway>(args.LanewayId);
             if (laneway == null)
             {
-                throw new InvalidOperationException($"巷道不存在#{id}。");
+                throw new InvalidOperationException($"巷道不存在#{args.LanewayId}。");
             }
 
             if (laneway.Offline == false)
@@ -180,21 +164,21 @@ namespace Swm.Web.Controllers
 
             laneway.Offline = false;
             laneway.TotalOfflineHours += DateTime.Now.Subtract(laneway.TakeOfflineTime).TotalHours;
-            laneway.OfflineComment = args.Comment;
+            laneway.OfflineComment = null;
             await _session.UpdateAsync(laneway);
-            _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】，备注【{args.Comment}】。");
+            _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】");
             _logger.Information("已将巷道 {lanewayCode} 联机", laneway.LanewayCode);
 
-            return Ok(new OperationResult
+            return new OperationResult
             {
                 Success = true,
                 Message = "操作成功",
-            });
+            };
         }
 
 
         /// <summary>
-        /// 重建所有巷道的统计信息
+        /// 重建所有巷道的统计信息，这个操作消耗资源较多
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -206,7 +190,7 @@ namespace Swm.Web.Controllers
             var laneways = await _session.Query<Laneway>().WrappedToListAsync();
             foreach (var laneway in laneways)
             {
-                await RebuildLanewayStatAsync(laneway);
+                await _locHelper.RebuildLanewayStatAsync(laneway);
             }
             return Ok(new OperationResult
             {
@@ -218,26 +202,15 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 设置巷道可以到达的出口
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPut]
-        [Route("{id}/set-ports")]
+        [HttpPost]
+        [Route("set-ports")]
         [OperationType(OperationTypes.设置出口)]
         [AutoTransaction]
-        public async Task<ActionResult> SetLanewaysPortsAsync(int id, [FromBody]SetPortsArgs args)
+        public async Task<ActionResult> SetLanewaysPortsAsync(SetPortsArgs args)
         {
-            HttpContext.SetResultFactoryOnError(ex =>
-            {
-                string errMsg = "设置出货口时出错。" + ex.Message;
-                return Ok(new OperationResult
-                {
-                    Success = false,
-                    Message = errMsg,
-                });
-            });
-
-            Laneway laneway = await _session.GetAsync<Laneway>(id);
+            Laneway laneway = await _session.GetAsync<Laneway>(args.LanewayId);
 
             laneway.Ports.Clear();
             foreach (var portId in args.PortIdList)
@@ -255,90 +228,5 @@ namespace Swm.Web.Controllers
                 Message = "操作成功",
             });
         }
-
-
-        /// <summary>
-        /// 重建巷道的统计信息。原有统计信息将被清除。此操作占用资源较多，不应频繁调用。
-        /// </summary>
-        private async Task RebuildLanewayStatAsync(Laneway laneway)
-        {
-            if (laneway == null)
-            {
-                throw new ArgumentNullException(nameof(laneway));
-            }
-
-            laneway.Usage.Clear();
-
-            var keys = _session.Query<Laneway>()
-                .Where(x => x == laneway)
-                .SelectMany(x => x.Racks)
-                .SelectMany(x => x.Locations)
-                .Where(x => x.Exists)
-                .GroupBy(x => new
-                {
-                    x.StorageGroup,
-                    x.Specification,
-                    x.WeightLimit,
-                    x.HeightLimit
-                })
-                .Select(x => new LanewayUsageKey
-                {
-                    StorageGroup = x.Key.StorageGroup,
-                    Specification = x.Key.Specification,
-                    WeightLimit = x.Key.WeightLimit,
-                    HeightLimit = x.Key.HeightLimit
-                });
-
-            foreach (var key in keys)
-            {
-                await UpdateUsageAsync(laneway, key);
-            }
-
-            async Task UpdateUsageAsync(Laneway laneway, LanewayUsageKey key)
-            {
-                var q = _session.Query<Laneway>()
-                    .Where(x => x == laneway)
-                    .SelectMany(x => x.Racks)
-                    .SelectMany(x => x.Locations)
-                    .Where(x => x.Exists
-                        && x.StorageGroup == key.StorageGroup
-                        && x.Specification == key.Specification
-                        && x.WeightLimit == key.WeightLimit
-                        && x.HeightLimit == key.HeightLimit
-                    );
-
-                var total = q
-                    .ToFutureValue(fq => fq.Count());
-
-                var loaded = q
-                    .Where(x => x.UnitloadCount > 0)
-                    .ToFutureValue(fq => fq.Count());
-
-                var available = q
-                    .Where(x =>
-                        x.UnitloadCount == 0
-                        && x.InboundDisabled == false)
-                    .ToFutureValue(fq => fq.Count());
-
-                var inboundDisabled = q
-                    .Where(x => x.InboundDisabled == true)
-                    .ToFutureValue(fq => fq.Count());
-
-                var outboundDisabled = q
-                    .Where(x => x.OutboundDisabled == true)
-                    .ToFutureValue(fq => fq.Count());
-
-                laneway.Usage[key] = new LanewayUsageData
-                {
-                    mtime = DateTime.Now,
-                    Total = await total.GetValueAsync(),
-                    Available = await available.GetValueAsync(),
-                    Loaded = await loaded.GetValueAsync(),
-                    InboundDisabled = await inboundDisabled.GetValueAsync(),
-                };
-            }
-        }
-
-
     }
 }

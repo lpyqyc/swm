@@ -22,6 +22,11 @@ namespace Swm.Web.Controllers
     public class SetPortsArgs
     {
         /// <summary>
+        /// 要设置出口的巷道Id
+        /// </summary>
+        public int LanewayId { get; set; }
+
+        /// <summary>
         /// 出口Id列表
         /// </summary>
         [Required]

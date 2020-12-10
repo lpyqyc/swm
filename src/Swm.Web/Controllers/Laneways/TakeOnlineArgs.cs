@@ -20,8 +20,8 @@ namespace Swm.Web.Controllers
     public class TakeOnlineArgs
     {
         /// <summary>
-        /// 联机操作备注，非必填
+        /// 要联机的巷道Id
         /// </summary>
-        public string Comment { get; set; } = default!;
+        public int LanewayId { get; set; }
     }
 }

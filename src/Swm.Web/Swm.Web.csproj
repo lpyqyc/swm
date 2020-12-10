@@ -26,7 +26,7 @@
     <PackageReference Include="Arctic.AppSeqs" Version="1.0.0-main-local" />
     <PackageReference Include="Arctic.EventBus" Version="1.0.0-main-local" />
     <PackageReference Include="Arctic.NHibernateExtensions" Version="1.0.1" />
-    <PackageReference Include="Arctic.NHibernateExtensions.AspNetCore" Version="1.0.0-main-local" />
+    <PackageReference Include="Arctic.NHibernateExtensions.AspNetCore" Version="1.0.1" />
     <PackageReference Include="Autofac" Version="6.0.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="AutofacSerilogIntegration" Version="5.0.0" />

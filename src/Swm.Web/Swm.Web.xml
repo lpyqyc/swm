@@ -221,21 +221,6 @@
             总脱机时间
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.LanewayListItem.PortInfo">
-            <summary>
-            出口信息
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LanewayListItem.PortInfo.PortId">
-            <summary>
-            出口Id
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LanewayListItem.PortInfo.PortCode">
-            <summary>
-            出口编码
-            </summary>
-        </member>
         <member name="M:Swm.Web.Controllers.LanewaysController.ListAsync(Swm.Web.Controllers.LanewayListArgs)">
             <summary>
             巷道列表
@@ -249,40 +234,32 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOfflineAsync(System.Int32,Swm.Web.Controllers.TakeOfflineArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOfflineAsync(Swm.Web.Controllers.TakeOfflineArgs)">
             <summary>
-            脱机巷道
+            使巷道脱机
             </summary>
-            <param name="id">巷道id</param>
             <param name="args">参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOnlineAsync(System.Int32,Swm.Web.Controllers.TakeOnlineArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOnlineAsync(Swm.Web.Controllers.TakeOnlineArgs)">
             <summary>
-            联机巷道
+            使巷道联机
             </summary>
-            <param name="id"></param>
             <param name="args"></param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.LanewaysController.RebuildLanewaysStatAsync">
             <summary>
-            重建所有巷道的统计信息
+            重建所有巷道的统计信息，这个操作消耗资源较多
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.SetLanewaysPortsAsync(System.Int32,Swm.Web.Controllers.SetPortsArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.SetLanewaysPortsAsync(Swm.Web.Controllers.SetPortsArgs)">
             <summary>
             设置巷道可以到达的出口
             </summary>
-            <param name="id"></param>
             <param name="args"></param>
             <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.RebuildLanewayStatAsync(Swm.Model.Laneway)">
-            <summary>
-            重建巷道的统计信息。原有统计信息将被清除。此操作占用资源较多，不应频繁调用。
-            </summary>
         </member>
         <member name="T:Swm.Web.Controllers.LanewaySelectListItem">
             <summary>
@@ -309,6 +286,11 @@
             设置巷道出口的操作参数。
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.SetPortsArgs.LanewayId">
+            <summary>
+            要设置出口的巷道Id
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.SetPortsArgs.PortIdList">
             <summary>
             出口Id列表
@@ -317,6 +299,11 @@
         <member name="T:Swm.Web.Controllers.TakeOfflineArgs">
             <summary>
             脱机巷道的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TakeOfflineArgs.LanewayId">
+            <summary>
+            要脱机的巷道Id
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.TakeOfflineArgs.Comment">
@@ -329,9 +316,59 @@
             联机巷道的操作参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.TakeOnlineArgs.Comment">
+        <member name="P:Swm.Web.Controllers.TakeOnlineArgs.LanewayId">
             <summary>
-            联机操作备注，非必填
+            要联机的巷道Id
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.DisableInboundArgs">
+            <summary>
+            禁止位置入站操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DisableInboundArgs.LocationIdList">
+            <summary>
+            要禁止入站的位置Id列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DisableInboundArgs.Comment">
+            <summary>
+            禁止入站的操作备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.DisableOutboundArgs">
+            <summary>
+            禁止位置出站操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DisableOutboundArgs.LocationIdList">
+            <summary>
+            要禁止出站的位置Id列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DisableOutboundArgs.Comment">
+            <summary>
+            禁止出站的操作备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EnableInboundArgs">
+            <summary>
+            允许位置入站操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EnableInboundArgs.LocationIdList">
+            <summary>
+            要允许入站的位置Id列表
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EnableOutboundArgs">
+            <summary>
+            允许位置入站操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EnableOutboundArgs.LocationIdList">
+            <summary>
+            要允许出站的位置Id列表
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.LocationListItemOfK">
@@ -633,6 +670,34 @@
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.LocationsController.DisableInboundAsync(Swm.Web.Controllers.DisableInboundArgs)">
+            <summary>
+            禁止入站
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocationsController.EnableInboundAsync(Swm.Web.Controllers.EnableInboundArgs)">
+            <summary>
+            允许入站
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocationsController.DisableOutboundAsync(Swm.Web.Controllers.DisableOutboundArgs)">
+            <summary>
+            禁止出站
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocationsController.EnableOutboundAsync(Swm.Web.Controllers.EnableOutboundArgs)">
+            <summary>
+            允许入站
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.Controllers.PortList">
             <summary>
             列表页结果
@@ -738,12 +803,12 @@
         </member>
         <member name="P:Swm.Web.Controllers.PortSelectListItem.PortId">
             <summary>
-            巷道Id
+            出口Id
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortSelectListItem.PortCode">
             <summary>
-            巷道编码
+            出口编码
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortSelectListItem.CurrentUat">

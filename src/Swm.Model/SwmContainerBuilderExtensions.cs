@@ -26,6 +26,8 @@ namespace Swm.Model
         public static void AddSwm(this ContainerBuilder builder)
         {
             builder.AddModelMapper<SwmModelMapper>();
+            builder.RegisterType<LocationHelper>().AsSelf();
+            builder.RegisterType<FlowHelper>().AsSelf();
         }
     }
 }
