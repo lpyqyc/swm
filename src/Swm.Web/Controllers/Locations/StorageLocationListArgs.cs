@@ -24,7 +24,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表查询参数
     /// </summary>
-    public class LocationListOfSArgs : IListArgs<Location>
+    public class StorageLocationListArgs : IListArgs<Location>
     {
         /// <summary>
         /// 货位类型，始终是 <see cref="LocationTypes.S"/>

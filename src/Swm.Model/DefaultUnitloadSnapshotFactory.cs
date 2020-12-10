@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
 
 namespace Swm.Model
 {
-    public class DefaultUnitloadFactory : IUnitloadFactory
+    public class DefaultUnitloadSnapshotFactory : IUnitloadSnapshotFactory
     {
-        public Unitload CreateUnitload()
+        public UnitloadSnapshot CreateUnitloadSnapshot()
         {
-            return new Unitload();
+            return new UnitloadSnapshot();
         }
 
-        public UnitloadItem CreateUnitloadItem()
+        public UnitloadItemSnapshot CreateUnitloadItemSnapshot()
         {
-            return new UnitloadItem();
+            return new UnitloadItemSnapshot();
         }
     }
 }

@@ -57,7 +57,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [OperationType(OperationTypes.货位列表)]
         [Route("storage-locations/list")]
-        public async Task<StorageLocationList> StorageLocationListAsync(LocationListOfSArgs args)
+        public async Task<StorageLocationList> StorageLocationListAsync(StorageLocationListArgs args)
         {
             var pagedList = await _session.Query<Location>().ToPagedListAsync(args);
             return new StorageLocationList

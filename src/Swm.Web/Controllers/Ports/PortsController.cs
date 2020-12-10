@@ -45,6 +45,7 @@ namespace Swm.Web.Controllers
         /// <param name="args">查询参数</param>
         /// <returns></returns>
         [HttpPost]
+        [Route("list")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.出口列表)]

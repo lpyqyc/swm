@@ -12,59 +12,65 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Swm.Model;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 侧视图货架数据
+    /// 物料选择列表的数据项
     /// </summary>
-    public class SideViewRack
+    public class MaterialSelectListItem
     {
         /// <summary>
-        /// 货架编码
+        /// 物料Id
+        /// </summary>
+        public int MaterialId { get; set; }
+
+        /// <summary>
+        /// 物料编码
+        /// </summary>
+        public string MaterialCode { get; set; } = default!;
+
+        /// <summary>
+        /// 物料描述
+        /// </summary>
+        public string Description { get; set; } = default!;
+
+        /// <summary>
+        /// 物料类型
+        /// </summary>
+        public string MaterialType { get; set; } = default!;
+
+    }
+
+
+    /// <summary>
+    /// 物料类型选择列表的数据项
+    /// </summary>
+    public class MaterialTypeSelectListItem
+    {
+        /// <summary>
+        /// 物料类型
         /// </summary>
         [Required]
-        public string RackCode { get; set; } = default!;
+        public string MaterialType { get; set; } = default!;
 
         /// <summary>
-        /// 货架在巷道的哪一侧
+        /// 物料类型说明
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public RackSide Side { get; set; }
+        public string? Description { get; set; } = default!;
 
         /// <summary>
-        /// 货架列数
+        /// 适用范围
         /// </summary>
-        public int Columns { get; set; }
+        public string? Scope { get; set; } = default!;
 
         /// <summary>
-        /// 货架层数
+        /// 展示顺序
         /// </summary>
-        public int Levels { get; set; }
+        public int DisplayOrder { get; set; }
 
-        /// <summary>
-        /// 货架是第几深位
-        /// </summary>
-        public RackDeep Deep { get; set; }
-
-        /// <summary>
-        /// 货架的货位数，不包含 <see cref="Location.Exists"/> 为 false 的货位。
-        /// </summary>
-        public int LocationCount { get; set; }
-
-        /// <summary>
-        /// 货架的可用货位数，即存在、无货、无入站任务、未禁止入站的货位
-        /// </summary>
-        public int AvailableCount { get; set; }
-
-        /// <summary>
-        /// 货架的货位，包含 <see cref="Location.Exists"/> 为 false 的货位。
-        /// </summary>
-        public List<SideViewLocation> Locations { get; set; } = default!;
     }
+
 
 }

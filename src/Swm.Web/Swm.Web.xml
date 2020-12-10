@@ -103,24 +103,6 @@
             根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.HelloController">
-            <summary>
-            SimpleEventBus 示例。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.Controllers.HelloController.FireHelloEventAsync(System.String)">
-            <summary>
-            引发 Hello 事件，默认配置使用 <see cref="T:Arctic.EventBus.HelloEventHandler"/> 将事件参数写入日志。
-            </summary>
-            <returns>将参数原样返回。</returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.HelloController.GetNextValAsync(System.String)">
-            <summary>
-            获取序列值
-            </summary>
-            <param name="seqName">序列名</param>
-            <returns></returns>
-        </member>
         <member name="T:Swm.Web.Controllers.CreateKeyPointArgs">
             <summary>
             创建关键点操作的参数
@@ -778,72 +760,7 @@
             货载数
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.LocationListOfSArgs">
-            <summary>
-            列表查询参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.LocationType">
-            <summary>
-            货位类型，始终是 <see cref="F:Swm.Model.LocationTypes.S"/>
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.LocationCode">
-            <summary>
-            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.LanewayIdList">
-            <summary>
-            货位所在巷道
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.Loaded">
-            <summary>
-            货位是否有货
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.StorageGroup">
-            <summary>
-            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.InboundDisabled">
-            <summary>
-            是否禁止入站
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.OutboundDisabled">
-            <summary>
-            是否禁止出站
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.HasInboundMoves">
-            <summary>
-            是否有入站任务
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.HasOutboundMoves">
-            <summary>
-            是否有出站任务
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.Sort">
-            <summary>
-            排序字段
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.Current">
-            <summary>
-            基于 1 的当前页面，默认值为 1。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfSArgs.PageSize">
-            <summary>
-            每页大小，默认值为 10。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.StorageLocationListAsync(Swm.Web.Controllers.LocationListOfSArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.StorageLocationListAsync(Swm.Web.Controllers.StorageLocationListArgs)">
             <summary>
             货位列表
             </summary>
@@ -912,6 +829,71 @@
         <member name="P:Swm.Web.Controllers.StorageLocationList.Total">
             <summary>
             总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.StorageLocationListArgs">
+            <summary>
+            列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.LocationType">
+            <summary>
+            货位类型，始终是 <see cref="F:Swm.Model.LocationTypes.S"/>
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.LocationCode">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.LanewayIdList">
+            <summary>
+            货位所在巷道
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.Loaded">
+            <summary>
+            货位是否有货
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.StorageGroup">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.InboundDisabled">
+            <summary>
+            是否禁止入站
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.OutboundDisabled">
+            <summary>
+            是否禁止出站
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.HasInboundMoves">
+            <summary>
+            是否有入站任务
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.HasOutboundMoves">
+            <summary>
+            是否有出站任务
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.StorageLocationListItem">
@@ -987,6 +969,231 @@
         <member name="P:Swm.Web.Controllers.StorageLocationListItem.UnitloadCount">
             <summary>
             货载数
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.MaterialList">
+            <summary>
+            物料列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.MaterialListArgs">
+            <summary>
+            列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListArgs.MaterialCode">
+            <summary>
+            物料代码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListArgs.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListArgs.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.MaterialListItem">
+            <summary>
+            物料列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.MaterialId">
+            <summary>
+            物料Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.Specification">
+            <summary>
+            规格
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.BatchEnabled">
+            <summary>
+            是否启用批次管理
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.MaterialGroup">
+            <summary>
+            物料分组
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.ValidDays">
+            <summary>
+            有效天数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.StandingTime">
+            <summary>
+            静置时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.AbcClass">
+            <summary>
+            ABC分类
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.Uom">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.LowerBound">
+            <summary>
+            库存下边界
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.UpperBound">
+            <summary>
+            库存上边界
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.DefaultQuantity">
+            <summary>
+            默认数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.DefaultStorageGroup">
+            <summary>
+            默认存储分组
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialListItem.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.MaterialsController.ListAsync(Swm.Web.Controllers.MaterialListArgs)">
+            <summary>
+            物料列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MaterialsController.SelectListAsync(Swm.Web.Controllers.MateriaSelectListArgs)">
+            <summary>
+            物料选择列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MaterialsController.MaterialTypesAsync">
+            <summary>
+            获取物料类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.MaterialSelectListItem">
+            <summary>
+            物料选择列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialSelectListItem.MaterialId">
+            <summary>
+            物料Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialSelectListItem.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialSelectListItem.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialSelectListItem.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.MaterialTypeSelectListItem">
+            <summary>
+            物料类型选择列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialTypeSelectListItem.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialTypeSelectListItem.Description">
+            <summary>
+            物料类型说明
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialTypeSelectListItem.Scope">
+            <summary>
+            适用范围
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialTypeSelectListItem.DisplayOrder">
+            <summary>
+            展示顺序
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.MateriaSelectListArgs">
+            <summary>
+            物料选择列表参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MateriaSelectListArgs.Keyword">
+            <summary>
+            关键字
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MateriaSelectListArgs.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MateriaSelectListArgs.Limit">
+            <summary>
+            取多少条记录，默认为 10
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.PortList">

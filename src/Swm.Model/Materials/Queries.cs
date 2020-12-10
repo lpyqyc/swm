@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 
 namespace Swm.Model
 {
+    // TODO 整理
     /// <summary>
     /// 
     /// </summary>
@@ -106,9 +107,8 @@ namespace Swm.Model
                 .ConfigureAwait(false);
         }
 
-        public static IQueryable<Material> FilterByKeyword(this IQueryable<Material> q, string keyword, string type = null)
+        public static IQueryable<Material> FilterByKeyword(this IQueryable<Material> q, string? keyword = null, string type = null)
         {
-            throw new NotImplementedException();
             keyword = keyword?.Trim();
             type = type?.Trim();
 

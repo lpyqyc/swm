@@ -265,7 +265,7 @@ namespace Swm.Web.Controllers
                 Racks = laneway.Racks.Select(rack => new SideViewRack
                 {
                     RackCode = rack.RackCode,
-                    Side = rack.Side.ToString(),
+                    Side = rack.Side,
                     Columns = rack.Columns,
                     Levels = rack.Levels,
                     Deep = rack.Deep,

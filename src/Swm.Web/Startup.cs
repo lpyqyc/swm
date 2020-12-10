@@ -60,7 +60,7 @@ namespace Swm.Web
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Arctic.Web", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swm.Web", Version = "v1" });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -95,7 +95,8 @@ namespace Swm.Web
 
             builder.AddAppCodes();
             builder.AddAppSeqs();
-            builder.AddSwm();
+            // TODO 移动到配置文件
+            builder.AddSwm(@"^\d{5}$");
 
             builder.AddEventBus(Configuration.GetSection("EventBus").Get<SimpleEventBusOptions>());
             builder.AddNHibernate();

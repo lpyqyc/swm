@@ -15,6 +15,8 @@
 using Arctic.NHibernateExtensions;
 using Autofac;
 using Swm.Model.Mappings;
+using System;
+using System.Reflection;
 
 namespace Swm.Model
 {
@@ -23,11 +25,29 @@ namespace Swm.Model
     /// </summary>
     public static class SwmContainerBuilderExtensions
     {
-        public static void AddSwm(this ContainerBuilder builder)
+        public static void AddSwm(this ContainerBuilder builder, string palletCodePattern)
         {
             builder.AddModelMapper<SwmModelMapper>();
-            builder.RegisterType<LocationHelper>().AsSelf();
-            builder.RegisterType<FlowHelper>().AsSelf();
+
+            RegisterBySuffix("Factory");
+            RegisterBySuffix("Helper");
+            RegisterBySuffix("Provider");
+            RegisterBySuffix("Service");
+
+            builder.RegisterInstance(new RegexPalletCodeValidator(palletCodePattern))
+                .AsImplementedInterfaces()
+                .SingleInstance(); ;
+
+            void RegisterBySuffix(string suffix)
+            {
+                var asm = Assembly.GetExecutingAssembly();
+                builder.RegisterAssemblyTypes(asm)
+                    .Where(t => t.IsAbstract == false && t.Name.EndsWith(suffix, StringComparison.Ordinal))
+                    .AsImplementedInterfaces()
+                    .AsSelf();
+            }
         }
+
+
     }
 }

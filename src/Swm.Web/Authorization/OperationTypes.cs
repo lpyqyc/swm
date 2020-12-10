@@ -17,6 +17,7 @@ namespace Swm.Web
         public const string 编辑关键点 = "位置.编辑关键点";
         public const string 侧视图 = "位置.侧视图";
 
+        public const string 物料列表 = "物料.物料列表";
 
     }
 }

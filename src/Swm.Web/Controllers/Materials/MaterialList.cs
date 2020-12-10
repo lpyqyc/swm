@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Model
-{
-    public class DefaultUnitloadFactory : IUnitloadFactory
-    {
-        public Unitload CreateUnitload()
-        {
-            return new Unitload();
-        }
+using System.Collections.Generic;
 
-        public UnitloadItem CreateUnitloadItem()
-        {
-            return new UnitloadItem();
-        }
+namespace Swm.Web.Controllers
+{
+    /// <summary>
+    /// 物料列表
+    /// </summary>
+    public class MaterialList : OperationResult
+    {
+        /// <summary>
+        /// 当前分页的数据
+        /// </summary>
+        public IEnumerable<MaterialListItem>? Data { get; init; }
+
+        /// <summary>
+        /// 总共有多少个数据
+        /// </summary>
+        public int Total { get; init; }
     }
+
+
+
+
 }
