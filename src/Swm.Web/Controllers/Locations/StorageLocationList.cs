@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,23 +13,24 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
     /// 列表页结果
     /// </summary>
-    public class LanewayList : OperationResult
+    public class StorageLocationList : OperationResult
     {
         /// <summary>
         /// 当前分页的数据
         /// </summary>
-        public IEnumerable<LanewayListItem>? Data { get; init; }
+        public IEnumerable<StorageLocationListItem>? Data { get; init; }
 
         /// <summary>
         /// 总共有多少个数据
         /// </summary>
         public int Total { get; init; }
     }
+
+
 }

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
 using Arctic.NHibernateExtensions.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
@@ -34,12 +35,14 @@ namespace Swm.Web.Controllers
         readonly OpHelper _opHelper;
         readonly LocationHelper _locHelper;
         readonly ILogger _logger;
+        readonly SimpleEventBus _eventBus;
 
-        public LanewaysController(ISession session, LocationHelper locHelper, OpHelper opHelper, ILogger logger)
+        public LanewaysController(ISession session, LocationHelper locHelper, OpHelper opHelper, SimpleEventBus eventBus, ILogger logger)
         {
             _session = session;
             _locHelper = locHelper;
             _opHelper = opHelper;
+            _eventBus = eventBus;
             _logger = logger;
         }
 
@@ -59,7 +62,7 @@ namespace Swm.Web.Controllers
             return new LanewayList
             {
                 Success = true,
-                Message = "OK",                
+                Message = "OK",
                 Data = pagedList.List.Select(x => new LanewayListItem
                 {
                     LanewayId = x.LanewayId,
@@ -72,8 +75,9 @@ namespace Swm.Web.Controllers
                     AvailableLocationCount = x.GetAvailableLocationCount(),
                     ReservedLocationCount = x.ReservedLocationCount,
                     Ports = x.Ports
-                        .Select(x => new PortSelectListItem { 
-                            PortId = x.PortId, 
+                        .Select(x => new PortSelectListItem
+                        {
+                            PortId = x.PortId,
                             PortCode = x.PortCode,
                             CurrentUat = x.CurrentUat?.ToString()
                         })
@@ -228,5 +232,86 @@ namespace Swm.Web.Controllers
                 Message = "操作成功",
             });
         }
+
+        /// <summary>
+        /// 巷道侧视图
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("side-view")]
+        [OperationType(OperationTypes.侧视图)]
+        [AutoTransaction]
+        public async Task<SideViewData> GetSideViewData(SideViewArgs args)
+        {
+            if (args.LanewayCode == null)
+            {
+                throw new InvalidOperationException("未指定参数 LanewayCode。");
+            }
+
+            Laneway? laneway = await _session.Query<Laneway>()
+                .Where(x => x.LanewayCode == args.LanewayCode)
+                .WrappedSingleOrDefaultAsync();
+            if (laneway == null)
+            {
+                throw new Exception("巷道不存在。" + args.LanewayCode);
+            }
+
+            var sideViewData = new SideViewData
+            {
+                LanewayCode = args.LanewayCode,
+                Offline = laneway.Offline,
+                OfflineComment = laneway.OfflineComment,
+                Racks = laneway.Racks.Select(rack => new SideViewRack
+                {
+                    RackCode = rack.RackCode,
+                    Side = rack.Side.ToString(),
+                    Columns = rack.Columns,
+                    Levels = rack.Levels,
+                    Deep = rack.Deep,
+                    LocationCount = rack.Locations
+                        .Where(x => x.Exists)
+                        .Count(),
+                    AvailableCount = rack.Locations
+                        .Where(x =>
+                            x.Exists
+                            && x.UnitloadCount == 0
+                            && x.InboundCount == 0
+                            && x.InboundDisabled == false)
+                        .Count(),
+                    Locations = rack.Locations.Select(loc => new SideViewLocation
+                    {
+                        LocationId = loc.LocationId,
+                        LocationCode = loc.LocationCode,
+                        Loaded = loc.UnitloadCount > 0,
+                        Level = loc.Level,
+                        Column = loc.Column,
+                        InboundDisabled = loc.InboundDisabled,
+                        InboundDisabledComment = loc.InboundDisabledComment,
+                        InboundCount = loc.InboundCount,
+                        InboundLimit = loc.InboundLimit,
+                        OutboundDisabled = loc.OutboundDisabled,
+                        OutboundDisabledComment = loc.OutboundDisabledComment,
+                        OutboundLimit = loc.OutboundLimit,
+                        OutboundCount = loc.OutboundCount,
+                        Specification = loc.Specification,
+                        StorageGroup = loc.StorageGroup,
+                        WeightLimit = loc.WeightLimit,
+                        HeightLimit = loc.HeightLimit,
+                        Exists = loc.Exists,
+                        i1 = loc.Cell.i1,
+                        o1 = loc.Cell.o1,
+                        i2 = loc.Cell.i2,
+                        o2 = loc.Cell.o2,
+                        i3 = loc.Cell.i3,
+                        o3 = loc.Cell.o3,
+                    }).ToList()
+                }).ToList(),
+            };
+
+            return sideViewData;
+        }
+
     }
+
 }

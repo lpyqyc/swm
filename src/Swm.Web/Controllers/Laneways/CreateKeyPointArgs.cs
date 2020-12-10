@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,24 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表页结果
+    /// 创建关键点操作的参数
     /// </summary>
-    public class LanewayList : OperationResult
+    public class CreateKeyPointArgs
     {
         /// <summary>
-        /// 当前分页的数据
+        /// 货位Id
         /// </summary>
-        public IEnumerable<LanewayListItem>? Data { get; init; }
+        [Required]
+        public string LocationCode { get; set; } = default!;
 
         /// <summary>
-        /// 总共有多少个数据
+        /// 请求类型
         /// </summary>
-        public int Total { get; init; }
+        public string? RequestType { get; set; }
+
+        /// <summary>
+        /// 标记
+        /// </summary>
+        public string? Tag { get; set; }
+
+        /// <summary>
+        /// 入站数限制
+        /// </summary>
+        [Range(1, 999)]
+        public int InboundLimit { get; set; }
+
+        /// <summary>
+        /// 出站数限制
+        /// </summary>
+        [Range(1, 999)]
+        public int OutboundLimit { get; set; }
     }
+
 }

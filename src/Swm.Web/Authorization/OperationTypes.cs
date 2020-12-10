@@ -13,6 +13,10 @@ namespace Swm.Web
         public const string 禁止入站 = "位置.禁止入站";
         public const string 允许入站 = "位置.允许入站";
         public const string 禁止出站 = "位置.禁止出站";
+        public const string 创建关键点 = "位置.创建关键点";
+        public const string 编辑关键点 = "位置.编辑关键点";
+        public const string 侧视图 = "位置.侧视图";
+
 
     }
 }

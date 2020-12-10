@@ -17,7 +17,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表页的数据项
     /// </summary>
-    public class LocationListItemOfS
+    public class StorageLocationListItem
     {
         /// <summary>
         /// 货位 Id

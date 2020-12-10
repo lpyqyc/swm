@@ -17,20 +17,29 @@ using System.Collections.Generic;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表页结果
+    /// 侧视图数据
     /// </summary>
-    public class LocationListOfK : OperationResult
+    public class SideViewData : OperationResult
     {
         /// <summary>
-        /// 当前分页的数据
+        /// 巷道编码
         /// </summary>
-        public IEnumerable<LocationListItemOfK>? Data { get; init; }
+        public string LanewayCode { get; set; } = default!;
 
         /// <summary>
-        /// 总共有多少个数据
+        /// 货架数据
         /// </summary>
-        public int Total { get; init; }
-    }
+        public List<SideViewRack> Racks { get; set; } = default!;
 
+        /// <summary>
+        /// 巷道是否离线
+        /// </summary>
+        public bool Offline { get; set; }
+
+        /// <summary>
+        /// 巷道离线的备注
+        /// </summary>
+        public string? OfflineComment { get; set; }
+    }
 
 }

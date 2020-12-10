@@ -121,6 +121,71 @@
             <param name="seqName">序列名</param>
             <returns></returns>
         </member>
+        <member name="T:Swm.Web.Controllers.CreateKeyPointArgs">
+            <summary>
+            创建关键点操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.LocationCode">
+            <summary>
+            货位Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.RequestType">
+            <summary>
+            请求类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.Tag">
+            <summary>
+            标记
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.InboundLimit">
+            <summary>
+            入站数限制
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.OutboundLimit">
+            <summary>
+            出站数限制
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditKeyPointArgs">
+            <summary>
+            编辑关键点操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.LocationId">
+            <summary>
+            关键点的位置Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.LocationCode">
+            <summary>
+            货位编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.RequestType">
+            <summary>
+            请求类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.Tag">
+            <summary>
+            标记
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.InboundLimit">
+            <summary>
+            入站数限制
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.OutboundLimit">
+            <summary>
+            出站数限制
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.LanewayList">
             <summary>
             列表页结果
@@ -261,6 +326,13 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.LanewaysController.GetSideViewData(Swm.Web.Controllers.SideViewArgs)">
+            <summary>
+            巷道侧视图
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.Controllers.LanewaySelectListItem">
             <summary>
             选择列表的数据项
@@ -294,6 +366,211 @@
         <member name="P:Swm.Web.Controllers.SetPortsArgs.PortIdList">
             <summary>
             出口Id列表
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.SideViewArgs">
+            <summary>
+            侧视图参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewArgs.LanewayCode">
+            <summary>
+            巷道编码
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.SideViewData">
+            <summary>
+            侧视图数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewData.LanewayCode">
+            <summary>
+            巷道编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewData.Racks">
+            <summary>
+            货架数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewData.Offline">
+            <summary>
+            巷道是否离线
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewData.OfflineComment">
+            <summary>
+            巷道离线的备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.SideViewLocation">
+            <summary>
+            侧视图货位数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.LocationId">
+            <summary>
+            货位Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.LocationCode">
+            <summary>
+            货位编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.Loaded">
+            <summary>
+            是否有货
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.Level">
+            <summary>
+            所在层
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.Column">
+            <summary>
+            所在列
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.InboundDisabled">
+            <summary>
+            是否禁止入站
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.InboundDisabledComment">
+            <summary>
+            禁止入站备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.InboundCount">
+            <summary>
+            入站数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.InboundLimit">
+            <summary>
+            入站限制
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.OutboundDisabled">
+            <summary>
+            是否禁止出站
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.OutboundDisabledComment">
+            <summary>
+            禁止出站备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.OutboundLimit">
+            <summary>
+            出站限制
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.OutboundCount">
+            <summary>
+            出站数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.Specification">
+            <summary>
+            货位规格
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.StorageGroup">
+            <summary>
+            存储分组
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.WeightLimit">
+            <summary>
+            限重
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.HeightLimit">
+            <summary>
+            限高
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.Exists">
+            <summary>
+            货位是否存在
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.i1">
+            <summary>
+            入次序1
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.o1">
+            <summary>
+            出次序1
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.i2">
+            <summary>
+            入次序2
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.o2">
+            <summary>
+            出次序2
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.i3">
+            <summary>
+            入次序3
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.o3">
+            <summary>
+            出次序3
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.SideViewRack">
+            <summary>
+            侧视图货架数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewRack.RackCode">
+            <summary>
+            货架编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewRack.Side">
+            <summary>
+            货架在巷道的哪一侧
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewRack.Columns">
+            <summary>
+            货架列数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewRack.Levels">
+            <summary>
+            货架层数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewRack.Deep">
+            <summary>
+            货架是第几深位
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewRack.LocationCount">
+            <summary>
+            货架的货位数，不包含 <see cref="P:Swm.Model.Location.Exists"/> 为 false 的货位。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewRack.AvailableCount">
+            <summary>
+            货架的可用货位数，即存在、无货、无入站任务、未禁止入站的货位
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewRack.Locations">
+            <summary>
+            货架的货位，包含 <see cref="P:Swm.Model.Location.Exists"/> 为 false 的货位。
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.TakeOfflineArgs">
@@ -371,6 +648,76 @@
             要允许出站的位置Id列表
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.KeyPointList">
+            <summary>
+            列表页结果
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.KeyPointListArgs">
+            <summary>
+            列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.LocationType">
+            <summary>
+            货位类型，始终是 <see cref="F:Swm.Model.LocationTypes.K"/>
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.LocationCode">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.Tag">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.InboundDisabled">
+            <summary>
+            是否禁止入站
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.OutboundDisabled">
+            <summary>
+            是否禁止出站
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.HasInboundMoves">
+            <summary>
+            是否有入站任务
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.HasOutboundMoves">
+            <summary>
+            是否有出站任务
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.LocationListItemOfK">
             <summary>
             列表页的数据项
@@ -429,111 +776,6 @@
         <member name="P:Swm.Web.Controllers.LocationListItemOfK.UnitloadCount">
             <summary>
             货载数
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.LocationListItemOfS">
-            <summary>
-            列表页的数据项
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.LocationId">
-            <summary>
-            货位 Id
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.LocationCode">
-            <summary>
-            货位编码
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.LanewayId">
-            <summary>
-            巷道 Id
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.LanewayCode">
-            <summary>
-            巷道编码
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.WeightLimit">
-            <summary>
-            限重
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.HeightLimit">
-            <summary>
-            限高
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.InboundCount">
-            <summary>
-            入站数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.InboundDisabled">
-            <summary>
-            禁止入站
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.InboundDisabledComment">
-            <summary>
-            禁止入站备注
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.OutboundCount">
-            <summary>
-            出站数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.OutboundDisabled">
-            <summary>
-            禁止出站
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.OutboundDisabledComment">
-            <summary>
-            禁止出站备注
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.StorageGroup">
-            <summary>
-            存储分组
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfS.UnitloadCount">
-            <summary>
-            货载数
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.LocationListOfK">
-            <summary>
-            列表页结果
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfK.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfK.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.LocationListOfS">
-            <summary>
-            列表页结果
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfS.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfS.Total">
-            <summary>
-            总共有多少个数据
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.LocationListOfSArgs">
@@ -601,69 +843,14 @@
             每页大小，默认值为 10。
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.LocationListOfKArgs">
-            <summary>
-            列表查询参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.LocationType">
-            <summary>
-            货位类型，始终是 <see cref="F:Swm.Model.LocationTypes.K"/>
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.LocationCode">
-            <summary>
-            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.Tag">
-            <summary>
-            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.InboundDisabled">
-            <summary>
-            是否禁止入站
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.OutboundDisabled">
-            <summary>
-            是否禁止出站
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.HasInboundMoves">
-            <summary>
-            是否有入站任务
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.HasOutboundMoves">
-            <summary>
-            是否有出站任务
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.Sort">
-            <summary>
-            排序字段
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.Current">
-            <summary>
-            基于 1 的当前页面，默认值为 1。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LocationListOfKArgs.PageSize">
-            <summary>
-            每页大小，默认值为 10。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.ListOfSAsync(Swm.Web.Controllers.LocationListOfSArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.StorageLocationListAsync(Swm.Web.Controllers.LocationListOfSArgs)">
             <summary>
             货位列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.ListOfKAsync(Swm.Web.Controllers.LocationListOfKArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.KeyPointListAsync(Swm.Web.Controllers.KeyPointListArgs)">
             <summary>
             关键点列表
             </summary>
@@ -697,6 +884,110 @@
             </summary>
             <param name="args"></param>
             <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocationsController.CreateKeyPointAsync(Swm.Web.Controllers.CreateKeyPointArgs)">
+            <summary>
+            创建关键点
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocationsController.EditKeyPointAsync(Swm.Web.Controllers.EditKeyPointArgs)">
+            <summary>
+            编辑关键点
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.StorageLocationList">
+            <summary>
+            列表页结果
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.StorageLocationListItem">
+            <summary>
+            列表页的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.LocationId">
+            <summary>
+            货位 Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.LocationCode">
+            <summary>
+            货位编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.LanewayId">
+            <summary>
+            巷道 Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.LanewayCode">
+            <summary>
+            巷道编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.WeightLimit">
+            <summary>
+            限重
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.HeightLimit">
+            <summary>
+            限高
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.InboundCount">
+            <summary>
+            入站数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.InboundDisabled">
+            <summary>
+            禁止入站
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.InboundDisabledComment">
+            <summary>
+            禁止入站备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.OutboundCount">
+            <summary>
+            出站数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.OutboundDisabled">
+            <summary>
+            禁止出站
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.OutboundDisabledComment">
+            <summary>
+            禁止出站备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.StorageGroup">
+            <summary>
+            存储分组
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListItem.UnitloadCount">
+            <summary>
+            货载数
+            </summary>
         </member>
         <member name="T:Swm.Web.Controllers.PortList">
             <summary>

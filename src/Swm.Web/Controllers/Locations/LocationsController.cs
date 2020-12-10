@@ -32,14 +32,16 @@ namespace Swm.Web.Controllers
     {
         readonly ISession _session;
         readonly LocationHelper _locHelper;
+        readonly ILocationFactory _locFactory;
         readonly OpHelper _opHelper;
         readonly ILogger _logger;
         readonly SimpleEventBus _eventBus;
 
-        public LocationsController(ISession session, LocationHelper locHelper, OpHelper opHelper, SimpleEventBus eventBus, ILogger logger)
+        public LocationsController(ISession session, LocationHelper locHelper, ILocationFactory locFactory, OpHelper opHelper, SimpleEventBus eventBus, ILogger logger)
         {
             _session = session;
             _locHelper = locHelper;
+            _locFactory = locFactory;
             _opHelper = opHelper;
             _eventBus = eventBus;
             _logger = logger;
@@ -54,15 +56,15 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.货位列表)]
-        [Route("s")]
-        public async Task<LocationListOfS> ListOfSAsync(LocationListOfSArgs args)
+        [Route("storage-locations/list")]
+        public async Task<StorageLocationList> StorageLocationListAsync(LocationListOfSArgs args)
         {
             var pagedList = await _session.Query<Location>().ToPagedListAsync(args);
-            return new LocationListOfS
+            return new StorageLocationList
             {
                 Success = true,
                 Message = "OK",
-                Data = pagedList.List.Select(x => new LocationListItemOfS
+                Data = pagedList.List.Select(x => new StorageLocationListItem
                 {
                     LocationId = x.LocationId,
                     LocationCode = x.LocationCode,
@@ -92,11 +94,11 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.关键点列表)]
-        [Route("k")]
-        public async Task<LocationListOfK> ListOfKAsync(LocationListOfKArgs args)
+        [Route("key-points/list")]
+        public async Task<KeyPointList> KeyPointListAsync(KeyPointListArgs args)
         {
             var pagedList = await _session.Query<Location>().ToPagedListAsync(args);
-            return new LocationListOfK
+            return new KeyPointList
             {
                 Success = true,
                 Message = "OK",
@@ -144,7 +146,7 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
         [Route("disable-inbound")]
         [OperationType(OperationTypes.禁止入站)]
         [AutoTransaction]
@@ -449,5 +451,65 @@ namespace Swm.Web.Controllers
             });
         }
 
+
+        /// <summary>
+        /// 创建关键点
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("key-points/create")]
+        [OperationType(OperationTypes.创建关键点)]
+        [AutoTransaction]
+        public async Task<OperationResult> CreateKeyPointAsync(CreateKeyPointArgs args)
+        {
+            Location loc = _locFactory.CreateLocation(args.LocationCode, LocationTypes.K, null, 0, 0);
+            loc.RequestType = args.RequestType;
+            loc.OutboundLimit = args.OutboundLimit;
+            loc.InboundLimit = args.InboundLimit;
+            loc.Tag = args.Tag;
+            await _session.SaveAsync(loc);
+            _ = await _opHelper.SaveOpAsync("{0}#{1}", loc.LocationCode, loc.LocationId);
+            await _eventBus.FireEventAsync("KeyPointChanged", null);
+
+            return new OperationResult
+            {
+                Success = true,
+                Message = "操作成功",
+            };
+        }
+
+        /// <summary>
+        /// 编辑关键点
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("key-points/edit")]
+        [OperationType(OperationTypes.编辑关键点)]
+        [AutoTransaction]
+        public async Task<OperationResult> EditKeyPointAsync(EditKeyPointArgs args)
+        {
+            Location loc = await _session.GetAsync<Location>(args.LocationId);
+            if (loc == null || loc.LocationType != LocationTypes.K)
+            {
+                throw new InvalidOperationException($"关键点不存在，【#{args.LocationId}】。");
+            }
+            loc.LocationCode = args.LocationCode;
+            loc.RequestType = args.RequestType;
+            loc.OutboundLimit = args.OutboundLimit;
+            loc.InboundLimit = args.InboundLimit;
+            loc.Tag = args.Tag;
+            await _session.UpdateAsync(loc);
+            _ = await _opHelper.SaveOpAsync("{0}#{1}", loc.LocationCode, loc.LocationId);
+
+            await _eventBus.FireEventAsync("KeyPointChanged", null);
+
+            return new OperationResult
+            {
+                Success = true,
+                Message = "操作成功",
+            };
+        }
     }
 }

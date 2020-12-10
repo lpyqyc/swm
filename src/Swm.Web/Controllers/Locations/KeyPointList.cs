@@ -19,18 +19,16 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表页结果
     /// </summary>
-    public class LocationListOfS : OperationResult
+    public class KeyPointList : OperationResult
     {
         /// <summary>
         /// 当前分页的数据
         /// </summary>
-        public IEnumerable<LocationListItemOfS>? Data { get; init; }
+        public IEnumerable<LocationListItemOfK>? Data { get; init; }
 
         /// <summary>
         /// 总共有多少个数据
         /// </summary>
         public int Total { get; init; }
     }
-
-
 }
