@@ -14,6 +14,7 @@
 
 using Swm.Model;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -25,91 +26,55 @@ namespace Swm.Web.Controllers
     public class TaskListItem
     {
         /// <summary>
-        /// 流水Id
+        /// 任务Id
         /// </summary>
-        public int FlowId { get; set; }
+        public int TaskId { get; set; }
 
         /// <summary>
-        /// 创建时间
+        /// 任务号
         /// </summary>
-        public DateTime ctime { get; set; }
+        public string TaskCode { get; set; } = default!;
 
         /// <summary>
-        /// 物料编码
+        /// 任务类型
         /// </summary>
-        [Required]
-        public string MaterialCode { get; set; }
-
-        /// <summary>
-        /// 物料描述
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// 批号
-        /// </summary>
-        [Required]
-        public string Batch { get; set; }
-
-        /// <summary>
-        /// 库存状态
-        /// </summary>
-        [Required]
-        public string StockStatus { get; set; }
-
-        /// <summary>
-        /// 业务类型
-        /// </summary>
-        [Required]
-        public string BizType { get; set; } = default!;
-
-        /// <summary>
-        /// 流动方向
-        /// </summary>
-        [Required]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public FlowDirection Direction { get; set; }
+        public string TaskType { get; set; } = default!;
 
         /// <summary>
         /// 托盘号
         /// </summary>
-        public string? PalletCode { get; set; }
+        public string PalletCode { get; set; } = default!;
 
         /// <summary>
-        /// WMS 单号
+        /// 起点
         /// </summary>
-        public string? OrderCode { get; set; }
+        public string StartLocationCode { get; set; } = default!;
 
         /// <summary>
-        /// 业务单号
+        /// 终点
         /// </summary>
-        public string? BizOrder { get; set; }
+        public string EndLocationCode { get; set; } = default!;
 
         /// <summary>
-        /// 操作类型
+        /// 任务下发给Wcs的时间
         /// </summary>
-        public string OperationType { get; set; }
+        public DateTime SendTime { get; set; }
 
         /// <summary>
-        /// 数量
+        /// 货载明细
         /// </summary>
-        public decimal Quantity { get; set; }
+        public List<UnitloadItemInfo> Items { get; set; } = default!;
 
         /// <summary>
-        /// 计量单位
+        /// 单号
         /// </summary>
-        [Required]
-        public string Uom { get; set; }
-
-        /// <summary>
-        /// 操作人
-        /// </summary>
-        public string? cuser { get; set; }
+        public string OrderCode { get; set; } = default!;
 
         /// <summary>
         /// 备注
         /// </summary>
-        public string? Comment { get; set; }
+        public string Comment { get; set; } = default!;
+
 
     }
 }

@@ -400,7 +400,7 @@ namespace Swm.Model
                 throw new ArgumentNullException(nameof(dest));
             }
 
-            _logger.Information("正在更改托盘 {palletCode} 的位置，目标是 {dest}", unitload.ContainerCode, dest.LocationCode);
+            _logger.Information("正在更改托盘 {palletCode} 的位置，目标是 {dest}", unitload.PalletCode, dest.LocationCode);
 
             if (unitload.BeingMoved)
             {
@@ -427,7 +427,7 @@ namespace Swm.Model
             await BuildAsync(transTask, Cst.更改位置, orig, dest, unitload, false);
             var archived = await CompleteAsync(transTask, dest, false);
 
-            _logger.Information("已将托盘 {palletCode} 的位置改为 {dest}", unitload.ContainerCode, dest.LocationCode);
+            _logger.Information("已将托盘 {palletCode} 的位置改为 {dest}", unitload.PalletCode, dest.LocationCode);
 
             return archived;
         }

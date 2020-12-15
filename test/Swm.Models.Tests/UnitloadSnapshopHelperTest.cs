@@ -22,7 +22,7 @@ namespace Swm.Model.Tests
         {
             Unitload unitload = new Unitload();
             unitload.UnitloadId = 1;
-            unitload.ContainerCode = "ContainerCode";
+            unitload.PalletCode = "PalletCode";
             unitload.StorageInfo = new UnitloadStorageInfo();
             unitload.Comment = "Comment";
             unitload.HasCountingError = true;
@@ -57,7 +57,7 @@ namespace Swm.Model.Tests
             UnitloadItemSnapshot itemSnapshot2 = snapshot.Items.Single(x => x.UnitloadItemId == 2);
             Assert.Equal(0, snapshot.UnitloadSnapshotId);
             Assert.Equal(unitload.UnitloadId, snapshot.UnitloadId);
-            Assert.Equal(unitload.ContainerCode, snapshot.ContainerCode);
+            Assert.Equal(unitload.PalletCode, snapshot.PalletCode);
             Assert.Same(unitload.StorageInfo, snapshot.StorageInfo);
             Assert.Equal(unitload.Comment, snapshot.Comment);
             Assert.Equal(unitload.HasCountingError, snapshot.HasCountingError);

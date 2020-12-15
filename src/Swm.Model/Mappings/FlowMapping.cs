@@ -52,7 +52,7 @@ namespace Swm.Model.Mappings
 
             Property(cl => cl.OrderCode);
             Property(cl => cl.BizOrder);
-            Property(cl => cl.ContainerCode);
+            Property(cl => cl.PalletCode);
 
             Property(cl => cl.Balance);
             Property(cl => cl.Comment);

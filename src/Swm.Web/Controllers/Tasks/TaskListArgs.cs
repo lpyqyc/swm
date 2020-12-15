@@ -37,7 +37,7 @@ namespace Swm.Web.Controllers
         /// 托盘号
         /// </summary>
         [SearchArg(SearchMode.Like)]
-        [SourceProperty("Unitload.ContainerCode")]
+        [SourceProperty(nameof(Unitload.PalletCode))]
         public string? PalletCode { get; set; }
 
         /// <summary>

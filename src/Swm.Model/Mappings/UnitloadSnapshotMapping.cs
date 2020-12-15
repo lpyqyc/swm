@@ -32,7 +32,7 @@ namespace Swm.Model.Mappings
             });
 
             Property(cl => cl.UnitloadId, m => m.Update(false));
-            Property(cl => cl.ContainerCode, m => m.Update(false));
+            Property(cl => cl.PalletCode, m => m.Update(false));
             Property(cl => cl.ctime, m => m.Update(false));
             Property(cl => cl.mtime, m => m.Update(false));
             Property(cl => cl.cuser, m => m.Update(false));

@@ -77,7 +77,7 @@ namespace Swm.Web.Controllers
                 Data = pagedList.List.Select(x => new UnitloadListItem
                 {
                     UnitloadId = x.UnitloadId,
-                    PalletCode = x.ContainerCode,
+                    PalletCode = x.PalletCode,
                     ctime = x.ctime,
                     LocationCode = x.CurrentLocation.LocationCode,
                     LanewayCode = x.CurrentLocation?.Rack?.Laneway?.LanewayCode,
@@ -126,10 +126,10 @@ namespace Swm.Web.Controllers
         //        items.Add(new PalletizationItemInfo<StockKey> { StockKey = stockKey, Quantity = item.Quantity });
         //    }
 
-        //    var op = await HttpContext.SaveOpAsync($"托盘号：{args.ContainerCode}。");
+        //    var op = await HttpContext.SaveOpAsync($"托盘号：{args.PalletCode}。");
 
         //    // TODO 处理硬编码：无单据组盘
-        //    await _palletizationHelper.PalletizeAsync(args.ContainerCode,
+        //    await _palletizationHelper.PalletizeAsync(args.PalletCode,
         //                                              items,
         //                                              op.OpType,
         //                                              "无单据组盘");

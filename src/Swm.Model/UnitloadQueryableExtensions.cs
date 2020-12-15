@@ -22,24 +22,24 @@ namespace Swm.Model
 {
     public static class UnitloadQueryableExtensions
     {
-        public static async Task<Unitload> GetAsync(this IQueryable<Unitload> q, string containerCode)
+        public static async Task<Unitload> GetAsync(this IQueryable<Unitload> q, string palletCode)
         {
             return await q
-                .Where(x => x.ContainerCode == containerCode)
+                .Where(x => x.PalletCode == palletCode)
                 .WrappedSingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 
 
-        public static async Task<HashSet<Unitload>> GetAsync(this IQueryable<Unitload> q, params string[] containerCodes)
+        public static async Task<HashSet<Unitload>> GetAsync(this IQueryable<Unitload> q, params string[] palletCodes)
         {
-            if (containerCodes == null || containerCodes.Length == 0)
+            if (palletCodes == null || palletCodes.Length == 0)
             {
                 throw new ArgumentException("未指定托盘号。");
             }
 
             List<Unitload> list = await q
-                .Where(x => containerCodes.Contains(x.ContainerCode))
+                .Where(x => palletCodes.Contains(x.PalletCode))
                 .WrappedToListAsync()
                 .ConfigureAwait(false);
             return list.ToHashSet();
@@ -67,14 +67,12 @@ namespace Swm.Model
             return list.ToHashSet();
         }
 
-        public static async Task<bool> IsContainerCodeInUseAsync(this IQueryable<Unitload> q, string containerCode)
+        public static async Task<bool> IsPalletCodeInUseAsync(this IQueryable<Unitload> q, string palletCode)
         {
             return await q
-                .Where(x => x.ContainerCode == containerCode)
+                .Where(x => x.PalletCode == palletCode)
                 .WrappedAnyAsync()
                 .ConfigureAwait(false);
         }
     }
-
-
 }

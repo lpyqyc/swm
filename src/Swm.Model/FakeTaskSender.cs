@@ -27,7 +27,7 @@ namespace Swm.Model
         public void SendTask(TransportTask task)
         {
             task.WasSentToWcs = true;
-            task.SentToWcsAt = DateTime.Now;
+            task.SendTime = DateTime.Now;
             _session.Save(task);
         }
     }

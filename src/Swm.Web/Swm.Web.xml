@@ -120,7 +120,7 @@
         </member>
         <member name="T:Swm.Web.Controllers.FlowListArgs">
             <summary>
-            货载列表的查询参数
+            流水列表的查询参数
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.FlowListArgs.TimeFrom">
@@ -267,6 +267,13 @@
             <summary>
             备注
             </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.FlowsController.ListAsync(Swm.Web.Controllers.FlowListArgs)">
+            <summary>
+            获取流水列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.CreateKeyPointArgs">
             <summary>
@@ -1600,6 +1607,171 @@
         <member name="P:Swm.Web.Controllers.PortSelectListItem.CurrentUat">
             <summary>
             当前下架的单据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.TaskList">
+            <summary>
+            任务列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.TaskListArgs">
+            <summary>
+            任务列表的查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.TaskCode">
+            <summary>
+            任务号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.TaskType">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.StartLocationCode">
+            <summary>
+            起点编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.EndLocationCode">
+            <summary>
+            终点编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.AnyLocationCode">
+            <summary>
+            起点或者终点编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.AnyLocationCodeExpr">
+            <summary>
+            AnyLocationCode 的查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.MaterialTypeExpr">
+            <summary>
+            MaterialType 的查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.MaterialCode">
+            <summary>
+            物料编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.MaterialCodeExpr">
+            <summary>
+            MaterialCode 的查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.BatchExpr">
+            <summary>
+            Batch 查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.LanewayIdList">
+            <summary>
+            巷道Id列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.LanewayIdListExpr">
+            <summary>
+            LanewayIdList 的查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.TaskListItem">
+            <summary>
+            任务列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.TaskId">
+            <summary>
+            任务Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.TaskCode">
+            <summary>
+            任务号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.StartLocationCode">
+            <summary>
+            起点
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.EndLocationCode">
+            <summary>
+            终点
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.SendTime">
+            <summary>
+            任务下发给Wcs的时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.Items">
+            <summary>
+            货载明细
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.OrderCode">
+            <summary>
+            单号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TaskListItem.Comment">
+            <summary>
+            备注
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.UnitloadItemInfo">

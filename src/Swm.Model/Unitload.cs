@@ -43,10 +43,9 @@ namespace Swm.Model
 
         public virtual int UnitloadId { get; internal protected set; }
 
-        // TODO 重命名
         [Required]
         [MaxLength(20)]
-        public virtual string ContainerCode { get; set; }
+        public virtual string PalletCode { get; set; }
 
         public virtual int v { get; set; }
 
@@ -162,7 +161,7 @@ namespace Swm.Model
 
         public override string ToString()
         {
-            return this.ContainerCode + "#" + this.UnitloadId;
+            return this.PalletCode + "#" + this.UnitloadId;
         }
 
 

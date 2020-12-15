@@ -89,9 +89,9 @@ namespace Swm.Model
         public virtual bool WasSentToWcs { get; set; }
 
         /// <summary>
-        /// 指示此任务下发给 Wcs 的时间。
+        /// 获取货设置任务下发的时间。
         /// </summary>
-        public virtual DateTime SentToWcsAt { get; set; }
+        public virtual DateTime SendTime { get; set; }
 
         /// <summary>
         /// 获取或设置此任务是为哪个Wms单据产生的。

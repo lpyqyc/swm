@@ -43,7 +43,7 @@ namespace Swm.Model
         /// <summary>
         /// 容器编码。
         /// </summary>
-        public string ContainerCode { get; set; }
+        public string PalletCode { get; set; }
 
         /// <summary>
         /// 重量。

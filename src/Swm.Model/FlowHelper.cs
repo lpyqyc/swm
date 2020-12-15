@@ -112,7 +112,7 @@ namespace Swm.Model
             flow.Direction = dir;
             flow.BizType = bizType;
             flow.OpType = opType;
-            flow.ContainerCode = palletCode;
+            flow.PalletCode = palletCode;
             flow.OrderCode = orderCode;
             flow.BizOrder = bizOrder;
             flow.TxNo = txNo;

@@ -33,7 +33,7 @@ namespace Swm.Model.Mappings
             });
 
             NaturalId(npm => {
-                npm.Property(c => c.ContainerCode, prop => prop.Update(false));
+                npm.Property(c => c.PalletCode, prop => prop.Update(false));
             }, m => m.Mutable(false));
 
             Version(cl => cl.v, v => v.Column("v"));

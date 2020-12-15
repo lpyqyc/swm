@@ -76,7 +76,7 @@ namespace Swm.Model
 
             // 验证托盘编码是否已占用
             bool used = await _session.Query<Unitload>()
-                .IsContainerCodeInUseAsync(palletCode)
+                .IsPalletCodeInUseAsync(palletCode)
                 .ConfigureAwait(false);
             if (used)
             {
@@ -91,7 +91,7 @@ namespace Swm.Model
             // 生成货载和流水
             Unitload unitload = _unitloadFactory.CreateUnitload();
 
-            unitload.ContainerCode = palletCode;
+            unitload.PalletCode = palletCode;
             foreach (var item in items)
             {
                 UnitloadItem unitloadItem = _unitloadFactory.CreateUnitloadItem();

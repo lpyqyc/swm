@@ -85,7 +85,7 @@ namespace Swm.Model
         public virtual string BizOrder { get; set; }
 
         [MaxLength(20)]
-        public virtual string ContainerCode { get; set; }
+        public virtual string PalletCode { get; set; }
 
         public virtual decimal Balance { get; set; }
 

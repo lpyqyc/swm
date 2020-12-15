@@ -37,6 +37,11 @@ namespace Swm.Web.Controllers
         }
 
 
+        /// <summary>
+        /// 获取流水列表
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         [AutoTransaction]
         [HttpPost]
         [Route("list")]
@@ -58,7 +63,7 @@ namespace Swm.Web.Controllers
                     StockStatus = x.StockStatus,
                     BizType = x.BizType,
                     Direction = x.Direction,
-                    PalletCode = x.ContainerCode,
+                    PalletCode = x.PalletCode,
                     OrderCode = x.OrderCode,
                     BizOrder = x.BizOrder,
                     OperationType = x.OpType,

@@ -40,55 +40,43 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost]
         [Route("list")]
-        public async Task<FlowList> ListAsync(FlowListArgs args)
+        public async Task<TaskList> ListAsync(TaskListArgs args)
         {
-            var pagedList = await _session.Query<Flow>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+            var pagedList = await _session.Query<TransportTask>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new FlowList
+            return new TaskList
             {
                 Success = true,
                 Message = "OK",
-                Data = pagedList.List.Select(x => new FlowListItem
+                Data = pagedList.List.Select(x => new TaskListItem
                 {
-                    FlowId = x.FlowId,
-                    ctime = x.ctime,
-                    MaterialCode = x.Material.MaterialCode,
-                    Description = x.Material.Description,
-                    Batch = x.Batch,
-                    StockStatus = x.StockStatus,
-                    BizType = x.BizType,
-                    Direction = x.Direction,
-                    PalletCode = x.ContainerCode,
+                    TaskId = x.TaskId,
+                    TaskCode = x.TaskCode,
+                    TaskType = x.TaskType,
+                    PalletCode = x.Unitload.PalletCode,
+                    StartLocationCode = x.Start.LocationCode,
+                    EndLocationCode = x.End.LocationCode,
+                    SendTime = x.SendTime,
                     OrderCode = x.OrderCode,
-                    BizOrder = x.BizOrder,
-                    OperationType = x.OpType,
-                    Quantity = x.Quantity,
-                    Uom = x.Uom,
-                    cuser = x.cuser,
                     Comment = x.Comment,
+                    Items = x.Unitload.Items.Select(i => new UnitloadItemInfo
+                    {
+                        UnitloadItemId = i.UnitloadItemId,
+                        MaterialId = i.Material.MaterialId,
+                        MaterialCode = i.Material.MaterialCode,
+                        MaterialType = i.Material.MaterialType,
+                        Description = i.Material.Description,
+                        Specification = i.Material.Specification,
+                        Batch = i.Batch,
+                        StockStatus = i.StockStatus,
+                        Quantity = i.Quantity,
+                        Uom = i.Uom,
+                    }).ToList(),
                 }),
                 Total = pagedList.Total,
             };
         }
 
 
-
-        //[AutoTx]
-        //[HttpPost]
-        //[Route("get-select-list-of-biz-types")]
-        //public async Task<ActionResult> GetSelectListOfBizTypesAsync()
-        //{
-        //    var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.BizType);
-
-        //    var items = list.Select(x => new
-        //    {
-        //        BizType = x.AppCodeValue,
-        //        x.Description,
-        //        x.Scope,
-        //        x.DisplayOrder,
-        //    });
-
-        //    return Ok(items);
-        //}
     }
 }

@@ -64,7 +64,7 @@ namespace Swm.Model
 
         [Required]
         [MaxLength(20)]
-        public virtual string ContainerCode { get; set; }
+        public virtual string PalletCode { get; set; }
 
         /// <summary>
         /// 源货载的创建时间。此属性不是 <see cref="IHasCtime.ctime"/> 的实现。
