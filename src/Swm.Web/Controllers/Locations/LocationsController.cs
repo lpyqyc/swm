@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.AspNetCore;
 using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
-using Arctic.NHibernateExtensions.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using Serilog;
@@ -59,7 +59,7 @@ namespace Swm.Web.Controllers
         [Route("storage-locations/list")]
         public async Task<StorageLocationList> StorageLocationListAsync(StorageLocationListArgs args)
         {
-            var pagedList = await _session.Query<Location>().ToPagedListAsync(args);
+            var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new StorageLocationList
             {
                 Success = true,
@@ -97,12 +97,12 @@ namespace Swm.Web.Controllers
         [Route("key-points/list")]
         public async Task<KeyPointList> KeyPointListAsync(KeyPointListArgs args)
         {
-            var pagedList = await _session.Query<Location>().ToPagedListAsync(args);
+            var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new KeyPointList
             {
                 Success = true,
                 Message = "OK",
-                Data = pagedList.List.Select(x => new LocationListItemOfK
+                Data = pagedList.List.Select(x => new KeyPointListItem
                 {
                     LocationId = x.LocationId,
                     LocationCode = x.LocationCode,

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.NHibernateExtensions;
 using Swm.Model;
 using System;
 using System.Collections.Specialized;
@@ -21,12 +22,12 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表查询参数
     /// </summary>
-    public class LanewayListArgs : IListArgs<Laneway>
+    public class LanewayListArgs
     {
         /// <summary>
         /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
-        [ListFilter(op: ListFilterOperator.Like)]
+        [SearchArg(SearchMode.Like)]
         public string? LanewayCode { get; set; }
 
         /// <summary>

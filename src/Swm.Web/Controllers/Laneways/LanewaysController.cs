@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.AspNetCore;
 using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
-using Arctic.NHibernateExtensions.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
-using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System;
@@ -58,7 +57,7 @@ namespace Swm.Web.Controllers
         [OperationType(OperationTypes.巷道列表)]
         public async Task<LanewayList> ListAsync(LanewayListArgs args)
         {
-            var pagedList = await _session.Query<Laneway>().ToPagedListAsync(args);
+            var pagedList = await _session.Query<Laneway>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new LanewayList
             {
                 Success = true,

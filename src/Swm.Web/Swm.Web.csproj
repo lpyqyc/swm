@@ -24,9 +24,9 @@
   <ItemGroup>
     <PackageReference Include="Arctic.AppCodes" Version="1.0.1" />
     <PackageReference Include="Arctic.AppSeqs" Version="1.0.0-main-local" />
+    <PackageReference Include="Arctic.AspNetCore" Version="1.0.1" />
     <PackageReference Include="Arctic.EventBus" Version="1.0.0-main-local" />
-    <PackageReference Include="Arctic.NHibernateExtensions" Version="1.0.1" />
-    <PackageReference Include="Arctic.NHibernateExtensions.AspNetCore" Version="1.0.1" />
+    <PackageReference Include="Arctic.NHibernateExtensions" Version="1.0.3" />
     <PackageReference Include="Autofac" Version="6.0.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="AutofacSerilogIntegration" Version="5.0.0" />
@@ -42,6 +42,7 @@
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.6" />
+    <PackageReference Include="System.Text.Json" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

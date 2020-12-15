@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,33 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-
-namespace Swm.Web
+namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 定义列表页参数。
+    /// 库存状态选择列表的数据项
     /// </summary>
-    /// <typeparam name="T">目标类型</typeparam>
-    public interface IListArgs<T>
+    public class StockStatusSelectListItem
     {
         /// <summary>
-        /// 获取或设置排序信息。
+        /// 库存状态
         /// </summary>
-        OrderedDictionary? Sort { get; set; }
+        public string StockStatus { get; set; } = default!;
 
         /// <summary>
-        /// 获取或设置基于 1 的分页索引。
+        /// 物料类型说明
         /// </summary>
-        int? Current { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
-        /// 获取或设置每页大小。
+        /// 适用范围
         /// </summary>
-        int? PageSize { get; set; }
+        public string? Scope { get; set; } 
 
+        /// <summary>
+        /// 展示顺序
+        /// </summary>
+        public int DisplayOrder { get; set; }
 
     }
 

@@ -30,7 +30,7 @@ namespace Swm.Model.Mappings
 
             Property(cl => cl.ctime, prop => prop.Update(false));
             Property(cl => cl.cuser, prop => prop.Update(false));
-            Property(cl => cl.OpType);
+            Property(cl => cl.OperationType);
             Property(cl => cl.Url);
 
             Property(cl => cl.Comment);

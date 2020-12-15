@@ -103,6 +103,171 @@
             根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.FlowList">
+            <summary>
+            流水列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.FlowListArgs">
+            <summary>
+            货载列表的查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.TimeFrom">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.TimeTo">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.MaterialTypes">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.MaterialCode">
+            <summary>
+            物料代码，不支持模糊查询
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.PalletCode">
+            <summary>
+            托盘号，不支持模糊查询
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.Batch">
+            <summary>
+            批号，不支持模糊查询
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.OrderCode">
+            <summary>
+            批号，支持模糊查询
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.BizTypes">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.FlowListItem">
+            <summary>
+            流水列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.FlowId">
+            <summary>
+            流水Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.ctime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.Direction">
+            <summary>
+            流动方向
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.OrderCode">
+            <summary>
+            WMS 单号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.BizOrder">
+            <summary>
+            业务单号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.OperationType">
+            <summary>
+            操作类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.Quantity">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.Uom">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.cuser">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.FlowListItem.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.CreateKeyPointArgs">
             <summary>
             创建关键点操作的参数
@@ -700,62 +865,62 @@
             每页大小，默认值为 10。
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.LocationListItemOfK">
+        <member name="T:Swm.Web.Controllers.KeyPointListItem">
             <summary>
             列表页的数据项
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.LocationId">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.LocationId">
             <summary>
             货位 Id
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.LocationCode">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.LocationCode">
             <summary>
             货位编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.InboundCount">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.InboundCount">
             <summary>
             入站数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.InboundDisabled">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.InboundDisabled">
             <summary>
             禁止入站
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.InboundDisabledComment">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.InboundDisabledComment">
             <summary>
             禁止入站备注
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.OutboundCount">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.OutboundCount">
             <summary>
             出站数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.OutboundDisabled">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.OutboundDisabled">
             <summary>
             禁止出站
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.OutboundDisabledComment">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.OutboundDisabledComment">
             <summary>
             禁止出站备注
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.Tag">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.Tag">
             <summary>
             标记
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.RequestType">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.RequestType">
             <summary>
             请求类型
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LocationListItemOfK.UnitloadCount">
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.UnitloadCount">
             <summary>
             货载数
             </summary>
@@ -993,12 +1158,12 @@
         </member>
         <member name="P:Swm.Web.Controllers.MaterialListArgs.MaterialCode">
             <summary>
-            物料代码
+            物料代码，支持模糊查找
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.MaterialListArgs.Description">
             <summary>
-            物料描述
+            物料描述，支持模糊查找
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.MaterialListArgs.MaterialType">
@@ -1120,9 +1285,15 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.MaterialTypesAsync">
+        <member name="M:Swm.Web.Controllers.MaterialsController.MaterialTypesSelectListAsync">
             <summary>
-            获取物料类型
+            获取物料类型的选择列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MaterialsController.StockStatusSelectListAsync">
+            <summary>
+            获取库存状态的选择列表
             </summary>
             <returns></returns>
         </member>
@@ -1195,6 +1366,123 @@
             <summary>
             取多少条记录，默认为 10
             </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.StockStatusSelectListItem">
+            <summary>
+            库存状态选择列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockStatusSelectListItem.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockStatusSelectListItem.Description">
+            <summary>
+            物料类型说明
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockStatusSelectListItem.Scope">
+            <summary>
+            适用范围
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockStatusSelectListItem.DisplayOrder">
+            <summary>
+            展示顺序
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.OpList">
+            <summary>
+            列表页结果
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.OpListArgs">
+            <summary>
+            列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListArgs.Prop1">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListArgs.Prop2From">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListArgs.Prop2To">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListArgs.Current">
+            <summary>
+            基于 1 的当前页面。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListArgs.PageSize">
+            <summary>
+            每页大小
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.OpListItem">
+            <summary>
+            列表页的数据项。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListItem.OpId">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListItem.ctime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListItem.cuser">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListItem.OperationType">
+            <summary>
+            操作类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListItem.Url">
+            <summary>
+            产生此记录的 Url
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListItem.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.OpsController.List(Swm.Web.Controllers.OpListArgs)">
+            <summary>
+            列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.PortList">
             <summary>
@@ -1314,6 +1602,188 @@
             当前下架的单据
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.UnitloadItemInfo">
+            <summary>
+            货载明细
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.UnitloadItemId">
+            <summary>
+            货载明细Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.MaterialId">
+            <summary>
+            物料Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.Specification">
+            <summary>
+            物料规格
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.Quantity">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.Uom">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UnitloadList">
+            <summary>
+            货载列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UnitloadListArgs">
+            <summary>
+            货载列表的查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.PalletCode">
+            <summary>
+            托盘号，支持模糊查找
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.MaterialCode">
+            <summary>
+            物料编码，支持模糊查找
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.Batch">
+            <summary>
+            批号，支持模糊查找
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.LanewayId">
+            <summary>
+            托盘所在巷道
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.LocationCode">
+            <summary>
+            托盘所在货位号，支持模糊查找
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.BeingMoved">
+            <summary>
+            托盘是否有任务
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.OpHintType">
+            <summary>
+            托盘的操作提示
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UnitloadListItem">
+            <summary>
+            货载列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.UnitloadId">
+            <summary>
+            货载Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.ctime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.LocationCode">
+            <summary>
+            所在货位编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.LanewayCode">
+            <summary>
+            所在巷道编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.Items">
+            <summary>
+            货载明细列表
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.UnitloadsController.ListAsync(Swm.Web.Controllers.UnitloadListArgs)">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.DebugShowArgsAttribute">
             <summary>
             向日志写入 Action 的参数。
@@ -1323,129 +1793,6 @@
             <summary>
             初始化新实例。
             </summary>
-        </member>
-        <member name="T:Swm.Web.IListArgs`1">
-            <summary>
-            定义列表页参数。
-            </summary>
-            <typeparam name="T">目标类型</typeparam>
-        </member>
-        <member name="P:Swm.Web.IListArgs`1.Sort">
-            <summary>
-            获取或设置排序信息。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.IListArgs`1.Current">
-            <summary>
-            获取或设置基于 1 的分页索引。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.IListArgs`1.PageSize">
-            <summary>
-            获取或设置每页大小。
-            </summary>
-        </member>
-        <member name="T:Swm.Web.ListArgsExtensions">
-            <summary>
-            为 <see cref="T:Swm.Web.IListArgs`1"/> 提供动态查询方法。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.ListArgsExtensions.ToPagedListAsync``1(System.Linq.IQueryable{``0},Swm.Web.IListArgs{``0})">
-            <summary>
-            使用列表参数进行查询，返回分页的列表。
-            </summary>
-            <typeparam name="T">目标类型</typeparam>
-            <param name="q">目标类型上的查询对象</param>
-            <param name="listArgs">列表参数</param>
-            <returns></returns>
-        </member>
-        <member name="T:Swm.Web.ListArgsExtensions.SqlMethods">
-            <summary>
-            代替 <see cref="M:NHibernate.Linq.SqlMethods.Like(System.String,System.String)"/>，以提供内存里的简单模糊查询。
-            </summary>
-        </member>
-        <member name="T:Swm.Web.ListFilterAttribute">
-            <summary>
-            用于修饰 <see cref="T:Swm.Web.IListArgs`1"/> 中的属性，
-            <see cref="M:Swm.Web.ListArgsExtensions.ToPagedListAsync``1(System.Linq.IQueryable{``0},Swm.Web.IListArgs{``0})"/> 
-            方法会根据 ListFilterAttribute 配置自动生成查询对象。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.ListFilterAttribute.#ctor(Swm.Web.ListFilterOperator,System.String)">
-            <summary>
-            使用 <see cref="F:Swm.Web.ListFilterOperator.Linq"/> 以外的操作符查询。
-            </summary>
-            <param name="op">查询操作符</param>
-            <param name="targetProperty">目标属性，若为 null，则使用同名属性</param>
-        </member>
-        <member name="P:Swm.Web.ListFilterAttribute.Operator">
-            <summary>
-            指示使用哪个操作符进行查询。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.ListFilterAttribute.TargetProperty">
-            <summary>
-            使用 <see cref="F:Swm.Web.ListFilterOperator.Linq"/> 以外的查询操作符时指定目标属性。
-            </summary>
-        </member>
-        <member name="T:Swm.Web.ListFilterOperator">
-            <summary>
-            查询操作符。
-            </summary>
-        </member>
-        <member name="F:Swm.Web.ListFilterOperator.E">
-            <summary>
-            表示目标字段等于查询参数
-            </summary>
-        </member>
-        <member name="F:Swm.Web.ListFilterOperator.Like">
-            <summary>
-            表示目标字段 like 查询参数
-            </summary>        
-        </member>
-        <member name="F:Swm.Web.ListFilterOperator.GT">
-            <summary>
-            表示目标字段大于查询参数
-            </summary>
-        </member>
-        <member name="F:Swm.Web.ListFilterOperator.GTE">
-            <summary>
-            表示目标字段大于等于查询参数
-            </summary>
-        </member>
-        <member name="F:Swm.Web.ListFilterOperator.LT">
-            <summary>
-            表示目标字段小于查询参数
-            </summary>
-        </member>
-        <member name="F:Swm.Web.ListFilterOperator.LTE">
-            <summary>
-            表示目标字段小于等于查询参数
-            </summary>
-        </member>
-        <member name="F:Swm.Web.ListFilterOperator.IN">
-            <summary>
-            表示目标字段 IN 查询参数
-            </summary>
-        </member>
-        <member name="F:Swm.Web.ListFilterOperator.Linq">
-            <summary>
-            使用 Linq 查询，用于查询方式不整齐的情况。如果应用于名为 X 的属性上，则会寻找 XExpr 的属性以获取表示谓词的 <see cref="T:System.Linq.Expressions.Expression`1"/>，TDelegate 是 <see cref="T:System.Func`2"/>
-            </summary>
-        </member>
-        <member name="T:Swm.Web.PagedList`1">
-            <summary>
-            表示分页的列表。
-            CurrentPage 基于 1。
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:Swm.Web.PagedList`1.#ctor(System.Collections.Generic.List{`0},System.Int32,System.Int32,System.Int32)">
-            <summary>
-            表示分页的列表。
-            CurrentPage 基于 1。
-            </summary>
-            <typeparam name="T"></typeparam>
         </member>
         <member name="T:Swm.Web.OperationResult">
             <summary>

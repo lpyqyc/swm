@@ -32,7 +32,7 @@ namespace Swm.Model
         /// <summary>
         /// 操作类型字段的长度。
         /// </summary>
-        public const int OP_TYPE = 20;
+        public const int OPERATION_TYPE = 20;
 
 
         public const int APP_CODE = 20;

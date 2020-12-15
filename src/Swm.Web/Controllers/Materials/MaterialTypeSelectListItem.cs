@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,33 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.Auditing;
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Swm.Model
+namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 表示货位上的操作记录。
+    /// 物料类型选择列表的数据项
     /// </summary>
-    public class LocationOp : IHasCtime, IHasCuser
+    public class MaterialTypeSelectListItem
     {
-        public virtual int LocationOpId { get; internal protected set; }
-
+        /// <summary>
+        /// 物料类型
+        /// </summary>
         [Required]
-        public virtual Location Location { get; set; }
+        public string MaterialType { get; set; } = default!;
 
-        [Required]
-        [MaxLength(FIELD_LENGTH.OPERATION_TYPE)]
-        public virtual string OpType { get; set; }
+        /// <summary>
+        /// 物料类型说明
+        /// </summary>
+        public string? Description { get; set; }
 
-        public virtual DateTime ctime { get; set; }
+        /// <summary>
+        /// 适用范围
+        /// </summary>
+        public string? Scope { get; set; }
 
-        [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; }
-
-        [MaxLength(9999)]
-        public virtual string Comment { get; set; }
+        /// <summary>
+        /// 展示顺序
+        /// </summary>
+        public int DisplayOrder { get; set; }
 
     }
 

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.NHibernateExtensions;
 using Swm.Model;
 using System;
 using System.Collections.Generic;
@@ -24,30 +25,31 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表查询参数
     /// </summary>
-    public class StorageLocationListArgs : IListArgs<Location>
+    public class StorageLocationListArgs
     {
         /// <summary>
         /// 货位类型，始终是 <see cref="LocationTypes.S"/>
         /// </summary>
-        [ListFilter]
-        internal string LocationType { get; } = LocationTypes.S;
+        [SearchArg]
+        public string LocationType { get; } = LocationTypes.S;
 
         /// <summary>
         /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
-        [ListFilter(ListFilterOperator.Like)]
+        [SearchArg(SearchMode.Like)]
         public string? LocationCode { get; set; }
 
         /// <summary>
         /// 货位所在巷道
         /// </summary>
-        [ListFilter(ListFilterOperator.IN, "Rack.Laneway.LanewayId")]
+        [SourceProperty("Rack.Laneway.LanewayId")]
+        [SearchArg(SearchMode.In)]
         public int[]? LanewayIdList { get; set; }
 
         /// <summary>
         /// 货位是否有货
         /// </summary>
-        [ListFilter(ListFilterOperator.Linq)]
+        [SearchArg(SearchMode.Expression)]
         public bool? Loaded { get; set; }
 
         internal Expression<Func<Location, bool>>? LoadedExpr
@@ -67,25 +69,25 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
-        [ListFilter(op: ListFilterOperator.Like)]
+        [SearchArg(SearchMode.Like)]
         public string? StorageGroup { get; set; }
 
         /// <summary>
         /// 是否禁止入站
         /// </summary>
-        [ListFilter]
+        [SearchArg]
         public bool? InboundDisabled { get; set; }
 
         /// <summary>
         /// 是否禁止出站
         /// </summary>
-        [ListFilter]
+        [SearchArg]
         public bool? OutboundDisabled { get; set; }
 
         /// <summary>
         /// 是否有入站任务
         /// </summary>
-        [ListFilter(ListFilterOperator.Linq)]
+        [SearchArg(SearchMode.Expression)]
         public bool? HasInboundMoves { get; set; }
 
         internal Expression<Func<Location, bool>>? HasInboundMovesExpr
@@ -104,6 +106,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 是否有出站任务
         /// </summary>
+        [SearchArg(SearchMode.Expression)]
         public bool? HasOutboundMoves { get; set; }
 
         internal Expression<Func<Location, bool>>? HasOutboundMovesExpr

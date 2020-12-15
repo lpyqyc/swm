@@ -12,34 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
+
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 物料选择列表的数据项
+    /// 任务列表
     /// </summary>
-    public class MaterialSelectListItem
+    public class TaskList : OperationResult
     {
         /// <summary>
-        /// 物料Id
+        /// 当前分页的数据
         /// </summary>
-        public int MaterialId { get; set; }
+        public IEnumerable<TaskListItem>? Data { get; init; }
 
         /// <summary>
-        /// 物料编码
+        /// 总共有多少个数据
         /// </summary>
-        public string MaterialCode { get; set; } = default!;
-
-        /// <summary>
-        /// 物料描述
-        /// </summary>
-        public string Description { get; set; } = default!;
-
-        /// <summary>
-        /// 物料类型
-        /// </summary>
-        public string MaterialType { get; set; } = default!;
-
+        public int Total { get; init; }
     }
-
-
 }

@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,21 @@
 
 using System.Collections.Generic;
 
-namespace Swm.Web
+namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 表示分页的列表。
-    /// CurrentPage 基于 1。
+    /// 流水列表
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public record PagedList<T>(List<T> List, int CurrentPage, int PageSize, int Total);
+    public class FlowList : OperationResult
+    {
+        /// <summary>
+        /// 当前分页的数据
+        /// </summary>
+        public IEnumerable<FlowListItem>? Data { get; init; }
 
+        /// <summary>
+        /// 总共有多少个数据
+        /// </summary>
+        public int Total { get; init; }
+    }
 }

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
-using Arctic.NHibernateExtensions.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using Serilog;
@@ -51,7 +51,7 @@ namespace Swm.Web.Controllers
         [OperationType(OperationTypes.出口列表)]
         public async Task<PortList> ListAsync(PortListArgs args)
         {
-            var pagedList = await _session.Query<Port>().ToPagedListAsync(args);
+            var pagedList = await _session.Query<Port>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new PortList
             {
                 Success = true,

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.NHibernateExtensions;
 using Swm.Model;
 using System.Collections.Specialized;
 
@@ -20,24 +21,24 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表查询参数
     /// </summary>
-    public class MaterialListArgs : IListArgs<Material>
+    public class MaterialListArgs
     {
         /// <summary>
-        /// 物料代码
+        /// 物料代码，支持模糊查找
         /// </summary>
-        [ListFilter(ListFilterOperator.Like)]
+        [SearchArg(SearchMode.Like)]
         public string? MaterialCode { get; set; }
 
         /// <summary>
-        /// 物料描述
+        /// 物料描述，支持模糊查找
         /// </summary>
-        [ListFilter(ListFilterOperator.Like)]
+        [SearchArg(SearchMode.Like)]
         public string? Description { get; set; }
 
         /// <summary>
         /// 物料类型
         /// </summary>
-        [ListFilter]
+        [SearchArg]
         public string? MaterialType { get; set; }
 
         /// <summary>

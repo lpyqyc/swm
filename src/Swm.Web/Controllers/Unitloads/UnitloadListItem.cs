@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,55 +13,52 @@
 // limitations under the License.
 
 using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
 
-namespace Swm.Web
+namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 查询操作符。
+    /// 货载列表的数据项
     /// </summary>
-    public enum ListFilterOperator
+    public class UnitloadListItem
     {
         /// <summary>
-        /// 表示目标字段等于查询参数
+        /// 货载Id
         /// </summary>
-        E,
+        public int UnitloadId { get; set; }
         
         /// <summary>
-        /// 表示目标字段 like 查询参数
-        /// </summary>        
-        Like,
+        /// 托盘号
+        /// </summary>
+        public string PalletCode { get; set; } = default!;
 
         /// <summary>
-        /// 表示目标字段大于查询参数
+        /// 创建时间
         /// </summary>
-        GT,
+        public DateTime ctime { get; set; }
 
         /// <summary>
-        /// 表示目标字段大于等于查询参数
+        /// 所在货位编码
         /// </summary>
-        GTE,
+        public string LocationCode { get; set; } = default!;
+
 
         /// <summary>
-        /// 表示目标字段小于查询参数
+        /// 所在巷道编码
         /// </summary>
-        LT,
+        public string? LanewayCode { get; set; }
 
         /// <summary>
-        /// 表示目标字段小于等于查询参数
+        /// 备注
         /// </summary>
-        LTE,
+        public string? Comment { get; set; }
 
         /// <summary>
-        /// 表示目标字段 IN 查询参数
+        /// 货载明细列表
         /// </summary>
-        IN,
-
-        /// <summary>
-        /// 使用 Linq 查询，用于查询方式不整齐的情况。如果应用于名为 X 的属性上，则会寻找 XExpr 的属性以获取表示谓词的 <see cref="Expression{TDelegate}"/>，TDelegate 是 <see cref="Func{T, TResult}"/>
-        /// </summary>
-        Linq,
+        public List<UnitloadItemInfo> Items { get; set; } = new List<UnitloadItemInfo>();
     }
+
 
 
 

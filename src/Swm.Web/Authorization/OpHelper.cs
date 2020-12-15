@@ -47,7 +47,7 @@ namespace Swm.Web
         public async Task<Op> SaveOpAsync(string format, params object[] args)
         {
             Op op = new Op();
-            op.OpType = GetOperationType();
+            op.OperationType = GetOperationType();
             op.Comment = string.Format(format, args);
             op.Url = _httpContextAccessor.HttpContext?.Request?.GetDisplayUrl();
             await _session.SaveAsync(op);

@@ -24,7 +24,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 当前分页的数据
         /// </summary>
-        public IEnumerable<LocationListItemOfK>? Data { get; init; }
+        public IEnumerable<KeyPointListItem>? Data { get; init; }
 
         /// <summary>
         /// 总共有多少个数据

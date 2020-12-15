@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.NHibernateExtensions;
 using Swm.Model;
 using System;
 using System.Collections.Specialized;
@@ -22,43 +23,43 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表查询参数
     /// </summary>
-    public class KeyPointListArgs : IListArgs<Location>
+    public class KeyPointListArgs
     {
         /// <summary>
         /// 货位类型，始终是 <see cref="LocationTypes.K"/>
         /// </summary>
-        [ListFilter]
-        internal string LocationType { get; } = LocationTypes.K;
+        [SearchArg]
+        public string LocationType { get; } = LocationTypes.K;
 
         /// <summary>
         /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
-        [ListFilter(ListFilterOperator.Like)]
+        [SearchArg(SearchMode.Like)]
         public string? LocationCode { get; set; }
 
 
         /// <summary>
         /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
-        [ListFilter(ListFilterOperator.Like)]
+        [SearchArg(SearchMode.Like)]
         public string? Tag { get; set; }
 
         /// <summary>
         /// 是否禁止入站
         /// </summary>
-        [ListFilter]
+        [SearchArg]
         public bool? InboundDisabled { get; set; }
 
         /// <summary>
         /// 是否禁止出站
         /// </summary>
-        [ListFilter]
+        [SearchArg]
         public bool? OutboundDisabled { get; set; }
 
         /// <summary>
         /// 是否有入站任务
         /// </summary>
-        [ListFilter(ListFilterOperator.Linq)]
+        [SearchArg(SearchMode.Expression)]
         public bool? HasInboundMoves { get; set; }
 
         internal Expression<Func<Location, bool>>? HasInboundMovesExpr
@@ -77,6 +78,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 是否有出站任务
         /// </summary>
+        [SearchArg(SearchMode.Expression)]
         public bool? HasOutboundMoves { get; set; }
 
         internal Expression<Func<Location, bool>>? HasOutboundMovesExpr

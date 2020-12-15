@@ -65,8 +65,9 @@ namespace Swm.Model
 
         public virtual FlowDirection Direction { get; set; }
 
+        // TODO 重命名
         [Required]
-        [MaxLength(FIELD_LENGTH.OP_TYPE)]
+        [MaxLength(FIELD_LENGTH.OPERATION_TYPE)]
         public virtual string OpType { get; set; }
 
 

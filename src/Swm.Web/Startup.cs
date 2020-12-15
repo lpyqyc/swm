@@ -14,6 +14,7 @@
 
 using Arctic.AppCodes;
 using Arctic.AppSeqs;
+using Arctic.AspNetCore;
 using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
 using Autofac;
@@ -80,6 +81,7 @@ namespace Swm.Web
                 });
             services.AddSingleton<IAuthorizationPolicyProvider, OperationTypePolicyProvider>();
             services.AddSingleton<IOperaionTypeAuthoriztion, DefaultOperaionTypeAuthoriztion>();
+            services.AddOperationType();
             services.AddAuthorization(options => {
             });
 

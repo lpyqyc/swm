@@ -52,8 +52,8 @@ namespace Swm.Model
         /// 操作类型
         /// </summary>
         [Required]
-        [MaxLength(FIELD_LENGTH.OP_TYPE)]
-        public virtual string OpType { get; set; }
+        [MaxLength(FIELD_LENGTH.OPERATION_TYPE)]
+        public virtual string OperationType { get; set; }
 
         /// <summary>
         /// 产生此记录的 Url
