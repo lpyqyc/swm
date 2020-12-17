@@ -10,7 +10,7 @@
     <PackageReference Include="Arctic.AppSeqs" Version="1.0.0-main-local" />
     <PackageReference Include="Arctic.Auditing" Version="1.0.0-main-local" />
     <PackageReference Include="Arctic.EventBus" Version="1.0.0-main-local" />
-    <PackageReference Include="Arctic.NHibernateExtensions" Version="1.0.3" />
+    <PackageReference Include="Arctic.NHibernateExtensions" Version="1.0.4" />
     <PackageReference Include="NHibernate" Version="5.3.5" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.6" />
   </ItemGroup>
