@@ -93,6 +93,33 @@
             POLICY 常数
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.DebugController">
+            <summary>
+            提供调试功能。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.DebugController.#ctor(Arctic.EventBus.SimpleEventBus,Swm.Web.OpHelper,Serilog.ILogger)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="eventBus"></param>
+            <param name="opHelper"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Swm.Web.Controllers.DebugController.SimulateRequestAsync(Swm.Model.RequestInfo)">
+            <summary>
+            模拟请求
+            </summary>
+            <param name="requestInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.DebugController.SimulateTaskCompletionAsync(Swm.Model.CompletedTaskInfo)">
+            <summary>
+            模拟完成
+            </summary>
+            <param name="taskInfo"></param>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.Controllers.ExportSchemaController">
             <summary>
             向数据库导出表结构的工具。
@@ -1774,6 +1801,11 @@
             备注
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.PalletizeWithoutOrderArgs">
+            <summary>
+            无单据组盘。
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.UnitloadItemInfo">
             <summary>
             货载明细
@@ -1952,6 +1984,13 @@
         <member name="M:Swm.Web.Controllers.UnitloadsController.ListAsync(Swm.Web.Controllers.UnitloadListArgs)">
             <summary>
             
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UnitloadsController.PalletizeWithoutOrderAsync(Swm.Web.Controllers.PalletizeWithoutOrderArgs)">
+            <summary>
+            无单据组盘
             </summary>
             <param name="args"></param>
             <returns></returns>

@@ -198,11 +198,13 @@ namespace Swm.Web.Controllers
                     loc.InboundDisabledComment = args.Comment;
                     await _session.UpdateAsync(loc);
 
-                    LocationOp op = new LocationOp();
-                    op.OpType = _opHelper.GetOperationType();
-                    op.Comment = args.Comment;
-                    op.ctime = DateTime.Now;
-                    op.Location = loc;
+                    LocationOp op = new LocationOp
+                    {
+                        OpType = _opHelper.GetOperationType(),
+                        Comment = args.Comment,
+                        ctime = DateTime.Now,
+                        Location = loc
+                    };
                     await _session.SaveAsync(op);
 
                     await _eventBus.FireEventAsync(EventTypes.LocationInboundDisabled, loc);
@@ -277,11 +279,13 @@ namespace Swm.Web.Controllers
                     loc.InboundDisabledComment = null;
                     await _session.UpdateAsync(loc);
 
-                    LocationOp op = new LocationOp();
-                    op.OpType = _opHelper.GetOperationType();
-                    op.Comment = null;
-                    op.ctime = DateTime.Now;
-                    op.Location = loc;
+                    LocationOp op = new LocationOp
+                    {
+                        OpType = _opHelper.GetOperationType(),
+                        Comment = null,
+                        ctime = DateTime.Now,
+                        Location = loc
+                    };
                     await _session.SaveAsync(op);
                     await _eventBus.FireEventAsync(EventTypes.LocationInboundEnabled, loc);
 
@@ -353,11 +357,13 @@ namespace Swm.Web.Controllers
                     loc.OutboundDisabledComment = args.Comment;
                     await _session.UpdateAsync(loc);
 
-                    LocationOp op = new LocationOp();
-                    op.OpType = _opHelper.GetOperationType();
-                    op.Comment = args.Comment;
-                    op.ctime = DateTime.Now;
-                    op.Location = loc;
+                    LocationOp op = new LocationOp
+                    {
+                        OpType = _opHelper.GetOperationType(),
+                        Comment = args.Comment,
+                        ctime = DateTime.Now,
+                        Location = loc
+                    };
                     await _session.SaveAsync(op);
 
                     await _eventBus.FireEventAsync(EventTypes.LocationInboundDisabled, loc);
@@ -430,11 +436,13 @@ namespace Swm.Web.Controllers
                     loc.OutboundDisabledComment = null;
                     await _session.UpdateAsync(loc);
 
-                    LocationOp op = new LocationOp();
-                    op.OpType = _opHelper.GetOperationType();
-                    op.Comment = null;
-                    op.ctime = DateTime.Now;
-                    op.Location = loc;
+                    LocationOp op = new LocationOp
+                    {
+                        OpType = _opHelper.GetOperationType(),
+                        Comment = null,
+                        ctime = DateTime.Now,
+                        Location = loc
+                    };
                     await _session.SaveAsync(op);
 
                     await _eventBus.FireEventAsync(EventTypes.LocationInboundDisabled, loc);

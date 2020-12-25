@@ -18,11 +18,10 @@ namespace Swm.Model.Tests
 
             public  string OtherKeyProp { get; set; }
 
-
             public string NormalProp { get; set; }
         }
 
-        private record FooStockKey(Material Material, string Batch, string StockStatus, string Uom, string OtherKeyProp) : DefaultStockKey(Material, Batch, StockStatus, Uom);
+        private record FooStockKey(Material Material, string Batch, string StockStatus, string Uom, string OtherKeyProp) : StockKeyBase;
 
 
         [Fact]

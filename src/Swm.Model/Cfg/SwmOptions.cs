@@ -14,7 +14,7 @@
 
 namespace Swm.Model.Cfg
 {
-    public class WmsOptions
+    public class SwmOptions
     {
         public string PalletCodePattern { get; set; }
 

@@ -53,7 +53,7 @@ namespace Swm.Model
 
         public virtual bool WasSentToWcs { get; set; }
 
-        public virtual DateTime SentToWcsAt { get; set; }
+        public virtual DateTime SendTime { get; set; }
 
         [MaxLength(20)]
         public virtual string OrderCode { get; set; }

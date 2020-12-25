@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.Model.Tests", "test\Swm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.Web.Tests", "test\Swm.Web.Tests\Swm.Web.Tests.csproj", "{FC56C549-7885-4FA9-83AB-0D52075A7703}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swm.Model.Extentions", "src\Swm.Model.Extentions\Swm.Model.Extentions.csproj", "{C058AAF4-C7A3-4279-942F-623C3E1EE7E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{FC56C549-7885-4FA9-83AB-0D52075A7703}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC56C549-7885-4FA9-83AB-0D52075A7703}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC56C549-7885-4FA9-83AB-0D52075A7703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C058AAF4-C7A3-4279-942F-623C3E1EE7E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C058AAF4-C7A3-4279-942F-623C3E1EE7E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C058AAF4-C7A3-4279-942F-623C3E1EE7E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C058AAF4-C7A3-4279-942F-623C3E1EE7E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{69CEE594-6F44-4A9C-896C-C9BF02D2AAB9} = {9E748864-D1D5-408A-A410-DE9D7691EB00}
 		{6B4B0BCD-0C63-412B-BAD2-B47FC217D2D8} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
 		{FC56C549-7885-4FA9-83AB-0D52075A7703} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
+		{C058AAF4-C7A3-4279-942F-623C3E1EE7E9} = {9E748864-D1D5-408A-A410-DE9D7691EB00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F5F75AD-B077-4655-9340-A2B9DB7DB6F5}

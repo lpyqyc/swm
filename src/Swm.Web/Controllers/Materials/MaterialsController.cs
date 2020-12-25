@@ -75,7 +75,6 @@ namespace Swm.Web.Controllers
                 }),
                 Total = pagedList.Total
             };
-
         }
 
         /// <summary>

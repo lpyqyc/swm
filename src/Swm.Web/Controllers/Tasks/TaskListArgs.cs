@@ -69,7 +69,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// AnyLocationCode 的查询条件
         /// </summary>
-        public Expression<Func<TransportTask, bool>>? AnyLocationCodeExpr
+        internal Expression<Func<TransportTask, bool>>? AnyLocationCodeExpr
         {
             get
             {
@@ -94,7 +94,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// MaterialType 的查询条件
         /// </summary>
-        public Expression<Func<TransportTask, bool>>? MaterialTypeExpr
+        internal Expression<Func<TransportTask, bool>>? MaterialTypeExpr
         {
             get
             {
@@ -121,7 +121,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// MaterialCode 的查询条件
         /// </summary>
-        public Expression<Func<TransportTask, bool>>? MaterialCodeExpr
+        internal Expression<Func<TransportTask, bool>>? MaterialCodeExpr
         {
             get
             {
@@ -148,7 +148,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// Batch 查询条件
         /// </summary>
-        public Expression<Func<TransportTask, bool>>? BatchExpr
+        internal Expression<Func<TransportTask, bool>>? BatchExpr
         {
             get
             {
@@ -174,7 +174,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// LanewayIdList 的查询条件
         /// </summary>
-        public Expression<Func<TransportTask, bool>>? LanewayIdListExpr
+        internal Expression<Func<TransportTask, bool>>? LanewayIdListExpr
         {
             get
             {

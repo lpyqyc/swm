@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Swm.Model.Extentions\Swm.Model.Extentions.csproj" />
     <ProjectReference Include="..\Swm.Model\Swm.Model.csproj" />
   </ItemGroup>
 
@@ -54,5 +55,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

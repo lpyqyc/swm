@@ -48,7 +48,7 @@ namespace Swm.Model.Mappings
 
             Property(cl => cl.ForWcs);
             Property(cl => cl.WasSentToWcs);
-            Property(cl => cl.SentToWcsAt);
+            Property(cl => cl.SendTime);
             Property(cl => cl.OrderCode);
             Property(cl => cl.Comment);
             Property(cl => cl.ex1);

@@ -31,6 +31,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Context;
 using Swm.Model;
+using Swm.Model.Cfg;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -97,8 +98,8 @@ namespace Swm.Web
 
             builder.AddAppCodes();
             builder.AddAppSeqs();
-            // TODO 移动到配置文件
-            builder.AddSwm(@"^\d{5}$");
+
+            builder.AddSwm(Configuration.GetSection("Swm").Get<SwmOptions>());
 
             builder.AddEventBus(Configuration.GetSection("EventBus").Get<SimpleEventBusOptions>());
             builder.AddNHibernate();

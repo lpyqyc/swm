@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using Serilog;
 using Swm.Model;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,11 +32,13 @@ namespace Swm.Web.Controllers
         readonly ILogger _logger;
         readonly ISession _session;
         readonly PalletizationHelper _palletizationHelper;
+        readonly OpHelper _opHelper;
 
-        public UnitloadsController(PalletizationHelper palletizationHelper, ISession session, ILogger logger)
+        public UnitloadsController(PalletizationHelper palletizationHelper, OpHelper opHelper, ISession session, ILogger logger)
         {
             _logger = logger;
             _session = session;
+            _opHelper = opHelper;
             _palletizationHelper = palletizationHelper;
         }
 
@@ -101,41 +105,45 @@ namespace Swm.Web.Controllers
         }
 
         // TODO 
-        //[AutoTx]
-        //[HttpPost]
-        //[Route("palletize-without-order")]
-        //[OperationType(OperationTypes.无单据组盘)]
-        //public async Task<ActionResult> PalletizeWithoutOrderAsync(PalletizeWithoutOrderArgs args)
-        //{
-        //    AutoTxAttribute.BuildResultOnError(HttpContext, ex =>
-        //    {
-        //        string errMsg = "组盘时出错。" + ex.Message;
-        //        return this.Error(errMsg);
-        //    });
 
-        //    List<PalletizationItemInfo<StockKey>> items = new List<PalletizationItemInfo<StockKey>>();
-        //    foreach (var item in args.Items)
-        //    {
-        //        Material material = await _session.Query<Material>().GetMaterialAsync(item.MaterialCode);
-        //        if (material == null)
-        //        {
-        //            throw new InvalidOperationException($"物料主数据不存在：【{item.MaterialCode}】");
-        //        }
-        //        StockKey stockKey = new StockKey(material, item.Batch, item.StockStatus, item.Uom);
+        /// <summary>
+        /// 无单据组盘
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpPost]
+        [Route("palletize-without-order")]
+        [OperationType(OperationTypes.无单据组盘)]
+        public async Task<OperationResult> PalletizeWithoutOrderAsync(PalletizeWithoutOrderArgs args)
+        {
+            List<PalletizationItemInfo<DefaultStockKey>> items = new List<PalletizationItemInfo<DefaultStockKey>>();
+            foreach (var item in args.Items)
+            {
+                Material material = await _session.Query<Material>().GetMaterialAsync(item.MaterialCode);
+                if (material == null)
+                {
+                    throw new InvalidOperationException($"物料主数据不存在：【{item.MaterialCode}】");
+                }
+                DefaultStockKey stockKey = new DefaultStockKey(material, item.Batch, item.StockStatus, item.Uom);
+                items.Add(new PalletizationItemInfo<DefaultStockKey> { StockKey = stockKey, Quantity = item.Quantity });
+            }
 
-        //        items.Add(new PalletizationItemInfo<StockKey> { StockKey = stockKey, Quantity = item.Quantity });
-        //    }
+            var op = await _opHelper.SaveOpAsync($"托盘号：{args.PalletCode}");
 
-        //    var op = await HttpContext.SaveOpAsync($"托盘号：{args.PalletCode}。");
+            // TODO 处理硬编码：无单据组盘
+            await _palletizationHelper.PalletizeAsync(args.PalletCode,
+                                                      items,
+                                                      op.OperationType,
+                                                      "无单据组盘" // TODO 这里有硬编码文本
+                                                      );
 
-        //    // TODO 处理硬编码：无单据组盘
-        //    await _palletizationHelper.PalletizeAsync(args.PalletCode,
-        //                                              items,
-        //                                              op.OpType,
-        //                                              "无单据组盘");
-
-        //    return this.Success("组盘成功。");
-        //}
+            return new OperationResult
+            {
+                Success = true,
+                Message = "操作成功",
+            };
+        }
 
 
         //[AutoTx]
@@ -156,7 +164,6 @@ namespace Swm.Web.Controllers
         //    return Ok(items);
         //}
     }
-
 
 
 }
