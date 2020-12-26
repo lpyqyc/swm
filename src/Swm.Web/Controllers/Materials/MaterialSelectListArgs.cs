@@ -17,7 +17,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 物料选择列表参数
     /// </summary>
-    public class MateriaSelectListArgs
+    public class MaterialSelectListArgs
     {
         /// <summary>
         /// 关键字

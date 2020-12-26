@@ -1312,7 +1312,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.SelectListAsync(Swm.Web.Controllers.MateriaSelectListArgs)">
+        <member name="M:Swm.Web.Controllers.MaterialsController.SelectListAsync(Swm.Web.Controllers.MaterialSelectListArgs)">
             <summary>
             物料选择列表
             </summary>
@@ -1330,6 +1330,26 @@
             获取库存状态的选择列表
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.MaterialSelectListArgs">
+            <summary>
+            物料选择列表参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialSelectListArgs.Keyword">
+            <summary>
+            关键字
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialSelectListArgs.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialSelectListArgs.Limit">
+            <summary>
+            取多少条记录，默认为 10
+            </summary>
         </member>
         <member name="T:Swm.Web.Controllers.MaterialSelectListItem">
             <summary>
@@ -1379,26 +1399,6 @@
         <member name="P:Swm.Web.Controllers.MaterialTypeSelectListItem.DisplayOrder">
             <summary>
             展示顺序
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.MateriaSelectListArgs">
-            <summary>
-            物料选择列表参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.MateriaSelectListArgs.Keyword">
-            <summary>
-            关键字
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.MateriaSelectListArgs.MaterialType">
-            <summary>
-            物料类型
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.MateriaSelectListArgs.Limit">
-            <summary>
-            取多少条记录，默认为 10
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.StockStatusSelectListItem">
@@ -1634,6 +1634,181 @@
         <member name="P:Swm.Web.Controllers.PortSelectListItem.CurrentUat">
             <summary>
             当前下架的单据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.ArchivedTaskList">
+            <summary>
+            历史任务列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.ArchivedTaskListArgs">
+            <summary>
+            任务列表的查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.TaskCode">
+            <summary>
+            任务号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.TaskType">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.StartLocationCode">
+            <summary>
+            起点编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.EndLocationCode">
+            <summary>
+            终点编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.AnyLocationCode">
+            <summary>
+            起点或者终点编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.AnyLocationCodeExpr">
+            <summary>
+            AnyLocationCode 的查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.MaterialTypeExpr">
+            <summary>
+            MaterialType 的查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.MaterialCode">
+            <summary>
+            物料编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.MaterialCodeExpr">
+            <summary>
+            MaterialCode 的查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.BatchExpr">
+            <summary>
+            Batch 查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.LanewayIdList">
+            <summary>
+            巷道Id列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.LanewayIdListExpr">
+            <summary>
+            LanewayIdList 的查询条件
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.ArchivedTaskListItem">
+            <summary>
+            任务列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.TaskId">
+            <summary>
+            任务Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.TaskCode">
+            <summary>
+            任务号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.StartLocationCode">
+            <summary>
+            起点
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.EndLocationCode">
+            <summary>
+            终点
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.SendTime">
+            <summary>
+            任务下发给Wcs的时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.Items">
+            <summary>
+            货载明细
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.OrderCode">
+            <summary>
+            单号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.ArchivedAt">
+            <summary>
+            归档时间，也就是任务完成时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.Cancelled">
+            <summary>
+            是否取消，true 表示已取消
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.TaskList">

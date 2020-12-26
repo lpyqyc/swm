@@ -12,18 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Swm.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
     /// 任务列表的数据项
     /// </summary>
-    public class TaskListItem
+    public class ArchivedTaskListItem
     {
         /// <summary>
         /// 任务Id
@@ -75,7 +72,15 @@ namespace Swm.Web.Controllers
         /// </summary>
         public string Comment { get; set; } = default!;
 
+        /// <summary>
+        /// 归档时间，也就是任务完成时间
+        /// </summary>
+        public DateTime ArchivedAt { get; set; }
 
+        /// <summary>
+        /// 是否取消，true 表示已取消
+        /// </summary>
+        public bool Cancelled { get; set; }
     }
 
 }

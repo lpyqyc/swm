@@ -85,7 +85,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost]
         [Route("select-list")]
-        public async Task<List<MaterialSelectListItem>> SelectListAsync(MateriaSelectListArgs args)
+        public async Task<List<MaterialSelectListItem>> SelectListAsync(MaterialSelectListArgs args)
         {
             var items = await _session.Query<Material>()
                 .FilterByKeyword(args.Keyword, args.MaterialType)

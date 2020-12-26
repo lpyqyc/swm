@@ -42,6 +42,14 @@ namespace Swm.Web.Controllers
         [Route("list")]
         public async Task<TaskList> ListAsync(TaskListArgs args)
         {
+            if (args.Sort == null || args.Sort.Count == 0)
+            {
+                args.Sort = new System.Collections.Specialized.OrderedDictionary
+                {
+                    { "TaskId", "DESC" }
+                };
+            }
+
             var pagedList = await _session.Query<TransportTask>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
             return new TaskList
@@ -77,6 +85,56 @@ namespace Swm.Web.Controllers
             };
         }
 
+
+        [AutoTransaction]
+        [HttpPost]
+        [Route("archived")]
+        public async Task<ArchivedTaskList> ArchivedAsync(ArchivedTaskListArgs args)
+        {
+            if (args.Sort == null || args.Sort.Count == 0)
+            {
+                args.Sort = new System.Collections.Specialized.OrderedDictionary
+                {
+                    { "TaskId", "DESC" }
+                };
+            }
+
+            var pagedList = await _session.Query<ArchivedTransportTask>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+
+            return new ArchivedTaskList
+            {
+                Success = true,
+                Message = "OK",
+                Data = pagedList.List.Select(x => new ArchivedTaskListItem
+                {
+                    TaskId = x.TaskId,
+                    TaskCode = x.TaskCode,
+                    TaskType = x.TaskType,
+                    PalletCode = x.Unitload.PalletCode,
+                    StartLocationCode = x.Start.LocationCode,
+                    EndLocationCode = x.End.LocationCode,
+                    SendTime = x.SendTime,
+                    OrderCode = x.OrderCode,
+                    Comment = x.Comment,
+                    ArchivedAt = x.ArchivedAt,
+                    Cancelled = x.Cancelled,
+                    Items = x.Unitload.Items.Select(i => new UnitloadItemInfo
+                    {
+                        UnitloadItemId = i.UnitloadItemId,
+                        MaterialId = i.Material.MaterialId,
+                        MaterialCode = i.Material.MaterialCode,
+                        MaterialType = i.Material.MaterialType,
+                        Description = i.Material.Description,
+                        Specification = i.Material.Specification,
+                        Batch = i.Batch,
+                        StockStatus = i.StockStatus,
+                        Quantity = i.Quantity,
+                        Uom = i.Uom,
+                    }).ToList(),
+                }),
+                Total = pagedList.Total,
+            };
+        }
 
     }
 }

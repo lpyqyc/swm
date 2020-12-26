@@ -15,7 +15,6 @@
 using Arctic.NHibernateExtensions;
 using Swm.Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Linq.Expressions;
@@ -25,7 +24,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 任务列表的查询参数
     /// </summary>
-    public class TaskListArgs
+    public class ArchivedTaskListArgs
     {
         /// <summary>
         /// 任务号
@@ -37,7 +36,7 @@ namespace Swm.Web.Controllers
         /// 托盘号
         /// </summary>
         [SearchArg(SearchMode.Like)]
-        [SourceProperty(nameof(Unitload.PalletCode))]
+        [SourceProperty(nameof(UnitloadSnapshot.PalletCode))]
         public string? PalletCode { get; set; }
 
         /// <summary>
@@ -69,7 +68,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// AnyLocationCode 的查询条件
         /// </summary>
-        internal Expression<Func<TransportTask, bool>>? AnyLocationCodeExpr
+        internal Expression<Func<ArchivedTransportTask, bool>>? AnyLocationCodeExpr
         {
             get
             {
@@ -94,7 +93,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// MaterialType 的查询条件
         /// </summary>
-        internal Expression<Func<TransportTask, bool>>? MaterialTypeExpr
+        internal Expression<Func<ArchivedTransportTask, bool>>? MaterialTypeExpr
         {
             get
             {
@@ -121,16 +120,16 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// MaterialCode 的查询条件
         /// </summary>
-        internal Expression<Func<TransportTask, bool>>? MaterialCodeExpr
+        internal Expression<Func<ArchivedTransportTask, bool>>? MaterialCodeExpr
         {
             get
             {
                 if (!string.IsNullOrWhiteSpace(MaterialCode))
                 {
-                return (x => x.Unitload.Items
-                    .Select(c => c.Material)
-                    .Any(m => m.MaterialCode.Like(this.MaterialCode))
-                    );
+                    return (x => x.Unitload.Items
+                        .Select(c => c.Material)
+                        .Any(m => m.MaterialCode.Like(this.MaterialCode))
+                        );
                 }
                 else
                 {
@@ -148,7 +147,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// Batch 查询条件
         /// </summary>
-        internal Expression<Func<TransportTask, bool>>? BatchExpr
+        internal Expression<Func<ArchivedTransportTask, bool>>? BatchExpr
         {
             get
             {
@@ -174,7 +173,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// LanewayIdList 的查询条件
         /// </summary>
-        internal Expression<Func<TransportTask, bool>>? LanewayIdListExpr
+        internal Expression<Func<ArchivedTransportTask, bool>>? LanewayIdListExpr
         {
             get
             {
