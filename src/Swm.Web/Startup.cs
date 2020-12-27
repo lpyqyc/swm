@@ -127,6 +127,7 @@ namespace Swm.Web
             app.UseHsts();
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.Use(async (context, next) =>
             {
