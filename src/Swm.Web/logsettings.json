@@ -1,4 +1,7 @@
 {
+  "ConnectionStrings": {
+    "LogDb": "Server=localhost;Database=wms_logs;Integrated Security=SSPI;"
+  },
   "Serilog": {
     "Using": [ "Serilog.Expressions" ],
     "MinimumLevel": {
@@ -15,7 +18,7 @@
       {
         "Name": "ByExcluding",
         "Args": {
-          "expression": "StartsWith(RequestPath, '/api/logs/')"
+          "expression": "StartsWith(RequestPath, '/logs/')"
         }
       }
     ],
@@ -24,6 +27,49 @@
         "Name": "Console",
         "Args": {
           "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u4}] {Message:lj} {RequestId} {NewLine}{Exception}"
+        }
+      },
+      {
+        "Name": "MSSqlServer",
+        "Args": {
+          "connectionString": "LogDb",
+          "sinkOptionsSection": {
+            "tableName": "Logs",
+            "batchPostingLimit": 1000,
+            "period": "0.00:00:10"
+          },
+          "restrictedToMinimumLevel": "Debug",
+          "columnOptionsSection": {
+            "id": {
+              "columnName": "LogId",
+              "dataType": "bigint",
+              "AllowNull": false
+            },
+            "timeStamp": {
+              "columnName": "Time",
+              "convertToUtc": false
+            },
+            "additionalColumns": [
+              {
+                "columnName": "RequestId",
+                "propertyName": "RequestId",
+                "dataType": "nvarchar",
+                "DataLength": 100
+              },
+              {
+                "columnName": "UserName",
+                "propertyName": "UserName",
+                "dataType": "nvarchar",
+                "DataLength": 32
+              },
+              {
+                "columnName": "SourceContext",
+                "propertyName": "SourceContext",
+                "dataType": "nvarchar",
+                "DataLength": 100
+              }
+            ]
+          }
         }
       }
     ],

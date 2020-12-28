@@ -1170,6 +1170,149 @@
             货载数
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.LogList">
+            <summary>
+            日志列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.LogListArgs">
+            <summary>
+            日志查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.TimeFrom">
+            <summary>
+            查询开始时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.Seconds">
+            <summary>
+            取多少秒
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.TimeTo">
+            <summary>
+            计算得到的查询结束时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.RequestId">
+            <summary>
+            请求Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.Keyword">
+            <summary>
+            要查询的关键字
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.Levels">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.ExcludedKeywords">
+            <summary>
+            要排除的关键字
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.LogListArgs.Filter(System.Linq.IQueryable{Swm.Web.LogEntry})">
+            <summary>
+            在查询对象上应用筛选条件
+            </summary>
+            <param name="q"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.LogsController.ListAsync(Swm.Web.Controllers.LogListArgs)">
+            <summary>
+            日志列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LogsController.TraceLogsAsync(Swm.Web.Controllers.LogTraceArgs)">
+            <summary>
+            跟踪日志
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.LogTraceArgs">
+            <summary>
+            日志跟踪参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogTraceArgs.TimeFrom">
+            <summary>
+            查询开始时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogTraceArgs.Seconds">
+            <summary>
+            取多少秒
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogTraceArgs.TimeTo">
+            <summary>
+            计算得到的查询结束时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogTraceArgs.RequestId">
+            <summary>
+            请求Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogTraceArgs.Keyword">
+            <summary>
+            要查询的关键字
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.LogTraceArgs.Filter(System.Linq.IQueryable{Swm.Web.LogEntry})">
+            <summary>
+            在查询对象上应用筛选条件
+            </summary>
+            <param name="q"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogTraceArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogTraceArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LogTraceArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.MaterialList">
             <summary>
             物料列表
@@ -2178,6 +2321,61 @@
         <member name="M:Swm.Web.DebugShowArgsAttribute.#ctor">
             <summary>
             初始化新实例。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.LogEntry">
+            <summary>
+            表示一条日志记录。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.LogId">
+            <summary>
+            日志记录Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.Message">
+            <summary>
+            日志消息
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.MessageTemplate">
+            <summary>
+            消息模板
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.Level">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.Time">
+            <summary>
+            日志时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.Exception">
+            <summary>
+            异常
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.Properties">
+            <summary>
+            附加属性
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.RequestId">
+            <summary>
+            aspnet请求Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Swm.Web.LogEntry.SourceContext">
+            <summary>
+            源上下文
             </summary>
         </member>
         <member name="T:Swm.Web.OperationResult">
