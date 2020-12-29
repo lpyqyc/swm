@@ -99,6 +99,7 @@ namespace Swm.Web.Controllers
         /// 托盘所在货位号，支持模糊查找
         /// </summary>
         [SearchArg(SearchMode.Like)]
+        [SourceProperty("CurrentLocation.LocationCode")]
         public string? LocationCode { get; set; }
 
         /// <summary>

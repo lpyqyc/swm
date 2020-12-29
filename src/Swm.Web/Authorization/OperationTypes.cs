@@ -24,5 +24,15 @@ namespace Swm.Web
         public const string 模拟请求 = "调试.模拟请求";
         public const string 模拟完成 = "调试.模拟完成";
 
+
+        public const string 查看用户 = "系统.查看用户";
+        public const string 创建用户 = "系统.创建用户";
+        public const string 删除用户 = "系统.删除用户";
+        public const string 编辑用户 = "系统.编辑用户";
+
+        public const string 查看角色 = "系统.查看角色";
+        public const string 创建角色 = "系统.创建角色";
+        public const string 删除角色 = "系统.删除角色";
+        public const string 编辑角色 = "系统.编辑角色";
     }
 }

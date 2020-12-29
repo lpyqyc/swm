@@ -47,7 +47,6 @@ namespace Swm.Model
         [Required]
         public virtual string StockStatus { get; set; }
 
-
         public virtual decimal Quantity { get; set; }
 
         [Required]
@@ -63,4 +62,5 @@ namespace Swm.Model
         public virtual DateTime AgeBaseline { get; set; }
 
     }
+
 }

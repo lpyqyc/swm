@@ -12,23 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 货载列表
+    /// 删除用户操作的参数。
     /// </summary>
-    public class UnitloadList : OperationResult
+    public class DeleteUserArgs
     {
         /// <summary>
-        /// 当前分页的数据
+        /// 用户Id
         /// </summary>
-        public IEnumerable<UnitloadListItem>? Data { get; init; }
-
-        /// <summary>
-        /// 总共有多少个数据
-        /// </summary>
-        public int Total { get; init; }
+        public int UserId { get; set; }
     }
 }

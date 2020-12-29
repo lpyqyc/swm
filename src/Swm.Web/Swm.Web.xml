@@ -302,71 +302,6 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="T:Swm.Web.Controllers.CreateKeyPointArgs">
-            <summary>
-            创建关键点操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.LocationCode">
-            <summary>
-            货位Id
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.RequestType">
-            <summary>
-            请求类型
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.Tag">
-            <summary>
-            标记
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.InboundLimit">
-            <summary>
-            入站数限制
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.OutboundLimit">
-            <summary>
-            出站数限制
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.EditKeyPointArgs">
-            <summary>
-            编辑关键点操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.LocationId">
-            <summary>
-            关键点的位置Id
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.LocationCode">
-            <summary>
-            货位编号
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.RequestType">
-            <summary>
-            请求类型
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.Tag">
-            <summary>
-            标记
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.InboundLimit">
-            <summary>
-            入站数限制
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.OutboundLimit">
-            <summary>
-            出站数限制
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.LanewayList">
             <summary>
             列表页结果
@@ -779,6 +714,36 @@
             要联机的巷道Id
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.CreateKeyPointArgs">
+            <summary>
+            创建关键点操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.LocationCode">
+            <summary>
+            货位Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.RequestType">
+            <summary>
+            请求类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.Tag">
+            <summary>
+            标记
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.InboundLimit">
+            <summary>
+            入站数限制
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.OutboundLimit">
+            <summary>
+            出站数限制
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.DisableInboundArgs">
             <summary>
             禁止位置入站操作的参数
@@ -807,6 +772,41 @@
         <member name="P:Swm.Web.Controllers.DisableOutboundArgs.Comment">
             <summary>
             禁止出站的操作备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditKeyPointArgs">
+            <summary>
+            编辑关键点操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.LocationId">
+            <summary>
+            关键点的位置Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.LocationCode">
+            <summary>
+            货位编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.RequestType">
+            <summary>
+            请求类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.Tag">
+            <summary>
+            标记
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.InboundLimit">
+            <summary>
+            入站数限制
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.OutboundLimit">
+            <summary>
+            出站数限制
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.EnableInboundArgs">
@@ -1779,6 +1779,338 @@
             当前下架的单据
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.CreateRoleArgs">
+            <summary>
+            创建角色操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateRoleArgs.RoleName">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateRoleArgs.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.CreateUserArgs">
+            <summary>
+            创建用户操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateUserArgs.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateUserArgs.Roles">
+            <summary>
+            所属角色
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateUserArgs.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.DeleteRoleArgs">
+            <summary>
+            删除角色操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DeleteRoleArgs.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.DeleteUserArgs">
+            <summary>
+            删除用户操作的参数。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DeleteUserArgs.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditRoleArgs">
+            <summary>
+            编辑角色操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditRoleArgs.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditRoleArgs.RoleName">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditRoleArgs.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditUserArgs">
+            <summary>
+            编辑用户操作的参数。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditUserArgs.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditUserArgs.Roles">
+            <summary>
+            所属角色
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditUserArgs.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.RoleList">
+            <summary>
+            角色列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.RoleListArgs">
+            <summary>
+            角色列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListArgs.RoleName">
+            <summary>
+            角色名，支持模糊查询
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.RoleListItem">
+            <summary>
+            角色列表数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListItem.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListItem.RoleName">
+            <summary>
+            角色名
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListItem.IsBuiltIn">
+            <summary>
+            是否内置角色，内置角色不能删除
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListItem.AllowedOpTypes">
+            <summary>
+            允许的操作
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListItem.ctime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleListItem.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.RoleSelectListItem">
+            <summary>
+            角色选择列表数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleSelectListItem.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleSelectListItem.RoleName">
+            <summary>
+            角色名
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RoleSelectListItem.IsBuiltIn">
+            <summary>
+            是否内置角色，内置角色不能删除
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetListOfUsersAsync(Swm.Web.Controllers.UserListArgs)">
+            <summary>
+            用户列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.CreateUserAsync(Swm.Web.Controllers.CreateUserArgs)">
+            <summary>
+            创建用户
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.EditUserAsync(Swm.Web.Controllers.EditUserArgs)">
+            <summary>
+            编辑用户
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetListOfRolesAsync(Swm.Web.Controllers.RoleListArgs)">
+            <summary>
+            角色列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.DeleteRoleAsync(Swm.Web.Controllers.DeleteRoleArgs)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.EditRoleAsync(Swm.Web.Controllers.EditRoleArgs)">
+            <summary>
+            编辑角色
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.HashPassword(System.String,System.String)">
+            <summary>
+            对密码进行散列。
+            </summary>
+            <param name="password">密码明文</param>
+            <param name="salt">密码盐度</param>
+            <returns>散列后的密码</returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetMd5Hash(System.String)">
+            <summary>
+            使用 md5 算法获取输入字符串的 hash 值
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.UserList">
+            <summary>
+            用户列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UserListArgs">
+            <summary>
+            用户列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListArgs.UserName">
+            <summary>
+            用户名，支持模糊查询
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UserListItem">
+            <summary>
+            用户列表数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListItem.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListItem.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListItem.IsBuiltIn">
+            <summary>
+            是否内置用户，内置用户不能删除
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListItem.Roles">
+            <summary>
+            所属角色
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListItem.ctime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListItem.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListItem.IsLocked">
+            <summary>
+            是否锁定，锁定用户不能登录
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UserListItem.LockedReason">
+            <summary>
+            锁定原因
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.ArchivedTaskList">
             <summary>
             历史任务列表
@@ -2301,7 +2633,7 @@
         </member>
         <member name="M:Swm.Web.Controllers.UnitloadsController.ListAsync(Swm.Web.Controllers.UnitloadListArgs)">
             <summary>
-            
+            货载列表
             </summary>
             <param name="args"></param>
             <returns></returns>

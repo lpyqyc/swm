@@ -18,7 +18,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 
         /// </summary>
-        [SearchArg(SearchMode.GreaterThan)]
+        [SearchArg(SearchMode.Greater)]
         public int? Prop2From { get; set; }
 
 

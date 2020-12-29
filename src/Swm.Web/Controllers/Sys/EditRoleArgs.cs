@@ -12,23 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 货载列表
+    /// 编辑角色操作的参数
     /// </summary>
-    public class UnitloadList : OperationResult
+    public class EditRoleArgs
     {
         /// <summary>
-        /// 当前分页的数据
+        /// 角色Id
         /// </summary>
-        public IEnumerable<UnitloadListItem>? Data { get; init; }
+        [Required]
+        public int? RoleId { get; set; }
 
         /// <summary>
-        /// 总共有多少个数据
+        /// 角色名称
         /// </summary>
-        public int Total { get; init; }
+        [Required]
+        public string RoleName { get; set; } = default!;
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string? Comment { get; set; }
     }
+
+
 }

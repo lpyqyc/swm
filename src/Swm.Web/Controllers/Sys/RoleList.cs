@@ -17,18 +17,19 @@ using System.Collections.Generic;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 货载列表
+    /// 角色列表
     /// </summary>
-    public class UnitloadList : OperationResult
+    public class RoleList : OperationResult
     {
         /// <summary>
         /// 当前分页的数据
         /// </summary>
-        public IEnumerable<UnitloadListItem>? Data { get; init; }
+        public IEnumerable<RoleListItem>? Data { get; init; }
 
         /// <summary>
         /// 总共有多少个数据
         /// </summary>
         public int Total { get; init; }
     }
+
 }

@@ -12,23 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
+using Arctic.NHibernateExtensions;
+using System;
+using System.Collections.Specialized;
+using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 货载列表
+    /// 用户列表查询参数
     /// </summary>
-    public class UnitloadList : OperationResult
+    public class UserListArgs
     {
         /// <summary>
-        /// 当前分页的数据
+        /// 用户名，支持模糊查询
         /// </summary>
-        public IEnumerable<UnitloadListItem>? Data { get; init; }
+        [SearchArg(SearchMode.Like)]
+        public string? UserName { get; set; }
+
 
         /// <summary>
-        /// 总共有多少个数据
+        /// 排序字段
         /// </summary>
-        public int Total { get; init; }
+        public OrderedDictionary? Sort { get; set; }
+
+        /// <summary>
+        /// 基于 1 的当前页面，默认值为 1。
+        /// </summary>
+        public int? Current { get; set; } = 1;
+
+        /// <summary>
+        /// 每页大小，默认值为 10。
+        /// </summary>
+        public int? PageSize { get; set; }
+
     }
+
 }

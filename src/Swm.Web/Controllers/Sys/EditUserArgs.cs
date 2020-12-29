@@ -12,23 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 货载列表
+    /// 编辑用户操作的参数。
     /// </summary>
-    public class UnitloadList : OperationResult
+    public class EditUserArgs
     {
         /// <summary>
-        /// 当前分页的数据
+        /// 用户Id
         /// </summary>
-        public IEnumerable<UnitloadListItem>? Data { get; init; }
+        [Required]
+        public int? UserId { get; set; }
+
+        // public string UserName { get; set; }
 
         /// <summary>
-        /// 总共有多少个数据
+        /// 所属角色
         /// </summary>
-        public int Total { get; init; }
+        public string[] Roles { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string? Password { get; set; }
     }
+
 }

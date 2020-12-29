@@ -12,23 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 货载列表
+    /// 删除角色操作的参数
     /// </summary>
-    public class UnitloadList : OperationResult
+    public class DeleteRoleArgs
     {
         /// <summary>
-        /// 当前分页的数据
+        /// 角色Id
         /// </summary>
-        public IEnumerable<UnitloadListItem>? Data { get; init; }
-
-        /// <summary>
-        /// 总共有多少个数据
-        /// </summary>
-        public int Total { get; init; }
+        public int RoleId { get; set; }
     }
+
+
 }
