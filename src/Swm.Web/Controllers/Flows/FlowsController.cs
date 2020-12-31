@@ -43,16 +43,14 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost]
-        [Route("list")]
-        public async Task<FlowList> ListAsync(FlowListArgs args)
+        [HttpGet]
+        public async Task<ListResult<FlowListItem>> GetAsync([FromQuery]FlowListArgs args)
         {
             var pagedList = await _session.Query<Flow>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new FlowList
+            return new ListResult<FlowListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new FlowListItem
                 {
                     FlowId = x.FlowId,
@@ -71,7 +69,7 @@ namespace Swm.Web.Controllers
                     Uom = x.Uom,
                     cuser = x.cuser,
                     Comment = x.Comment,
-                }),
+                }).ToList(),
                 Total = pagedList.Total,
             };
         }

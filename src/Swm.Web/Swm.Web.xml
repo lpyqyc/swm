@@ -130,21 +130,6 @@
             根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.FlowList">
-            <summary>
-            流水列表
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.FlowList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.FlowList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.FlowListArgs">
             <summary>
             流水列表的查询参数
@@ -192,7 +177,7 @@
         </member>
         <member name="P:Swm.Web.Controllers.FlowListArgs.BizTypes">
             <summary>
-            库存状态
+            业务类型
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.FlowListArgs.Sort">
@@ -295,7 +280,7 @@
             备注
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.FlowsController.ListAsync(Swm.Web.Controllers.FlowListArgs)">
+        <member name="M:Swm.Web.Controllers.FlowsController.GetAsync(Swm.Web.Controllers.FlowListArgs)">
             <summary>
             获取流水列表
             </summary>

@@ -78,7 +78,7 @@ namespace Swm.Web.Controllers
         public string? OrderCode { get; set; }
 
         /// <summary>
-        /// 库存状态
+        /// 业务类型
         /// </summary>
         [SourceProperty(nameof(Flow.BizType))]
         [SearchArg(SearchMode.In)]
@@ -87,7 +87,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 排序字段
         /// </summary>
-        public OrderedDictionary? Sort { get; set; }
+        public string? Sort { get; set; }
 
         /// <summary>
         /// 基于 1 的当前页面，默认值为 1。
