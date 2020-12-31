@@ -174,25 +174,6 @@ namespace Swm.Web.Controllers
             return this.Success();
         }
 
-
-        /// <summary>
-        /// 重建所有巷道的统计信息，这个操作消耗资源较多
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("stats")]
-        [OperationType(OperationTypes.重建巷道统计信息)]
-        [AutoTransaction]
-        public async Task<IActionResult> RebuildLanewaysStatAsync()
-        {
-            var laneways = await _session.Query<Laneway>().WrappedToListAsync();
-            foreach (var laneway in laneways)
-            {
-                await _locHelper.RebuildLanewayStatAsync(laneway);
-            }
-            return this.Success();
-        }
-
         /// <summary>
         /// 设置巷道可以到达的出口
         /// </summary>
@@ -202,7 +183,7 @@ namespace Swm.Web.Controllers
         [Route("{id}/actions/set-ports")]
         [OperationType(OperationTypes.设置出口)]
         [AutoTransaction]
-        public async Task<IActionResult> SetLanewaysPortsAsync(int id, SetPortsArgs args)
+        public async Task<IActionResult> SetPortsAsync(int id, SetPortsArgs args)
         {
             Laneway laneway = await _session.GetAsync<Laneway>(id);
             if (laneway == null)
@@ -226,30 +207,23 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 巷道侧视图
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="id">巷道Id</param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("side-view")]
+        [HttpGet]
+        [Route("{id}/side-view")]
         [OperationType(OperationTypes.侧视图)]
         [AutoTransaction]
-        public async Task<SideViewData> GetSideViewData(SideViewArgs args)
+        public async Task<ActionResult<SideViewData>> GetSideViewData(int id)
         {
-            if (args.LanewayCode == null)
-            {
-                throw new InvalidOperationException("未指定参数 LanewayCode。");
-            }
-
-            Laneway? laneway = await _session.Query<Laneway>()
-                .Where(x => x.LanewayCode == args.LanewayCode)
-                .WrappedSingleOrDefaultAsync();
+            Laneway? laneway = await _session.GetAsync<Laneway>(id);
             if (laneway == null)
             {
-                throw new Exception("巷道不存在。" + args.LanewayCode);
+                return NotFound();
             }
 
             var sideViewData = new SideViewData
             {
-                LanewayCode = args.LanewayCode,
+                LanewayCode = laneway.LanewayCode,
                 Offline = laneway.Offline,
                 OfflineComment = laneway.OfflineComment,
                 Racks = laneway.Racks.Select(rack => new SideViewRack
@@ -300,6 +274,24 @@ namespace Swm.Web.Controllers
             };
 
             return sideViewData;
+        }
+
+        /// <summary>
+        /// 重建所有巷道的统计信息，这个操作消耗资源较多
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("stats")]
+        [OperationType(OperationTypes.重建巷道统计信息)]
+        [AutoTransaction]
+        public async Task<IActionResult> RebuildLanewaysStatAsync()
+        {
+            var laneways = await _session.Query<Laneway>().WrappedToListAsync();
+            foreach (var laneway in laneways)
+            {
+                await _locHelper.RebuildLanewayStatAsync(laneway);
+            }
+            return this.Success();
         }
 
     }

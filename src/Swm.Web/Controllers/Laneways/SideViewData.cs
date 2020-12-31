@@ -19,7 +19,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 侧视图数据
     /// </summary>
-    public class SideViewData : OperationResult
+    public class SideViewData
     {
         /// <summary>
         /// 巷道编码

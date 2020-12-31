@@ -431,24 +431,24 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.RebuildLanewaysStatAsync">
-            <summary>
-            重建所有巷道的统计信息，这个操作消耗资源较多
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.SetLanewaysPortsAsync(System.Int32,Swm.Web.Controllers.SetPortsArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.SetPortsAsync(System.Int32,Swm.Web.Controllers.SetPortsArgs)">
             <summary>
             设置巷道可以到达的出口
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.GetSideViewData(Swm.Web.Controllers.SideViewArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.GetSideViewData(System.Int32)">
             <summary>
             巷道侧视图
             </summary>
-            <param name="args"></param>
+            <param name="id">巷道Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LanewaysController.RebuildLanewaysStatAsync">
+            <summary>
+            重建所有巷道的统计信息，这个操作消耗资源较多
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.LanewaySelectListItem">
@@ -479,16 +479,6 @@
         <member name="P:Swm.Web.Controllers.SetPortsArgs.PortIdList">
             <summary>
             出口Id列表
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.SideViewArgs">
-            <summary>
-            侧视图参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SideViewArgs.LanewayCode">
-            <summary>
-            巷道编码
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.SideViewData">
