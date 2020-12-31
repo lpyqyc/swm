@@ -33,12 +33,12 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 排序字段
         /// </summary>
-        public OrderedDictionary? Sort { get; set; }
+        public string? Sort { get; set; } = "LanewayId";
 
         /// <summary>
         /// 基于 1 的当前页面，默认值为 1。
         /// </summary>
-        public int? Current { get; set; } = 1;
+        public int? Current { get; set; }
 
         /// <summary>
         /// 每页大小，默认值为 10。

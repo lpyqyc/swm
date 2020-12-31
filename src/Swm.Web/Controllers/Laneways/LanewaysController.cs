@@ -26,6 +26,8 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
+
+
     [Route("[controller]")]
     [ApiController]
     public class LanewaysController : ControllerBase
@@ -46,22 +48,20 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 巷道列表
+        /// 获取所有巷道
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("list")]
+        [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.巷道列表)]
-        public async Task<LanewayList> ListAsync(LanewayListArgs args)
+        public async Task<ListResult<LanewayListItem>> GetAsync([FromQuery]LanewayListArgs args)
         {
             var pagedList = await _session.Query<Laneway>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new LanewayList
+            return new ListResult<LanewayListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new LanewayListItem
                 {
                     LanewayId = x.LanewayId,
@@ -82,7 +82,7 @@ namespace Swm.Web.Controllers
                         })
                         .ToArray(),
                     TotalOfflineHours = x.TotalOfflineHours,
-                }),
+                }).ToList(),
                 Total = pagedList.Total
             };
         }
@@ -94,7 +94,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [Route("select-list")]
         [AutoTransaction]
-        public async Task<List<LanewaySelectListItem>> SelectListAsync()
+        public async Task<List<LanewaySelectListItem>> GetSelectListAsync()
         {
             var items = await _session.Query<Laneway>()
                 .Select(x => new LanewaySelectListItem
@@ -110,19 +110,21 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 使巷道脱机
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="args">参数</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("take-offline")]
+        [Route("{id}/actions/take-offline")]
         [OperationType(OperationTypes.脱机巷道)]
         [AutoTransaction]
-        public async Task<OperationResult> TakeOfflineAsync(TakeOfflineArgs args)
+        public async Task<IActionResult> TakeOfflineAsync(int id, [FromBody]TakeOfflineArgs args)
         {
-            Laneway laneway = await _session.GetAsync<Laneway>(args.LanewayId);
+            Laneway laneway = await _session.GetAsync<Laneway>(id);
             if (laneway == null)
             {
-                throw new InvalidOperationException($"巷道不存在#{args.LanewayId}。");
+                return NotFound();
             }
+
             if (laneway.Offline == true)
             {
                 throw new InvalidOperationException($"巷道已处于脱机状态。【{laneway.LanewayCode}】");
@@ -132,32 +134,29 @@ namespace Swm.Web.Controllers
             laneway.TakeOfflineTime = DateTime.Now;
             laneway.OfflineComment = args.Comment;
             await _session.UpdateAsync(laneway);
-            _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】，备注【{args.Comment}】。");
+            _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】，备注【{args.Comment}】");
             _logger.Information("已将巷道 {lanewayCode} 脱机", laneway.LanewayCode);
 
-            return new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            };
+            return this.Success();
         }
 
 
         /// <summary>
         /// 使巷道联机
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("take-online")]
+        [Route("{id}/actions/take-online")]
         [OperationType(OperationTypes.联机巷道)]
         [AutoTransaction]
-        public async Task<OperationResult> TakeOnlineAsync(TakeOnlineArgs args)
+        public async Task<IActionResult> TakeOnlineAsync(int id, TakeOnlineArgs args)
         {
-            Laneway laneway = await _session.GetAsync<Laneway>(args.LanewayId);
+            Laneway laneway = await _session.GetAsync<Laneway>(id);
             if (laneway == null)
             {
-                throw new InvalidOperationException($"巷道不存在#{args.LanewayId}。");
+                return NotFound();
             }
 
             if (laneway.Offline == false)
@@ -172,11 +171,7 @@ namespace Swm.Web.Controllers
             _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】");
             _logger.Information("已将巷道 {lanewayCode} 联机", laneway.LanewayCode);
 
-            return new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            };
+            return this.Success();
         }
 
 
@@ -185,21 +180,17 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("rebuild-stat")]
+        [Route("stats")]
         [OperationType(OperationTypes.重建巷道统计信息)]
         [AutoTransaction]
-        public async Task<ActionResult> RebuildLanewaysStatAsync()
+        public async Task<IActionResult> RebuildLanewaysStatAsync()
         {
             var laneways = await _session.Query<Laneway>().WrappedToListAsync();
             foreach (var laneway in laneways)
             {
                 await _locHelper.RebuildLanewayStatAsync(laneway);
             }
-            return Ok(new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            });
+            return this.Success();
         }
 
         /// <summary>
@@ -208,12 +199,16 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("set-ports")]
+        [Route("{id}/actions/set-ports")]
         [OperationType(OperationTypes.设置出口)]
         [AutoTransaction]
-        public async Task<ActionResult> SetLanewaysPortsAsync(SetPortsArgs args)
+        public async Task<IActionResult> SetLanewaysPortsAsync(int id, SetPortsArgs args)
         {
-            Laneway laneway = await _session.GetAsync<Laneway>(args.LanewayId);
+            Laneway laneway = await _session.GetAsync<Laneway>(id);
+            if (laneway == null)
+            {
+                return NotFound();
+            }
 
             laneway.Ports.Clear();
             foreach (var portId in args.PortIdList)
@@ -222,14 +217,10 @@ namespace Swm.Web.Controllers
                 laneway.Ports.Add(port);
             }
 
-            var op = await _opHelper.SaveOpAsync("巷道【{0}】，{1} 个出货口。", laneway.LanewayCode, laneway.Ports.Count);
-            _logger.Information("设置出货口成功，巷道：{lanewayCode}。", laneway.LanewayCode);
+            var op = await _opHelper.SaveOpAsync("巷道【{0}】，{1} 个出货口", laneway.LanewayCode, laneway.Ports.Count);
+            _logger.Information("设置出货口成功，{lanewayCode} --> {ports}", laneway.LanewayCode, string.Join(",", laneway.Ports.Select(x => x.PortCode)));
 
-            return Ok(new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            });
+            return this.Success();
         }
 
         /// <summary>

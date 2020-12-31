@@ -29,14 +29,14 @@ namespace Swm.Web.Controllers
         /// 开始时间
         /// </summary>
         [SourceProperty(nameof(Flow.ctime))]
-        [SearchArg(SearchMode.GreaterOrEqual)]
+        [SearchArg(SearchMode.GreaterThanOrEqual)]
         public DateTime? TimeFrom { get; set; }
 
         /// <summary>
         /// 结束时间
         /// </summary>
         [SourceProperty(nameof(Flow.ctime))]
-        [SearchArg(SearchMode.Less)]
+        [SearchArg(SearchMode.LessThan)]
         public DateTime? TimeTo { get; set; }
 
         /// <summary>

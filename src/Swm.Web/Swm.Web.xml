@@ -402,30 +402,32 @@
             总脱机时间
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.ListAsync(Swm.Web.Controllers.LanewayListArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.GetAsync(Swm.Web.Controllers.LanewayListArgs)">
             <summary>
-            巷道列表
+            获取所有巷道
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.SelectListAsync">
+        <member name="M:Swm.Web.Controllers.LanewaysController.GetSelectListAsync">
             <summary>
             巷道选择列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOfflineAsync(Swm.Web.Controllers.TakeOfflineArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOfflineAsync(System.Int32,Swm.Web.Controllers.TakeOfflineArgs)">
             <summary>
             使巷道脱机
             </summary>
+            <param name="id"></param>
             <param name="args">参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOnlineAsync(Swm.Web.Controllers.TakeOnlineArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOnlineAsync(System.Int32,Swm.Web.Controllers.TakeOnlineArgs)">
             <summary>
             使巷道联机
             </summary>
+            <param name="id"></param>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -435,7 +437,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.SetLanewaysPortsAsync(Swm.Web.Controllers.SetPortsArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.SetLanewaysPortsAsync(System.Int32,Swm.Web.Controllers.SetPortsArgs)">
             <summary>
             设置巷道可以到达的出口
             </summary>
@@ -472,11 +474,6 @@
         <member name="T:Swm.Web.Controllers.SetPortsArgs">
             <summary>
             设置巷道出口的操作参数。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SetPortsArgs.LanewayId">
-            <summary>
-            要设置出口的巷道Id
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.SetPortsArgs.PortIdList">
@@ -694,11 +691,6 @@
             脱机巷道的操作参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.TakeOfflineArgs.LanewayId">
-            <summary>
-            要脱机的巷道Id
-            </summary>
-        </member>
         <member name="P:Swm.Web.Controllers.TakeOfflineArgs.Comment">
             <summary>
             脱机操作备注
@@ -707,11 +699,6 @@
         <member name="T:Swm.Web.Controllers.TakeOnlineArgs">
             <summary>
             联机巷道的操作参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.TakeOnlineArgs.LanewayId">
-            <summary>
-            要联机的巷道Id
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.CreateKeyPointArgs">
@@ -1659,6 +1646,331 @@
             列表
             </summary>
             <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.OutboundLineInfo">
+            <summary>
+            出库单明细
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.OutboundLineId">
+            <summary>
+            出库单明细Id。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.MaterialId">
+            <summary>
+            物料Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.Specification">
+            <summary>
+            物料规格
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.Batch">
+            <summary>
+            要出库的批号，可以为空
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.StockStatus">
+            <summary>
+            要出库的库存状态。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.Uom">
+            <summary>
+            计量单位。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.QuantityRequired">
+            <summary>
+            需求数量。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.QuantityDelivered">
+            <summary>
+            已出数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.QuantityUndelivered">
+            <summary>
+            未出数量，MAX(应出-已出, 0)
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.OutboundOrderList">
+            <summary>
+            列表页结果
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.OutboundOrderListArgs">
+            <summary>
+            列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.OutboundOrderCode">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.ShowClosed">
+            <summary>
+            是否显示已关闭的出库单
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrderListArgs.Filter(System.Linq.IQueryable{Swm.Model.OutboundOrder})">
+            <summary>
+            
+            </summary>
+            <param name="q"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.Sort">
+            <summary>
+            排序字段，例如 F1 DESC, F2 ASC, F3
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.CreateOutboundOrderArgs">
+            <summary>
+            创建出库单操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateOutboundOrderArgs.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateOutboundOrderArgs.BizOrder">
+            <summary>
+            业务单据号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateOutboundOrderArgs.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditOutboundLineInfo">
+            <summary>
+            创建出库单或编辑出库单操作中的出库行信息。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Op">
+            <summary>
+            本行的操作：
+            add 表示新增，
+            edit 表示编辑，
+            delete 表示删除。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.OutboundLineId">
+            <summary>
+            出库单明细Id，用户在界面上新增的明细Id为0。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.MaterialCode">
+            <summary>
+            物料代码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Batch">
+            <summary>
+            要出库的批号，可以为空
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.StockStatus">
+            <summary>
+            要出库的库存状态。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Uom">
+            <summary>
+            计量单位。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.QuantityRequired">
+            <summary>
+            需求数量。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditOutboundOrderArgs">
+            <summary>
+            编辑出库单操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundOrderArgs.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.OutboundOrderListItem">
+            <summary>
+            出库单列表页的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.OutboundOrderId">
+            <summary>
+            出库单Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.OutboundOrderCode">
+            <summary>
+            出库单编号。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.ctime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.cuser">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.mtime">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.muser">
+            <summary>
+            修改人
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.BizOrder">
+            <summary>
+            业务单据号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.Closed">
+            <summary>
+            是否已关闭
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.ClosedAt">
+            <summary>
+            关闭时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.ClosedBy">
+            <summary>
+            由谁关闭
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.Lines">
+            <summary>
+            出库单明细集合。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.OutboundOrdersController">
+            <summary>
+            操作出库单。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.#ctor(NHibernate.ISession,Arctic.AppSeqs.IAppSeqService,Arctic.EventBus.SimpleEventBus,Swm.Web.OpHelper,Serilog.ILogger)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="session"></param>
+            <param name="appSeqService"></param>
+            <param name="eventBus"></param>
+            <param name="opHelper"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.ListAsync(Swm.Web.Controllers.OutboundOrderListArgs)">
+            <summary>
+            出库单列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.DetailAsync(System.Int32)">
+            <summary>
+            出库单详细
+            </summary>
+            <param name="id">出库单Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.CreateAsync(Swm.Web.Controllers.CreateOutboundOrderArgs)">
+            <summary>
+            创建出库单
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.EditAsync(System.Int32,Swm.Web.Controllers.EditOutboundOrderArgs)">
+            <summary>
+            编辑出库单
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.DeleteAsync(System.Int32)">
+            <summary>
+            删除出库单
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.PortList">
@@ -2655,6 +2967,30 @@
             初始化新实例。
             </summary>
         </member>
+        <member name="T:Swm.Web.ListResult`1">
+            <summary>
+            表示列表页结果
+            </summary>
+            <remarks>
+            与 antd protable 匹配
+            </remarks>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Swm.Web.ListResult`1.Success">
+            <summary>
+            是否成功
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ListResult`1.Data">
+            <summary>
+            数据列表
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ListResult`1.Total">
+            <summary>
+            记录总数
+            </summary>
+        </member>
         <member name="T:Swm.Web.LogEntry">
             <summary>
             表示一条日志记录。
@@ -2724,6 +3060,24 @@
             <summary>
             描述操作结果的消息
             </summary>
+        </member>
+        <member name="T:Arctic.Web.Controllers.ErrorController">
+            <summary>
+            错误处理程序
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.Controllers.ErrorController.Error">
+            <summary>
+            生产环境错误处理
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Arctic.Web.Controllers.ErrorController.ErrorLocalDevelopment(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            开发环境错误处理
+            </summary>
+            <param name="webHostEnvironment"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

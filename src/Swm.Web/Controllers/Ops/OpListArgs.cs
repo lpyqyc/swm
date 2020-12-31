@@ -18,14 +18,14 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 
         /// </summary>
-        [SearchArg(SearchMode.Greater)]
+        [SearchArg(SearchMode.GreaterThan)]
         public int? Prop2From { get; set; }
 
 
         /// <summary>
         /// 
         /// </summary>
-        [SearchArg(SearchMode.Less)]
+        [SearchArg(SearchMode.LessThan)]
         public DateTime? Prop2To { get; set; }
 
         /// <summary>

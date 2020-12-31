@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace Swm.Web
@@ -20,6 +21,7 @@ namespace Swm.Web
     /// <summary>
     /// 表示操作结果
     /// </summary>
+    [Obsolete]
     public class OperationResult
     {
         /// <summary>
@@ -32,5 +34,4 @@ namespace Swm.Web
         /// </summary>
         public string? Message { get; init; }
     }
-
 }

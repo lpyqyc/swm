@@ -12,19 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Swm.Web.Controllers
 {
-    /// <summary>
-    /// 设置巷道出口的操作参数。
-    /// </summary>
-    public class SetPortsArgs
+    public static class ControllerBaseExtensions
     {
-        /// <summary>
-        /// 出口Id列表
-        /// </summary>
-        [Required]
-        public int[] PortIdList { get; set; } = default!;
+        public static StatusCodeResult Success(this ControllerBase controller)
+        {
+            return controller.StatusCode(201);
+        }
     }
+
 }

@@ -19,6 +19,7 @@ using System.Reflection;
 
 namespace Swm.Model
 {
+    // TODO 使用 AutoMapper 代替
     internal static class CopyUtil
     {
 

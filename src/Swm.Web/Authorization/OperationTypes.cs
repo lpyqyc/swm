@@ -34,5 +34,11 @@ namespace Swm.Web
         public const string 创建角色 = "系统.创建角色";
         public const string 删除角色 = "系统.删除角色";
         public const string 编辑角色 = "系统.编辑角色";
+
+        public const string 查看出库单 = "出入.查看出库单";
+        public const string 创建出库单 = "出入.创建出库单";
+        public const string 编辑出库单 = "出入.编辑出库单";
+        public const string 删除出库单 = "出入.删除出库单";
+
     }
 }

@@ -12,19 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 设置巷道出口的操作参数。
+    /// 列表页结果
     /// </summary>
-    public class SetPortsArgs
+    public class OutboundOrderList : OperationResult
     {
         /// <summary>
-        /// 出口Id列表
+        /// 当前分页的数据
         /// </summary>
-        [Required]
-        public int[] PortIdList { get; set; } = default!;
+        public IEnumerable<OutboundOrderListItem>? Data { get; init; }
+
+        /// <summary>
+        /// 总共有多少个数据
+        /// </summary>
+        public int Total { get; init; }
     }
+
 }
+

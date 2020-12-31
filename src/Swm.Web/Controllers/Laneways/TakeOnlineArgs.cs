@@ -19,9 +19,5 @@ namespace Swm.Web.Controllers
     /// </summary>
     public class TakeOnlineArgs
     {
-        /// <summary>
-        /// 要联机的巷道Id
-        /// </summary>
-        public int LanewayId { get; set; }
     }
 }
