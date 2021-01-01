@@ -28,17 +28,15 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
-        [Route("list")]
-        public async Task<OpList> List(OpListArgs args)
+        public async Task<ListResult<OpListItem>> List([FromQuery]OpListArgs args)
         {
             var pagedList = await _session.Query<Op>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new OpList
+            return new ListResult<OpListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new OpListItem
                 {
                     OpId = x.OpId,

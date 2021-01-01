@@ -1501,21 +1501,6 @@
             展示顺序
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.OpList">
-            <summary>
-            列表页结果
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.OpList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.OpList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.OpListArgs">
             <summary>
             列表查询参数
