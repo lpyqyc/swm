@@ -15,7 +15,6 @@
 using Arctic.NHibernateExtensions;
 using Swm.Model;
 using System;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -47,7 +46,6 @@ namespace Swm.Web.Controllers
                     null => null,
                     _ => x => x.Items.Any(i => i.Material.MaterialType == this.MaterialType)
                 };
-                return null;
             }
         }
 
@@ -122,7 +120,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 排序字段
         /// </summary>
-        public OrderedDictionary? Sort { get; set; }
+        public string? Sort { get; set; }
 
         /// <summary>
         /// 基于 1 的当前页面，默认值为 1。

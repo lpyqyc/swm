@@ -2338,21 +2338,6 @@
             锁定原因
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.ArchivedTaskList">
-            <summary>
-            历史任务列表
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ArchivedTaskList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ArchivedTaskList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.ArchivedTaskListArgs">
             <summary>
             任务列表的查询参数
@@ -2511,21 +2496,6 @@
         <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.Cancelled">
             <summary>
             是否取消，true 表示已取消
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.TaskList">
-            <summary>
-            任务列表
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.TaskList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.TaskList.Total">
-            <summary>
-            总共有多少个数据
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.TaskListArgs">
@@ -2738,21 +2708,6 @@
             计量单位
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.UnitloadList">
-            <summary>
-            货载列表
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.UnitloadList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.UnitloadList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.UnitloadListArgs">
             <summary>
             货载列表的查询参数
@@ -2858,7 +2813,7 @@
             货载明细列表
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.ListAsync(Swm.Web.Controllers.UnitloadListArgs)">
+        <member name="M:Swm.Web.Controllers.UnitloadsController.Get(Swm.Web.Controllers.UnitloadListArgs)">
             <summary>
             货载列表
             </summary>

@@ -38,24 +38,19 @@ namespace Swm.Web.Controllers
 
 
         [AutoTransaction]
-        [HttpPost]
-        [Route("list")]
-        public async Task<TaskList> ListAsync(TaskListArgs args)
+        [HttpGet]
+        public async Task<ListResult<TaskListItem>> Get([FromQuery]TaskListArgs args)
         {
-            if (args.Sort == null || args.Sort.Count == 0)
+            if (args.Sort == null)
             {
-                args.Sort = new System.Collections.Specialized.OrderedDictionary
-                {
-                    { "TaskId", "DESC" }
-                };
+                args.Sort = "TaskId DESC";                
             }
 
             var pagedList = await _session.Query<TransportTask>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new TaskList
+            return new ListResult<TaskListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new TaskListItem
                 {
                     TaskId = x.TaskId,
@@ -87,24 +82,20 @@ namespace Swm.Web.Controllers
 
 
         [AutoTransaction]
-        [HttpPost]
+        [HttpGet]
         [Route("archived")]
-        public async Task<ArchivedTaskList> ArchivedAsync(ArchivedTaskListArgs args)
+        public async Task<ListResult<ArchivedTaskListItem>> GetArchived([FromQuery]ArchivedTaskListArgs args)
         {
-            if (args.Sort == null || args.Sort.Count == 0)
+            if (args.Sort == null)
             {
-                args.Sort = new System.Collections.Specialized.OrderedDictionary
-                {
-                    { "TaskId", "DESC" }
-                };
+                args.Sort = "TaskId DESC";
             }
 
             var pagedList = await _session.Query<ArchivedTransportTask>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new ArchivedTaskList
+            return new ListResult<ArchivedTaskListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new ArchivedTaskListItem
                 {
                     TaskId = x.TaskId,

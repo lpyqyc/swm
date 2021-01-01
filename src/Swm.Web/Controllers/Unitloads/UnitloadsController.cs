@@ -68,16 +68,14 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost]
-        [Route("list")]
-        public async Task<UnitloadList> ListAsync(UnitloadListArgs args)
+        [HttpGet]
+        public async Task<ListResult<UnitloadListItem>> Get([FromQuery]UnitloadListArgs args)
         {
             var pagedList = await _session.Query<Unitload>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new UnitloadList
+            return new ListResult<UnitloadListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new UnitloadListItem
                 {
                     UnitloadId = x.UnitloadId,
