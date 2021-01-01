@@ -52,18 +52,17 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.货位列表)]
-        [Route("storage-locations/list")]
-        public async Task<StorageLocationList> StorageLocationListAsync(StorageLocationListArgs args)
+        [Route("/storage-locations")]
+        public async Task<ListResult<StorageLocationListItem>> GetStorageLocationList([FromQuery]StorageLocationListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new StorageLocationList
+            return new ListResult<StorageLocationListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new StorageLocationListItem
                 {
                     LocationId = x.LocationId,
@@ -90,18 +89,17 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.关键点列表)]
-        [Route("key-points/list")]
-        public async Task<KeyPointList> KeyPointListAsync(KeyPointListArgs args)
+        [Route("/key-points")]
+        public async Task<ListResult<KeyPointListItem>> GetKeyPointList([FromQuery]KeyPointListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new KeyPointList
+            return new ListResult<KeyPointListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new KeyPointListItem
                 {
                     LocationId = x.LocationId,
@@ -144,22 +142,22 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 禁止入站
         /// </summary>
+        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("disable-inbound")]
+        [Route("{ids}/actions/disable-inbound")]
         [OperationType(OperationTypes.禁止入站)]
         [AutoTransaction]
-        public async Task<ActionResult> DisableInboundAsync(DisableInboundArgs args)
+        public async Task<ActionResult> DisableInbound(string ids, DisableInboundArgs args)
         {
+            List<int> list = ids
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(x => int.Parse(x))
+                .ToList();
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => args.LocationIdList.Contains(x.LocationId))
+                .Where(x => list.Contains(x.LocationId))
                 .WrappedToListAsync();
-
-            if (locs.Count == 0)
-            {
-                throw new InvalidOperationException("未指定货位。");
-            }
 
             int affected = 0;
             foreach (var loc in locs)
@@ -189,6 +187,9 @@ namespace Swm.Web.Controllers
             {
                 await _locHelper.RebuildLanewayStatAsync(laneway);
             }
+            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止入站。", affected);
+
+            return this.Success();
 
             async Task DisableOneAsync(Location loc)
             {
@@ -213,34 +214,29 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止入站。", affected);
 
-            return Ok(new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            });
         }
 
         /// <summary>
         /// 允许入站
         /// </summary>
+        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("enable-inbound")]
+        [Route("{ids}/actions/enable-inbound")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ActionResult> EnableInboundAsync(EnableInboundArgs args)
+        public async Task<ActionResult> EnableInboundAsync(string ids, EnableInboundArgs args)
         {
-            List<Location> locs = await _session.Query<Location>()
-                .Where(x => args.LocationIdList.Contains(x.LocationId))
-                .WrappedToListAsync();
+            List<int> list = ids
+               .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+               .Select(x => int.Parse(x))
+               .ToList();
 
-            if (locs.Count == 0)
-            {
-                throw new InvalidOperationException("未指定货位。");
-            }
+            List<Location> locs = await _session.Query<Location>()
+                .Where(x => list.Contains(x.LocationId))
+                .WrappedToListAsync();
 
             int affected = 0;
             foreach (var loc in locs)
@@ -271,6 +267,10 @@ namespace Swm.Web.Controllers
                 await _locHelper.RebuildLanewayStatAsync(laneway);
             }
 
+            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许入站。", affected);
+
+            return this.Success();
+
             async Task EnableOneAsync(Location loc)
             {
                 if (loc.InboundDisabled)
@@ -292,29 +292,27 @@ namespace Swm.Web.Controllers
                     affected++;
                 }
             }
-
-            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许入站。", affected);
-
-            return Ok(new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            });
         }
 
         /// <summary>
         /// 禁止出站
         /// </summary>
+        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("disable-outbound")]
+        [Route("{ids}/actions/disable-outbound")]
         [OperationType(OperationTypes.禁止出站)]
         [AutoTransaction]
-        public async Task<ActionResult> DisableOutboundAsync(DisableOutboundArgs args)
+        public async Task<ActionResult> DisableOutboundAsync(string ids, DisableOutboundArgs args)
         {
+            List<int> list = ids
+               .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+               .Select(x => int.Parse(x))
+               .ToList();
+
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => args.LocationIdList.Contains(x.LocationId))
+                .Where(x => list.Contains(x.LocationId))
                 .WrappedToListAsync();
             if (locs.Count == 0)
             {
@@ -349,6 +347,10 @@ namespace Swm.Web.Controllers
                 await _locHelper.RebuildLanewayStatAsync(laneway);
             }
 
+            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止出站。", affected);
+
+            return this.Success();
+
             async Task DisableOneAsync(Location loc)
             {
                 if (loc.OutboundDisabled == false)
@@ -370,29 +372,27 @@ namespace Swm.Web.Controllers
                     affected++;
                 }
             }
-
-            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止出站。", affected);
-
-            return Ok(new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            });
         }
 
         /// <summary>
         /// 允许入站
         /// </summary>
+        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("enable-outbound")]
+        [Route("{ids}/actions/enable-outbound")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ActionResult> EnableOutboundAsync(EnableOutboundArgs args)
+        public async Task<ActionResult> EnableOutboundAsync(string ids, EnableOutboundArgs args)
         {
+            List<int> list = ids
+               .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+               .Select(x => int.Parse(x))
+               .ToList();
+
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => args.LocationIdList.Contains(x.LocationId))
+                .Where(x => list.Contains(x.LocationId))
                 .WrappedToListAsync();
             if (locs.Count == 0)
             {
@@ -428,6 +428,9 @@ namespace Swm.Web.Controllers
                 await _locHelper.RebuildLanewayStatAsync(laneway);
             }
 
+            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许出站。", affected);
+            return this.Success();
+
             async Task EnableOneAsync(Location loc)
             {
                 if (loc.OutboundDisabled)
@@ -449,14 +452,6 @@ namespace Swm.Web.Controllers
                     affected++;
                 }
             }
-
-            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许出站。", affected);
-
-            return Ok(new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            });
         }
 
 

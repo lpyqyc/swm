@@ -6,9 +6,9 @@
     public class EnableInboundArgs
     {
         /// <summary>
-        /// 要允许入站的位置Id列表
+        /// 允许入站的操作备注
         /// </summary>
-        public int[] LocationIdList { get; set; } = default!;
+        public string? Comment { get; set; }
     }
 
 }

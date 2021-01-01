@@ -696,11 +696,6 @@
             禁止位置入站操作的参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.DisableInboundArgs.LocationIdList">
-            <summary>
-            要禁止入站的位置Id列表
-            </summary>
-        </member>
         <member name="P:Swm.Web.Controllers.DisableInboundArgs.Comment">
             <summary>
             禁止入站的操作备注
@@ -709,11 +704,6 @@
         <member name="T:Swm.Web.Controllers.DisableOutboundArgs">
             <summary>
             禁止位置出站操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.DisableOutboundArgs.LocationIdList">
-            <summary>
-            要禁止出站的位置Id列表
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.DisableOutboundArgs.Comment">
@@ -761,34 +751,19 @@
             允许位置入站操作的参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.EnableInboundArgs.LocationIdList">
+        <member name="P:Swm.Web.Controllers.EnableInboundArgs.Comment">
             <summary>
-            要允许入站的位置Id列表
+            允许入站的操作备注
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.EnableOutboundArgs">
             <summary>
-            允许位置入站操作的参数
+            允许位置出站操作的参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.EnableOutboundArgs.LocationIdList">
+        <member name="P:Swm.Web.Controllers.EnableOutboundArgs.Comment">
             <summary>
-            要允许出站的位置Id列表
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.KeyPointList">
-            <summary>
-            列表页结果
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.KeyPointList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.KeyPointList.Total">
-            <summary>
-            总共有多少个数据
+            允许出站的操作备注
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.KeyPointListArgs">
@@ -906,45 +881,49 @@
             货载数
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.StorageLocationListAsync(Swm.Web.Controllers.StorageLocationListArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.GetStorageLocationList(Swm.Web.Controllers.StorageLocationListArgs)">
             <summary>
             货位列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.KeyPointListAsync(Swm.Web.Controllers.KeyPointListArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.GetKeyPointList(Swm.Web.Controllers.KeyPointListArgs)">
             <summary>
             关键点列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.DisableInboundAsync(Swm.Web.Controllers.DisableInboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.DisableInbound(System.String,Swm.Web.Controllers.DisableInboundArgs)">
             <summary>
             禁止入站
             </summary>
+            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.EnableInboundAsync(Swm.Web.Controllers.EnableInboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.EnableInboundAsync(System.String,Swm.Web.Controllers.EnableInboundArgs)">
             <summary>
             允许入站
             </summary>
+            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.DisableOutboundAsync(Swm.Web.Controllers.DisableOutboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.DisableOutboundAsync(System.String,Swm.Web.Controllers.DisableOutboundArgs)">
             <summary>
             禁止出站
             </summary>
+            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.EnableOutboundAsync(Swm.Web.Controllers.EnableOutboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.EnableOutboundAsync(System.String,Swm.Web.Controllers.EnableOutboundArgs)">
             <summary>
             允许入站
             </summary>
+            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -961,21 +940,6 @@
             </summary>
             <param name="args"></param>
             <returns></returns>
-        </member>
-        <member name="T:Swm.Web.Controllers.StorageLocationList">
-            <summary>
-            列表页结果
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StorageLocationList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StorageLocationList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
         </member>
         <member name="T:Swm.Web.Controllers.StorageLocationListArgs">
             <summary>

@@ -8,11 +8,6 @@ namespace Swm.Web.Controllers
     public class DisableInboundArgs
     {
         /// <summary>
-        /// 要禁止入站的位置Id列表
-        /// </summary>
-        public int[] LocationIdList { get; set; } = default!;
-
-        /// <summary>
         /// 禁止入站的操作备注
         /// </summary>
         [Required]
