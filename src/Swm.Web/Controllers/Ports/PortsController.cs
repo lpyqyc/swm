@@ -48,7 +48,7 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.出口列表)]
-        public async Task<ListResult<PortListItem>> GetAsync([FromQuery]PortListArgs args)
+        public async Task<ListResult<PortListItem>> Get([FromQuery]PortListArgs args)
         {
             var pagedList = await _session.Query<Port>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<PortListItem>
@@ -64,7 +64,7 @@ namespace Swm.Web.Controllers
                     Laneways = x.Laneways.Select(x => x.LanewayCode).ToArray(),
                     CheckedAt = x.CheckedAt,
                     CheckMessage = x.CheckMessage,
-                }).ToList(),
+                }),
                 Total = pagedList.Total
             };
         }
@@ -76,7 +76,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [Route("select-list")]
         [AutoTransaction]
-        public async Task<List<PortSelectListItem>> GetSelectListAsync()
+        public async Task<List<PortSelectListItem>> GetSelectList()
         {
             var list = await _session.Query<Port>().WrappedToListAsync();
             var items = list

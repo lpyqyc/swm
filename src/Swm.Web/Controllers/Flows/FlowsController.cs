@@ -44,7 +44,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet]
-        public async Task<ListResult<FlowListItem>> GetAsync([FromQuery]FlowListArgs args)
+        public async Task<ListResult<FlowListItem>> Get([FromQuery]FlowListArgs args)
         {
             var pagedList = await _session.Query<Flow>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
@@ -69,7 +69,7 @@ namespace Swm.Web.Controllers
                     Uom = x.Uom,
                     cuser = x.cuser,
                     Comment = x.Comment,
-                }).ToList(),
+                }),
                 Total = pagedList.Total,
             };
         }

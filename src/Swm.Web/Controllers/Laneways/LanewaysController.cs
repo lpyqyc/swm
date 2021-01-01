@@ -56,7 +56,7 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.巷道列表)]
-        public async Task<ListResult<LanewayListItem>> GetAsync([FromQuery]LanewayListArgs args)
+        public async Task<ListResult<LanewayListItem>> Get([FromQuery]LanewayListArgs args)
         {
             var pagedList = await _session.Query<Laneway>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<LanewayListItem>
@@ -82,7 +82,7 @@ namespace Swm.Web.Controllers
                         })
                         .ToArray(),
                     TotalOfflineHours = x.TotalOfflineHours,
-                }).ToList(),
+                }),
                 Total = pagedList.Total
             };
         }
@@ -94,7 +94,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [Route("select-list")]
         [AutoTransaction]
-        public async Task<List<LanewaySelectListItem>> GetSelectListAsync()
+        public async Task<List<LanewaySelectListItem>> GetSelectList()
         {
             var items = await _session.Query<Laneway>()
                 .Select(x => new LanewaySelectListItem
@@ -117,7 +117,7 @@ namespace Swm.Web.Controllers
         [Route("{id}/actions/take-offline")]
         [OperationType(OperationTypes.脱机巷道)]
         [AutoTransaction]
-        public async Task<IActionResult> TakeOfflineAsync(int id, [FromBody]TakeOfflineArgs args)
+        public async Task<IActionResult> TakeOffline(int id, [FromBody]TakeOfflineArgs args)
         {
             Laneway laneway = await _session.GetAsync<Laneway>(id);
             if (laneway == null)
@@ -151,7 +151,7 @@ namespace Swm.Web.Controllers
         [Route("{id}/actions/take-online")]
         [OperationType(OperationTypes.联机巷道)]
         [AutoTransaction]
-        public async Task<IActionResult> TakeOnlineAsync(int id, TakeOnlineArgs args)
+        public async Task<IActionResult> TakeOnline(int id, TakeOnlineArgs args)
         {
             Laneway laneway = await _session.GetAsync<Laneway>(id);
             if (laneway == null)
@@ -183,7 +183,7 @@ namespace Swm.Web.Controllers
         [Route("{id}/actions/set-ports")]
         [OperationType(OperationTypes.设置出口)]
         [AutoTransaction]
-        public async Task<IActionResult> SetPortsAsync(int id, SetPortsArgs args)
+        public async Task<IActionResult> SetPorts(int id, SetPortsArgs args)
         {
             Laneway laneway = await _session.GetAsync<Laneway>(id);
             if (laneway == null)
@@ -284,7 +284,7 @@ namespace Swm.Web.Controllers
         [Route("stats")]
         [OperationType(OperationTypes.重建巷道统计信息)]
         [AutoTransaction]
-        public async Task<IActionResult> RebuildLanewaysStatAsync()
+        public async Task<IActionResult> RebuildLanewaysStat()
         {
             var laneways = await _session.Query<Laneway>().WrappedToListAsync();
             foreach (var laneway in laneways)

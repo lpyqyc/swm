@@ -20,7 +20,7 @@ namespace Swm.Web
     /// 表示列表页结果
     /// </summary>
     /// <remarks>
-    /// 与 antd protable 匹配
+    /// 与前端 antd protable 匹配的数据结构。
     /// </remarks>
     /// <typeparam name="T"></typeparam>
     public class ListResult<T>
@@ -33,7 +33,7 @@ namespace Swm.Web
         /// <summary>
         /// 数据列表
         /// </summary>
-        public List<T> Data { get; init; }
+        public IEnumerable<T>? Data { get; init; }
 
         /// <summary>
         /// 记录总数

@@ -43,17 +43,15 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost]
-        [Route("list")]
+        [HttpGet]
         [OperationType(OperationTypes.物料列表)]
-        public async Task<MaterialList> ListAsync(MaterialListArgs args)
+        public async Task<ListResult<MaterialListItem>> Get([FromQuery]MaterialListArgs args)
         {
             var pagedList = await _session.Query<Material>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new MaterialList
+            return new ListResult<MaterialListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new MaterialListItem
                 {
                     MaterialId = x.MaterialId,
@@ -85,7 +83,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost]
         [Route("select-list")]
-        public async Task<List<MaterialSelectListItem>> SelectListAsync(MaterialSelectListArgs args)
+        public async Task<List<MaterialSelectListItem>> GetSelectList(MaterialSelectListArgs args)
         {
             var items = await _session.Query<Material>()
                 .FilterByKeyword(args.Keyword, args.MaterialType)
@@ -109,7 +107,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [Route("material-type-select-list")]
-        public async Task<List<MaterialTypeSelectListItem>> MaterialTypesSelectListAsync()
+        public async Task<List<MaterialTypeSelectListItem>> GetMaterialTypesSelectList()
         {
             var appCodes = await _session
                 .Query<AppCode>()
@@ -134,7 +132,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost]
         [Route("stock-status-select-list")]
-        public async Task<List<StockStatusSelectListItem>> StockStatusSelectListAsync()
+        public async Task<List<StockStatusSelectListItem>> GetStockStatusSelectList()
         {
             var appCodes = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.StockStatus);
 

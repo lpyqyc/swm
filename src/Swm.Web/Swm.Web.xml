@@ -280,7 +280,7 @@
             备注
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.FlowsController.GetAsync(Swm.Web.Controllers.FlowListArgs)">
+        <member name="M:Swm.Web.Controllers.FlowsController.Get(Swm.Web.Controllers.FlowListArgs)">
             <summary>
             获取流水列表
             </summary>
@@ -372,20 +372,20 @@
             总脱机时间
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.GetAsync(Swm.Web.Controllers.LanewayListArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.Get(Swm.Web.Controllers.LanewayListArgs)">
             <summary>
             获取所有巷道
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.GetSelectListAsync">
+        <member name="M:Swm.Web.Controllers.LanewaysController.GetSelectList">
             <summary>
             巷道选择列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOfflineAsync(System.Int32,Swm.Web.Controllers.TakeOfflineArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOffline(System.Int32,Swm.Web.Controllers.TakeOfflineArgs)">
             <summary>
             使巷道脱机
             </summary>
@@ -393,7 +393,7 @@
             <param name="args">参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOnlineAsync(System.Int32,Swm.Web.Controllers.TakeOnlineArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOnline(System.Int32,Swm.Web.Controllers.TakeOnlineArgs)">
             <summary>
             使巷道联机
             </summary>
@@ -401,7 +401,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.SetPortsAsync(System.Int32,Swm.Web.Controllers.SetPortsArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.SetPorts(System.Int32,Swm.Web.Controllers.SetPortsArgs)">
             <summary>
             设置巷道可以到达的出口
             </summary>
@@ -415,7 +415,7 @@
             <param name="id">巷道Id</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.RebuildLanewaysStatAsync">
+        <member name="M:Swm.Web.Controllers.LanewaysController.RebuildLanewaysStat">
             <summary>
             重建所有巷道的统计信息，这个操作消耗资源较多
             </summary>
@@ -1260,21 +1260,6 @@
             每页大小，默认值为 10。
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.MaterialList">
-            <summary>
-            物料列表
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.MaterialList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.MaterialList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.MaterialListArgs">
             <summary>
             列表查询参数
@@ -1395,27 +1380,27 @@
             备注
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.ListAsync(Swm.Web.Controllers.MaterialListArgs)">
+        <member name="M:Swm.Web.Controllers.MaterialsController.Get(Swm.Web.Controllers.MaterialListArgs)">
             <summary>
             物料列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.SelectListAsync(Swm.Web.Controllers.MaterialSelectListArgs)">
+        <member name="M:Swm.Web.Controllers.MaterialsController.GetSelectList(Swm.Web.Controllers.MaterialSelectListArgs)">
             <summary>
             物料选择列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.MaterialTypesSelectListAsync">
+        <member name="M:Swm.Web.Controllers.MaterialsController.GetMaterialTypesSelectList">
             <summary>
             获取物料类型的选择列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.StockStatusSelectListAsync">
+        <member name="M:Swm.Web.Controllers.MaterialsController.GetStockStatusSelectList">
             <summary>
             获取库存状态的选择列表
             </summary>
@@ -2003,14 +1988,14 @@
             检查时间
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.PortsController.GetAsync(Swm.Web.Controllers.PortListArgs)">
+        <member name="M:Swm.Web.Controllers.PortsController.Get(Swm.Web.Controllers.PortListArgs)">
             <summary>
             出口列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.PortsController.GetSelectListAsync">
+        <member name="M:Swm.Web.Controllers.PortsController.GetSelectList">
             <summary>
             出口选择列表
             </summary>
@@ -2917,7 +2902,7 @@
             表示列表页结果
             </summary>
             <remarks>
-            与 antd protable 匹配
+            与前端 antd protable 匹配的数据结构。
             </remarks>
             <typeparam name="T"></typeparam>
         </member>

@@ -38,11 +38,16 @@ namespace Swm.Web.Controllers
         [SearchArg(SearchMode.Expression)]
         public string? MaterialType { get; set; }
 
-        internal Expression<Func<Unitload, bool>> MaterialTypeExpr
+        internal Expression<Func<Unitload, bool>>? MaterialTypeExpr
         {
             get
             {
-                return x => x.Items.Any(i => i.Material.MaterialType == this.MaterialType);
+                return this.MaterialType switch
+                {
+                    null => null,
+                    _ => x => x.Items.Any(i => i.Material.MaterialType == this.MaterialType)
+                };
+                return null;
             }
         }
 
