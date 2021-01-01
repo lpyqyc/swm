@@ -13,10 +13,6 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
-using Swm.Model;
-using System;
-using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
@@ -34,7 +30,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 排序字段
         /// </summary>
-        public OrderedDictionary? Sort { get; set; }
+        public string? Sort { get; set; }
 
         /// <summary>
         /// 基于 1 的当前页面，默认值为 1。

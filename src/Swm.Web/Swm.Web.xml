@@ -287,21 +287,6 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="T:Swm.Web.Controllers.LanewayList">
-            <summary>
-            列表页结果
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LanewayList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.LanewayList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.LanewayListArgs">
             <summary>
             列表查询参数
@@ -1948,21 +1933,6 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:Swm.Web.Controllers.PortList">
-            <summary>
-            列表页结果
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.PortList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.PortList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.PortListArgs">
             <summary>
             列表查询参数
@@ -2033,14 +2003,14 @@
             检查时间
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.PortsController.ListAsync(Swm.Web.Controllers.PortListArgs)">
+        <member name="M:Swm.Web.Controllers.PortsController.GetAsync(Swm.Web.Controllers.PortListArgs)">
             <summary>
             出口列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.PortsController.SelectListAsync">
+        <member name="M:Swm.Web.Controllers.PortsController.GetSelectListAsync">
             <summary>
             出口选择列表
             </summary>

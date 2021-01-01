@@ -44,18 +44,16 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("list")]
+        [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.出口列表)]
-        public async Task<PortList> ListAsync(PortListArgs args)
+        public async Task<ListResult<PortListItem>> GetAsync([FromQuery]PortListArgs args)
         {
             var pagedList = await _session.Query<Port>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new PortList
+            return new ListResult<PortListItem>
             {
                 Success = true,
-                Message = "OK",
                 Data = pagedList.List.Select(x => new PortListItem
                 {
                     PortId = x.PortId,
@@ -66,7 +64,7 @@ namespace Swm.Web.Controllers
                     Laneways = x.Laneways.Select(x => x.LanewayCode).ToArray(),
                     CheckedAt = x.CheckedAt,
                     CheckMessage = x.CheckMessage,
-                }),
+                }).ToList(),
                 Total = pagedList.Total
             };
         }
@@ -78,7 +76,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [Route("select-list")]
         [AutoTransaction]
-        public async Task<List<PortSelectListItem>> SelectListAsync()
+        public async Task<List<PortSelectListItem>> GetSelectListAsync()
         {
             var list = await _session.Query<Port>().WrappedToListAsync();
             var items = list
