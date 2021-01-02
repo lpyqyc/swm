@@ -939,7 +939,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.EditKeyPointAsync(System.Int32,Swm.Web.Controllers.EditKeyPointArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.EditKeyPoint(System.Int32,Swm.Web.Controllers.EditKeyPointArgs)">
             <summary>
             编辑关键点
             </summary>
@@ -1164,18 +1164,18 @@
             每页大小，默认值为 10。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.LogsController.ListAsync(Swm.Web.Controllers.LogListArgs)">
+        <member name="M:Swm.Web.Controllers.LogsController.Get(Swm.Web.Controllers.LogListArgs)">
             <summary>
             日志列表
             </summary>
-            <param name="args"></param>
+            <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LogsController.TraceLogsAsync(Swm.Web.Controllers.LogTraceArgs)">
+        <member name="M:Swm.Web.Controllers.LogsController.Trace(Swm.Web.Controllers.LogTraceArgs)">
             <summary>
             跟踪日志
             </summary>
-            <param name="args"></param>
+            <param name="args">跟踪参数</param>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.LogTraceArgs">
@@ -1541,7 +1541,7 @@
             备注
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.OpsController.List(Swm.Web.Controllers.OpListArgs)">
+        <member name="M:Swm.Web.Controllers.OpsController.Get(Swm.Web.Controllers.OpListArgs)">
             <summary>
             列表
             </summary>
@@ -2618,6 +2618,20 @@
             备注
             </summary>
         </member>
+        <member name="M:Swm.Web.Controllers.TasksController.Get(Swm.Web.Controllers.TaskListArgs)">
+            <summary>
+            任务列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.TasksController.GetArchived(Swm.Web.Controllers.ArchivedTaskListArgs)">
+            <summary>
+            历史任务列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.Controllers.PalletizeWithoutOrderArgs">
             <summary>
             无单据组盘。
@@ -2790,7 +2804,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.PalletizeWithoutOrderAsync(Swm.Web.Controllers.PalletizeWithoutOrderArgs)">
+        <member name="M:Swm.Web.Controllers.UnitloadsController.PalletizeWithoutOrder(Swm.Web.Controllers.PalletizeWithoutOrderArgs)">
             <summary>
             无单据组盘
             </summary>
