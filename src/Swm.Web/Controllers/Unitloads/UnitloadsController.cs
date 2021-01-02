@@ -113,7 +113,7 @@ namespace Swm.Web.Controllers
         [HttpPost]
         [Route("palletize-without-order")]
         [OperationType(OperationTypes.无单据组盘)]
-        public async Task<OperationResult> PalletizeWithoutOrderAsync(PalletizeWithoutOrderArgs args)
+        public async Task<OperationResult> PalletizeWithoutOrder(PalletizeWithoutOrderArgs args)
         {
             List<PalletizationItemInfo<DefaultStockKey>> items = new List<PalletizationItemInfo<DefaultStockKey>>();
             foreach (var item in args.Items)

@@ -36,7 +36,11 @@ namespace Swm.Web.Controllers
             _session = session;
         }
 
-
+        /// <summary>
+        /// 任务列表
+        /// </summary>
+        /// <param name="args">查询参数</param>
+        /// <returns></returns>
         [AutoTransaction]
         [HttpGet]
         public async Task<ListResult<TaskListItem>> Get([FromQuery]TaskListArgs args)
@@ -80,7 +84,11 @@ namespace Swm.Web.Controllers
             };
         }
 
-
+        /// <summary>
+        /// 历史任务列表
+        /// </summary>
+        /// <param name="args">查询参数</param>
+        /// <returns></returns>
         [AutoTransaction]
         [HttpGet]
         [Route("archived")]

@@ -46,6 +46,12 @@ namespace Swm.Web.Controllers
         public string? InboundDisabledComment { get; set; }
 
         /// <summary>
+        /// 入站数限制
+        /// </summary>
+        public int InboundLimit { get; set; }
+
+
+        /// <summary>
         /// 出站数
         /// </summary>
         public int OutboundCount { get; set; }
@@ -59,6 +65,12 @@ namespace Swm.Web.Controllers
         /// 禁止出站备注
         /// </summary>
         public string? OutboundDisabledComment { get; set; }
+
+        /// <summary>
+        /// 出站数限制
+        /// </summary>
+        public int OutboundLimit { get; set; }
+
 
         /// <summary>
         /// 标记

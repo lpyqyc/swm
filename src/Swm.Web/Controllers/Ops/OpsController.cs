@@ -31,7 +31,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
-        public async Task<ListResult<OpListItem>> List([FromQuery]OpListArgs args)
+        public async Task<ListResult<OpListItem>> Get([FromQuery]OpListArgs args)
         {
             var pagedList = await _session.Query<Op>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<OpListItem>

@@ -22,12 +22,6 @@ namespace Swm.Web.Controllers
     public class EditKeyPointArgs
     {
         /// <summary>
-        /// 关键点的位置Id
-        /// </summary>
-        [Required]
-        public int LocationId { get; set; }
-
-        /// <summary>
         /// 货位编号
         /// </summary>
         [Required]

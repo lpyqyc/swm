@@ -107,9 +107,11 @@ namespace Swm.Web.Controllers
                     InboundCount = x.InboundCount,
                     InboundDisabled = x.InboundDisabled,
                     InboundDisabledComment = x.InboundDisabledComment,
+                    InboundLimit = x.InboundLimit,
                     OutboundCount = x.OutboundCount,
                     OutboundDisabled = x.OutboundDisabled,
                     OutboundDisabledComment = x.OutboundDisabledComment,
+                    OutboundLimit = x.OutboundLimit,
                     Tag = x.Tag,
                     RequestType = x.RequestType,
                     UnitloadCount = x.UnitloadCount,
@@ -227,7 +229,7 @@ namespace Swm.Web.Controllers
         [Route("{ids}/actions/enable-inbound")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ActionResult> EnableInboundAsync(string ids, EnableInboundArgs args)
+        public async Task<ActionResult> EnableInbound(string ids, EnableInboundArgs args)
         {
             List<int> list = ids
                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -304,7 +306,7 @@ namespace Swm.Web.Controllers
         [Route("{ids}/actions/disable-outbound")]
         [OperationType(OperationTypes.禁止出站)]
         [AutoTransaction]
-        public async Task<ActionResult> DisableOutboundAsync(string ids, DisableOutboundArgs args)
+        public async Task<ActionResult> DisableOutbound(string ids, DisableOutboundArgs args)
         {
             List<int> list = ids
                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -384,7 +386,7 @@ namespace Swm.Web.Controllers
         [Route("{ids}/actions/enable-outbound")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ActionResult> EnableOutboundAsync(string ids, EnableOutboundArgs args)
+        public async Task<ActionResult> EnableOutbound(string ids, EnableOutboundArgs args)
         {
             List<int> list = ids
                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -461,10 +463,10 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("key-points/create")]
+        [Route("/key-points")]
         [OperationType(OperationTypes.创建关键点)]
         [AutoTransaction]
-        public async Task<OperationResult> CreateKeyPointAsync(CreateKeyPointArgs args)
+        public async Task<IActionResult> CreateKeyPoint(CreateKeyPointArgs args)
         {
             Location loc = _locFactory.CreateLocation(args.LocationCode, LocationTypes.K, null, 0, 0);
             loc.RequestType = args.RequestType;
@@ -475,28 +477,25 @@ namespace Swm.Web.Controllers
             _ = await _opHelper.SaveOpAsync("{0}#{1}", loc.LocationCode, loc.LocationId);
             await _eventBus.FireEventAsync("KeyPointChanged", null);
 
-            return new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            };
+            return this.Success();
         }
 
         /// <summary>
         /// 编辑关键点
         /// </summary>
+        /// <param name="id">关键点Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("key-points/edit")]
+        [HttpPut]
+        [Route("/key-points/{id}")]
         [OperationType(OperationTypes.编辑关键点)]
         [AutoTransaction]
-        public async Task<OperationResult> EditKeyPointAsync(EditKeyPointArgs args)
+        public async Task<IActionResult> EditKeyPoint(int id, EditKeyPointArgs args)
         {
-            Location loc = await _session.GetAsync<Location>(args.LocationId);
+            Location loc = await _session.GetAsync<Location>(id);
             if (loc == null || loc.LocationType != LocationTypes.K)
             {
-                throw new InvalidOperationException($"关键点不存在，【#{args.LocationId}】。");
+                return NotFound(id);
             }
             loc.LocationCode = args.LocationCode;
             loc.RequestType = args.RequestType;
@@ -508,11 +507,7 @@ namespace Swm.Web.Controllers
 
             await _eventBus.FireEventAsync("KeyPointChanged", null);
 
-            return new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            };
+            return this.Success();
         }
     }
 }

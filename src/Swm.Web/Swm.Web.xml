@@ -716,11 +716,6 @@
             编辑关键点操作的参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.LocationId">
-            <summary>
-            关键点的位置Id
-            </summary>
-        </member>
         <member name="P:Swm.Web.Controllers.EditKeyPointArgs.LocationCode">
             <summary>
             货位编号
@@ -851,6 +846,11 @@
             禁止入站备注
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.InboundLimit">
+            <summary>
+            入站数限制
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.KeyPointListItem.OutboundCount">
             <summary>
             出站数
@@ -864,6 +864,11 @@
         <member name="P:Swm.Web.Controllers.KeyPointListItem.OutboundDisabledComment">
             <summary>
             禁止出站备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListItem.OutboundLimit">
+            <summary>
+            出站数限制
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.KeyPointListItem.Tag">
@@ -903,7 +908,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.EnableInboundAsync(System.String,Swm.Web.Controllers.EnableInboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.EnableInbound(System.String,Swm.Web.Controllers.EnableInboundArgs)">
             <summary>
             允许入站
             </summary>
@@ -911,7 +916,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.DisableOutboundAsync(System.String,Swm.Web.Controllers.DisableOutboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.DisableOutbound(System.String,Swm.Web.Controllers.DisableOutboundArgs)">
             <summary>
             禁止出站
             </summary>
@@ -919,7 +924,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.EnableOutboundAsync(System.String,Swm.Web.Controllers.EnableOutboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.EnableOutbound(System.String,Swm.Web.Controllers.EnableOutboundArgs)">
             <summary>
             允许入站
             </summary>
@@ -927,17 +932,18 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.CreateKeyPointAsync(Swm.Web.Controllers.CreateKeyPointArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.CreateKeyPoint(Swm.Web.Controllers.CreateKeyPointArgs)">
             <summary>
             创建关键点
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.EditKeyPointAsync(Swm.Web.Controllers.EditKeyPointArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.EditKeyPointAsync(System.Int32,Swm.Web.Controllers.EditKeyPointArgs)">
             <summary>
             编辑关键点
             </summary>
+            <param name="id">关键点Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
