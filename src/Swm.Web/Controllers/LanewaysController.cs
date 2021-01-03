@@ -166,7 +166,7 @@ namespace Swm.Web.Controllers
 
             laneway.Offline = false;
             laneway.TotalOfflineHours += DateTime.Now.Subtract(laneway.TakeOfflineTime).TotalHours;
-            laneway.OfflineComment = null;
+            laneway.OfflineComment = args.Comment;
             await _session.UpdateAsync(laneway);
             _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】");
             _logger.Information("已将巷道 {lanewayCode} 联机", laneway.LanewayCode);

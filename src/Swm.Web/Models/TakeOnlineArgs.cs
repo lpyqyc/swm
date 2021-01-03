@@ -19,5 +19,9 @@ namespace Swm.Web.Controllers
     /// </summary>
     public class TakeOnlineArgs
     {
+        /// <summary>
+        /// 联机操作备注，非必填
+        /// </summary>
+        public string? Comment { get; set; }
     }
 }
