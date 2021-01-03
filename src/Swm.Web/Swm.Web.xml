@@ -93,31 +93,12 @@
             POLICY 常数
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.DebugController">
+        <member name="M:Swm.Web.Controllers.ControllerBaseExtensions.Success(Microsoft.AspNetCore.Mvc.ControllerBase,System.Object)">
             <summary>
-            提供调试功能。
+            表示操作成功。http 状态码 201。
             </summary>
-        </member>
-        <member name="M:Swm.Web.Controllers.DebugController.#ctor(Arctic.EventBus.SimpleEventBus,Swm.Web.OpHelper,Serilog.ILogger)">
-            <summary>
-            初始化新实例。
-            </summary>
-            <param name="eventBus"></param>
-            <param name="opHelper"></param>
-            <param name="logger"></param>
-        </member>
-        <member name="M:Swm.Web.Controllers.DebugController.SimulateRequestAsync(Swm.Model.RequestInfo)">
-            <summary>
-            模拟请求
-            </summary>
-            <param name="requestInfo"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.DebugController.SimulateTaskCompletionAsync(Swm.Model.CompletedTaskInfo)">
-            <summary>
-            模拟完成
-            </summary>
-            <param name="taskInfo"></param>
+            <param name="controller"></param>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.ExportSchemaController">
@@ -357,24 +338,31 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.SysController.GetListOfRolesAsync(Swm.Web.Controllers.RoleListArgs)">
+        <member name="M:Swm.Web.Controllers.RolesController.Get(Swm.Web.Controllers.RoleListArgs)">
             <summary>
             角色列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.SysController.DeleteRoleAsync(Swm.Web.Controllers.DeleteRoleArgs)">
+        <member name="M:Swm.Web.Controllers.RolesController.GetSelectList">
+            <summary>
+            获取角色的选择列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.RolesController.Delete(System.Int32)">
             <summary>
             删除角色
             </summary>
-            <param name="args"></param>
+            <param name="id">角色id</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.SysController.EditRoleAsync(Swm.Web.Controllers.EditRoleArgs)">
+        <member name="M:Swm.Web.Controllers.RolesController.Edit(System.Int32,Swm.Web.Controllers.EditRoleArgs)">
             <summary>
             编辑角色
             </summary>
+            <param name="id">角色id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -669,16 +657,6 @@
             密码
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.DeleteRoleArgs">
-            <summary>
-            删除角色操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.DeleteRoleArgs.RoleId">
-            <summary>
-            角色Id
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.DisableInboundArgs">
             <summary>
             禁止位置入站操作的参数
@@ -732,11 +710,6 @@
         <member name="T:Swm.Web.Controllers.EditRoleArgs">
             <summary>
             编辑角色操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditRoleArgs.RoleId">
-            <summary>
-            角色Id
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.EditRoleArgs.RoleName">
@@ -1608,21 +1581,6 @@
             备注
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.OutboundOrderList">
-            <summary>
-            列表页结果
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.OutboundOrderList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.OutboundOrderList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.OutboundOrderListArgs">
             <summary>
             列表查询参数
@@ -1906,21 +1864,6 @@
         <member name="P:Swm.Web.Controllers.PortSelectListItem.CurrentUat">
             <summary>
             当前下架的单据
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.RoleList">
-            <summary>
-            角色列表
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.RoleList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.RoleList.Total">
-            <summary>
-            总共有多少个数据
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.RoleListArgs">
@@ -2386,6 +2329,11 @@
         <member name="T:Swm.Web.Controllers.TakeOnlineArgs">
             <summary>
             联机巷道的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.TakeOnlineArgs.Comment">
+            <summary>
+            联机操作备注，非必填
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.TaskListArgs">
@@ -2855,21 +2803,6 @@
         <member name="P:Swm.Web.LogEntry.SourceContext">
             <summary>
             源上下文
-            </summary>
-        </member>
-        <member name="T:Swm.Web.OperationResult">
-            <summary>
-            表示操作结果
-            </summary>
-        </member>
-        <member name="P:Swm.Web.OperationResult.Success">
-            <summary>
-            指示操作是否成功
-            </summary>
-        </member>
-        <member name="P:Swm.Web.OperationResult.Message">
-            <summary>
-            描述操作结果的消息
             </summary>
         </member>
         <member name="T:Arctic.Web.Controllers.ErrorController">

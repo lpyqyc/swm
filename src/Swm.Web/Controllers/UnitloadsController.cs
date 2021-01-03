@@ -113,7 +113,7 @@ namespace Swm.Web.Controllers
         [HttpPost]
         [Route("palletize-without-order")]
         [OperationType(OperationTypes.无单据组盘)]
-        public async Task<OperationResult> PalletizeWithoutOrder(PalletizeWithoutOrderArgs args)
+        public async Task<IActionResult> PalletizeWithoutOrder(PalletizeWithoutOrderArgs args)
         {
             List<PalletizationItemInfo<DefaultStockKey>> items = new List<PalletizationItemInfo<DefaultStockKey>>();
             foreach (var item in args.Items)
@@ -136,11 +136,7 @@ namespace Swm.Web.Controllers
                                                       "无单据组盘" // TODO 这里有硬编码文本
                                                       );
 
-            return new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            };
+            return this.Success();
         }
 
 

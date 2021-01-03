@@ -22,12 +22,6 @@ namespace Swm.Web.Controllers
     public class EditRoleArgs
     {
         /// <summary>
-        /// 角色Id
-        /// </summary>
-        [Required]
-        public int? RoleId { get; set; }
-
-        /// <summary>
         /// 角色名称
         /// </summary>
         [Required]

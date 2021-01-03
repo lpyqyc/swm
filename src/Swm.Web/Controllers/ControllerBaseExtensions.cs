@@ -18,9 +18,15 @@ namespace Swm.Web.Controllers
 {
     public static class ControllerBaseExtensions
     {
-        public static StatusCodeResult Success(this ControllerBase controller)
+        /// <summary>
+        /// 表示操作成功。http 状态码 201。
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ObjectResult Success(this ControllerBase controller, object? value = null)
         {
-            return controller.StatusCode(201);
+            return controller.StatusCode(201, value);
         }
     }
 
