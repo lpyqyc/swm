@@ -127,6 +127,11 @@ namespace Swm.Web.Controllers
         public async Task<IActionResult> Edit(int id, EditUserArgs args)
         {
             User user = await _session.GetAsync<User>(id);
+            if (user == null)
+            {
+                return NotFound(id);
+            }
+
             if (String.IsNullOrEmpty(args.Password) == false)
             {
                 user.PasswordSalt = Guid.NewGuid().ToString();

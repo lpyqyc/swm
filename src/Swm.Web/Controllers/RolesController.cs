@@ -108,7 +108,7 @@ namespace Swm.Web.Controllers
         {
             if (_session.Query<Role>().Any(x => x.RoleName == args.RoleName))
             {
-                return Problem(title: "名称重复");
+                throw new InvalidOperationException("名称重复");
             }
 
             Role role = new Role();
@@ -166,7 +166,7 @@ namespace Swm.Web.Controllers
             }
             if (_session.Query<Role>().Any(x => x.RoleId != id && x.RoleName == args.RoleName))
             {
-                return Problem(title: "名称重复");
+                throw new InvalidOperationException("名称重复");
             }
 
             role.RoleName = args.RoleName;

@@ -17,6 +17,7 @@ using Arctic.EventBus;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Swm.Model;
+using System;
 using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
@@ -55,22 +56,14 @@ namespace Swm.Web.Controllers
         [Route("simulate-request")]
         [OperationType(OperationTypes.模拟请求)]
         [AutoTransaction]
-        public async Task<OperationResult> SimulateRequestAsync(RequestInfo requestInfo)
+        public async Task<IActionResult> SimulateRequest(RequestInfo requestInfo)
         {
-            _logger.Debug("正在模拟请求");
-
+            _logger.Information("正在模拟请求 {requestInfo}", requestInfo);
             await _eventBus.FireEventAsync(EventTypes.PreRequest, requestInfo);
             await _eventBus.FireEventAsync(EventTypes.Request, requestInfo);
-
             var op = await _opHelper.SaveOpAsync("模拟请求信息【{0}】", requestInfo);
-
-            _logger.Debug("已模拟请求");
-
-            return new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            };
+            _logger.Information("模拟请求成功");
+            return this.Success();
         }
 
         /// <summary>
@@ -82,24 +75,13 @@ namespace Swm.Web.Controllers
         [Route("simulate-task-completion")]
         [OperationType(OperationTypes.模拟完成)]
         [AutoTransaction]
-        public async Task<OperationResult> SimulateTaskCompletionAsync(CompletedTaskInfo taskInfo)
+        public async Task<IActionResult> SimulateTaskCompletionAsync(CompletedTaskInfo taskInfo)
         {
-            _logger.Debug("正在模拟任务完成。");
-
+            _logger.Information("正在模拟任务完成 {taskInfo}", taskInfo);
             await _eventBus.FireEventAsync(EventTypes.TaskCompleted, taskInfo);
-
-            _logger.Debug("已模拟任务完成。");
-
-            var op = await _opHelper.SaveOpAsync("模拟完成信息【{0}】。", taskInfo);
-
-            return new OperationResult
-            {
-                Success = true,
-                Message = "操作成功",
-            };
+            _logger.Information("已模拟任务完成。");
+            var op = await _opHelper.SaveOpAsync("模拟完成信息【{0}】", taskInfo);
+            return this.Success();
         }
-
     }
-
-
 }

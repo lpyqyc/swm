@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\DebugController.cs" />
     <Compile Remove="Controllers\LocController.cs" />
   </ItemGroup>
 
