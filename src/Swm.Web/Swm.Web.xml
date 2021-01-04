@@ -2668,6 +2668,11 @@
             备注
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.BeingMoved">
+            <summary>
+            是否有任务
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.UnitloadListItem.Items">
             <summary>
             货载明细列表

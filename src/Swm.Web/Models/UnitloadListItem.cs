@@ -54,6 +54,11 @@ namespace Swm.Web.Controllers
         public string? Comment { get; set; }
 
         /// <summary>
+        /// 是否有任务
+        /// </summary>
+        public bool BeingMoved { get; set; }
+
+        /// <summary>
         /// 货载明细列表
         /// </summary>
         public List<UnitloadItemInfo> Items { get; set; } = new List<UnitloadItemInfo>();

@@ -83,6 +83,7 @@ namespace Swm.Web.Controllers
                     ctime = x.ctime,
                     LocationCode = x.CurrentLocation.LocationCode,
                     LanewayCode = x.CurrentLocation?.Rack?.Laneway?.LanewayCode,
+                    BeingMoved = x.BeingMoved,
                     Items = x.Items.Select(i => new UnitloadItemInfo
                     {
                         UnitloadItemId = i.UnitloadItemId,
