@@ -42,13 +42,22 @@ namespace Swm.Model.Mappings
                 set.Inverse(true);
                 set.Cascade(Cascade.All | Cascade.DeleteOrphans);
                 set.BatchSize(10);
-                set.Key(key => { 
+                set.Key(key =>
+                {
                     key.Column("OutboundOrderId");
                     key.NotNullable(true);
                     key.Update(false);
                 });
             }, rel => rel.OneToMany());
 
+            Set(cl => cl.Unitloads, set => {
+                set.Inverse(true);
+                set.BatchSize(10);
+                set.Where("CurrentUatTypeDescription = N'出库单'");
+                set.Key(key => {
+                    key.Column("CurrentUatId");
+                });
+            }, rel => rel.OneToMany());
         }
     }
 }

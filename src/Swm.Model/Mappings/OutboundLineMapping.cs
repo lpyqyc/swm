@@ -14,16 +14,19 @@ namespace Swm.Model.Mappings
             DiscriminatorValue(1);
 
             Id(cl => cl.OutboundLineId, id => id.Generator(Generators.Identity));
-            Discriminator(dm => {
+            Discriminator(dm =>
+            {
                 dm.NotNullable(true);
             });
 
-            ManyToOne(cl => cl.OutboundOrder, m => {
+            ManyToOne(cl => cl.OutboundOrder, m =>
+            {
                 m.Column("OutboundOrderId");
                 m.Update(false);
             });
 
-            ManyToOne(cl => cl.Material, m => {
+            ManyToOne(cl => cl.Material, m =>
+            {
                 m.Column("MaterialId");
                 m.Update(false);
             });
@@ -38,6 +41,23 @@ namespace Swm.Model.Mappings
             Property(cl => cl.Dirty);
 
             Property(cl => cl.Comment);
+
+            Set(cl => cl.Allocations, set => {
+                set.Table("OutboundLineAllocations");
+                set.BatchSize(10);
+                set.Key(key => key.Column("OutboundLineId"));
+            }, rel => rel.Component(comp =>
+            {
+                comp.ManyToOne(cl => cl.UnitloadItem, m => {
+                    m.Column("UnitloadItemId");
+                    m.NotNullable(true);
+                    m.Update(false);
+                });
+                comp.Property(cl => cl.Quantity);
+            }));
+
         }
     }
+
+
 }

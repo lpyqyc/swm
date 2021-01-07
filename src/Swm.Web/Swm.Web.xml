@@ -307,13 +307,13 @@
             操作出库单。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.OutboundOrdersController.#ctor(NHibernate.ISession,Arctic.AppSeqs.IAppSeqService,Arctic.EventBus.SimpleEventBus,Swm.Web.OpHelper,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.#ctor(NHibernate.ISession,Swm.Model.IOutboundOrderAllocator,Arctic.AppSeqs.IAppSeqService,Swm.Web.OpHelper,Serilog.ILogger)">
             <summary>
             初始化新实例。
             </summary>
             <param name="session"></param>
+            <param name="outboundOrderAllocator">出库单库存分配程序</param>
             <param name="appSeqService"></param>
-            <param name="eventBus"></param>
             <param name="opHelper"></param>
             <param name="logger"></param>
         </member>
@@ -324,33 +324,61 @@
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.OutboundOrdersController.DetailAsync(System.Int32)">
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.Detail(System.Int32)">
             <summary>
             出库单详细
             </summary>
             <param name="id">出库单Id</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.OutboundOrdersController.CreateAsync(Swm.Web.Controllers.CreateOutboundOrderArgs)">
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.Create(Swm.Web.Controllers.CreateOutboundOrderArgs)">
             <summary>
             创建出库单
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.OutboundOrdersController.EditAsync(System.Int32,Swm.Web.Controllers.EditOutboundOrderArgs)">
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.Edit(System.Int32,Swm.Web.Controllers.EditOutboundOrderArgs)">
             <summary>
             编辑出库单
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.OutboundOrdersController.DeleteAsync(System.Int32)">
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.Delete(System.Int32)">
             <summary>
             删除出库单
             </summary>
             <param name="id"></param>
             <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.Close(System.Int32)">
+            <summary>
+            关闭出库单
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.Allocate(System.Int32,Swm.Model.OutboundOrderAllocationOptions)">
+            <summary>
+            为出库单分配库存
+            </summary>
+            <param name="id"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.Deallocate(System.Int32)">
+            <summary>
+            为出库单分配库存
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.CheckOnCloseAsync(Swm.Model.OutboundOrder)">
+            <summary>
+            对出库单进行关闭前检查。
+            </summary>
+            <param name="outboundOrder"></param>
         </member>
         <member name="M:Swm.Web.Controllers.PortsController.Get(Swm.Web.Controllers.PortListArgs)">
             <summary>
@@ -1796,6 +1824,11 @@
         <member name="P:Swm.Web.Controllers.OutboundOrderListItem.Lines">
             <summary>
             出库单明细集合。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderListItem.UnitloadCount">
+            <summary>
+            已分配的货载数
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.PalletizeWithoutOrderArgs">

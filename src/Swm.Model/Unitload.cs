@@ -38,7 +38,7 @@ namespace Swm.Model
             this.OpHintInfo = Cst.None;
             this.StorageInfo = new UnitloadStorageInfo();
             Items = new HashSet<UnitloadItem>();
-            //CurrentTasks = new HashSet<TransTask>();
+            CurrentTasks = new HashSet<TransportTask>();
         }
 
         public virtual int UnitloadId { get; internal protected set; }
@@ -84,19 +84,69 @@ namespace Swm.Model
         public virtual DateTime CurrentLocationTime { get; internal protected set; }
 
 
+        public virtual IUnitloadAllocationTable CurrentUat { get; protected set; }
 
-        // TODO 
-        //public virtual TransTask GetCurrentTask()
-        //{
-        //    return CurrentTasks.SingleOrDefault();
-        //}
+        /// <summary>
+        /// CurrentUat 的类型，用于帮助映射 <see cref="IUnitloadAllocationTable.Unitloads"/> 属性。
+        /// </summary>
+        /// <remarks>
+        /// 映射 <see cref="CurrentUat"/> 属性的 any 元素的 CurrentUatType 列，取值可能是基类名称，也有可能是子类名称，CurrentUatTypeDescription 是为了提供固定不变的值。
+        /// </remarks>
+        [MaxLength(4)]
+        public virtual string CurrentUatTypeDescription { get; protected set; }
 
 
-        //internal protected virtual ISet<TransTask> CurrentTasks { get; set; }
+        /// <summary>
+        /// 设置 <see cref="CurrentUat"/> 和 <see cref="CurrentUatTypeDescription"/> 属性。
+        /// </summary>
+        /// <param name="uat"></param>
+        /// <param name="uatTypeDescription"></param>
+        public virtual void SetCurrentUat(IUnitloadAllocationTable uat, string uatTypeDescription)
+        {
+            if (uat == null)
+            {
+                throw new ArgumentNullException(nameof(uat));
+            }
+            
+            if (uatTypeDescription == null)
+            {
+                throw new ArgumentNullException(nameof(uatTypeDescription));
+            }
+
+            if (this.CurrentUat != null && this.CurrentUat != uat)
+            {
+                throw new InvalidOperationException("已分配给其他单据");
+            }
+
+            this.CurrentUat = uat;
+            this.CurrentUatTypeDescription = uatTypeDescription;
+        }
+
+        /// <summary>
+        /// 清除 <see cref="CurrentUat"/> 和 <see cref="CurrentUatTypeDescription"/> 属性。
+        /// </summary>
+        public virtual void ResetCurrentUat()
+        {
+            this.CurrentUat = null;
+            this.CurrentUatTypeDescription = null;
+        }
+
+        /// <summary>
+        /// 获取托盘的当前任务。一个托盘一次最多只有一个任务。
+        /// </summary>
+        internal protected virtual ISet<TransportTask> CurrentTasks { get; set; }
 
 
+        /// <summary>
+        /// 获取托盘的当前任务。
+        /// </summary>
+        /// <returns></returns>
+        public virtual TransportTask GetCurrentTask()
+        {
+            return CurrentTasks.SingleOrDefault();
+        }
 
-
+        // TODO 重命名
         [MaxLength(20)]
         [Required]
         public virtual string OpHintType { get; protected set; }
@@ -153,7 +203,10 @@ namespace Swm.Model
             _items.Remove(item);
         }
 
-
+        /// <summary>
+        /// 获取一个值，指示此货载是否在货架上。有下架任务的货载，在任务完成前，也算作在货架上。
+        /// </summary>
+        /// <returns></returns>
         public virtual bool InRack()
         {
             return this.CurrentLocation.LocationType == LocationTypes.S;
@@ -161,7 +214,7 @@ namespace Swm.Model
 
         public override string ToString()
         {
-            return this.PalletCode + "#" + this.UnitloadId;
+            return this.PalletCode;
         }
 
 

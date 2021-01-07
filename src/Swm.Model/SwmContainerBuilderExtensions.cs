@@ -44,6 +44,7 @@ namespace Swm.Model
                 .AsImplementedInterfaces()
                 .SingleInstance();
             builder.RegisterType<FakeTaskSender>().As<ITaskSender>();
+            builder.RegisterType<DefaultOutboundOrderAllocator>().As<IOutboundOrderAllocator>();
 
             ConfigureRequestHandlers(builder, options.RequestHandlers);
             ConfigureCompletedTaskHandlers(builder, options.CompletedTaskHandlers);

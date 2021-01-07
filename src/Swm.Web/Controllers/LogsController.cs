@@ -110,7 +110,7 @@ namespace Swm.Web.Controllers
                 .Take(pageSize.Value)
                 .ToListAsync()
                 .ConfigureAwait(false);
-            return new PagedList<LogEntry>(list, 1, pageSize.Value, 0);
+            return new PagedList<LogEntry>(list, 1, pageSize.Value, totalItemCount);
 
         }
     }

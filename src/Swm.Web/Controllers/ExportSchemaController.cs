@@ -27,7 +27,7 @@ namespace Swm.Web.Controllers
     /// 向数据库导出表结构的工具。
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("export-schema")]
     public class ExportSchemaController : ControllerBase
     {
         readonly Configuration _nhConfiguration;

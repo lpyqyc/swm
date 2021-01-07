@@ -76,6 +76,10 @@ namespace Swm.Model
 
         public virtual ISet<Port> Ports { get; protected set; }
 
+        public override string ToString()
+        {
+            return LanewayCode;
+        }
 
         public virtual IDictionary<LanewayUsageKey, LanewayUsageData> Usage { get; protected set; }
 

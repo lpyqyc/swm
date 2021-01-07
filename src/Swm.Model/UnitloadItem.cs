@@ -62,7 +62,7 @@ namespace Swm.Model
 
         public override string ToString()
         {
-            return $"UnitloadItemId#{this.UnitloadItemId}";
+            return $"{this.Unitload?.PalletCode}#{this.UnitloadItemId}";
         }
     }
 

@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
+
 namespace Swm.Model
 {
     /// <summary>
@@ -19,6 +21,9 @@ namespace Swm.Model
     /// </summary>
     public interface IUnitloadAllocationTable
     {
-
+        /// <summary>
+        /// 已分配的货载集合。
+        /// </summary>
+        ISet<Unitload> Unitloads { get; }
     }
 }

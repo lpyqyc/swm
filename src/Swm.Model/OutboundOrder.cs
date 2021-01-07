@@ -13,17 +13,24 @@
 // limitations under the License.
 
 using Arctic.Auditing;
+using Arctic.NHibernateExtensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Swm.Model
 {
     /// <summary>
     /// 表示出库单。
     /// </summary>
-    public class OutboundOrder : IHasCtime, IHasCuser, IHasMtime, IHasMuser
+    public class OutboundOrder : IHasCtime, IHasCuser, IHasMtime, IHasMuser, IUnitloadAllocationTable
     {
+        /// <summary>
+        /// 分配表类型描述
+        /// </summary>
+        public const string UatTypeDescription = "出库单";
+
         public OutboundOrder()
         {
             this.ctime = DateTime.Now;
@@ -97,6 +104,7 @@ namespace Swm.Model
         [MaxLength(FIELD_LENGTH.USERNAME)]
         public virtual string ClosedBy { get; set; }
 
+
         /// <summary>
         /// 备注
         /// </summary>
@@ -108,6 +116,11 @@ namespace Swm.Model
         public virtual ISet<OutboundLine> Lines { get; protected set; }
 
         /// <summary>
+        /// 获取为此出库单分配的货载
+        /// </summary>
+        public virtual ISet<Unitload> Unitloads { get; protected set; }
+
+        /// <summary>
         /// 向此出库单添加明细。
         /// </summary>
         /// <param name="line"></param>
@@ -115,7 +128,7 @@ namespace Swm.Model
         {
             if (line.OutboundOrder != null)
             {
-                throw new InvalidOperationException("出库行已属于其他出库单。");
+                throw new InvalidOperationException("出库单明细已属于其他出库单。");
             }
 
             line.OutboundOrder = this;
@@ -132,12 +145,24 @@ namespace Swm.Model
             this.Lines.Remove(line);
         }
 
+        /// <summary>
+        /// 计算库存项在此出库单中的分配数量。
+        /// </summary>
+        /// <param name="unitloadItem"></param>
+        /// <returns></returns>
+        public virtual decimal ComputeAllocated(UnitloadItem unitloadItem)
+        {
+            return Lines.SelectMany(x => x.Allocations)
+                .Where(x => x.UnitloadItem == unitloadItem)
+                .Sum(x => x.Quantity);
+        }
+
 
         public override string ToString()
         {
             return this.OutboundOrderCode;
         }
 
-
     }
+
 }

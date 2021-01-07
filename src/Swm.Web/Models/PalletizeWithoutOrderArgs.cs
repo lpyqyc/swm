@@ -24,9 +24,9 @@ namespace Swm.Web.Controllers
         [Required]
         public string PalletCode { get; set; }
 
-        public Item[] Items { get; set; }
+        public ItemInfoToPalletizeWithoutOrder[] Items { get; set; }
 
-        public class Item
+        public class ItemInfoToPalletizeWithoutOrder
         {
             [Required]
             public string MaterialCode { get; set; }

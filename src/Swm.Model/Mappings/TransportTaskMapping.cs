@@ -36,11 +36,13 @@ namespace Swm.Model.Mappings
 
             ManyToOne(cl => cl.Unitload, m => {
                 m.Column("UnitloadId");
+                m.Update(false);
                 m.Unique(true);
             });
 
             ManyToOne(cl => cl.Start, m => {
                 m.Column("StartLocationId");
+                m.Update(false);
             });
             ManyToOne(cl => cl.End, m => {
                 m.Column("EndLocationId");

@@ -25,7 +25,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 出库单Id
         /// </summary>
-        public Int32 OutboundOrderId { get; set; }
+        public int OutboundOrderId { get; set; }
 
         /// <summary>
         /// 出库单编号。
@@ -57,12 +57,12 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 业务类型
         /// </summary>
-        public String BizType { get; set; }
+        public string BizType { get; set; }
 
         /// <summary>
         /// 业务单据号
         /// </summary>
-        public String BizOrder { get; set; }
+        public string BizOrder { get; set; }
 
         /// <summary>
         /// 是否已关闭
@@ -82,13 +82,19 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 备注
         /// </summary>
-        public String Comment { get; set; }
+        public string Comment { get; set; }
 
         /// <summary>
         /// 出库单明细集合。
         /// </summary>
         public List<OutboundLineInfo> Lines { get; set; }
-        
+
+        /// <summary>
+        /// 已分配的货载数
+        /// </summary>
+        public int UnitloadCount { get; set; }
+
+
     }
 
 }

@@ -64,17 +64,31 @@ namespace Swm.Model.Mappings
             });
             Property(cl => cl.CurrentLocationTime);
 
-            // TODO 
-            //Set(cl => cl.CurrentTasks, set => {
-            //    set.Inverse(true);
-            //    set.BatchSize(10);
-            //    set.Key(key => {
-            //        key.Column("UnitloadId");
-            //        key.NotNullable(true);
-            //    });
-            //}, rel => rel.OneToMany());
+            // TODO 重命名
+            Property(cl => cl.CurrentUatTypeDescription);
+            Any(cl => cl.CurrentUat, typeof(int), m =>
+            {
+                m.Lazy(false);
+                m.Columns(x =>
+                {
+                    x.Name("CurrentUatId");
+                }, x =>
+                {
+                    x.Name("CurrentUatType");
+                    x.Length(30);
+                });
+            });
 
 
+           Set(cl => cl.CurrentTasks, set => {
+                set.Inverse(true);
+                set.BatchSize(10);
+                set.Key(key =>
+                {
+                    key.Column("UnitloadId");
+                    key.NotNullable(true);
+                });
+            }, rel => rel.OneToMany());
 
             Property(cl => cl.OpHintType);
             Property(cl => cl.OpHintInfo);
