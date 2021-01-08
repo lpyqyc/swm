@@ -36,14 +36,14 @@ namespace Swm.Model
         /// <returns></returns>
         public static async Task<TransportTask> GetTaskAsync(this IQueryable<TransportTask> q, string taskCode)
         {
-            return await q.WrappedSingleOrDefaultAsync(x => x.TaskCode == taskCode).ConfigureAwait(false);
+            return await q.SingleOrDefaultAsync(x => x.TaskCode == taskCode).ConfigureAwait(false);
         }
 
         public static async Task<List<Location>> GetAsync(this IQueryable<Location> q, IEnumerable<int> locationIdList)
         {
             return await q
                 .Where(x => locationIdList.Contains(x.LocationId))
-                .WrappedToListAsync()
+                .ToListAsync()
                 .ConfigureAwait(false);
         }
 
@@ -51,7 +51,7 @@ namespace Swm.Model
         {
             return await q
                 .Where(x => x.LocationCode == locationCode)
-                .WrappedSingleOrDefaultAsync()
+                .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 
@@ -72,7 +72,7 @@ namespace Swm.Model
             return await q
                 .Where(x => x.PortCode == portCode)
                 .WithOptions(x => x.SetCacheable(true))
-                .WrappedSingleOrDefaultAsync()
+                .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 
@@ -94,7 +94,7 @@ namespace Swm.Model
             return await q
                 .Where(x => x.LocationCode == Cst.None)
                 .WithOptions(x => x.SetCacheable(true))
-                .WrappedSingleOrDefaultAsync()
+                .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 
@@ -103,7 +103,7 @@ namespace Swm.Model
             return await q
                 .Where(x => x.MaterialCode == materialCode)
                 .WithOptions(x => x.SetCacheable(true))
-                .WrappedSingleOrDefaultAsync()
+                .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
         }
 

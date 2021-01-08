@@ -17,6 +17,7 @@ using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
+using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System;
@@ -129,7 +130,7 @@ namespace Swm.Web.Controllers
         //[AutoTransaction]
         //public async Task<List<PortSelectListItem>> SelectListOfKAsync()
         //{
-        //    var list = await _session.Query<Port>().WrappedToListAsync();
+        //    var list = await _session.Query<Port>().ToListAsync();
         //    var items = list
         //        .Select(x => new PortSelectListItem
         //        {
@@ -159,7 +160,7 @@ namespace Swm.Web.Controllers
                 .ToList();
             List<Location> locs = await _session.Query<Location>()
                 .Where(x => list.Contains(x.LocationId))
-                .WrappedToListAsync();
+                .ToListAsync();
 
             int affected = 0;
             foreach (var loc in locs)
@@ -238,7 +239,7 @@ namespace Swm.Web.Controllers
 
             List<Location> locs = await _session.Query<Location>()
                 .Where(x => list.Contains(x.LocationId))
-                .WrappedToListAsync();
+                .ToListAsync();
 
             int affected = 0;
             foreach (var loc in locs)
@@ -315,7 +316,7 @@ namespace Swm.Web.Controllers
 
             List<Location> locs = await _session.Query<Location>()
                 .Where(x => list.Contains(x.LocationId))
-                .WrappedToListAsync();
+                .ToListAsync();
             if (locs.Count == 0)
             {
                 throw new InvalidOperationException("未指定货位。");
@@ -395,7 +396,7 @@ namespace Swm.Web.Controllers
 
             List<Location> locs = await _session.Query<Location>()
                 .Where(x => list.Contains(x.LocationId))
-                .WrappedToListAsync();
+                .ToListAsync();
             if (locs.Count == 0)
             {
                 throw new InvalidOperationException("未指定货位。");

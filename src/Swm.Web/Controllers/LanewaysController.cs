@@ -17,6 +17,7 @@ using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
+using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System;
@@ -103,7 +104,7 @@ namespace Swm.Web.Controllers
                     LanewayCode = x.LanewayCode,
                     Offline = x.Offline,
                 })
-                .WrappedToListAsync();
+                .ToListAsync();
             return items;
         }
 
@@ -286,7 +287,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<IActionResult> RebuildLanewaysStat()
         {
-            var laneways = await _session.Query<Laneway>().WrappedToListAsync();
+            var laneways = await _session.Query<Laneway>().ToListAsync();
             foreach (var laneway in laneways)
             {
                 await _locHelper.RebuildLanewayStatAsync(laneway);

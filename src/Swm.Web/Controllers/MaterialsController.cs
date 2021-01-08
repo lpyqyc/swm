@@ -17,6 +17,7 @@ using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
+using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System.Collections.Generic;
@@ -95,7 +96,7 @@ namespace Swm.Web.Controllers
                     MaterialType = x.MaterialType,
                 })
                 .Take(args.Limit ?? 10)
-                .WrappedToListAsync();
+                .ToListAsync();
 
             return items;
         }

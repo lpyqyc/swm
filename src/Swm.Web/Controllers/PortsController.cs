@@ -16,6 +16,7 @@ using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
+using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System.Collections.Generic;
@@ -78,7 +79,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<List<PortSelectListItem>> GetSelectList()
         {
-            var list = await _session.Query<Port>().WrappedToListAsync();
+            var list = await _session.Query<Port>().ToListAsync();
             var items = list
                 .Select(x => new PortSelectListItem
                 {

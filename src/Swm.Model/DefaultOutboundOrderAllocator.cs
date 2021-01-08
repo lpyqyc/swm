@@ -14,6 +14,7 @@
 
 using Arctic.NHibernateExtensions;
 using NHibernate;
+using NHibernate.Linq;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -105,7 +106,7 @@ namespace Swm.Model
                 included = await _session.Query<UnitloadItem>()
                     .Where(x => options.IncludePallets.Contains(x.Unitload.PalletCode)
                         && x.Material == line.Material)
-                    .WrappedToListAsync()
+                    .ToListAsync()
                     .ConfigureAwait(false);
             }
             // 库内候选项

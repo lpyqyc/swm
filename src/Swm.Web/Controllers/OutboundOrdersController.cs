@@ -18,6 +18,7 @@ using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
+using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System;
@@ -186,7 +187,7 @@ namespace Swm.Web.Controllers
                 OutboundLine line = new OutboundLine();
                 var material = await _session.Query<Material>()
                     .Where(x => x.MaterialCode == lineInfo.MaterialCode)
-                    .WrappedSingleOrDefaultAsync();
+                    .SingleOrDefaultAsync();
                 if (material == null)
                 {
                     throw new InvalidOperationException($"未找到编码为 {lineInfo.MaterialCode} 的物料。");
@@ -233,7 +234,7 @@ namespace Swm.Web.Controllers
                 throw new InvalidOperationException(errMsg);
             }
 
-            var movingDown = await _session.Query<Port>().WrappedAnyAsync(x => x.CurrentUat == outboundOrder);
+            var movingDown = await _session.Query<Port>().AnyAsync(x => x.CurrentUat == outboundOrder);
             if (movingDown)
             {
                 String errMsg = String.Format("出库单正在下架，不能编辑。单号：{0}。", outboundOrder.OutboundOrderCode);
@@ -278,7 +279,7 @@ namespace Swm.Web.Controllers
                             OutboundLine line = new OutboundLine();
                             var material = await _session.Query<Material>()
                                 .Where(x => x.MaterialCode == lineInfo.MaterialCode)
-                                .WrappedSingleOrDefaultAsync();
+                                .SingleOrDefaultAsync();
                             if (material == null)
                             {
                                 throw new InvalidOperationException($"未找到物料。编码 {lineInfo.MaterialCode}。");
@@ -441,7 +442,7 @@ namespace Swm.Web.Controllers
         private async Task CheckOnCloseAsync(OutboundOrder outboundOrder)
         {
             // 应始终检查出库单是否挂在出货口上
-            var ports = await _session.Query<Port>().Where(x => x.CurrentUat == outboundOrder).Select(x => x.PortCode).WrappedToListAsync();
+            var ports = await _session.Query<Port>().Where(x => x.CurrentUat == outboundOrder).Select(x => x.PortCode).ToListAsync();
             if (ports.Count() > 0)
             {
                 string str = string.Join(", ", ports.Select(x => x));

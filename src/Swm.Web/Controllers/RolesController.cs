@@ -16,6 +16,7 @@ using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
+using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System;
@@ -97,7 +98,7 @@ namespace Swm.Web.Controllers
                     RoleName = x.RoleName,
                     IsBuiltIn = x.IsBuiltIn,
                 })
-                .WrappedToListAsync();
+                .ToListAsync();
             return items;
         }
 
@@ -137,7 +138,7 @@ namespace Swm.Web.Controllers
                 return NotFound(id);
             }
 
-            var users = await _session.Query<User>().Where(x => x.Roles.Contains(role)).WrappedToListAsync();
+            var users = await _session.Query<User>().Where(x => x.Roles.Contains(role)).ToListAsync();
             foreach (var user in users)
             {
                 user.RemoveFromRole(role);
