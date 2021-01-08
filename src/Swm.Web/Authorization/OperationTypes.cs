@@ -19,6 +19,7 @@ namespace Swm.Web
 
         public const string 物料列表 = "物料.物料列表";
         public const string 无单据组盘 = "出入.无单据组盘";
+        public const string 实时库存 = "库存.实时库存";
 
 
         public const string 模拟请求 = "调试.模拟请求";

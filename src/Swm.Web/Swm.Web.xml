@@ -421,6 +421,13 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.StocksController.Get(Swm.Web.Controllers.StockListArgs)">
+            <summary>
+            实时库存
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.TasksController.Get(Swm.Web.Controllers.TaskListArgs)">
             <summary>
             任务列表
@@ -2209,6 +2216,91 @@
         <member name="P:Swm.Web.Controllers.SideViewRack.Locations">
             <summary>
             货架的货位，包含 <see cref="P:Swm.Model.Location.Exists"/> 为 false 的货位。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.StockListArgs">
+            <summary>
+            列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListArgs.MaterialCode">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListArgs.Batch">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListArgs.Current">
+            <summary>
+            基于 1 的当前页面。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListArgs.PageSize">
+            <summary>
+            每页大小
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.StockListItem">
+            <summary>
+            列表页的数据项。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.StockId">
+            <summary>
+            库存Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.mtime">
+            <summary>
+            库存最后一次变动时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.MaterialCode">
+            <summary>
+            物料代码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.Quantity">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.Uom">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.OutOrdering">
+            <summary>
+            出库次序
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StockListItem.AgeBaseline">
+            <summary>
+            库龄基线
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.StockStatusSelectListItem">

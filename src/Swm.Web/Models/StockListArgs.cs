@@ -1,4 +1,4 @@
-using Arctic.NHibernateExtensions;
+﻿using Arctic.NHibernateExtensions;
 using System;
 
 namespace Swm.Web.Controllers
@@ -6,26 +6,21 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表查询参数
     /// </summary>
-    public class OpListArgs
+    public class StockListArgs
     {
         /// <summary>
         /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
         [SearchArg(SearchMode.Like)]
-        public string? Prop1 { get; set; }
+        [SourceProperty("Material.MaterialCode")]
+        public string? MaterialCode { get; set; }
 
         /// <summary>
-        /// 
+        /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
-        [SearchArg(SearchMode.GreaterThan)]
-        public int? Prop2From { get; set; }
+        [SearchArg(SearchMode.Like)]
+        public string? Batch { get; set; }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [SearchArg(SearchMode.LessThan)]
-        public DateTime? Prop2To { get; set; }
 
         /// <summary>
         /// 排序字段
