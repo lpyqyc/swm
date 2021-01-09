@@ -45,7 +45,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet]
-        [OperationType(OperationTypes.物料列表)]
+        [OperationType(OperationTypes.查看物料)]
         public async Task<ListResult<MaterialListItem>> Get([FromQuery]MaterialListArgs args)
         {
             var pagedList = await _session.Query<Material>().SearchAsync(args, args.Sort, args.Current, args.PageSize);

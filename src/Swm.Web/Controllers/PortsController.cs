@@ -48,7 +48,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
-        [OperationType(OperationTypes.出口列表)]
+        [OperationType(OperationTypes.查看出口)]
         public async Task<ListResult<PortListItem>> Get([FromQuery]PortListArgs args)
         {
             var pagedList = await _session.Query<Port>().SearchAsync(args, args.Sort, args.Current, args.PageSize);

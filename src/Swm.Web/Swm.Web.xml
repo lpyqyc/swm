@@ -442,11 +442,25 @@
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.TasksController.ChangeLocationAsync(Swm.Web.Controllers.ChangeLocationArgs)">
+            <summary>
+            更改货载位置
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.UnitloadsController.Get(Swm.Web.Controllers.UnitloadListArgs)">
             <summary>
             货载列表
             </summary>
             <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UnitloadsController.Get(System.Int32)">
+            <summary>
+            货载详情
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.UnitloadsController.PalletizeWithoutOrder(Swm.Web.Controllers.PalletizeWithoutOrderArgs)">
@@ -652,6 +666,21 @@
         <member name="P:Swm.Web.Controllers.ArchivedTaskListItem.Cancelled">
             <summary>
             是否取消，true 表示已取消
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.ChangeLocationArgs">
+            <summary>
+            更改货载位置参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ChangeLocationArgs.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ChangeLocationArgs.DestinationLocationCode">
+            <summary>
+            目标货位编码
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.CreateKeyPointArgs">
@@ -2636,6 +2665,96 @@
         <member name="P:Swm.Web.Controllers.TaskListItem.Comment">
             <summary>
             备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UnitloadDetail">
+            <summary>
+            货载详情
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.UnitloadId">
+            <summary>
+            货载Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.ctime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.LocationCode">
+            <summary>
+            所在货位编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.LanewayCode">
+            <summary>
+            所在巷道编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.OpHintType">
+            <summary>
+            操作提示类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.OpHintInfo">
+            <summary>
+            操作提示信息
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.BeingMoved">
+            <summary>
+            是否有任务
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.Task">
+            <summary>
+            当前任务
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentUat">
+            <summary>
+            当前分配到的单据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.Items">
+            <summary>
+            货载明细列表
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo">
+            <summary>
+            当前任务信息
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo.TaskCode">
+            <summary>
+            当前任务号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo.TaskType">
+            <summary>
+            当前任务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo.StartLocationCode">
+            <summary>
+            起点位置编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo.EndLocationCode">
+            <summary>
+            终点位置编码
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.UnitloadItemInfo">

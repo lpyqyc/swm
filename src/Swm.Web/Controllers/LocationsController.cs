@@ -56,7 +56,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
-        [OperationType(OperationTypes.货位列表)]
+        [OperationType(OperationTypes.查看货位)]
         [Route("/storage-locations")]
         public async Task<ListResult<StorageLocationListItem>> GetStorageLocationList([FromQuery]StorageLocationListArgs args)
         {
@@ -93,7 +93,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
-        [OperationType(OperationTypes.关键点列表)]
+        [OperationType(OperationTypes.查看关键点)]
         [Route("/key-points")]
         public async Task<ListResult<KeyPointListItem>> GetKeyPointList([FromQuery]KeyPointListArgs args)
         {

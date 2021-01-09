@@ -56,7 +56,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
-        [OperationType(OperationTypes.巷道列表)]
+        [OperationType(OperationTypes.查看巷道)]
         public async Task<ListResult<LanewayListItem>> Get([FromQuery]LanewayListArgs args)
         {
             var pagedList = await _session.Query<Laneway>().SearchAsync(args, args.Sort, args.Current, args.PageSize);

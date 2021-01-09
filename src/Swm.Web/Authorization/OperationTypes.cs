@@ -2,14 +2,14 @@ namespace Swm.Web
 {
     internal class OperationTypes
     {
-        public const string 巷道列表 = "位置.巷道列表";
+        public const string 查看巷道 = "位置.查看巷道";
         public const string 脱机巷道 = "位置.脱机巷道";
         public const string 联机巷道 = "位置.联机巷道";
         public const string 重建巷道统计信息 = "位置.重建巷道统计信息";
         public const string 设置出口 = "位置.设置出口";
-        public const string 出口列表 = "位置.出口列表";
-        public const string 货位列表 = "位置.货位列表";
-        public const string 关键点列表 = "位置.关键点列表";
+        public const string 查看出口 = "位置.查看出口";
+        public const string 查看货位 = "位置.查看货位";
+        public const string 查看关键点 = "位置.查看关键点";
         public const string 禁止入站 = "位置.禁止入站";
         public const string 允许入站 = "位置.允许入站";
         public const string 禁止出站 = "位置.禁止出站";
@@ -17,10 +17,14 @@ namespace Swm.Web
         public const string 编辑关键点 = "位置.编辑关键点";
         public const string 侧视图 = "位置.侧视图";
 
-        public const string 物料列表 = "物料.物料列表";
+        public const string 查看物料 = "物料.查看物料";
         public const string 无单据组盘 = "出入.无单据组盘";
         public const string 实时库存 = "库存.实时库存";
+        public const string 查看货载 = "库存.查看货载";
 
+        public const string 查看任务 = "任务.查看任务";
+        public const string 查看历史任务 = "任务.查看历史任务";
+        public const string 更改位置 = "任务.更改位置";
 
         public const string 模拟请求 = "调试.模拟请求";
         public const string 模拟完成 = "调试.模拟完成";
