@@ -16,6 +16,7 @@ using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
+using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System;
@@ -69,6 +70,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet]
+        [OperationType(OperationTypes.查看货载)]
         public async Task<ListResult<UnitloadListItem>> Get([FromQuery]UnitloadListArgs args)
         {
             var pagedList = await _session.Query<Unitload>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
@@ -100,6 +102,83 @@ namespace Swm.Web.Controllers
                     Comment = x.Comment
                 }),
                 Total = pagedList.Total,
+            };
+        }
+
+        /// <summary>
+        /// 货载详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpGet("{id}")]
+        [OperationType(OperationTypes.查看货载)]
+        public async Task<ActionResult<UnitloadDetail>> Get(int id)
+        {
+            var unitload = await _session.GetAsync<Unitload>(id);
+            if (unitload == null)
+            {
+                return NotFound();
+            }
+
+            return ToUnitloadDetail(unitload);
+        }
+
+        /// <summary>
+        /// 货载详情
+        /// </summary>
+        /// <param name="palletCode"></param>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpGet("{palletCode}")]
+        [OperationType(OperationTypes.查看货载)]
+        public async Task<ActionResult<UnitloadDetail>> Get(string palletCode)
+        {
+            var unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == palletCode).SingleOrDefaultAsync();
+            if (unitload == null)
+            {
+                return NotFound();
+            }
+
+            return ToUnitloadDetail(unitload);
+        }
+
+        private UnitloadDetail ToUnitloadDetail(Unitload unitload)
+        {
+            var task = unitload.GetCurrentTask();
+            return new UnitloadDetail
+            {
+                UnitloadId = unitload.UnitloadId,
+                PalletCode = unitload.PalletCode,
+                ctime = unitload.ctime,
+                LocationCode = unitload.CurrentLocation.LocationCode,
+                LanewayCode = unitload.CurrentLocation?.Rack?.Laneway?.LanewayCode,
+                BeingMoved = unitload.BeingMoved,
+                Items = unitload.Items.Select(i => new UnitloadItemInfo
+                {
+                    UnitloadItemId = i.UnitloadItemId,
+                    MaterialId = i.Material.MaterialId,
+                    MaterialCode = i.Material.MaterialCode,
+                    MaterialType = i.Material.MaterialType,
+                    Description = i.Material.Description,
+                    Specification = i.Material.Specification,
+                    Batch = i.Batch,
+                    StockStatus = i.StockStatus,
+                    Quantity = i.Quantity,
+                    Uom = i.Uom,
+                }).ToList(),
+                Comment = unitload.Comment,
+                CurrentTask = task == null ? null : new UnitloadDetail.CurrentTaskInfo
+                {
+                    TaskCode = task.TaskCode,
+                    TaskType = task.TaskType,
+                    StartLocationCode = task.Start.LocationCode,
+                    EndLocationCode = task.End.LocationCode,
+                },
+                CurrentUat = unitload.CurrentUat?.ToString(),
+                OpHintInfo = unitload.OpHintInfo,
+                OpHintType = unitload.OpHintType,
+
             };
         }
 
@@ -140,24 +219,6 @@ namespace Swm.Web.Controllers
             return this.Success();
         }
 
-
-        //[AutoTx]
-        //[HttpPost]
-        //[Route("get-select-list-of-biz-types")]
-        //public async Task<ActionResult> GetSelectListOfBizTypesAsync()
-        //{
-        //    var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.BizType);
-
-        //    var items = list.Select(x => new
-        //    {
-        //        BizType = x.AppCodeValue,
-        //        x.Description,
-        //        x.Scope,
-        //        x.DisplayOrder,
-        //    });
-
-        //    return Ok(items);
-        //}
     }
 
 

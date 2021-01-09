@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.AppCodes;
 using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using Serilog;
 using Swm.Model;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,7 +46,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet]
-        public async Task<ListResult<FlowListItem>> Get([FromQuery]FlowListArgs args)
+        public async Task<ListResult<FlowListItem>> Get([FromQuery] FlowListArgs args)
         {
             var pagedList = await _session.Query<Flow>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
@@ -75,23 +77,26 @@ namespace Swm.Web.Controllers
         }
 
 
+        /// <summary>
+        /// 获取业务类型列表数据
+        /// </summary>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpGet]
+        [Route("biz-type-select-list")]
+        public async Task<ActionResult> GetBizTypeSelectList()
+        {
+            var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.BizType);
 
-        //[AutoTx]
-        //[HttpPost]
-        //[Route("get-select-list-of-biz-types")]
-        //public async Task<ActionResult> GetSelectListOfBizTypesAsync()
-        //{
-        //    var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.BizType);
+            var items = list.Select(x => new BizTypeSelectListItem
+            {
+                BizType = x.AppCodeValue,
+                Description = x.Description,
+                Scope = x.Scope,
+                DisplayOrder = x.DisplayOrder
+            });
 
-        //    var items = list.Select(x => new
-        //    {
-        //        BizType = x.AppCodeValue,
-        //        x.Description,
-        //        x.Scope,
-        //        x.DisplayOrder,
-        //    });
-
-        //    return Ok(items);
-        //}
+            return Ok(items);
+        }
     }
 }

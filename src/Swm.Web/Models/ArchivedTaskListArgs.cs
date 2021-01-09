@@ -15,6 +15,7 @@
 using Arctic.NHibernateExtensions;
 using Swm.Model;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -205,5 +206,4 @@ namespace Swm.Web.Controllers
         /// </summary>
         public int? PageSize { get; set; }
     }
-
 }

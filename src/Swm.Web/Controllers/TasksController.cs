@@ -16,6 +16,7 @@ using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
+using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System.Linq;
@@ -29,10 +30,14 @@ namespace Swm.Web.Controllers
     {
         readonly ILogger _logger;
         readonly ISession _session;
+        readonly TaskHelper _taskHelper;
+        readonly OpHelper _opHelper;
 
-        public TasksController(ISession session, ILogger logger)
+        public TasksController(ISession session, TaskHelper taskHelper, OpHelper opHelper, ILogger logger)
         {
             _logger = logger;
+            _taskHelper = taskHelper;
+            _opHelper = opHelper;
             _session = session;
         }
 
@@ -43,6 +48,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet]
+        [OperationType(OperationTypes.查看任务)]
         public async Task<ListResult<TaskListItem>> Get([FromQuery]TaskListArgs args)
         {
             if (args.Sort == null)
@@ -92,6 +98,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [Route("archived")]
+        [OperationType(OperationTypes.查看任务)]
         public async Task<ListResult<ArchivedTaskListItem>> GetArchived([FromQuery]ArchivedTaskListArgs args)
         {
             if (args.Sort == null)
@@ -133,6 +140,44 @@ namespace Swm.Web.Controllers
                 }),
                 Total = pagedList.Total,
             };
+        }
+
+        /// <summary>
+        /// 更改货载位置
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [AutoTransaction]
+        [OperationType(OperationTypes.更改位置)]
+        [HttpPost("actions/change-location")]        
+        public async Task<ActionResult> ChangeLocationAsync(ChangeLocationArgs args)
+        {
+            Unitload unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == args.PalletCode).SingleOrDefaultAsync();
+
+            if (unitload == null)
+            {
+                return BadRequest("托盘号不存在");
+            }
+
+            Location dest = await _session.Query<Location>().Where(x => x.LocationCode == args.DestinationLocationCode).SingleOrDefaultAsync();
+            if (dest == null)
+            {
+                return BadRequest("货位号不存在");
+            }
+
+            var originalLocationCode = unitload.CurrentLocation?.LocationCode;
+            if (originalLocationCode == null)
+            {
+                originalLocationCode = Cst.None;
+            }
+
+            var archived = await _taskHelper.ChangeUnitloadsLocationAsync(unitload, dest, string.Format("user: {0}", this.User?.Identity?.Name ?? "-"));
+
+            _ = await _opHelper.SaveOpAsync("任务号 {0}", archived.TaskCode);
+
+            _logger.Information("已将托盘 {palletCode} 的位置从 {originalLocationCode} 改为 {destinationLocationCode}", args.PalletCode, originalLocationCode, args.DestinationLocationCode);
+
+            return this.Success();
         }
 
     }

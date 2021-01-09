@@ -145,6 +145,12 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.FlowsController.GetBizTypeSelectList">
+            <summary>
+            获取业务类型列表数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.LanewaysController.Get(Swm.Web.Controllers.LanewayListArgs)">
             <summary>
             获取所有巷道
@@ -461,6 +467,13 @@
             货载详情
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UnitloadsController.Get(System.String)">
+            <summary>
+            货载详情
+            </summary>
+            <param name="palletCode"></param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.UnitloadsController.PalletizeWithoutOrder(Swm.Web.Controllers.PalletizeWithoutOrderArgs)">
@@ -2717,7 +2730,7 @@
             是否有任务
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.Task">
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTask">
             <summary>
             当前任务
             </summary>
@@ -3024,6 +3037,31 @@
         <member name="P:Swm.Web.ListResult`1.Total">
             <summary>
             记录总数
+            </summary>
+        </member>
+        <member name="T:Swm.Web.BizTypeSelectListItem">
+            <summary>
+            业务类型列表数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.BizTypeSelectListItem.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.BizTypeSelectListItem.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.BizTypeSelectListItem.Scope">
+            <summary>
+            适用范围
+            </summary>
+        </member>
+        <member name="P:Swm.Web.BizTypeSelectListItem.DisplayOrder">
+            <summary>
+            展示次序
             </summary>
         </member>
         <member name="T:Swm.Web.LogEntry">
