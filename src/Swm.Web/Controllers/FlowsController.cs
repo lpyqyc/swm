@@ -20,6 +20,7 @@ using NHibernate;
 using Serilog;
 using Swm.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,7 +47,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet]
-        public async Task<ListResult<FlowListItem>> Get([FromQuery] FlowListArgs args)
+        public async Task<ListResult<FlowListItem>> List([FromQuery] FlowListArgs args)
         {
             var pagedList = await _session.Query<Flow>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
@@ -84,7 +85,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [Route("biz-type-select-list")]
-        public async Task<ActionResult> GetBizTypeSelectList()
+        public async Task<List<BizTypeSelectListItem>> BizTypeSelectList()
         {
             var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.BizType);
 
@@ -94,9 +95,9 @@ namespace Swm.Web.Controllers
                 Description = x.Description,
                 Scope = x.Scope,
                 DisplayOrder = x.DisplayOrder
-            });
+            }).ToList();
 
-            return Ok(items);
+            return items;
         }
     }
 }

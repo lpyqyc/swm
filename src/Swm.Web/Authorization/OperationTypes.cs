@@ -18,6 +18,8 @@ namespace Swm.Web
         public const string 侧视图 = "位置.侧视图";
 
         public const string 查看物料 = "物料.查看物料";
+        public const string 导入物料主数据 = "物料.导入物料主数据";
+
         public const string 无单据组盘 = "出入.无单据组盘";
         public const string 实时库存 = "库存.实时库存";
         public const string 查看货载 = "库存.查看货载";

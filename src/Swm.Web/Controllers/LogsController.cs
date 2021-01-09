@@ -40,7 +40,7 @@ namespace Swm.Web.Controllers
         /// <param name="args">查询参数</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ListResult<LogEntry>> Get([FromQuery]LogListArgs args)
+        public async Task<ListResult<LogEntry>> List([FromQuery]LogListArgs args)
         {
             var pagedList = await SearchLogsAsync(_context.Logs.AsNoTracking(), args.Filter, args.Sort, args.Current, args.PageSize);
 

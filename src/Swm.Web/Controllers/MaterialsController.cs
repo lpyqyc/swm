@@ -15,13 +15,21 @@
 using Arctic.AppCodes;
 using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using NHibernate.Linq;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using Serilog;
 using Swm.Model;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
@@ -31,10 +39,15 @@ namespace Swm.Web.Controllers
     public class MaterialsController : ControllerBase
     {
         readonly ILogger _logger;
-        readonly ISession _session;
-        public MaterialsController(ISession session, ILogger logger)
+        readonly NHibernate.ISession _session;
+        readonly IMaterialFactory _materialFactory;
+        readonly OpHelper _opHelper;
+
+        public MaterialsController(NHibernate.ISession session, IMaterialFactory materialFactory, OpHelper opHelper, ILogger logger)
         {
             _logger = logger;
+            _materialFactory = materialFactory;
+            _opHelper = opHelper;
             _session = session;
         }
 
@@ -46,7 +59,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [OperationType(OperationTypes.查看物料)]
-        public async Task<ListResult<MaterialListItem>> Get([FromQuery]MaterialListArgs args)
+        public async Task<ListResult<MaterialListItem>> List([FromQuery] MaterialListArgs args)
         {
             var pagedList = await _session.Query<Material>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
@@ -82,9 +95,9 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost]
+        [HttpGet]
         [Route("select-list")]
-        public async Task<List<MaterialSelectListItem>> GetSelectList(MaterialSelectListArgs args)
+        public async Task<List<MaterialSelectListItem>> SelectList(MaterialSelectListArgs args)
         {
             var items = await _session.Query<Material>()
                 .FilterByKeyword(args.Keyword, args.MaterialType)
@@ -108,7 +121,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [Route("material-type-select-list")]
-        public async Task<List<MaterialTypeSelectListItem>> GetMaterialTypesSelectList()
+        public async Task<List<MaterialTypeSelectListItem>> MaterialTypesSelectList()
         {
             var appCodes = await _session
                 .Query<AppCode>()
@@ -127,26 +140,133 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 获取库存状态的选择列表
+        /// 导入物料主数据
         /// </summary>
+        /// <param name="file"></param>
         /// <returns></returns>
+        [OperationType(OperationTypes.导入物料主数据)]
         [AutoTransaction]
-        [HttpPost]
-        [Route("stock-status-select-list")]
-        public async Task<List<StockStatusSelectListItem>> GetStockStatusSelectList()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [HttpPost("actions/import")]
+        public async Task<ActionResult> Import(IFormFile file)
         {
-            var appCodes = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.StockStatus);
-
-            var list = appCodes.Select(x => new StockStatusSelectListItem
+            string[] arr = new[] { ".xlsx", ".xls" };
+            if (arr.Contains(Path.GetExtension(file.FileName)?.ToLower()) == false)
             {
-                StockStatus = x.AppCodeValue,
-                Description = x.Description,
-                Scope = x.Scope,
-                DisplayOrder = x.DisplayOrder,
-            }).ToList();
+                return BadRequest(new { message = "Invalid file extension" });
+            }
 
-            return list;
+
+            string filename = await WriteFileAsync(file);
+
+            DataTable dt = ReadFile(filename);
+
+            int imported = 0;
+            int covered = 0;
+            int empty = 0;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string? mcode = Convert.ToString(row["编码"]);
+                if (string.IsNullOrWhiteSpace(mcode))
+                {
+                    // 忽略空行
+                    empty++;
+                    continue;
+                }
+                Material material = await _session.Query<Material>().Where(x => x.MaterialCode == mcode).SingleOrDefaultAsync();
+                if (material != null)
+                {
+                    covered++;
+                    _logger.Warning("将覆盖已存在的物料 {material}", material.MaterialCode);
+                }
+                else
+                {
+                    material = _materialFactory.CreateMaterial();
+                    material.MaterialCode = Convert.ToString(row["编码"]);
+                }
+
+                material.Description = Convert.ToString(row["描述"]);
+                material.BatchEnabled = Convert.ToBoolean(row["批次管理"]);
+                material.StandingTime = 24;
+                material.ValidDays = Convert.ToInt32(row["有效天数"]);
+                material.MaterialType = Convert.ToString(row["物料类型"]);
+                material.Uom = Convert.ToString(row["计量单位"])?.ToUpper();
+                material.DefaultQuantity = Convert.ToDecimal(row["每托数量"]);
+                material.Specification = Convert.ToString(row["规格型号"]);
+                // TODO 取拼音首字母
+                // material.MnemonicCode = PinyinUtil.ChineseCap(material.Description).NullSafeLeft(20);
+                
+                await _session.SaveOrUpdateAsync(material);
+                _logger.Information("已导入物料 {material}", material.MaterialCode);
+                imported++;
+            }
+
+            _ = await _opHelper.SaveOpAsync("导入 {0}，覆盖 {1}", imported, covered);
+
+            return Ok();
+
+
+            static async Task<string> WriteFileAsync(IFormFile file)
+            {
+                var dir = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\files");
+                Directory.CreateDirectory(dir);
+
+                string fileName = DateTime.Now.ToString("up-m-yyyyMMdd HHmmss") + Path.GetExtension(file.FileName);
+                var path = Path.Combine(dir, fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                return path;
+            }
+
+            static DataTable ReadFile(string filePath)
+            {
+                XSSFWorkbook hssfworkbook;
+
+                using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    hssfworkbook = new XSSFWorkbook(file);
+                }
+
+                NPOI.SS.UserModel.ISheet sheet = hssfworkbook.GetSheetAt(0);
+                DataTable table = new DataTable();
+                IRow headerRow = sheet.GetRow(0);//第一行为标题行
+                int cellCount = headerRow.LastCellNum;//LastCellNum = PhysicalNumberOfCells
+                int rowCount = sheet.LastRowNum;//LastRowNum = PhysicalNumberOfRows - 1
+
+                //handling header.
+                for (int i = headerRow.FirstCellNum; i < cellCount; i++)
+                {
+                    DataColumn column = new DataColumn(headerRow.GetCell(i).StringCellValue);
+                    table.Columns.Add(column);
+                }
+                for (int i = (sheet.FirstRowNum + 1); i <= rowCount; i++)
+                {
+                    IRow row = sheet.GetRow(i);
+                    DataRow dataRow = table.NewRow();
+
+                    if (row != null)
+                    {
+                        for (int j = row.FirstCellNum; j < cellCount; j++)
+                        {
+                            if (row.GetCell(j) != null)
+                                dataRow[j] = row.GetCell(j);
+                        }
+                    }
+                    table.Rows.Add(dataRow);
+                }
+                return table;
+            }
+
         }
+
+
+        
 
     }
 

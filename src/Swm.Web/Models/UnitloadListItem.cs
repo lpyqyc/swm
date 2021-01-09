@@ -49,6 +49,11 @@ namespace Swm.Web.Controllers
         public string? LanewayCode { get; set; }
 
         /// <summary>
+        /// 托盘是否已分配
+        /// </summary>
+        public bool Allocated { get; set; }
+
+        /// <summary>
         /// 备注
         /// </summary>
         public string? Comment { get; set; }

@@ -57,7 +57,7 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看巷道)]
-        public async Task<ListResult<LanewayListItem>> Get([FromQuery]LanewayListArgs args)
+        public async Task<ListResult<LanewayListItem>> List([FromQuery]LanewayListArgs args)
         {
             var pagedList = await _session.Query<Laneway>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<LanewayListItem>
@@ -95,7 +95,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [Route("select-list")]
         [AutoTransaction]
-        public async Task<List<LanewaySelectListItem>> GetSelectList()
+        public async Task<List<LanewaySelectListItem>> SelectList()
         {
             var items = await _session.Query<Laneway>()
                 .Select(x => new LanewaySelectListItem
@@ -178,6 +178,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 设置巷道可以到达的出口
         /// </summary>
+        /// <param name="id">巷道Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost]

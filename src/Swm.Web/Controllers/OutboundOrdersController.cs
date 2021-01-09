@@ -68,7 +68,7 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出库单)]
-        public async Task<ListResult<OutboundOrderListItem>> ListAsync([FromQuery]OutboundOrderListArgs args)
+        public async Task<ListResult<OutboundOrderListItem>> List([FromQuery]OutboundOrderListArgs args)
         {
             var pagedList = await _session.Query<OutboundOrder>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<OutboundOrderListItem>

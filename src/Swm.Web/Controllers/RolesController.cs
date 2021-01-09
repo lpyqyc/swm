@@ -64,7 +64,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [OperationType(OperationTypes.查看角色)]
-        public async Task<ListResult<RoleListItem>> Get([FromQuery]RoleListArgs args)
+        public async Task<ListResult<RoleListItem>> List([FromQuery]RoleListArgs args)
         {
             var pagedList = await _session.Query<Role>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<RoleListItem>
@@ -89,7 +89,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [Route("select-list")]
-        public async Task<List<RoleSelectListItem>> GetSelectList()
+        public async Task<List<RoleSelectListItem>> SelectList()
         {
             var items = await _session.Query<Role>()
                 .Select(x => new RoleSelectListItem
@@ -102,6 +102,11 @@ namespace Swm.Web.Controllers
             return items;
         }
 
+        /// <summary>
+        /// 创建角色
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         [AutoTransaction]
         [HttpPost]
         [OperationType(OperationTypes.创建角色)]

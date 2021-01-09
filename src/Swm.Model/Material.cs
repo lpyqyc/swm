@@ -36,8 +36,6 @@ namespace Swm.Model
         [MaxLength(30)]
         public virtual string MaterialCode { get; set; }
 
-
-
         public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }

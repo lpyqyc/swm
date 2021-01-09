@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
 
 namespace Swm.Model
 {
-    public interface IFlowFactory
+    public interface IMaterialFactory
     {
-        Flow CreateFlow();
+        Material CreateMaterial();
     }
 }

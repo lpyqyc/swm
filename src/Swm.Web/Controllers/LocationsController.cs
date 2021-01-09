@@ -58,7 +58,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [OperationType(OperationTypes.查看货位)]
         [Route("/storage-locations")]
-        public async Task<ListResult<StorageLocationListItem>> GetStorageLocationList([FromQuery]StorageLocationListArgs args)
+        public async Task<ListResult<StorageLocationListItem>> StorageLocationList([FromQuery]StorageLocationListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<StorageLocationListItem>
@@ -95,7 +95,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [OperationType(OperationTypes.查看关键点)]
         [Route("/key-points")]
-        public async Task<ListResult<KeyPointListItem>> GetKeyPointList([FromQuery]KeyPointListArgs args)
+        public async Task<ListResult<KeyPointListItem>> KeyPointList([FromQuery]KeyPointListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<KeyPointListItem>
@@ -510,5 +510,10 @@ namespace Swm.Web.Controllers
 
             return this.Success();
         }
+    
+    
+    
+    
+    
     }
 }

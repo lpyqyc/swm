@@ -71,7 +71,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ListResult<UnitloadListItem>> Get([FromQuery]UnitloadListArgs args)
+        public async Task<ListResult<UnitloadListItem>> List([FromQuery]UnitloadListArgs args)
         {
             var pagedList = await _session.Query<Unitload>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
@@ -99,6 +99,8 @@ namespace Swm.Web.Controllers
                         Quantity = i.Quantity,
                         Uom = i.Uom,
                     }).ToList(),
+                    Allocated = (x.CurrentUat != null),
+
                     Comment = x.Comment
                 }),
                 Total = pagedList.Total,
@@ -113,7 +115,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("{id}")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ActionResult<UnitloadDetail>> Get(int id)
+        public async Task<ActionResult<UnitloadDetail>> Detail(int id)
         {
             var unitload = await _session.GetAsync<Unitload>(id);
             if (unitload == null)
@@ -132,7 +134,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("{palletCode}")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ActionResult<UnitloadDetail>> Get(string palletCode)
+        public async Task<ActionResult<UnitloadDetail>> Detail(string palletCode)
         {
             var unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == palletCode).SingleOrDefaultAsync();
             if (unitload == null)

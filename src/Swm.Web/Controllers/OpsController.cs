@@ -24,14 +24,14 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 列表
+        /// 操作记录列表
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
         [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
-        public async Task<ListResult<OpListItem>> Get([FromQuery]OpListArgs args)
+        public async Task<ListResult<OpListItem>> List([FromQuery]OpListArgs args)
         {
             var pagedList = await _session.Query<Op>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<OpListItem>

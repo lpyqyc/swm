@@ -49,7 +49,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [OperationType(OperationTypes.查看用户)]
-        public async Task<ListResult<UserListItem>> Get([FromQuery]UserListArgs args)
+        public async Task<ListResult<UserListItem>> List([FromQuery]UserListArgs args)
         {
             var pagedList = await _session.Query<User>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 

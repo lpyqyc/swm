@@ -138,27 +138,27 @@
             根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.FlowsController.Get(Swm.Web.Controllers.FlowListArgs)">
+        <member name="M:Swm.Web.Controllers.FlowsController.List(Swm.Web.Controllers.FlowListArgs)">
             <summary>
             获取流水列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.FlowsController.GetBizTypeSelectList">
+        <member name="M:Swm.Web.Controllers.FlowsController.BizTypeSelectList">
             <summary>
             获取业务类型列表数据
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.Get(Swm.Web.Controllers.LanewayListArgs)">
+        <member name="M:Swm.Web.Controllers.LanewaysController.List(Swm.Web.Controllers.LanewayListArgs)">
             <summary>
             获取所有巷道
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.GetSelectList">
+        <member name="M:Swm.Web.Controllers.LanewaysController.SelectList">
             <summary>
             巷道选择列表
             </summary>
@@ -184,6 +184,7 @@
             <summary>
             设置巷道可以到达的出口
             </summary>
+            <param name="id">巷道Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -200,14 +201,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.GetStorageLocationList(Swm.Web.Controllers.StorageLocationListArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.StorageLocationList(Swm.Web.Controllers.StorageLocationListArgs)">
             <summary>
             货位列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.GetKeyPointList(Swm.Web.Controllers.KeyPointListArgs)">
+        <member name="M:Swm.Web.Controllers.LocationsController.KeyPointList(Swm.Web.Controllers.KeyPointListArgs)">
             <summary>
             关键点列表
             </summary>
@@ -261,7 +262,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LogsController.Get(Swm.Web.Controllers.LogListArgs)">
+        <member name="M:Swm.Web.Controllers.LogsController.List(Swm.Web.Controllers.LogListArgs)">
             <summary>
             日志列表
             </summary>
@@ -275,35 +276,36 @@
             <param name="args">跟踪参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.Get(Swm.Web.Controllers.MaterialListArgs)">
+        <member name="M:Swm.Web.Controllers.MaterialsController.List(Swm.Web.Controllers.MaterialListArgs)">
             <summary>
             物料列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.GetSelectList(Swm.Web.Controllers.MaterialSelectListArgs)">
+        <member name="M:Swm.Web.Controllers.MaterialsController.SelectList(Swm.Web.Controllers.MaterialSelectListArgs)">
             <summary>
             物料选择列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.GetMaterialTypesSelectList">
+        <member name="M:Swm.Web.Controllers.MaterialsController.MaterialTypesSelectList">
             <summary>
             获取物料类型的选择列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.GetStockStatusSelectList">
+        <member name="M:Swm.Web.Controllers.MaterialsController.Import(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
-            获取库存状态的选择列表
+            导入物料主数据
             </summary>
+            <param name="file"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.OpsController.Get(Swm.Web.Controllers.OpListArgs)">
+        <member name="M:Swm.Web.Controllers.OpsController.List(Swm.Web.Controllers.OpListArgs)">
             <summary>
-            列表
+            操作记录列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
@@ -323,7 +325,7 @@
             <param name="opHelper"></param>
             <param name="logger"></param>
         </member>
-        <member name="M:Swm.Web.Controllers.OutboundOrdersController.ListAsync(Swm.Web.Controllers.OutboundOrderListArgs)">
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.List(Swm.Web.Controllers.OutboundOrderListArgs)">
             <summary>
             出库单列表
             </summary>
@@ -386,30 +388,37 @@
             </summary>
             <param name="outboundOrder"></param>
         </member>
-        <member name="M:Swm.Web.Controllers.PortsController.Get(Swm.Web.Controllers.PortListArgs)">
+        <member name="M:Swm.Web.Controllers.PortsController.List(Swm.Web.Controllers.PortListArgs)">
             <summary>
             出口列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.PortsController.GetSelectList">
+        <member name="M:Swm.Web.Controllers.PortsController.SelectList">
             <summary>
             出口选择列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.RolesController.Get(Swm.Web.Controllers.RoleListArgs)">
+        <member name="M:Swm.Web.Controllers.RolesController.List(Swm.Web.Controllers.RoleListArgs)">
             <summary>
             角色列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.RolesController.GetSelectList">
+        <member name="M:Swm.Web.Controllers.RolesController.SelectList">
             <summary>
             获取角色的选择列表
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.RolesController.Create(Swm.Web.Controllers.CreateRoleArgs)">
+            <summary>
+            创建角色
+            </summary>
+            <param name="args"></param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.RolesController.Delete(System.Int32)">
@@ -427,21 +436,27 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.StocksController.Get(Swm.Web.Controllers.StockListArgs)">
+        <member name="M:Swm.Web.Controllers.StocksController.List(Swm.Web.Controllers.StockListArgs)">
             <summary>
             实时库存
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.TasksController.Get(Swm.Web.Controllers.TaskListArgs)">
+        <member name="M:Swm.Web.Controllers.StocksController.StockStatusSelectList">
+            <summary>
+            获取库存状态的选择列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.TasksController.List(Swm.Web.Controllers.TaskListArgs)">
             <summary>
             任务列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.TasksController.GetArchived(Swm.Web.Controllers.ArchivedTaskListArgs)">
+        <member name="M:Swm.Web.Controllers.TasksController.Archived(Swm.Web.Controllers.ArchivedTaskListArgs)">
             <summary>
             历史任务列表
             </summary>
@@ -455,21 +470,21 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.Get(Swm.Web.Controllers.UnitloadListArgs)">
+        <member name="M:Swm.Web.Controllers.UnitloadsController.List(Swm.Web.Controllers.UnitloadListArgs)">
             <summary>
             货载列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.Get(System.Int32)">
+        <member name="M:Swm.Web.Controllers.UnitloadsController.Detail(System.Int32)">
             <summary>
             货载详情
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.Get(System.String)">
+        <member name="M:Swm.Web.Controllers.UnitloadsController.Detail(System.String)">
             <summary>
             货载详情
             </summary>
@@ -483,7 +498,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.UsersController.Get(Swm.Web.Controllers.UserListArgs)">
+        <member name="M:Swm.Web.Controllers.UsersController.List(Swm.Web.Controllers.UserListArgs)">
             <summary>
             用户列表
             </summary>
@@ -2918,6 +2933,11 @@
         <member name="P:Swm.Web.Controllers.UnitloadListItem.LanewayCode">
             <summary>
             所在巷道编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.Allocated">
+            <summary>
+            托盘是否已分配
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.UnitloadListItem.Comment">

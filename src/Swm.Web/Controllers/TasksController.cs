@@ -49,7 +49,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [OperationType(OperationTypes.查看任务)]
-        public async Task<ListResult<TaskListItem>> Get([FromQuery]TaskListArgs args)
+        public async Task<ListResult<TaskListItem>> List([FromQuery]TaskListArgs args)
         {
             if (args.Sort == null)
             {
@@ -99,7 +99,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [Route("archived")]
         [OperationType(OperationTypes.查看任务)]
-        public async Task<ListResult<ArchivedTaskListItem>> GetArchived([FromQuery]ArchivedTaskListArgs args)
+        public async Task<ListResult<ArchivedTaskListItem>> Archived([FromQuery]ArchivedTaskListArgs args)
         {
             if (args.Sort == null)
             {

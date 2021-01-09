@@ -49,7 +49,7 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出口)]
-        public async Task<ListResult<PortListItem>> Get([FromQuery]PortListArgs args)
+        public async Task<ListResult<PortListItem>> List([FromQuery]PortListArgs args)
         {
             var pagedList = await _session.Query<Port>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<PortListItem>
@@ -77,7 +77,7 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [Route("select-list")]
         [AutoTransaction]
-        public async Task<List<PortSelectListItem>> GetSelectList()
+        public async Task<List<PortSelectListItem>> SelectList()
         {
             var list = await _session.Query<Port>().ToListAsync();
             var items = list
