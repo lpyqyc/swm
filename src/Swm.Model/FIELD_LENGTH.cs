@@ -46,5 +46,10 @@ namespace Swm.Model
         /// 批号字段的长度。
         /// </summary>
         public const int BATCH = 20;
+
+        /// <summary>
+        /// 库存状态字段的长度
+        /// </summary>
+        public const int STOCK_STATUS = 10;
     }
 }

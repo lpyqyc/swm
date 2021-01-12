@@ -9,23 +9,34 @@ namespace Swm.Web.Controllers
     public class OpListArgs
     {
         /// <summary>
-        /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+        /// 开始时间
         /// </summary>
-        [SearchArg(SearchMode.Like)]
-        public string? Prop1 { get; set; }
+        [SearchArg(SearchMode.GreaterThanOrEqual)]
+        [SourceProperty("ctime")]
+        public DateTime? TimeFrom { get; set; }
 
         /// <summary>
-        /// 
-        /// </summary>
-        [SearchArg(SearchMode.GreaterThan)]
-        public int? Prop2From { get; set; }
-
-
-        /// <summary>
-        /// 
+        /// 结束时间
         /// </summary>
         [SearchArg(SearchMode.LessThan)]
-        public DateTime? Prop2To { get; set; }
+        [SourceProperty("ctime")]
+        public DateTime? TimeTo { get; set; }
+
+
+        /// <summary>
+        /// 操作类型
+        /// </summary>
+        [SearchArg(SearchMode.Equal)]
+        public string? OperationType { get; set; }
+
+
+        /// <summary>
+        /// 操作人
+        /// </summary>
+        [SearchArg(SearchMode.Equal)]
+        [SourceProperty("cuser")]
+        public string? User { get; set; }
+
 
         /// <summary>
         /// 排序字段

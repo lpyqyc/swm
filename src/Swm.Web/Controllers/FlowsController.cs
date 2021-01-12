@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using Serilog;
 using Swm.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -99,5 +98,6 @@ namespace Swm.Web.Controllers
 
             return items;
         }
+
     }
 }

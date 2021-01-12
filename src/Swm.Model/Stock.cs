@@ -43,7 +43,7 @@ namespace Swm.Model
         [MaxLength(FIELD_LENGTH.BATCH)]
         public virtual string Batch { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
         [Required]
         public virtual string StockStatus { get; set; }
 

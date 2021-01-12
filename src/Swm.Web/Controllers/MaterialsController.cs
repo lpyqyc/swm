@@ -213,7 +213,7 @@ namespace Swm.Web.Controllers
                 var dir = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\files");
                 Directory.CreateDirectory(dir);
 
-                string fileName = DateTime.Now.ToString("up-m-yyyyMMdd HHmmss") + Path.GetExtension(file.FileName);
+                string fileName = $"up-m-{DateTime.Now:yyyyMMddHHmmss}" + Path.GetExtension(file.FileName);
                 var path = Path.Combine(dir, fileName);
 
                 using (var stream = new FileStream(path, FileMode.Create))

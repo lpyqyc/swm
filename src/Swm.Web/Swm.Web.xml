@@ -303,6 +303,19 @@
             <param name="file"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.MonthlyReportsController.Detail(System.DateTime)">
+            <summary>
+            获取月报列表
+            </summary>
+            <param name="month">表示月份的时间，例如 2021-01-12</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MonthlyReportsController.Build">
+            <summary>
+            生成月报
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.OpsController.List(Swm.Web.Controllers.OpListArgs)">
             <summary>
             操作记录列表
@@ -1560,24 +1573,94 @@
             展示顺序
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.MonthlyReportDetail">
+            <summary>
+            流水列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportDetail.Month">
+            <summary>
+            月报的月份，取值为每个月的1号零点。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportDetail.Items">
+            <summary>
+            报表条目。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.MonthlyReportItemInfo">
+            <summary>
+            月报数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.MaterialCode">
+            <summary>
+            物料代码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.Uom">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.Beginning">
+            <summary>
+            期初数量。期初数量 = 上期期末数量。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.Incoming">
+            <summary>
+            流入数量。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.Outgoing">
+            <summary>
+            流出数量。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.Ending">
+            <summary>
+            期末数量。期末数量 = 期初数量 + 流入数量 - 流出数量。
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.OpListArgs">
             <summary>
             列表查询参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.OpListArgs.Prop1">
+        <member name="P:Swm.Web.Controllers.OpListArgs.TimeFrom">
             <summary>
-            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            开始时间
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.OpListArgs.Prop2From">
+        <member name="P:Swm.Web.Controllers.OpListArgs.TimeTo">
             <summary>
-            
+            结束时间
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.OpListArgs.Prop2To">
+        <member name="P:Swm.Web.Controllers.OpListArgs.OperationType">
             <summary>
-            
+            操作类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OpListArgs.User">
+            <summary>
+            操作人
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.OpListArgs.Sort">

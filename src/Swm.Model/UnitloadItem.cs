@@ -44,7 +44,7 @@ namespace Swm.Model
         public virtual string Batch { get; set; }
 
         [Required]
-        [MaxLength(FIELD_LENGTH.APP_CODE)]
+        [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
         public virtual string StockStatus { get; set; }
 
         public virtual decimal Quantity { get; set; }

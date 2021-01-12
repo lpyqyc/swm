@@ -59,7 +59,7 @@ namespace Swm.Model
         /// <summary>
         /// 要出库的库存状态。
         /// </summary>
-        [MaxLength(FIELD_LENGTH.APP_CODE)]
+        [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
         public virtual string StockStatus { get; set; }
 
         /// <summary>
