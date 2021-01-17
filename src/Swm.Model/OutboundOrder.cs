@@ -146,7 +146,7 @@ namespace Swm.Model
         }
 
         /// <summary>
-        /// 计算库存项在此出库单中的分配数量。
+        /// 计算货载项在此出库单中的分配数量。
         /// </summary>
         /// <param name="unitloadItem"></param>
         /// <returns></returns>

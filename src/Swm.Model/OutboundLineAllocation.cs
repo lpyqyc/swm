@@ -19,7 +19,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Model
 {
     /// <summary>
-    /// 表示为出库单明细在库存项中进行的一次分配。
+    /// 表示为出库单明细在货载项中进行的一次分配。
     /// </summary>
     public class OutboundLineAllocation : IEquatable<OutboundLineAllocation>
     {
@@ -28,7 +28,7 @@ namespace Swm.Model
         }
 
         /// <summary>
-        /// 获取或设置本次分配是从哪个库存项中进行的。
+        /// 获取或设置本次分配是从哪个货载项中进行的。
         /// </summary>
         [Required]
         public virtual UnitloadItem UnitloadItem { get; internal protected set; }

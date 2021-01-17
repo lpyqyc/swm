@@ -12,61 +12,63 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
+using Arctic.NHibernateExtensions;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 货载列表的数据项
+    /// 货载项列表的查询参数
     /// </summary>
-    public class UnitloadListItem
+    public class UnitloadItemListArgs
     {
-        /// <summary>
-        /// 货载Id
-        /// </summary>
-        public int UnitloadId { get; set; }
-        
         /// <summary>
         /// 托盘号
         /// </summary>
-        public string PalletCode { get; set; } = default!;
+        [SearchArg(SearchMode.Like)]
+        public string? PalletCode { get; set; }
 
         /// <summary>
-        /// 创建时间
+        /// 物料类型
         /// </summary>
-        public DateTime ctime { get; set; }
-
-        /// <summary>
-        /// 所在货位编码
-        /// </summary>
-        public string LocationCode { get; set; } = default!;
+        [SearchArg]
+        public string? MaterialType { get; set; }
 
 
         /// <summary>
-        /// 所在巷道编码
+        /// 物料编码
         /// </summary>
-        public string? LanewayCode { get; set; }
+        [SearchArg]
+        [SourceProperty("Material.MaterialCode")]
+        public string? MaterialCode { get; set; }
 
         /// <summary>
-        /// 托盘是否已分配
+        /// 批号
         /// </summary>
-        public bool Allocated { get; set; }
+        [SearchArg]
+        public string? Batch { get; set; }
 
         /// <summary>
-        /// 备注
+        /// 库存状态
         /// </summary>
-        public string? Comment { get; set; }
+        [SearchArg]
+        public string? StockStatus { get; set; }
+
 
         /// <summary>
-        /// 是否有任务
+        /// 排序字段
         /// </summary>
-        public bool BeingMoved { get; set; }
+        public string? Sort { get; set; }
 
         /// <summary>
-        /// 货载明细列表
+        /// 基于 1 的当前页面，默认值为 1。
         /// </summary>
-        public List<UnitloadItemInfo> Items { get; set; } = new List<UnitloadItemInfo>();
+        public int? Current { get; set; } = 1;
+
+        /// <summary>
+        /// 每页大小，默认值为 10。
+        /// </summary>
+        public int? PageSize { get; set; }
+
     }
 
 }

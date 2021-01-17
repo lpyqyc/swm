@@ -29,7 +29,7 @@ namespace Swm.Model
         public virtual int UnitloadItemSnapshotId { get; internal protected set; }
 
         /// <summary>
-        /// 源库存项的Id
+        /// 源货载项的Id
         /// </summary>
         public virtual int UnitloadItemId { get; internal protected set; }
 

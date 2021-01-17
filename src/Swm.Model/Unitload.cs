@@ -184,7 +184,7 @@ namespace Swm.Model
 
             if (item.Unitload != null)
             {
-                throw new InvalidOperationException("向货载添加库存项失败，库存项已属于其他货载。");
+                throw new InvalidOperationException("向货载添加货载项失败，货载项已属于其他货载。");
             }
             _items.Add(item);
             item.Unitload = this;

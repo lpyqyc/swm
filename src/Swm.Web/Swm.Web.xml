@@ -556,6 +556,13 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.UnitloadsController.UnitloadItemList(Swm.Web.Controllers.UnitloadItemListArgs)">
+            <summary>
+            货载项列表，用于在变更状态页面展示货载项
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.UnitloadsController.Detail(System.Int32)">
             <summary>
             货载详情
@@ -574,6 +581,14 @@
             <summary>
             无单据组盘
             </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UnitloadsController.ChangeStockStatus(System.String,Swm.Web.Controllers.ChangeStockStatusArgs)">
+            <summary>
+            更改库存状态
+            </summary>
+            <param name="ids">半角逗号分隔的货载项Id，货载项列表使用 GET /unitloads/items 获取</param>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -788,6 +803,21 @@
         <member name="P:Swm.Web.Controllers.ChangeLocationArgs.DestinationLocationCode">
             <summary>
             目标货位编码
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.ChangeStockStatusArgs">
+            <summary>
+            库存状态变更操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ChangeStockStatusArgs.IssuingStockStatus">
+            <summary>
+            发出的库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ChangeStockStatusArgs.ReceivingStockStatus">
+            <summary>
+            接收的库存状态
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.CreateInboundOrderArgs">
@@ -3310,6 +3340,146 @@
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.UnitloadItemInfo.Uom">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UnitloadItemListArgs">
+            <summary>
+            货载项列表的查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListArgs.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListArgs.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListArgs.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListArgs.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListArgs.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UnitloadItemListItem">
+            <summary>
+            货载项列表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.UnitloadItemId">
+            <summary>
+            货载项Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.LocationCode">
+            <summary>
+            所在货位编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.LanewayCode">
+            <summary>
+            所在巷道编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.Allocated">
+            <summary>
+            托盘是否已分配
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.BeingMoved">
+            <summary>
+            托盘是否有任务
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.HasCountingError">
+            <summary>
+            托盘是否有盘点错误
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.MaterialId">
+            <summary>
+            物料Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.Specification">
+            <summary>
+            物料规格
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.CanChangeStockStatus">
+            <summary>
+            是否可变更库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.ReasonWhyStockStatusCannotBeChanged">
+            <summary>
+            不可变更库存状态的原因
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.Quantity">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemListItem.Uom">
             <summary>
             计量单位
             </summary>

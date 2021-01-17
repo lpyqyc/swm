@@ -190,7 +190,7 @@ namespace Swm.Web.Controllers
             {
                 await _locHelper.RebuildLanewayStatAsync(laneway);
             }
-            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止入站。", affected);
+            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止入站", affected);
 
             return this.Success();
 

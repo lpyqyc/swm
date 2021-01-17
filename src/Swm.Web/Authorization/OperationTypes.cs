@@ -23,6 +23,7 @@ namespace Swm.Web
         public const string 无单据组盘 = "出入.无单据组盘";
         public const string 实时库存 = "库存.实时库存";
         public const string 查看货载 = "库存.查看货载";
+        public const string 更改库存状态 = "库存.更改库存状态";
 
         public const string 查看任务 = "任务.查看任务";
         public const string 查看历史任务 = "任务.查看历史任务";

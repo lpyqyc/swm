@@ -99,7 +99,7 @@ namespace Swm.Model
                 }
             }
 
-            // 显式包含的库存项
+            // 显式包含的货载项
             List<UnitloadItem> included = new List<UnitloadItem>();
             if (options.IncludePallets.Length > 0)
             {
@@ -113,7 +113,7 @@ namespace Swm.Model
             var candidateItems = _session
                 .Query<UnitloadItem>()
                 .Where(x => 
-                    included.Contains(x) == false   // 显式包含的库存项已在上面处理过，这里需排除
+                    included.Contains(x) == false   // 显式包含的货载项已在上面处理过，这里需排除
                     && x.Material == line.Material)
                 .OrderBy(x => x.OutOrdering)
                 .ThenBy(x => x.Unitload.CurrentLocation.Cell.oByShape)
@@ -124,7 +124,7 @@ namespace Swm.Model
             {
                 if (item.Quantity == 0)
                 {
-                    _logger.Warning("库存项 {unitloadItem} 的数量为 0", item);
+                    _logger.Warning("货载项 {unitloadItem} 的数量为 0", item);
                     continue;
                 }
 
@@ -155,11 +155,11 @@ namespace Swm.Model
         }
 
         /// <summary>
-        /// 为出库行从指定的库存项进行分配。此方法具有副作用，会更改库存项以及货载的分配信息
+        /// 为出库行从指定的货载项进行分配。此方法具有副作用，会更改货载的分配信息
         /// </summary>
         /// <param name="line">出库行</param>
-        /// <param name="item">要从中分配的库存项。</param>
-        /// <returns>从库存项中分配的数量</returns>
+        /// <param name="item">要从中分配的货载项</param>
+        /// <returns>从货载项中分配的数量</returns>
         async Task<decimal> AllocateItemAsync(OutboundLine line, UnitloadItem item, OutboundOrderAllocationOptions options)
         {
             if (!TestUnitloadItem(line, item, options))
@@ -172,12 +172,12 @@ namespace Swm.Model
                 return 0m;
             }
 
-            // 库存项中的可用数（未分配数）
+            // 货载项中的可用数（未分配数）
             var allocated = line.OutboundOrder.ComputeAllocated(item);
             var available = item.Quantity - allocated;
-            _logger.Debug("库存项 {unitloadItem} 的库存数量是 {quantity}", item, item.Quantity);
-            _logger.Debug("库存项 {unitloadItem} 的已分配数量是 {allocated}", item, allocated);
-            _logger.Debug("库存项 {unitloadItem} 的可用数量是 {available}", item, available);
+            _logger.Debug("货载项 {unitloadItem} 的库存数量是 {quantity}", item, item.Quantity);
+            _logger.Debug("货载项 {unitloadItem} 的已分配数量是 {allocated}", item, allocated);
+            _logger.Debug("货载项 {unitloadItem} 的可用数量是 {available}", item, available);
             if (available < 0)
             {
                 throw new Exception("程序错误");
@@ -189,7 +189,7 @@ namespace Swm.Model
             }
             var taken = Math.Min(available, line.ComputeShortage());
 
-            // 更新库存项的分配信息
+            // 更新货载项的分配信息
             OutboundLineAllocation allocation = new OutboundLineAllocation();
             allocation.UnitloadItem = item;
             allocation.Quantity = taken;
@@ -198,13 +198,13 @@ namespace Swm.Model
             item.Unitload.SetCurrentUat(line.OutboundOrder, OutboundOrder.UatTypeDescription);
             await _session.UpdateAsync(item.Unitload).ConfigureAwait(false);
 
-            _logger.Information("为出库单明细 {outboundLine} 从库存项 {unitloadItem} 中分配了 {quantity} {uom}", line, item, taken, item.Uom);
+            _logger.Information("为出库单明细 {outboundLine} 从货载项 {unitloadItem} 中分配了 {quantity} {uom}", line, item, taken, item.Uom);
 
             return taken;
         }
 
         /// <summary>
-        /// 测试库存项是否满足出库单明细的需求
+        /// 测试货载项是否满足出库单明细的需求
         /// </summary>
         /// <remarks>
         /// 会动态调用使用 <see cref="TestUnitloadItemAttribute"/> 标记的方法。
@@ -216,7 +216,7 @@ namespace Swm.Model
         public bool TestUnitloadItem(OutboundLine line, UnitloadItem item, OutboundOrderAllocationOptions options)
         {
             bool passed = true;
-            _logger.Debug("检查出库单明细 {outboundLine} 与库存项 {unitloadItem} 是否匹配", line, item);
+            _logger.Debug("检查出库单明细 {outboundLine} 与货载项 {unitloadItem} 是否匹配", line, item);
 
             if (options.ExcludePallets!= null && options.ExcludePallets.Contains(item.Unitload.PalletCode) == false)
             {
@@ -332,11 +332,11 @@ namespace Swm.Model
 
             if (passed)
             {
-                _logger.Debug("出库单明细 {outboundLine} 与库存项 {unitloadItem} 匹配", line, item);
+                _logger.Debug("出库单明细 {outboundLine} 与货载项 {unitloadItem} 匹配", line, item);
             }
             else
             {
-                _logger.Debug("出库单明细 {outboundLine} 与库存项 {unitloadItem} 不匹配", line, item);
+                _logger.Debug("出库单明细 {outboundLine} 与货载项 {unitloadItem} 不匹配", line, item);
             }
             return passed;
 
