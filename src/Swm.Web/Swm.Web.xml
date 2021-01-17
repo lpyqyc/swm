@@ -151,6 +151,63 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Swm.Web.Controllers.InboundOrdersController">
+            <summary>
+            操作入库单。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.InboundOrdersController.#ctor(NHibernate.ISession,Arctic.AppSeqs.IAppSeqService,Swm.Web.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="session"></param>
+            <param name="appSeqService"></param>
+            <param name="opHelper"></param>
+            <param name="simpleEventBus"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Swm.Web.Controllers.InboundOrdersController.List(Swm.Web.Controllers.InboundOrderListArgs)">
+            <summary>
+            入库单列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.InboundOrdersController.Detail(System.Int32)">
+            <summary>
+            入库单详细
+            </summary>
+            <param name="id">入库单Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.InboundOrdersController.Create(Swm.Web.Controllers.CreateInboundOrderArgs)">
+            <summary>
+            创建入库单
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.InboundOrdersController.Edit(System.Int32,Swm.Web.Controllers.EditInboundOrderArgs)">
+            <summary>
+            编辑入库单
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.InboundOrdersController.Delete(System.Int32)">
+            <summary>
+            删除入库单
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.InboundOrdersController.Close(System.Int32)">
+            <summary>
+            关闭入库单
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.LanewaysController.List(Swm.Web.Controllers.LanewayListArgs)">
             <summary>
             获取所有巷道
@@ -328,7 +385,7 @@
             操作出库单。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.OutboundOrdersController.#ctor(NHibernate.ISession,Swm.Model.IOutboundOrderAllocator,Arctic.AppSeqs.IAppSeqService,Swm.Web.OpHelper,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.#ctor(NHibernate.ISession,Swm.Model.IOutboundOrderAllocator,Arctic.AppSeqs.IAppSeqService,Swm.Web.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
             <summary>
             初始化新实例。
             </summary>
@@ -336,6 +393,7 @@
             <param name="outboundOrderAllocator">出库单库存分配程序</param>
             <param name="appSeqService"></param>
             <param name="opHelper"></param>
+            <param name="simpleEventBus"></param>
             <param name="logger"></param>
         </member>
         <member name="M:Swm.Web.Controllers.OutboundOrdersController.List(Swm.Web.Controllers.OutboundOrderListArgs)">
@@ -732,6 +790,26 @@
             目标货位编码
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.CreateInboundOrderArgs">
+            <summary>
+            创建入库单操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateInboundOrderArgs.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateInboundOrderArgs.BizOrder">
+            <summary>
+            业务单据号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateInboundOrderArgs.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.CreateKeyPointArgs">
             <summary>
             创建关键点操作的参数
@@ -760,6 +838,26 @@
         <member name="P:Swm.Web.Controllers.CreateKeyPointArgs.OutboundLimit">
             <summary>
             出站数限制
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.CreateOutboundOrderArgs">
+            <summary>
+            创建出库单操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateOutboundOrderArgs.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateOutboundOrderArgs.BizOrder">
+            <summary>
+            业务单据号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateOutboundOrderArgs.Comment">
+            <summary>
+            备注
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.CreateRoleArgs">
@@ -817,6 +915,64 @@
             禁止出站的操作备注
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.EditInboundLineInfo">
+            <summary>
+            创建入库单或编辑入库单操作中的入库行信息。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditInboundLineInfo.Op">
+            <summary>
+            本行的操作：
+            add 表示新增，
+            edit 表示编辑，
+            delete 表示删除。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditInboundLineInfo.InboundLineId">
+            <summary>
+            入库单明细Id，用户在界面上新增的明细Id为0。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditInboundLineInfo.MaterialCode">
+            <summary>
+            物料代码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditInboundLineInfo.Batch">
+            <summary>
+            要入库的批号，不可以为空
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditInboundLineInfo.StockStatus">
+            <summary>
+            要入库的库存状态。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditInboundLineInfo.Uom">
+            <summary>
+            计量单位。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditInboundLineInfo.QuantityExpected">
+            <summary>
+            应入数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditInboundLineInfo.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditInboundOrderArgs">
+            <summary>
+            编辑入库单操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditInboundOrderArgs.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.EditKeyPointArgs">
             <summary>
             编辑关键点操作的参数
@@ -845,6 +1001,64 @@
         <member name="P:Swm.Web.Controllers.EditKeyPointArgs.OutboundLimit">
             <summary>
             出站数限制
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditOutboundLineInfo">
+            <summary>
+            创建出库单或编辑出库单操作中的出库行信息。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Op">
+            <summary>
+            本行的操作：
+            add 表示新增，
+            edit 表示编辑，
+            delete 表示删除。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.OutboundLineId">
+            <summary>
+            出库单明细Id，用户在界面上新增的明细Id为0。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.MaterialCode">
+            <summary>
+            物料代码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Batch">
+            <summary>
+            要出库的批号，可以为空
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.StockStatus">
+            <summary>
+            要出库的库存状态。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Uom">
+            <summary>
+            计量单位。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.QuantityRequired">
+            <summary>
+            需求数量。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditOutboundOrderArgs">
+            <summary>
+            编辑出库单操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditOutboundOrderArgs.Comment">
+            <summary>
+            备注
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.EditRoleArgs">
@@ -1045,6 +1259,183 @@
         <member name="P:Swm.Web.Controllers.FlowListItem.Comment">
             <summary>
             备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.InboundLineInfo">
+            <summary>
+            入库单明细
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.InboundLineId">
+            <summary>
+            入库单明细Id。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.MaterialId">
+            <summary>
+            物料Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.Specification">
+            <summary>
+            物料规格
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.Batch">
+            <summary>
+            要出库的批号，不为空
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.StockStatus">
+            <summary>
+            要出库的库存状态。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.Uom">
+            <summary>
+            计量单位。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.QuantityExpected">
+            <summary>
+            应入数量。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.QuantityReceived">
+            <summary>
+            已入数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundLineInfo.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.InboundOrderListArgs">
+            <summary>
+            列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListArgs.InboundOrderCode">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListArgs.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListArgs.ShowClosed">
+            <summary>
+            是否显示已关闭的出库单
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.InboundOrderListArgs.Filter(System.Linq.IQueryable{Swm.Model.InboundOrder})">
+            <summary>
+            
+            </summary>
+            <param name="q"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListArgs.Sort">
+            <summary>
+            排序字段，例如 F1 DESC, F2 ASC, F3
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.InboundOrderListItem">
+            <summary>
+            出库单列表页的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.InboundOrderId">
+            <summary>
+            入库单Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.InboundOrderCode">
+            <summary>
+            入库单编号。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.ctime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.cuser">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.mtime">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.muser">
+            <summary>
+            修改人
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.BizOrder">
+            <summary>
+            业务单据号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.Closed">
+            <summary>
+            是否已关闭
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.ClosedAt">
+            <summary>
+            关闭时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.ClosedBy">
+            <summary>
+            由谁关闭
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderListItem.Lines">
+            <summary>
+            出库单明细集合。
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.KeyPointListArgs">
@@ -1901,84 +2292,6 @@
         <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.PageSize">
             <summary>
             每页大小，默认值为 10。
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.CreateOutboundOrderArgs">
-            <summary>
-            创建出库单操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateOutboundOrderArgs.BizType">
-            <summary>
-            业务类型
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateOutboundOrderArgs.BizOrder">
-            <summary>
-            业务单据号
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateOutboundOrderArgs.Comment">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.EditOutboundLineInfo">
-            <summary>
-            创建出库单或编辑出库单操作中的出库行信息。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Op">
-            <summary>
-            本行的操作：
-            add 表示新增，
-            edit 表示编辑，
-            delete 表示删除。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.OutboundLineId">
-            <summary>
-            出库单明细Id，用户在界面上新增的明细Id为0。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.MaterialCode">
-            <summary>
-            物料代码
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Batch">
-            <summary>
-            要出库的批号，可以为空
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.StockStatus">
-            <summary>
-            要出库的库存状态。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Uom">
-            <summary>
-            计量单位。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.QuantityRequired">
-            <summary>
-            需求数量。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Comment">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.EditOutboundOrderArgs">
-            <summary>
-            编辑出库单操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundOrderArgs.Comment">
-            <summary>
-            备注
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.OutboundOrderListItem">

@@ -40,6 +40,7 @@ namespace Swm.Web.Controllers
         readonly ILogger _logger;
         readonly OpHelper _opHelper;
         readonly IAppSeqService _appSeqService;
+        readonly SimpleEventBus _simpleEventBus;
         readonly IOutboundOrderAllocator _outboundOrderAllocator;
 
         /// <summary>
@@ -49,13 +50,15 @@ namespace Swm.Web.Controllers
         /// <param name="outboundOrderAllocator">出库单库存分配程序</param>
         /// <param name="appSeqService"></param>
         /// <param name="opHelper"></param>
+        /// <param name="simpleEventBus"></param>
         /// <param name="logger"></param>
-        public OutboundOrdersController(ISession session, IOutboundOrderAllocator outboundOrderAllocator, IAppSeqService appSeqService, OpHelper opHelper, ILogger logger)
+        public OutboundOrdersController(ISession session, IOutboundOrderAllocator outboundOrderAllocator, IAppSeqService appSeqService, OpHelper opHelper, SimpleEventBus simpleEventBus, ILogger logger)
         {
             _session = session;
             _outboundOrderAllocator = outboundOrderAllocator;
             _appSeqService = appSeqService;
             _opHelper = opHelper;
+            _simpleEventBus = simpleEventBus;
             _logger = logger;
         }
 
@@ -301,8 +304,8 @@ namespace Swm.Web.Controllers
             }
 
             await _session.UpdateAsync(outboundOrder);
-            _logger.Information("已更新出库单 {outboundOrderCode}", outboundOrder.OutboundOrderCode);
-            _ = await _opHelper.SaveOpAsync("{0}", outboundOrder.OutboundOrderCode);
+            _logger.Information("已更新出库单 {outboundOrder}", outboundOrder);
+            _ = await _opHelper.SaveOpAsync("{0}", outboundOrder);
 
             // TODO 
             //// 取消库内分配
@@ -338,7 +341,7 @@ namespace Swm.Web.Controllers
             }
 
             await _session.DeleteAsync(outboundOrder);
-            _logger.Information("已删除出库单 {outboundOrderCode}", outboundOrder.OutboundOrderCode);
+            _logger.Information("已删除出库单 {outboundOrder}", outboundOrder);
             await _opHelper.SaveOpAsync(outboundOrder.OutboundOrderCode);
 
             return NoContent();
@@ -384,6 +387,9 @@ namespace Swm.Web.Controllers
             await _session.UpdateAsync(outboundOrder);
 
             _logger.Information("已关闭出库单 {outboundOrder}", outboundOrder);
+
+            await _simpleEventBus.FireEventAsync(EventTypes.OutboundOrderClosed, outboundOrder);
+
             return this.Success();
         }
 

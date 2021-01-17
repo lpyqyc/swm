@@ -28,5 +28,8 @@ namespace Swm.Model
 
         public const string LocationInboundEnabled = "LocationInboundEnabled";
 
+        public const string InboundOrderClosed = "InboundOrderClosed";
+
+        public const string OutboundOrderClosed = "OutboundOrderClosed";
     }
 }

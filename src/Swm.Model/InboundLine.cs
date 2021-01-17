@@ -25,7 +25,7 @@ namespace Swm.Model
         /// <summary>
         /// 初始化此类的新实例。
         /// </summary>
-        internal protected InboundLine()
+        public InboundLine()
         {
         }
 
@@ -74,6 +74,14 @@ namespace Swm.Model
         /// 实收数。
         /// </summary>
         public virtual decimal QuantityReceived { get; set; }
+
+
+        // TODO 在收货时维护此属性
+        /// <summary>
+        /// 指示此明细行是否发生过入库操作。发生过入库操作的入库明细不能被删除。
+        /// 在第一次拣货时，此属性变为 true，此后不会变回 false。
+        /// </summary>
+        public virtual bool Dirty { get; set; }
 
         /// <summary>
         /// 备注

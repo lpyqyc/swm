@@ -29,7 +29,7 @@ namespace Swm.Model
         /// <summary>
         /// 初始化此类的新实例。
         /// </summary>
-        internal protected InboundOrder()
+        public InboundOrder()
         {
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;

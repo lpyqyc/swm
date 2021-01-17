@@ -34,6 +34,7 @@ namespace Swm.Model.Mappings
 
             Property(cl => cl.QuantityExpected);
             Property(cl => cl.QuantityReceived);
+            Property(cl => cl.Dirty);
 
             Property(cl => cl.Comment);
         }

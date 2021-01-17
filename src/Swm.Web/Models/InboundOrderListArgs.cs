@@ -14,8 +14,6 @@
 
 using Arctic.NHibernateExtensions;
 using Swm.Model;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 
 namespace Swm.Web.Controllers
@@ -23,13 +21,13 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表查询参数
     /// </summary>
-    public class OutboundOrderListArgs
+    public class InboundOrderListArgs
     {
         /// <summary>
         /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
         [SearchArg(SearchMode.Like)]
-        public string? OutboundOrderCode { get; set; }
+        public string? InboundOrderCode { get; set; }
 
         /// <summary>
         /// 业务类型
@@ -48,7 +46,7 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="q"></param>
         /// <returns></returns>
-        public IQueryable<OutboundOrder> Filter(IQueryable<OutboundOrder> q)
+        public IQueryable<InboundOrder> Filter(IQueryable<InboundOrder> q)
         {
             if (ShowClosed != true)
             {
