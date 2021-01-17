@@ -72,9 +72,9 @@ namespace Swm.Web.Controllers
         public string[]? StockStatus { get; set; }
 
         /// <summary>
-        /// 批号，支持模糊查询
+        /// 单号，不支持模糊查询
         /// </summary>
-        [SearchArg]
+        [SearchArg(SearchMode.Equal)]
         public string? OrderCode { get; set; }
 
         /// <summary>

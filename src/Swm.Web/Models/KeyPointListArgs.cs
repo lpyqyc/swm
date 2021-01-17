@@ -44,6 +44,14 @@ namespace Swm.Web.Controllers
         public string? Tag { get; set; }
 
         /// <summary>
+        /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+        /// </summary>
+        [SearchArg(SearchMode.Like)]
+        public string? RequestType { get; set; }
+
+
+
+        /// <summary>
         /// 是否禁止入站
         /// </summary>
         [SearchArg]

@@ -388,11 +388,19 @@
             <param name="options"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.OutboundOrdersController.Deallocate(System.Int32)">
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.DeallocateInRack(System.Int32)">
             <summary>
-            为出库单分配库存
+            为出库单取消库内分配
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OutboundOrdersController.Deallocate(System.Int32,Swm.Web.Controllers.OutboundOrderDeallocateArgs)">
+            <summary>
+            将托盘从出库单中取消分配
+            </summary>
+            <param name="id"></param>
+            <param name="args">取消参数</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.OutboundOrdersController.CheckOnCloseAsync(Swm.Model.OutboundOrder)">
@@ -931,7 +939,7 @@
         </member>
         <member name="P:Swm.Web.Controllers.FlowListArgs.OrderCode">
             <summary>
-            批号，支持模糊查询
+            单号，不支持模糊查询
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.FlowListArgs.BizTypes">
@@ -1055,6 +1063,11 @@
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.KeyPointListArgs.Tag">
+            <summary>
+            支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.RequestType">
             <summary>
             支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
             </summary>
@@ -1239,6 +1252,16 @@
             保留货位数
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.LanewayListItem.UsageRate">
+            <summary>
+            货位使用率
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LanewayListItem.UsageInfos">
+            <summary>
+            货位使用数据
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.LanewayListItem.Ports">
             <summary>
             可到达的出口
@@ -1267,6 +1290,51 @@
         <member name="P:Swm.Web.Controllers.LanewaySelectListItem.Offline">
             <summary>
             是否离线
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.LanewayUsageInfo">
+            <summary>
+            巷道使用数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.StorageGroup">
+            <summary>
+            货位存储分组
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.Specification">
+            <summary>
+            货位规格
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.WeightLimit">
+            <summary>
+            货位限重
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.HeightLimit">
+            <summary>
+            货位限高
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.Total">
+            <summary>
+            总货位数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.Available">
+            <summary>
+            当前可用的货位数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.Loaded">
+            <summary>
+            当前有货的货位数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.InboundDisabled">
+            <summary>
+            当前已禁止入站的货位数
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.LogListArgs">
@@ -1781,6 +1849,16 @@
         <member name="P:Swm.Web.Controllers.OutboundLineInfo.Comment">
             <summary>
             备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.OutboundOrderDeallocateArgs">
+            <summary>
+            出库单取消分配参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.OutboundOrderDeallocateArgs.PalletCodes">
+            <summary>
+            要从出库单取消分配的托盘号
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.OutboundOrderListArgs">

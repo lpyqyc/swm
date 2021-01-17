@@ -33,6 +33,10 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<ListResult<OpListItem>> List([FromQuery] OpListArgs args)
         {
+            if (string.IsNullOrWhiteSpace(args.Sort))
+            {
+                args.Sort = "opId desc";
+            }
             var pagedList = await _session.Query<Op>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<OpListItem>
             {
