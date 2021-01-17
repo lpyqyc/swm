@@ -61,7 +61,7 @@ namespace Swm.Web.Controllers
             _logger.Information("正在模拟请求 {requestInfo}", requestInfo);
             await _eventBus.FireEventAsync(EventTypes.PreRequest, requestInfo);
             await _eventBus.FireEventAsync(EventTypes.Request, requestInfo);
-            var op = await _opHelper.SaveOpAsync("模拟请求信息【{0}】", requestInfo);
+            var op = await _opHelper.SaveOpAsync("{0}", requestInfo);
             _logger.Information("模拟请求成功");
             return this.Success();
         }
@@ -79,8 +79,8 @@ namespace Swm.Web.Controllers
         {
             _logger.Information("正在模拟任务完成 {taskInfo}", taskInfo);
             await _eventBus.FireEventAsync(EventTypes.TaskCompleted, taskInfo);
-            _logger.Information("已模拟任务完成。");
-            var op = await _opHelper.SaveOpAsync("模拟完成信息【{0}】", taskInfo);
+            _logger.Information("已模拟任务完成");
+            var op = await _opHelper.SaveOpAsync("{0}", taskInfo);
             return this.Success();
         }
     }

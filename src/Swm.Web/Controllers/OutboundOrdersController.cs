@@ -350,7 +350,7 @@ namespace Swm.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost("{id}")]
+        [HttpPost("{id}/actions/close")]
         [OperationType(OperationTypes.关闭出库单)]
         public async Task<IActionResult> Close(int id)
         {
@@ -395,14 +395,14 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpPost("{id}/actions/allocate")]
-        [OperationType(OperationTypes.为出库单分配库存)]
+        [OperationType(OperationTypes.分配库存)]
         public async Task<IActionResult> Allocate(int id, [FromBody] OutboundOrderAllocationOptions options)
         {
             OutboundOrder? outboundOrder = await _session.GetAsync<OutboundOrder>(id);
 
             if (outboundOrder == null || outboundOrder.Closed)
             {
-                _logger.Warning("出库单 {id} 不存在，或已关闭", id);
+                _logger.Warning("出库单 {id} 不存在或已关闭", id);
                 return NotFound(id);
             }
 
@@ -412,20 +412,20 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 为出库单分配库存
+        /// 为出库单取消库内分配
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [AutoTransaction]
         [HttpPost("{id}/actions/deallocate-in-rack")]
-        [OperationType(OperationTypes.为出库单取消库内分配)]
-        public async Task<IActionResult> Deallocate(int id)
+        [OperationType(OperationTypes.分配库存)]
+        public async Task<IActionResult> DeallocateInRack(int id)
         {
             OutboundOrder outboundOrder = await _session.GetAsync<OutboundOrder>(id);
 
             if (outboundOrder == null || outboundOrder.Closed)
             {
-                _logger.Warning("出库单 {id} 不存在，或已关闭", id);
+                _logger.Warning("出库单 {id} 不存在或已关闭", id);
                 return NotFound(id);
             }
 
@@ -433,6 +433,41 @@ namespace Swm.Web.Controllers
 
             return this.Success();
         }
+
+        /// <summary>
+        /// 将托盘从出库单中取消分配
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="args">取消参数</param>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpPost("{id}/actions/deallocate")]
+        [OperationType(OperationTypes.分配库存)]
+        public async Task<IActionResult> Deallocate(int id, OutboundOrderDeallocateArgs args)
+        {
+            if (args == null || args.PalletCodes == null || args.PalletCodes.Length == 0)
+            {
+                return BadRequest("未指定要取消分配的托盘");
+            }
+            OutboundOrder outboundOrder = await _session.GetAsync<OutboundOrder>(id);
+
+            if (outboundOrder == null || outboundOrder.Closed)
+            {
+                _logger.Warning("出库单 {id} 不存在或已关闭", id);
+                return NotFound(id);
+            }
+            List<Unitload> unitloads = await _session
+                .Query<Unitload>()
+                .Where(x => args.PalletCodes.Contains(x.PalletCode))
+                .ToListAsync();
+            foreach (var u in unitloads)
+            {
+                await _outboundOrderAllocator.DeallocateAsync(outboundOrder, u);
+            }
+
+            return this.Success();
+        }
+
 
 
         /// <summary>
