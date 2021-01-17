@@ -74,6 +74,18 @@ namespace Swm.Web.Controllers
                     TotalLocationCount = x.GetTotalLocationCount(),
                     AvailableLocationCount = x.GetAvailableLocationCount(),
                     ReservedLocationCount = x.ReservedLocationCount,
+                    UsageRate = (x.GetTotalLocationCount() - x.GetAvailableLocationCount()) / (double)x.GetTotalLocationCount(),
+                    UsageInfos = x.Usage.Select(x => new LanewayUsageInfo
+                    {
+                        StorageGroup = x.Key.StorageGroup,
+                        WeightLimit = x.Key.WeightLimit,
+                        HeightLimit = x.Key.HeightLimit,
+                        Specification = x.Key.Specification,
+                        Total = x.Value.Total,
+                        Loaded = x.Value.Loaded,
+                        InboundDisabled = x.Value.InboundDisabled,
+                        Available = x.Value.Available,
+                    }).ToArray(),
                     Ports = x.Ports
                         .Select(x => new PortSelectListItem
                         {

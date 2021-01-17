@@ -65,6 +65,16 @@ namespace Swm.Web.Controllers
         public int ReservedLocationCount { get; init; }
 
         /// <summary>
+        /// 货位使用率
+        /// </summary>
+        public double UsageRate { get; init; }
+
+        /// <summary>
+        /// 货位使用数据
+        /// </summary>
+        public LanewayUsageInfo[]? UsageInfos { get; init; }
+
+        /// <summary>
         /// 可到达的出口
         /// </summary>
         public PortSelectListItem[] Ports { get; init; } = default!;
@@ -76,5 +86,4 @@ namespace Swm.Web.Controllers
 
     }
 
-    
 }
