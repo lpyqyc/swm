@@ -35,7 +35,7 @@ namespace Swm.Web.Controllers
         [OperationType(OperationTypes.实时库存)]
         public async Task<ListResult<StockListItem>> List([FromQuery] StockListArgs args)
         {
-            var pagedList = await _session.Query<Stock>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+            var pagedList = await _session.Query<Stock>().Where(x => x.Quantity != 0).SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new ListResult<StockListItem>
             {
                 Success = true,

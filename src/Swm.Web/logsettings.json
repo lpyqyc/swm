@@ -8,8 +8,8 @@
       "Default": "Debug",
       "Override": {
         "System": "Information",
-        "Microsoft": "Information",
-        "Microsoft.AspNetCore": "Debug",
+        "Microsoft": "Warning",
+        "Microsoft.AspNetCore": "Information",
         "NHibernate": "Warning"
       }
     },

@@ -20,7 +20,6 @@ using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using NHibernate.Linq;
 using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 using Serilog;
 using Swm.Model;
 using System;
@@ -160,7 +159,7 @@ namespace Swm.Web.Controllers
 
             string filename = await WriteFileAsync(file);
 
-            DataTable dt = ReadFile(filename);
+            DataTable dt = ExcelUtil.ReadDataSet(filename).Tables[0];
 
             int imported = 0;
             int covered = 0;
@@ -197,7 +196,7 @@ namespace Swm.Web.Controllers
                 material.Specification = Convert.ToString(row["规格型号"]);
                 // TODO 取拼音首字母
                 // material.MnemonicCode = PinyinUtil.ChineseCap(material.Description).NullSafeLeft(20);
-                
+
                 await _session.SaveOrUpdateAsync(material);
                 _logger.Information("已导入物料 {material}", material.MaterialCode);
                 imported++;
@@ -224,50 +223,7 @@ namespace Swm.Web.Controllers
                 return path;
             }
 
-            static DataTable ReadFile(string filePath)
-            {
-                XSSFWorkbook hssfworkbook;
-
-                using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    hssfworkbook = new XSSFWorkbook(file);
-                }
-
-                NPOI.SS.UserModel.ISheet sheet = hssfworkbook.GetSheetAt(0);
-                DataTable table = new DataTable();
-                IRow headerRow = sheet.GetRow(0);//第一行为标题行
-                int cellCount = headerRow.LastCellNum;//LastCellNum = PhysicalNumberOfCells
-                int rowCount = sheet.LastRowNum;//LastRowNum = PhysicalNumberOfRows - 1
-
-                //handling header.
-                for (int i = headerRow.FirstCellNum; i < cellCount; i++)
-                {
-                    DataColumn column = new DataColumn(headerRow.GetCell(i).StringCellValue);
-                    table.Columns.Add(column);
-                }
-                for (int i = (sheet.FirstRowNum + 1); i <= rowCount; i++)
-                {
-                    IRow row = sheet.GetRow(i);
-                    DataRow dataRow = table.NewRow();
-
-                    if (row != null)
-                    {
-                        for (int j = row.FirstCellNum; j < cellCount; j++)
-                        {
-                            if (row.GetCell(j) != null)
-                                dataRow[j] = row.GetCell(j);
-                        }
-                    }
-                    table.Rows.Add(dataRow);
-                }
-                return table;
-            }
 
         }
-
-
-        
-
     }
-
 }

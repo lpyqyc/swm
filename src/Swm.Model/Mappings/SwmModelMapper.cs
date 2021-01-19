@@ -40,7 +40,7 @@ namespace Swm.Model.Mappings
 
             Component<UnitloadStorageInfo>(comp => {
                 comp.Property(cl => cl.ContainerSpecification);
-                comp.Property(cl => cl.Weight, prop => prop.Column("xWeight"));
+                comp.Property(cl => cl.Weight);
                 comp.Property(cl => cl.Height);
                 comp.Property(cl => cl.OutFlag);
                 comp.Property(cl => cl.StorageGroup);

@@ -3679,6 +3679,33 @@
             初始化新实例。
             </summary>
         </member>
+        <member name="T:Swm.Web.ExcelUtil">
+            <summary>
+            使用 NPOI 读取 Excel 数据
+            </summary>
+        </member>
+        <member name="M:Swm.Web.ExcelUtil.ReadDataSet(System.String)">
+            <summary>
+            读取 xlsx 文件，转换为 DataSet
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.ExcelUtil.ReadDataTable(System.String,System.String)">
+            <summary>
+            读取 xlsx 文件，转换为 DataSet
+            </summary>
+            <param name="filePath">工作簿文件路径</param>
+            <param name="sheetName">工作表名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.ExcelUtil.ToTable(NPOI.SS.UserModel.ISheet)">
+            <summary>
+            
+            </summary>
+            <param name="sheet"></param>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.ListResult`1">
             <summary>
             表示列表页结果
