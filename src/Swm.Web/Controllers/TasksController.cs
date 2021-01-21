@@ -19,6 +19,7 @@ using NHibernate;
 using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -148,21 +149,21 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [OperationType(OperationTypes.更改位置)]
-        [HttpPost("actions/change-location")]        
+        [OperationType(OperationTypes.更改货载位置)]
+        [HttpPost("actions/change-unitloads-location")]
         public async Task<ActionResult> ChangeLocationAsync(ChangeLocationArgs args)
         {
             Unitload unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == args.PalletCode).SingleOrDefaultAsync();
 
             if (unitload == null)
             {
-                return BadRequest("托盘号不存在");
+                throw new Exception("托盘号不存在：" + args.PalletCode);
             }
 
             Location dest = await _session.Query<Location>().Where(x => x.LocationCode == args.DestinationLocationCode).SingleOrDefaultAsync();
             if (dest == null)
             {
-                return BadRequest("货位号不存在");
+                throw new Exception("货位号不存在：" + args.DestinationLocationCode);
             }
 
             var originalLocationCode = unitload.CurrentLocation?.LocationCode;
