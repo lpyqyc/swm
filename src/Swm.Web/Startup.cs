@@ -14,6 +14,7 @@
 
 using Arctic.AppCodes;
 using Arctic.AppSeqs;
+using Arctic.AppSettings;
 using Arctic.AspNetCore;
 using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
@@ -120,7 +121,7 @@ namespace Swm.Web
 
             builder.AddAppCodes();
             builder.AddAppSeqs();
-
+            builder.AddAppSettings();
             builder.AddSwm(Configuration.GetSection("Swm").Get<SwmOptions>());
 
             builder.AddEventBus(Configuration.GetSection("EventBus").Get<SimpleEventBusOptions>());

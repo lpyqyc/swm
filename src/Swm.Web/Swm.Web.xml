@@ -93,6 +93,29 @@
             POLICY 常数
             </summary>
         </member>
+        <member name="M:Swm.Web.Controllers.AppSettingsController.List(Swm.Web.Controllers.AppSettingListArgs)">
+            <summary>
+            程序设置列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.AppSettingsController.Edit(System.String,Swm.Web.Controllers.EditAppSettingArgs)">
+            <summary>
+            更改设置
+            </summary>
+            <param name="settingName">设置名称</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.AppSettingsController.Create(System.String,Swm.Web.Controllers.CreateAppSettingArgs)">
+            <summary>
+            更改设置
+            </summary>
+            <param name="settingName">设置名称</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.ControllerBaseExtensions.Success(Microsoft.AspNetCore.Mvc.ControllerBase,System.Object)">
             <summary>
             表示操作成功。http 状态码 201。
@@ -630,6 +653,31 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="T:Swm.Web.Controllers.AppSettingListArgs">
+            <summary>
+            列表查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AppSettingListArgs.SettingName">
+            <summary>
+            设置名称
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AppSettingListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AppSettingListArgs.Current">
+            <summary>
+            基于 1 的当前页面。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AppSettingListArgs.PageSize">
+            <summary>
+            每页大小
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.ArchivedTaskListArgs">
             <summary>
             任务列表的查询参数
@@ -943,6 +991,31 @@
         <member name="P:Swm.Web.Controllers.DisableOutboundArgs.Comment">
             <summary>
             禁止出站的操作备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.EditAppSettingArgs">
+            <summary>
+            编辑程序设置操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.EditAppSettingArgs.SettingValue">
+            <summary>
+            设置值
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.CreateAppSettingArgs">
+            <summary>
+            创建程序设置操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingType">
+            <summary>
+            设置类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingValue">
+            <summary>
+            设置值
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.EditInboundLineInfo">
