@@ -13,22 +13,6 @@ namespace Swm.Web.Controllers
         [SearchArg(SearchMode.Equal)]
         public string? SettingName { get; set; }
 
-
-        /// <summary>
-        /// 排序字段
-        /// </summary>
-        public string? Sort { get; set; }
-
-        /// <summary>
-        /// 基于 1 的当前页面。
-        /// </summary>
-        public int? Current { get; set; }
-
-        /// <summary>
-        /// 每页大小
-        /// </summary>
-        public int? PageSize { get; set; }
-
     }
 
 

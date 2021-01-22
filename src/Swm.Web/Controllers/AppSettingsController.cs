@@ -37,12 +37,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<ListResult<AppSetting>> List([FromQuery] AppSettingListArgs args)
         {
-            if (string.IsNullOrWhiteSpace(args.Sort))
-            {
-                args.Sort = "settingName ASC";
-            }
-
-            var pagedList = await _session.Query<AppSetting>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+            var pagedList = await _session.Query<AppSetting>().SearchAsync(args, "settingName ASC", 1, 9999);
             return new ListResult<AppSetting>
             {
                 Success = true,
