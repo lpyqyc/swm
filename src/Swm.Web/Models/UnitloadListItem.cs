@@ -38,6 +38,11 @@ namespace Swm.Web.Controllers
         public DateTime ctime { get; set; }
 
         /// <summary>
+        /// 更新时间
+        /// </summary>
+        public DateTime mtime { get; set; }
+
+        /// <summary>
         /// 所在货位编码
         /// </summary>
         public string LocationCode { get; set; } = default!;

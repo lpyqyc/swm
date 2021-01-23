@@ -85,6 +85,7 @@ namespace Swm.Web.Controllers
                     UnitloadId = x.UnitloadId,
                     PalletCode = x.PalletCode,
                     ctime = x.ctime,
+                    mtime = x.mtime,
                     LocationCode = x.CurrentLocation.LocationCode,
                     LanewayCode = x.CurrentLocation?.Rack?.Laneway?.LanewayCode,
                     BeingMoved = x.BeingMoved,

@@ -663,21 +663,6 @@
             设置名称
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AppSettingListArgs.Sort">
-            <summary>
-            排序字段
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.AppSettingListArgs.Current">
-            <summary>
-            基于 1 的当前页面。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.AppSettingListArgs.PageSize">
-            <summary>
-            每页大小
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.ArchivedTaskListArgs">
             <summary>
             任务列表的查询参数
@@ -3572,6 +3557,11 @@
             物料类型
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.Allocated">
+            <summary>
+            是否已分配
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.UnitloadListArgs.MaterialCode">
             <summary>
             物料编码，支持模糊查找
@@ -3640,6 +3630,11 @@
         <member name="P:Swm.Web.Controllers.UnitloadListItem.ctime">
             <summary>
             创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadListItem.mtime">
+            <summary>
+            更新时间
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.UnitloadListItem.LocationCode">

@@ -50,6 +50,25 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
+        /// 是否已分配
+        /// </summary>
+        [SearchArg(SearchMode.Expression)]
+        public bool? Allocated { get; set; }
+
+        internal Expression<Func<Unitload, bool>>? AllocatedExpr
+        {
+            get
+            {
+                return this.Allocated switch
+                {
+                    null => null,
+                    true => x => x.CurrentUat != null,
+                    false => x => x.CurrentUat == null,
+                };
+            }
+        }
+
+        /// <summary>
         /// 物料编码，支持模糊查找
         /// </summary>
         [SearchArg(SearchMode.Expression)]
@@ -71,7 +90,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 批号，支持模糊查找
         /// </summary>
-        [SearchArg(SearchMode.Like)]
+        [SearchArg(SearchMode.Expression)]
         public string? Batch { get; set; }
 
         internal Expression<Func<Unitload, bool>>? BatchExpr
@@ -89,9 +108,21 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 库存状态
         /// </summary>
-        [SearchArg]
+        [SearchArg(SearchMode.Expression)]
         public string? StockStatus { get; set; }
 
+        internal Expression<Func<Unitload, bool>>? StockStatusExpr
+        {
+            get
+            {
+                return this.StockStatus switch
+                {
+                    null => null,
+                    _ => x => x.Items.Any(i => i.StockStatus == StockStatus)
+                };
+            }
+        }    
+        
         /// <summary>
         /// 托盘所在巷道
         /// </summary>

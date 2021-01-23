@@ -15,6 +15,7 @@
 using Arctic.NHibernateExtensions;
 using Swm.Model;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Swm.Web.Controllers
@@ -40,8 +41,20 @@ namespace Swm.Web.Controllers
         /// 货位所在巷道
         /// </summary>
         [SourceProperty("Rack.Laneway.LanewayId")]
-        [SearchArg(SearchMode.In)]
+        [SearchArg(SearchMode.Expression)]
         public int[]? LanewayIdList { get; set; }
+
+        internal Expression<Func<Location, bool>>? LanewayIdListExpr
+        {
+            get
+            {
+                if (LanewayIdList == null || LanewayIdList.Length == 0)
+                {
+                    return null;
+                }
+                return x => LanewayIdList.Contains(x.Rack.Laneway.LanewayId);
+            }
+        }
 
         /// <summary>
         /// 货位是否有货
