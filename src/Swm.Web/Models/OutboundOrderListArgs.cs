@@ -37,25 +37,11 @@ namespace Swm.Web.Controllers
         [SearchArg(SearchMode.Like)]
         public string? BizType { get; set; }
 
-        // TODO 改为 Expression 方式
         /// <summary>
         /// 是否显示已关闭的出库单
         /// </summary>
-        public bool? ShowClosed { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="q"></param>
-        /// <returns></returns>
-        public IQueryable<OutboundOrder> Filter(IQueryable<OutboundOrder> q)
-        {
-            if (ShowClosed != true)
-            {
-                q = q.Where(x => x.Closed == false);
-            }
-            return q;
-        }
+        [SearchArg]
+        public bool? Closed { get; set; }
 
         /// <summary>
         /// 排序字段，例如 F1 DESC, F2 ASC, F3

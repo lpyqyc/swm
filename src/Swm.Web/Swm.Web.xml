@@ -396,6 +396,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.MonthlyReportsController.GetAges">
+            <summary>
+            库龄报表
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.OpsController.List(Swm.Web.Controllers.OpListArgs)">
             <summary>
             操作记录列表
@@ -2122,7 +2128,7 @@
         </member>
         <member name="T:Swm.Web.Controllers.MonthlyReportDetail">
             <summary>
-            流水列表的数据项
+            月报的数据
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.MonthlyReportDetail.Month">
@@ -2138,6 +2144,11 @@
         <member name="T:Swm.Web.Controllers.MonthlyReportItemInfo">
             <summary>
             月报数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.Month">
+            <summary>
+            月份
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.MaterialCode">
@@ -2355,17 +2366,10 @@
             业务类型
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.ShowClosed">
+        <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.Closed">
             <summary>
             是否显示已关闭的出库单
             </summary>
-        </member>
-        <member name="M:Swm.Web.Controllers.OutboundOrderListArgs.Filter(System.Linq.IQueryable{Swm.Model.OutboundOrder})">
-            <summary>
-            
-            </summary>
-            <param name="q"></param>
-            <returns></returns>
         </member>
         <member name="P:Swm.Web.Controllers.OutboundOrderListArgs.Sort">
             <summary>

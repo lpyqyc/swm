@@ -16,6 +16,7 @@ using Arctic.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using NHibernate.Linq;
+using NHibernate.Transform;
 using Serilog;
 using Swm.Model;
 using System;
@@ -46,7 +47,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("{month}")]
-        public async Task<ActionResult<MonthlyReportDetail>> Detail(DateTime month)
+        public async Task<ActionResult<ListResult<MonthlyReportItemInfo>>> Detail(DateTime month)
         {
             month = month.AddDays(1 - month.Day).Date; // 取月初 0 点
             MonthlyReport? monthlyReport = await _session.GetAsync<MonthlyReport>(month);
@@ -55,11 +56,12 @@ namespace Swm.Web.Controllers
                 return NotFound();
             }
 
-            return new MonthlyReportDetail
+            return new ListResult<MonthlyReportItemInfo>
             {
-                Month = monthlyReport.Month,
-                Items = monthlyReport.Items.Select(x => new MonthlyReportItemInfo
+                Success = true,
+                Data = monthlyReport.Items.Select(x => new MonthlyReportItemInfo
                 {
+                    Month = monthlyReport.Month,
                     MaterialCode = x.Material.MaterialCode,
                     Description = x.Material.Description,
                     Batch = x.Batch,
@@ -69,7 +71,8 @@ namespace Swm.Web.Controllers
                     Ending = x.Ending,
                     Incoming = x.Incoming,
                     Outgoing = x.Outgoing,
-                }).ToArray()
+                }).ToArray(),
+                Total = monthlyReport.Items.Count
             };
         }
 
@@ -189,5 +192,119 @@ GROUP BY MaterialId, Batch, StockStatus, Uom";
                 return found != null;
             }
         }
+        
+        // TODO 移走
+        /// <summary>
+        /// 库龄报表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AutoTransaction]
+        public async Task<ListResult<InventoryAge>> GetAges()
+        {
+            string hql = @"
+SELECT m.MaterialCode, m.Description, m.Specification, i.Batch, i.StockStatus, i.Uom, SUM(i.Quantity) AS Quantity,
+    CASE 
+        WHEN DATEDIFF(MINUTE, i.ProductionTime, GETDATE()) / 1440.0 < 7 THEN '7'
+        WHEN DATEDIFF(MINUTE, i.ProductionTime, GETDATE()) / 1440.0 < 30 THEN '30'
+        WHEN DATEDIFF(MINUTE, i.ProductionTime, GETDATE()) / 1440.0 < 90 THEN '90'
+        ELSE '90+'
+    END AS Age
+FROM UnitloadItem i
+JOIN i.Material m
+GROUP BY m.MaterialCode, m.Description, m.Specification, i.Batch, i.StockStatus, i.Uom, 
+    CASE 
+        WHEN DATEDIFF(MINUTE, i.ProductionTime, GETDATE()) / 1440.0 < 7 THEN '7'
+        WHEN DATEDIFF(MINUTE, i.ProductionTime, GETDATE()) / 1440.0 < 30 THEN '30'
+        WHEN DATEDIFF(MINUTE, i.ProductionTime, GETDATE()) / 1440.0 < 90 THEN '90'
+        ELSE '90+'
+    END
+";
+
+            var rows = await _session.CreateQuery(hql).SetResultTransformer(Transformers.AliasToEntityMap).ListAsync<Hashtable>();
+            List<InventoryAge> ages = new List<InventoryAge>();
+            foreach (var row in rows)
+            {
+                var item = new
+                {
+                    MaterialCode = Convert.ToString(row["MaterialCode"]), 
+                    Description = Convert.ToString(row["Description"]),
+                    Specification = Convert.ToString(row["Specification"]),
+                    Batch = Convert.ToString(row["Batch"]),
+                    StockStatus = Convert.ToString(row["StockStatus"]), 
+                    Uom = Convert.ToString(row["Uom"]), 
+                    Quantity = Convert.ToDecimal(row["Quantity"]),
+                    Age = Convert.ToString(row["Age"]),
+                };
+                var age = ages.SingleOrDefault(x => 
+                    x.MaterialCode == item.MaterialCode
+                    && x.Batch == item.Batch
+                    && x.StockStatus == item.StockStatus
+                    && x.Uom == item.Uom
+                );
+
+                if (age == null)
+                {
+                    age = new InventoryAge
+                    {
+                        MaterialCode = item.MaterialCode,
+                        Description = item.Description,
+                        Batch = item.Batch,
+                        Uom = item.Uom,
+                    };
+                    ages.Add(age);
+                }
+
+                switch (item.Age)
+                {
+                    case "7":
+                        age.SevenDays = item.Quantity;
+                        break;
+                    case "30":
+                        age.ThirtyDays = item.Quantity;
+                        break;
+                    case "90":
+                        age.NinetyDays = item.Quantity;
+                        break;
+                    case "90+":
+                        age.MoreThanNinetyDays = item.Quantity;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return new ListResult<InventoryAge>
+            {
+                Success = true,
+                Data = ages,
+                Total = ages.Count,
+            };
+        }
     }
+
+
+    public class InventoryAge
+    {
+        public string MaterialCode { get; set; }
+
+        public string Description { get; set; }
+
+        public string Specification { get; set; }
+
+        public string Batch { get; set; }
+
+        public string StockStatus { get; set; }
+
+        public string Uom { get; set; }
+
+        public decimal SevenDays { get; set; }
+
+        public decimal ThirtyDays { get; set; }
+
+        public decimal NinetyDays { get; set; }
+
+        public decimal MoreThanNinetyDays { get; set; }
+    }
+
 }

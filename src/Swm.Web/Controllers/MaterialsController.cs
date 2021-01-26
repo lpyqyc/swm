@@ -153,7 +153,7 @@ namespace Swm.Web.Controllers
             string[] arr = new[] { ".xlsx", ".xls" };
             if (arr.Contains(Path.GetExtension(file.FileName)?.ToLower()) == false)
             {
-                return BadRequest(new { message = "Invalid file extension" });
+                return BadRequest("无效的文件扩展名");
             }
 
 
@@ -202,9 +202,9 @@ namespace Swm.Web.Controllers
                 imported++;
             }
 
-            _ = await _opHelper.SaveOpAsync("导入 {0}，覆盖 {1}", imported, covered);
+            _ = await _opHelper.SaveOpAsync($"导入 {imported}，覆盖 {covered}");
 
-            return Ok();
+            return Ok($"导入 {imported}，覆盖 {covered}");
 
 
             static async Task<string> WriteFileAsync(IFormFile file)

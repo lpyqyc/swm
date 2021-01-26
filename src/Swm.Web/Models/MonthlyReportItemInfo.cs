@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
@@ -21,6 +22,11 @@ namespace Swm.Web.Controllers
     /// </summary>
     public class MonthlyReportItemInfo
     {
+        /// <summary>
+        /// 月份
+        /// </summary>
+        public DateTime Month { get; set; }
+
         /// <summary>
         /// 物料代码
         /// </summary>
