@@ -383,25 +383,6 @@
             <param name="file"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MonthlyReportsController.Detail(System.DateTime)">
-            <summary>
-            获取月报列表
-            </summary>
-            <param name="month">表示月份的时间，例如 2021-01-12</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.MonthlyReportsController.Build">
-            <summary>
-            生成月报
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.MonthlyReportsController.GetAges">
-            <summary>
-            库龄报表
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Swm.Web.Controllers.OpsController.List(Swm.Web.Controllers.OpListArgs)">
             <summary>
             操作记录列表
@@ -557,6 +538,25 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.StocksController.GetMonthlyReport(System.DateTime)">
+            <summary>
+            获取月报列表
+            </summary>
+            <param name="month">表示月份的时间，例如 2021-01</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.StocksController.BuildMonthlyReport">
+            <summary>
+            生成月报
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.StocksController.GetAges">
+            <summary>
+            库龄报表
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.TasksController.List(Swm.Web.Controllers.TaskListArgs)">
             <summary>
             任务列表
@@ -658,6 +658,61 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.AgeReportListItem">
+            <summary>
+            库龄报表的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.MaterialCode">
+            <summary>
+            料号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.Specification">
+            <summary>
+            规格
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.Uom">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.ZeroToSevenDays">
+            <summary>
+            7天以内的库存数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.SevenToThirtyDays">
+            <summary>
+            7到30天的库存数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.ThirtyToNinetyDays">
+            <summary>
+            30天到90天的库存数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AgeReportListItem.MoreThanNinetyDays">
+            <summary>
+            90天以上的库存数量
+            </summary>
         </member>
         <member name="T:Swm.Web.Controllers.AppSettingListArgs">
             <summary>
@@ -859,6 +914,21 @@
             接收的库存状态
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.CreateAppSettingArgs">
+            <summary>
+            创建程序设置操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingType">
+            <summary>
+            设置类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingValue">
+            <summary>
+            设置值
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.CreateInboundOrderArgs">
             <summary>
             创建入库单操作的参数
@@ -990,21 +1060,6 @@
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.EditAppSettingArgs.SettingValue">
-            <summary>
-            设置值
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.CreateAppSettingArgs">
-            <summary>
-            创建程序设置操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingType">
-            <summary>
-            设置类型
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingValue">
             <summary>
             设置值
             </summary>

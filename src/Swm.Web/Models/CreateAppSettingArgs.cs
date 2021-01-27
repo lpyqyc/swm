@@ -17,10 +17,16 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 编辑程序设置操作的参数
+    /// 创建程序设置操作的参数
     /// </summary>
-    public class EditAppSettingArgs
+    public class CreateAppSettingArgs
     {
+        /// <summary>
+        /// 设置类型
+        /// </summary>
+        [Required]
+        public string SettingType { get; set; } = default!;
+
         /// <summary>
         /// 设置值
         /// </summary>
