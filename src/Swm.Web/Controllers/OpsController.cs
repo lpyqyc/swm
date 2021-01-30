@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class OpsController : ControllerBase
     {
@@ -31,27 +31,22 @@ namespace Swm.Web.Controllers
         [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
-        public async Task<ListResult<OpListItem>> List([FromQuery] OpListArgs args)
+        public async Task<ListData<OpListItem>> List([FromQuery] OpListArgs args)
         {
             if (string.IsNullOrWhiteSpace(args.Sort))
             {
                 args.Sort = "opId desc";
             }
             var pagedList = await _session.Query<Op>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new ListResult<OpListItem>
+            return this.ListData(pagedList, x => new OpListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new OpListItem
-                {
-                    OpId = x.OpId,
-                    ctime = x.ctime,
-                    cuser = x.cuser,
-                    OperationType = x.OperationType,
-                    Url = x.Url,
-                    Comment = x.Comment
-                }),
-                Total = pagedList.Total
-            };
+                OpId = x.OpId,
+                ctime = x.ctime,
+                cuser = x.cuser,
+                OperationType = x.OperationType,
+                Url = x.Url,
+                Comment = x.Comment
+            });
         }
     }
 }

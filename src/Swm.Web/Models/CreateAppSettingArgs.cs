@@ -22,6 +22,12 @@ namespace Swm.Web.Controllers
     public class CreateAppSettingArgs
     {
         /// <summary>
+        /// 设置名称
+        /// </summary>
+        [Required]
+        public string SettingName { get; set; } = default!;
+
+        /// <summary>
         /// 设置类型
         /// </summary>
         [Required]

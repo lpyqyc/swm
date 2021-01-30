@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Swm.Web;
 using System;
 
 namespace Arctic.Web.Controllers
@@ -19,11 +20,10 @@ namespace Arctic.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("/error")]
-        public IActionResult Error()
+        public ApiData Error()
         {
-            var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-
-            return Problem(title: context.Error.Message);
+            var errorContext = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            return this.Error2(errorContext.Error.Message);
         }
 
         /// <summary>
@@ -32,18 +32,15 @@ namespace Arctic.Web.Controllers
         /// <param name="webHostEnvironment"></param>
         /// <returns></returns>
         [Route("/error-local-development")]
-        public IActionResult ErrorLocalDevelopment([FromServices] IWebHostEnvironment webHostEnvironment)
+        public ApiData ErrorLocalDevelopment([FromServices] IWebHostEnvironment webHostEnvironment)
         {
             if (webHostEnvironment.EnvironmentName != "Development")
             {
                 throw new InvalidOperationException("This shouldn't be invoked in non-development environments.");
             }
 
-            var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-
-            return Problem(
-                detail: context.Error.StackTrace,
-                title: context.Error.Message);
+            var errorContext = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            return this.Error2(errorContext.Error.Message);
         }
     }
 }

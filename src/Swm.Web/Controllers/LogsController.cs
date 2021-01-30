@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class LogsController : ControllerBase
     {
@@ -39,8 +39,8 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<ListResult<LogEntry>> List([FromQuery]LogListArgs args)
+        [HttpGet("list")]
+        public async Task<ListData<LogEntry>> List([FromQuery]LogListArgs args)
         {
             var pagedList = await SearchLogsAsync(_context.Logs.AsNoTracking(), args.Filter, args.Sort, args.Current, args.PageSize);
 
@@ -49,12 +49,7 @@ namespace Swm.Web.Controllers
                 item.Time = DateTime.SpecifyKind(item.Time, DateTimeKind.Local);
             }
 
-            return new ListResult<LogEntry>
-            {
-                Success = true,
-                Data = pagedList.List,
-                Total = pagedList.Total,
-            };
+            return this.ListData(pagedList);
         }
 
         /// <summary>
@@ -62,9 +57,8 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">跟踪参数</param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("trace")]
-        public async Task<ListResult<LogEntry>> Trace([FromQuery]LogTraceArgs args)
+        [HttpGet("trace")]
+        public async Task<ListData<LogEntry>> Trace([FromQuery]LogTraceArgs args)
         {
             var pagedList = await SearchLogsAsync(_context.Logs.AsNoTracking(), args.Filter, args.Sort, args.Current, args.PageSize);
 
@@ -73,12 +67,7 @@ namespace Swm.Web.Controllers
                 item.Time = DateTime.SpecifyKind(item.Time, DateTimeKind.Local);
             }
 
-            return new ListResult<LogEntry>
-            {
-                Success = true,
-                Data = pagedList.List,
-                Total = pagedList.Total,
-            };
+            return this.ListData(pagedList);
         }
 
         private static async Task<PagedList<LogEntry>> SearchLogsAsync(IQueryable<LogEntry> q, Func<IQueryable<LogEntry>, IQueryable<LogEntry>> filter, string? sort, int? current, int? pageSize)

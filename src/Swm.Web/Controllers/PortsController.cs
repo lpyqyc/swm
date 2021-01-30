@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PortsController : ControllerBase
     {
@@ -45,39 +45,33 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("list")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出口)]
-        public async Task<ListResult<PortListItem>> List([FromQuery]PortListArgs args)
+        public async Task<ListData<PortListItem>> List([FromQuery]PortListArgs args)
         {
             var pagedList = await _session.Query<Port>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new ListResult<PortListItem>
+            return this.ListData(pagedList, x => new PortListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new PortListItem
-                {
-                    PortId = x.PortId,
-                    PortCode = x.PortCode,
-                    CurrentUat = x.CurrentUat?.ToString(),
-                    KP1 = x.KP1.LocationCode,
-                    KP2 = x.KP2?.LocationCode,
-                    Laneways = x.Laneways.Select(x => x.LanewayCode).ToArray(),
-                    CheckedAt = x.CheckedAt,
-                    CheckMessage = x.CheckMessage,
-                }),
-                Total = pagedList.Total
-            };
+                PortId = x.PortId,
+                PortCode = x.PortCode,
+                CurrentUat = x.CurrentUat?.ToString(),
+                KP1 = x.KP1.LocationCode,
+                KP2 = x.KP2?.LocationCode,
+                Laneways = x.Laneways.Select(x => x.LanewayCode).ToArray(),
+                CheckedAt = x.CheckedAt,
+                CheckMessage = x.CheckMessage,
+            });
         }
 
         /// <summary>
         /// 出口选择列表
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        [Route("select-list")]
+        [HttpGet("get-select-list")]
         [AutoTransaction]
-        public async Task<List<PortSelectListItem>> SelectList()
+        public async Task<ApiData<List<PortSelectListItem>>> SelectList()
         {
             var list = await _session.Query<Port>().ToListAsync();
             var items = list
@@ -88,7 +82,7 @@ namespace Swm.Web.Controllers
                     CurrentUat = x.CurrentUat?.ToString(),
                 })
                 .ToList();
-            return items;
+            return this.Success2(items);
         }
     }
 }

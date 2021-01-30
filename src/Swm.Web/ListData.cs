@@ -17,27 +17,30 @@ using System.Collections.Generic;
 namespace Swm.Web
 {
     /// <summary>
-    /// 表示列表页结果
+    /// 列表页数据
     /// </summary>
-    /// <remarks>
-    /// 与前端 antd protable 匹配的数据结构。
-    /// </remarks>
-    /// <typeparam name="T"></typeparam>
-    public class ListResult<T>
+    /// <typeparam name="TElement"></typeparam>
+    public record ListData<TElement> : ApiData
     {
         /// <summary>
-        /// 是否成功
+        /// 数据
         /// </summary>
-        public bool Success { get; init; }
+        public List<TElement>? Data { get; init; }
 
         /// <summary>
-        /// 数据列表
+        /// 当前页
         /// </summary>
-        public IEnumerable<T>? Data { get; init; }
+        public int CurrentPage { get; init; }
+
+        /// <summary>
+        /// 页大小
+        /// </summary>
+        public int PageSize { get; init; }
 
         /// <summary>
         /// 记录总数
         /// </summary>
         public int Total { get; init; }
     }
+
 }

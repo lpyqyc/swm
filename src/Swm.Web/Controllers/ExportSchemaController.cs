@@ -27,7 +27,7 @@ namespace Swm.Web.Controllers
     /// 向数据库导出表结构的工具。
     /// </summary>
     [ApiController]
-    [Route("export-schema")]
+    [Route("api/export-schema")]
     public class ExportSchemaController : ControllerBase
     {
         readonly Configuration _nhConfiguration;
@@ -45,7 +45,7 @@ namespace Swm.Web.Controllers
         /// 根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
         /// </summary>
         [HttpPost]
-        public async Task<string> Create()
+        public async Task<ApiData> Create()
         {
             if (_env.IsDevelopment() == false)
             {
@@ -56,7 +56,7 @@ namespace Swm.Web.Controllers
             await export.CreateAsync(true, true);
             _logger.Information("已导出数据库架构");
 
-            return "成功";
+            return this.Success2();
         }
     }
 

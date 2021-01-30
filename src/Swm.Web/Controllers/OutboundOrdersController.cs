@@ -71,46 +71,41 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出库单)]
-        public async Task<ListResult<OutboundOrderListItem>> List([FromQuery]OutboundOrderListArgs args)
+        public async Task<ListData<OutboundOrderListItem>> List([FromQuery]OutboundOrderListArgs args)
         {
             var pagedList = await _session.Query<OutboundOrder>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new ListResult<OutboundOrderListItem>
+            return this.ListData(pagedList, x => new OutboundOrderListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new OutboundOrderListItem
+                OutboundOrderId = x.OutboundOrderId,
+                OutboundOrderCode = x.OutboundOrderCode,
+                ctime = x.ctime,
+                cuser = x.cuser,
+                mtime = x.mtime,
+                muser = x.muser,
+                BizType = x.BizType,
+                BizOrder = x.BizOrder,
+                Closed = x.Closed,
+                ClosedAt = x.ClosedAt,
+                ClosedBy = x.ClosedBy,
+                Comment = x.Comment,
+                Lines = x.Lines.Select(i => new OutboundLineInfo
                 {
-                    OutboundOrderId = x.OutboundOrderId,
-                    OutboundOrderCode = x.OutboundOrderCode,
-                    ctime = x.ctime,
-                    cuser = x.cuser,
-                    mtime = x.mtime,
-                    muser = x.muser,
-                    BizType = x.BizType,
-                    BizOrder = x.BizOrder,
-                    Closed = x.Closed,
-                    ClosedAt = x.ClosedAt,
-                    ClosedBy = x.ClosedBy,
-                    Comment = x.Comment,
-                    Lines = x.Lines.Select(i => new OutboundLineInfo
-                    {
-                        OutboundLineId = i.OutboundLineId,
-                        MaterialId = i.Material.MaterialId,
-                        MaterialCode = i.Material.MaterialCode,
-                        MaterialType = i.Material.MaterialType,
-                        Description = i.Material.Description,
-                        Specification = i.Material.Specification,
-                        Batch = i.Batch,
-                        StockStatus = i.StockStatus,
-                        Uom = i.Uom,
-                        QuantityRequired = i.QuantityRequired,
-                        QuantityDelivered = i.QuantityDelivered,
-                        QuantityUndelivered = i.QuantityUndelivered,
-                        Comment = i.Comment,
-                    }).ToList(),
-                    UnitloadCount = x.Unitloads.Count
-                }),
-                Total = pagedList.Total
-            };
+                    OutboundLineId = i.OutboundLineId,
+                    MaterialId = i.Material.MaterialId,
+                    MaterialCode = i.Material.MaterialCode,
+                    MaterialType = i.Material.MaterialType,
+                    Description = i.Material.Description,
+                    Specification = i.Material.Specification,
+                    Batch = i.Batch,
+                    StockStatus = i.StockStatus,
+                    Uom = i.Uom,
+                    QuantityRequired = i.QuantityRequired,
+                    QuantityDelivered = i.QuantityDelivered,
+                    QuantityUndelivered = i.QuantityUndelivered,
+                    Comment = i.Comment,
+                }).ToList(),
+                UnitloadCount = x.Unitloads.Count
+            });
         }
 
 
@@ -119,15 +114,14 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="id">出库单Id</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("get-detail/{id}")]
         [DebugShowArgs]
         [AutoTransaction]
-        [Route("{id}")]
         [OperationType(OperationTypes.查看出库单)]
-        public async Task<OutboundOrderListItem> Detail(int id)
+        public async Task<ApiData<OutboundOrderListItem>> Detail(int id)
         {
             var outboundOrder = await _session.GetAsync<OutboundOrder>(id);
-            return new OutboundOrderListItem
+            return this.Success2(new OutboundOrderListItem
             {
                 OutboundOrderId = outboundOrder.OutboundOrderId,
                 OutboundOrderCode = outboundOrder.OutboundOrderCode,
@@ -156,8 +150,8 @@ namespace Swm.Web.Controllers
                     QuantityDelivered = i.QuantityDelivered,
                     QuantityUndelivered = i.QuantityUndelivered,
                     Comment = i.Comment,
-                }).ToList(),          
-            };
+                }).ToList(),
+            });
         }
 
 
@@ -166,10 +160,10 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("create")]
         [OperationType(OperationTypes.创建出库单)]
         [AutoTransaction]
-        public async Task<ActionResult> Create(CreateOutboundOrderArgs args)
+        public async Task<ApiData> Create(CreateOutboundOrderArgs args)
         {
             OutboundOrder outboundOrder = new OutboundOrder();
 
@@ -210,7 +204,7 @@ namespace Swm.Web.Controllers
             _logger.Information("已创建出库单 {outboundOrder}", outboundOrder);
             _ = await _opHelper.SaveOpAsync(outboundOrder.OutboundOrderCode);
 
-            return CreatedAtAction(nameof(Detail), new { id = outboundOrder.OutboundOrderId }, null);
+            return this.Success2();
         }
 
 
@@ -219,15 +213,15 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPut("{id}")]
+        [HttpPost("edit/{id}")]
         [OperationType(OperationTypes.编辑出库单)]
         [AutoTransaction]
-        public async Task<ActionResult> Edit(int id, EditOutboundOrderArgs args)
+        public async Task<ApiData> Edit(int id, EditOutboundOrderArgs args)
         {
             OutboundOrder outboundOrder = _session.Get<OutboundOrder>(id);
             if (outboundOrder == null)
             {
-                String errMsg = String.Format("出库单不存在。Id 是 {0}。", id);
+                String errMsg = String.Format("出库单不存在。", id);
                 throw new InvalidOperationException(errMsg);
             }
 
@@ -319,7 +313,7 @@ namespace Swm.Web.Controllers
             //    }
             //}
 
-            return NoContent();
+            return this.Success2();
         }
 
 
@@ -329,10 +323,9 @@ namespace Swm.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpPost("delete/{id}")]
         [OperationType(OperationTypes.删除出库单)]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ApiData> Delete(int id)
         {
             OutboundOrder  outboundOrder = await _session.GetAsync<OutboundOrder>(id);
             if (outboundOrder.Lines.Any(x => x.Dirty))
@@ -344,7 +337,7 @@ namespace Swm.Web.Controllers
             _logger.Information("已删除出库单 {outboundOrder}", outboundOrder);
             await _opHelper.SaveOpAsync(outboundOrder.OutboundOrderCode);
 
-            return NoContent();
+            return this.Success2();
         }
 
         /// <summary>
@@ -355,19 +348,18 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("{id}/actions/close")]
         [OperationType(OperationTypes.关闭出库单)]
-        public async Task<IActionResult> Close(int id)
+        public async Task<ApiData> Close(int id)
         {
             OutboundOrder outboundOrder = await _session.GetAsync<OutboundOrder>(id);
 
             if (outboundOrder == null)
             {
-                _logger.Warning("出库单 {id} 不存在", id);
-                return NotFound(id);
+                throw new InvalidOperationException("出库单不存在。");
             }
 
             if (outboundOrder.Closed)
             {
-                throw new InvalidOperationException($"出库单已关闭。{outboundOrder.OutboundOrderCode}");
+                throw new InvalidOperationException($"出库单已关闭。");
             }
 
             // 关闭前检查
@@ -390,7 +382,7 @@ namespace Swm.Web.Controllers
 
             await _simpleEventBus.FireEventAsync(EventTypes.OutboundOrderClosed, outboundOrder);
 
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
@@ -402,19 +394,18 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("{id}/actions/allocate")]
         [OperationType(OperationTypes.分配库存)]
-        public async Task<IActionResult> Allocate(int id, [FromBody] OutboundOrderAllocationOptions options)
+        public async Task<ApiData> Allocate(int id, [FromBody] OutboundOrderAllocationOptions options)
         {
             OutboundOrder? outboundOrder = await _session.GetAsync<OutboundOrder>(id);
 
             if (outboundOrder == null || outboundOrder.Closed)
             {
-                _logger.Warning("出库单 {id} 不存在或已关闭", id);
-                return NotFound(id);
+                throw new InvalidOperationException("出库单不存在或已关闭。");
             }
 
             await _outboundOrderAllocator.AllocateAsync(outboundOrder, options);
 
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
@@ -425,19 +416,18 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("{id}/actions/deallocate-in-rack")]
         [OperationType(OperationTypes.分配库存)]
-        public async Task<IActionResult> DeallocateInRack(int id)
+        public async Task<ApiData> DeallocateInRack(int id)
         {
             OutboundOrder outboundOrder = await _session.GetAsync<OutboundOrder>(id);
 
             if (outboundOrder == null || outboundOrder.Closed)
             {
-                _logger.Warning("出库单 {id} 不存在或已关闭", id);
-                return NotFound(id);
+                throw new InvalidOperationException("出库单不存在或已关闭。");
             }
 
             await _outboundOrderAllocator.DeallocateInRackAsync(outboundOrder);
 
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
@@ -449,18 +439,17 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("{id}/actions/deallocate")]
         [OperationType(OperationTypes.分配库存)]
-        public async Task<IActionResult> Deallocate(int id, OutboundOrderDeallocateArgs args)
+        public async Task<ApiData> Deallocate(int id, OutboundOrderDeallocateArgs args)
         {
             if (args == null || args.PalletCodes == null || args.PalletCodes.Length == 0)
             {
-                return BadRequest("未指定要取消分配的托盘");
+                throw new InvalidOperationException("未指定要取消分配的托盘。");
             }
             OutboundOrder outboundOrder = await _session.GetAsync<OutboundOrder>(id);
 
             if (outboundOrder == null || outboundOrder.Closed)
             {
-                _logger.Warning("出库单 {id} 不存在或已关闭", id);
-                return NotFound(id);
+                throw new InvalidOperationException("出库单不存在或已关闭。");
             }
             List<Unitload> unitloads = await _session
                 .Query<Unitload>()
@@ -471,7 +460,7 @@ namespace Swm.Web.Controllers
                 await _outboundOrderAllocator.DeallocateAsync(outboundOrder, u);
             }
 
-            return this.Success();
+            return this.Success2();
         }
 
 

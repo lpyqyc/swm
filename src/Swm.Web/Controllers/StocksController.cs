@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StocksController : ControllerBase
     {
@@ -33,31 +33,26 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("list")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.实时库存)]
-        public async Task<ListResult<StockListItem>> List([FromQuery] StockListArgs args)
+        public async Task<ListData<StockListItem>> List([FromQuery] StockListArgs args)
         {
             var pagedList = await _session.Query<Stock>().Where(x => x.Quantity != 0).SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new ListResult<StockListItem>
+            return this.ListData(pagedList, x => new StockListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new StockListItem
-                {
-                    StockId = x.StockId,
-                    mtime = x.mtime,
-                    MaterialCode = x.Material.MaterialCode,
-                    Description = x.Material.Description,
-                    Batch = x.Batch,
-                    StockStatus = x.StockStatus,
-                    Quantity = x.Quantity,
-                    Uom = x.Uom,
-                    OutOrdering = x.OutOrdering,
-                    AgeBaseline = x.AgeBaseline,
-                }),
-                Total = pagedList.Total
-            };
+                StockId = x.StockId,
+                mtime = x.mtime,
+                MaterialCode = x.Material.MaterialCode,
+                Description = x.Material.Description,
+                Batch = x.Batch,
+                StockStatus = x.StockStatus,
+                Quantity = x.Quantity,
+                Uom = x.Uom,
+                OutOrdering = x.OutOrdering,
+                AgeBaseline = x.AgeBaseline,
+            });
         }
 
         /// <summary>
@@ -65,8 +60,7 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet]
-        [Route("stock-status-select-list")]
+        [HttpGet("stock-status-select-list")]
         public async Task<List<StockStatusSelectListItem>> StockStatusSelectList()
         {
             var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.StockStatus);
@@ -89,34 +83,35 @@ namespace Swm.Web.Controllers
         /// <param name="month">表示月份的时间，例如 2021-01</param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet("monthly-reports/{month}")]
-        public async Task<ActionResult<ListResult<MonthlyReportItemInfo>>> GetMonthlyReport(DateTime month)
+        [HttpGet("get-monthly-report/{month}")]
+        public async Task<ListData<MonthlyReportItemInfo>> GetMonthlyReport(DateTime month)
         {
             month = month.AddDays(1 - month.Day).Date; // 取月初 0 点
             MonthlyReport? monthlyReport = await _session.GetAsync<MonthlyReport>(month);
+            PagedList<MonthlyReportItemInfo> pagedList;
             if (monthlyReport == null)
             {
-                return NotFound();
+                pagedList = new PagedList<MonthlyReportItemInfo>(new List<MonthlyReportItemInfo>(), 1, 1, 0);
+            }
+            else
+            {
+                pagedList = new PagedList<MonthlyReportItemInfo>(
+                       monthlyReport.Items.Select(x => new MonthlyReportItemInfo
+                       {
+                           Month = monthlyReport.Month,
+                           MaterialCode = x.Material.MaterialCode,
+                           Description = x.Material.Description,
+                           Batch = x.Batch,
+                           StockStatus = x.StockStatus,
+                           Uom = x.Uom,
+                           Beginning = x.Beginning,
+                           Ending = x.Ending,
+                           Incoming = x.Incoming,
+                           Outgoing = x.Outgoing,
+                       }).ToList(), 1, monthlyReport.Items.Count, monthlyReport.Items.Count);
             }
 
-            return new ListResult<MonthlyReportItemInfo>
-            {
-                Success = true,
-                Data = monthlyReport.Items.Select(x => new MonthlyReportItemInfo
-                {
-                    Month = monthlyReport.Month,
-                    MaterialCode = x.Material.MaterialCode,
-                    Description = x.Material.Description,
-                    Batch = x.Batch,
-                    StockStatus = x.StockStatus,
-                    Uom = x.Uom,
-                    Beginning = x.Beginning,
-                    Ending = x.Ending,
-                    Incoming = x.Incoming,
-                    Outgoing = x.Outgoing,
-                }).ToArray(),
-                Total = monthlyReport.Items.Count
-            };
+            return this.ListData(pagedList);
         }
 
 
@@ -124,9 +119,9 @@ namespace Swm.Web.Controllers
         /// 生成月报
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("build-monthly-report")]
         [AutoTransaction]
-        public async Task<ActionResult> BuildMonthlyReport()
+        public async Task<ApiData> BuildMonthlyReport()
         {
             // 每次生成一个月的月报
 
@@ -137,7 +132,7 @@ namespace Swm.Web.Controllers
             {
                 const string msg = "尚未产生流水";
                 _logger.Debug(msg);
-                return this.Success(msg);
+                return this.Success2();
             }
 
             initDate = initDate.Value.Date;
@@ -158,7 +153,7 @@ namespace Swm.Web.Controllers
             {
                 const string msg = "当月的月报要到下个月才生成";
                 _logger.Debug(msg);
-                return this.Success(msg);
+                return this.Success2();
             }
 
             // 顺着已经生成的月报向后生成
@@ -227,7 +222,7 @@ GROUP BY MaterialId, Batch, StockStatus, Uom";
 
             await _session.SaveAsync(report);
             _logger.Information("已生成 {month} 的月报", report.Month.ToString("yyyy-MM}"));
-            return this.Success();
+            return this.Success2();
 
             bool Appears<TStockKey>(MonthlyReportItem entry, IEnumerable<MonthlyReportItem> entries, out MonthlyReportItem? found) where TStockKey : StockKeyBase
             {
@@ -240,9 +235,9 @@ GROUP BY MaterialId, Batch, StockStatus, Uom";
         /// 库龄报表
         /// </summary>
         /// <returns></returns>
-        [HttpGet("age-report")]
+        [HttpGet("get-age-report")]
         [AutoTransaction]
-        public async Task<ListResult<AgeReportListItem>> GetAges()
+        public async Task<ListData<AgeReportListItem>> GetAges()
         {
             const string ageCase = @"
 CASE 
@@ -321,7 +316,7 @@ GROUP BY m.MaterialCode, m.Description, m.Specification, i.Batch, i.StockStatus,
                 }
             }
 
-            return new ListResult<AgeReportListItem>
+            return new ListData<AgeReportListItem>
             {
                 Success = true,
                 Data = ages,

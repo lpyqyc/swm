@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 namespace Swm.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly ILogger _logger;
@@ -49,26 +49,21 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [OperationType(OperationTypes.查看用户)]
-        public async Task<ListResult<UserListItem>> List([FromQuery]UserListArgs args)
+        public async Task<ListData<UserListItem>> List([FromQuery]UserListArgs args)
         {
             var pagedList = await _session.Query<User>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new ListResult<UserListItem>
+            return this.ListData(pagedList, x => new UserListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new UserListItem
-                {
-                    UserId = x.UserId,
-                    UserName = x.UserName,
-                    IsBuiltIn = x.IsBuiltIn,
-                    Roles = x.Roles.Select(x => x.RoleName),
-                    ctime = x.ctime,
-                    Comment = x.Comment,
-                    IsLocked = x.IsLocked,
-                    LockedReason = x.LockedReason
-                }).ToList(),
-                Total = pagedList.Total,
-            };
+                UserId = x.UserId,
+                UserName = x.UserName,
+                IsBuiltIn = x.IsBuiltIn,
+                Roles = x.Roles.Select(x => x.RoleName),
+                ctime = x.ctime,
+                Comment = x.Comment,
+                IsLocked = x.IsLocked,
+                LockedReason = x.LockedReason
+            });
         }
 
         /// <summary>
@@ -79,7 +74,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost]
         [OperationType(OperationTypes.创建用户)]
-        public async Task<IActionResult> Create(CreateUserArgs args)
+        public async Task<ApiData> Create(CreateUserArgs args)
         {
             User user = new User();
             user.UserName = args.UserName;
@@ -91,7 +86,7 @@ namespace Swm.Web.Controllers
             await _session.SaveAsync(user);
             _ = await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
 
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
@@ -100,9 +95,9 @@ namespace Swm.Web.Controllers
         /// <param name="id"><用户id/param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpDelete("{id}")]
+        [HttpPost("delete/{id}")]
         [OperationType(OperationTypes.删除用户)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ApiData> Delete(int id)
         {
             User user = await _session.GetAsync<User>(id);
             if (user.IsBuiltIn)
@@ -112,7 +107,7 @@ namespace Swm.Web.Controllers
 
             await _session.DeleteAsync(user);
             await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
-            return this.NoContent();
+            return this.Success2();
         }
 
         /// <summary>
@@ -122,14 +117,14 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPut("{id}")]
+        [HttpPost("edit/{id}")]
         [OperationType(OperationTypes.编辑用户)]
-        public async Task<IActionResult> Edit(int id, EditUserArgs args)
+        public async Task<ApiData> Edit(int id, EditUserArgs args)
         {
             User user = await _session.GetAsync<User>(id);
             if (user == null)
             {
-                return NotFound(id);
+                throw new InvalidOperationException("用户不存在。");
             }
 
             if (String.IsNullOrEmpty(args.Password) == false)
@@ -144,7 +139,7 @@ namespace Swm.Web.Controllers
 
             await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
 
-            return this.Success();
+            return this.Success2();
         }
 
 

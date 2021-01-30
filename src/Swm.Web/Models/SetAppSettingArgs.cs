@@ -12,22 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
-    public static class ControllerBaseExtensions
+    /// <summary>
+    /// 编辑程序设置操作的参数
+    /// </summary>
+    public class SetAppSettingArgs
     {
         /// <summary>
-        /// 表示操作成功。http 状态码 201。
+        /// 设置值
         /// </summary>
-        /// <param name="controller"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static ObjectResult Success(this ControllerBase controller, object? value = null)
-        {
-            return controller.StatusCode(201, value);
-        }
+        [Required]
+        public string SettingValue { get; set; } = default!;
     }
-
 }

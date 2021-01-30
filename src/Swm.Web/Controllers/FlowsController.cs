@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 namespace Swm.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class FlowsController : ControllerBase
     {
         readonly ILogger _logger;
@@ -46,34 +46,29 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet]
-        public async Task<ListResult<FlowListItem>> List([FromQuery] FlowListArgs args)
+        public async Task<ListData<FlowListItem>> List([FromQuery] FlowListArgs args)
         {
             var pagedList = await _session.Query<Flow>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new ListResult<FlowListItem>
+            return this.ListData(pagedList, x => new FlowListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new FlowListItem
-                {
-                    FlowId = x.FlowId,
-                    ctime = x.ctime,
-                    MaterialCode = x.Material.MaterialCode,
-                    Description = x.Material.Description,
-                    Batch = x.Batch,
-                    StockStatus = x.StockStatus,
-                    BizType = x.BizType,
-                    Direction = x.Direction,
-                    PalletCode = x.PalletCode,
-                    OrderCode = x.OrderCode,
-                    BizOrder = x.BizOrder,
-                    OperationType = x.OpType,
-                    Quantity = x.Quantity,
-                    Uom = x.Uom,
-                    cuser = x.cuser,
-                    Comment = x.Comment,
-                }),
-                Total = pagedList.Total,
-            };
+                FlowId = x.FlowId,
+                ctime = x.ctime,
+                MaterialCode = x.Material.MaterialCode,
+                Description = x.Material.Description,
+                Batch = x.Batch,
+                StockStatus = x.StockStatus,
+                BizType = x.BizType,
+                Direction = x.Direction,
+                PalletCode = x.PalletCode,
+                OrderCode = x.OrderCode,
+                BizOrder = x.BizOrder,
+                OperationType = x.OpType,
+                Quantity = x.Quantity,
+                Uom = x.Uom,
+                cuser = x.cuser,
+                Comment = x.Comment,
+            });            
         }
 
 
@@ -82,9 +77,8 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet]
-        [Route("biz-type-select-list")]
-        public async Task<List<BizTypeSelectListItem>> BizTypeSelectList()
+        [HttpGet("get-biz-type-select-list")]
+        public async Task<ApiData<List<BizTypeSelectListItem>>> BizTypeSelectList()
         {
             var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.BizType);
 
@@ -96,7 +90,7 @@ namespace Swm.Web.Controllers
                 DisplayOrder = x.DisplayOrder
             }).ToList();
 
-            return items;
+            return this.Success2(items);
         }
 
     }

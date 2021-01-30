@@ -12,19 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
-
-namespace Swm.Web.Controllers
+namespace Swm.Web
 {
     /// <summary>
-    /// 编辑程序设置操作的参数
+    /// API 返回的数据
     /// </summary>
-    public class EditAppSettingArgs
+    public record ApiData
     {
         /// <summary>
-        /// 设置值
+        /// 是否成功
         /// </summary>
-        [Required]
-        public string SettingValue { get; set; } = default!;
+        public bool Success { get; init; }
+
+        /// <summary>
+        /// 错误消息
+        /// </summary>
+        public string? ErrorMessage { get; init; }
+
+        /// <summary>
+        /// 唯一的请求Id
+        /// </summary>
+        public string? TraceId { get; init; }
+
+        /// <summary>
+        /// 主机
+        /// </summary>
+        public string? Host { get; init; }
+    }
+
+
+    public record ApiData<TData> : ApiData
+    {
+        public TData? Data { get; init; }
     }
 }

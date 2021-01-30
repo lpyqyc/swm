@@ -31,7 +31,7 @@ namespace Swm.Web.Controllers
     /// 操作入库单。
     /// </summary>
     [ApiController]
-    [Route("inbound-orders")]
+    [Route("api/inbound-orders")]
     public class InboundOrdersController : ControllerBase
     {
         readonly ISession _session;
@@ -66,45 +66,39 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看入库单)]
-        public async Task<ListResult<InboundOrderListItem>> List([FromQuery]InboundOrderListArgs args)
+        public async Task<ListData<InboundOrderListItem>> List([FromQuery] InboundOrderListArgs args)
         {
             var pagedList = await _session.Query<InboundOrder>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new ListResult<InboundOrderListItem>
+            return this.ListData(pagedList, x => new InboundOrderListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new InboundOrderListItem
+                InboundOrderId = x.InboundOrderId,
+                InboundOrderCode = x.InboundOrderCode,
+                ctime = x.ctime,
+                cuser = x.cuser,
+                mtime = x.mtime,
+                muser = x.muser,
+                BizType = x.BizType,
+                BizOrder = x.BizOrder,
+                Closed = x.Closed,
+                ClosedAt = x.ClosedAt,
+                ClosedBy = x.ClosedBy,
+                Comment = x.Comment,
+                Lines = x.Lines.Select(i => new InboundLineInfo
                 {
-                    InboundOrderId = x.InboundOrderId,
-                    InboundOrderCode = x.InboundOrderCode,
-                    ctime = x.ctime,
-                    cuser = x.cuser,
-                    mtime = x.mtime,
-                    muser = x.muser,
-                    BizType = x.BizType,
-                    BizOrder = x.BizOrder,
-                    Closed = x.Closed,
-                    ClosedAt = x.ClosedAt,
-                    ClosedBy = x.ClosedBy,
-                    Comment = x.Comment,
-                    Lines = x.Lines.Select(i => new InboundLineInfo
-                    {
-                        InboundLineId = i.InboundLineId,
-                        MaterialId = i.Material.MaterialId,
-                        MaterialCode = i.Material.MaterialCode,
-                        MaterialType = i.Material.MaterialType,
-                        Description = i.Material.Description,
-                        Specification = i.Material.Specification,
-                        Batch = i.Batch,
-                        StockStatus = i.StockStatus,
-                        Uom = i.Uom,
-                        QuantityExpected = i.QuantityExpected,
-                        QuantityReceived = i.QuantityReceived,
-                        Comment = i.Comment,
-                    }).ToList(),
-                    
-                }),
-                Total = pagedList.Total
-            };
+                    InboundLineId = i.InboundLineId,
+                    MaterialId = i.Material.MaterialId,
+                    MaterialCode = i.Material.MaterialCode,
+                    MaterialType = i.Material.MaterialType,
+                    Description = i.Material.Description,
+                    Specification = i.Material.Specification,
+                    Batch = i.Batch,
+                    StockStatus = i.StockStatus,
+                    Uom = i.Uom,
+                    QuantityExpected = i.QuantityExpected,
+                    QuantityReceived = i.QuantityReceived,
+                    Comment = i.Comment,
+                }).ToList(),
+            });
         }
 
 
@@ -113,10 +107,9 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="id">入库单Id</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("get-detail/{id}")]
         [DebugShowArgs]
         [AutoTransaction]
-        [Route("{id}")]
         [OperationType(OperationTypes.查看入库单)]
         public async Task<InboundOrderListItem> Detail(int id)
         {
@@ -162,7 +155,7 @@ namespace Swm.Web.Controllers
         [HttpPost]
         [OperationType(OperationTypes.创建入库单)]
         [AutoTransaction]
-        public async Task<ActionResult> Create(CreateInboundOrderArgs args)
+        public async Task<ApiData> Create(CreateInboundOrderArgs args)
         {
             InboundOrder inboundOrder = new InboundOrder();
 
@@ -203,7 +196,7 @@ namespace Swm.Web.Controllers
             _logger.Information("已创建入库单 {inboundOrder}", inboundOrder);
             _ = await _opHelper.SaveOpAsync(inboundOrder.InboundOrderCode);
 
-            return CreatedAtAction(nameof(Detail), new { id = inboundOrder.InboundOrderId }, null);
+            return this.Success2();
         }
 
 
@@ -212,10 +205,10 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPut("{id}")]
+        [HttpPost("edit/{id}")]
         [OperationType(OperationTypes.编辑入库单)]
         [AutoTransaction]
-        public async Task<ActionResult> Edit(int id, EditInboundOrderArgs args)
+        public async Task<ApiData> Edit(int id, EditInboundOrderArgs args)
         {
             InboundOrder inboundOrder = _session.Get<InboundOrder>(id);
             if (inboundOrder == null)
@@ -300,7 +293,7 @@ namespace Swm.Web.Controllers
             _logger.Information("已更新入库单 {inboundOrder}", inboundOrder);
             _ = await _opHelper.SaveOpAsync("{0}", inboundOrder);
 
-            return NoContent();
+            return this.Success2();
         }
 
 
@@ -310,10 +303,9 @@ namespace Swm.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpPost("delete/{id}")]
         [OperationType(OperationTypes.删除入库单)]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ApiData> Delete(int id)
         {
             InboundOrder  inboundOrder = await _session.GetAsync<InboundOrder>(id);
             if (inboundOrder.Lines.Any(x => x.Dirty))
@@ -325,7 +317,7 @@ namespace Swm.Web.Controllers
             _logger.Information("已删除入库单 {inboundOrder}", inboundOrder);
             await _opHelper.SaveOpAsync(inboundOrder.InboundOrderCode);
 
-            return NoContent();
+            return this.Success2();
         }
 
         /// <summary>
@@ -334,16 +326,15 @@ namespace Swm.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost("{id}/actions/close")]
+        [HttpPost("close/{id}")]
         [OperationType(OperationTypes.关闭入库单)]
-        public async Task<IActionResult> Close(int id)
+        public async Task<ApiData> Close(int id)
         {
             InboundOrder inboundOrder = await _session.GetAsync<InboundOrder>(id);
 
             if (inboundOrder == null)
             {
-                _logger.Warning("入库单 {id} 不存在", id);
-                return NotFound(id);
+                throw new Exception("入库单不存在。");
             }
 
             if (inboundOrder.Closed)
@@ -363,7 +354,7 @@ namespace Swm.Web.Controllers
 
             await _simpleEventBus.FireEventAsync(EventTypes.InboundOrderClosed, inboundOrder);
 
-            return this.Success();
+            return this.Success2();
         }
 
 

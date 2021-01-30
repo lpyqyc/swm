@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 namespace Swm.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UnitloadsController : ControllerBase
     {
         readonly ILogger _logger;
@@ -71,43 +71,38 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet]
+        [HttpGet("list")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ListResult<UnitloadListItem>> List([FromQuery] UnitloadListArgs args)
+        public async Task<ListData<UnitloadListItem>> List([FromQuery] UnitloadListArgs args)
         {
             var pagedList = await _session.Query<Unitload>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new ListResult<UnitloadListItem>
+            return this.ListData(pagedList, x => new UnitloadListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new UnitloadListItem
+                UnitloadId = x.UnitloadId,
+                PalletCode = x.PalletCode,
+                ctime = x.ctime,
+                mtime = x.mtime,
+                LocationCode = x.CurrentLocation.LocationCode,
+                LanewayCode = x.CurrentLocation?.Rack?.Laneway?.LanewayCode,
+                BeingMoved = x.BeingMoved,
+                Items = x.Items.Select(i => new UnitloadItemInfo
                 {
-                    UnitloadId = x.UnitloadId,
-                    PalletCode = x.PalletCode,
-                    ctime = x.ctime,
-                    mtime = x.mtime,
-                    LocationCode = x.CurrentLocation.LocationCode,
-                    LanewayCode = x.CurrentLocation?.Rack?.Laneway?.LanewayCode,
-                    BeingMoved = x.BeingMoved,
-                    Items = x.Items.Select(i => new UnitloadItemInfo
-                    {
-                        UnitloadItemId = i.UnitloadItemId,
-                        MaterialId = i.Material.MaterialId,
-                        MaterialCode = i.Material.MaterialCode,
-                        MaterialType = i.Material.MaterialType,
-                        Description = i.Material.Description,
-                        Specification = i.Material.Specification,
-                        Batch = i.Batch,
-                        StockStatus = i.StockStatus,
-                        Quantity = i.Quantity,
-                        Uom = i.Uom,
-                    }).ToList(),
-                    Allocated = (x.CurrentUat != null),
+                    UnitloadItemId = i.UnitloadItemId,
+                    MaterialId = i.Material.MaterialId,
+                    MaterialCode = i.Material.MaterialCode,
+                    MaterialType = i.Material.MaterialType,
+                    Description = i.Material.Description,
+                    Specification = i.Material.Specification,
+                    Batch = i.Batch,
+                    StockStatus = i.StockStatus,
+                    Quantity = i.Quantity,
+                    Uom = i.Uom,
+                }).ToList(),
+                Allocated = (x.CurrentUat != null),
 
-                    Comment = x.Comment
-                }),
-                Total = pagedList.Total,
-            };
+                Comment = x.Comment
+            });
         }
 
         /// <summary>
@@ -118,35 +113,30 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("items")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ListResult<UnitloadItemListItem>> UnitloadItemList([FromQuery] UnitloadItemListArgs args)
+        public async Task<ListData<UnitloadItemListItem>> UnitloadItemList([FromQuery] UnitloadItemListArgs args)
         {
             var pagedList = await _session.Query<UnitloadItem>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new ListResult<UnitloadItemListItem>
+            return this.ListData(pagedList, x => new UnitloadItemListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new UnitloadItemListItem
-                {
-                    UnitloadItemId = x.UnitloadItemId,
-                    PalletCode = x.Unitload.PalletCode,
-                    LocationCode = x.Unitload.CurrentLocation.LocationCode,
-                    LanewayCode = x.Unitload.CurrentLocation.Rack?.Laneway?.LanewayCode,
-                    BeingMoved = x.Unitload.BeingMoved,
-                    MaterialId = x.Material.MaterialId,
-                    MaterialCode = x.Material.MaterialCode,
-                    MaterialType = x.Material.MaterialType,
-                    Description = x.Material.Description,
-                    Specification = x.Material.Specification,
-                    Batch = x.Batch,
-                    StockStatus = x.StockStatus,
-                    Quantity = x.Quantity,
-                    Uom = x.Uom,
-                    Allocated = (x.Unitload.CurrentUat != null),
-                    CanChangeStockStatus = CanChangeStockStatus(x).ok,
-                    ReasonWhyStockStatusCannotBeChanged = CanChangeStockStatus(x).reason,
-                }),
-                Total = pagedList.Total,
-            };
+                UnitloadItemId = x.UnitloadItemId,
+                PalletCode = x.Unitload.PalletCode,
+                LocationCode = x.Unitload.CurrentLocation.LocationCode,
+                LanewayCode = x.Unitload.CurrentLocation.Rack?.Laneway?.LanewayCode,
+                BeingMoved = x.Unitload.BeingMoved,
+                MaterialId = x.Material.MaterialId,
+                MaterialCode = x.Material.MaterialCode,
+                MaterialType = x.Material.MaterialType,
+                Description = x.Material.Description,
+                Specification = x.Material.Specification,
+                Batch = x.Batch,
+                StockStatus = x.StockStatus,
+                Quantity = x.Quantity,
+                Uom = x.Uom,
+                Allocated = (x.Unitload.CurrentUat != null),
+                CanChangeStockStatus = CanChangeStockStatus(x).ok,
+                ReasonWhyStockStatusCannotBeChanged = CanChangeStockStatus(x).reason,
+            });
         }
 
         /// <summary>
@@ -157,15 +147,15 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("{id}")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ActionResult<UnitloadDetail>> Detail(int id)
+        public async Task<ApiData<UnitloadDetail>> Detail(int id)
         {
             var unitload = await _session.GetAsync<Unitload>(id);
             if (unitload == null)
             {
-                return NotFound();
+                throw new InvalidOperationException("货载不存在。");
             }
 
-            return ToUnitloadDetail(unitload);
+            return this.Success2(ToUnitloadDetail(unitload));
         }
 
         /// <summary>
@@ -176,15 +166,15 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("{palletCode}")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ActionResult<UnitloadDetail>> Detail(string palletCode)
+        public async Task<ApiData<UnitloadDetail>> Detail(string palletCode)
         {
             var unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == palletCode).SingleOrDefaultAsync();
             if (unitload == null)
             {
-                return NotFound();
+                throw new InvalidOperationException("货载不存在。");
             }
 
-            return ToUnitloadDetail(unitload);
+            return this.Success2(ToUnitloadDetail(unitload));
         }
 
         private UnitloadDetail ToUnitloadDetail(Unitload unitload)
@@ -232,10 +222,9 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost]
-        [Route("palletize-without-order")]
+        [HttpPost("palletize-without-order")]
         [OperationType(OperationTypes.无单据组盘)]
-        public async Task<IActionResult> PalletizeWithoutOrder(PalletizeWithoutOrderArgs args)
+        public async Task<ApiData> PalletizeWithoutOrder(PalletizeWithoutOrderArgs args)
         {
             List<PalletizationItemInfo<DefaultStockKey>> items = new List<PalletizationItemInfo<DefaultStockKey>>();
             foreach (var item in args.Items)
@@ -258,20 +247,19 @@ namespace Swm.Web.Controllers
                                                       "无单据组盘" // TODO 这里有硬编码文本
                                                       );
 
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
         /// 更改库存状态
         /// </summary>
-        /// <param name="ids">半角逗号分隔的货载项Id，货载项列表使用 GET /unitloads/items 获取</param>
+        /// <param name="itemIds">半角逗号分隔的货载项Id，货载项列表使用 GET /unitloads/items 获取</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost]
-        [Route("items/{ids}/actions/change-stock-status")]
+        [HttpPost("change-stock-status/{itemIds}")]
         [OperationType(OperationTypes.更改库存状态)]
-        public async Task<IActionResult> ChangeStockStatus(string ids, ChangeStockStatusArgs args)
+        public async Task<ApiData> ChangeStockStatus(string itemIds, ChangeStockStatusArgs args)
         {
             if (string.IsNullOrWhiteSpace(args.IssuingStockStatus))
             {
@@ -287,7 +275,7 @@ namespace Swm.Web.Controllers
                 throw new InvalidOperationException("发出状态和接收状态不能相同");
             }
 
-            List<int> list = ids
+            List<int> list = itemIds
                 .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                 .Select(x => int.Parse(x))
                 .ToList();
@@ -342,7 +330,7 @@ namespace Swm.Web.Controllers
                 await _session.UpdateAsync(item.Unitload).ConfigureAwait(false);
             }
 
-            return this.Success();
+            return this.Success2();
         }
 
         internal static (bool ok, string reason) CanChangeStockStatus(UnitloadItem item)

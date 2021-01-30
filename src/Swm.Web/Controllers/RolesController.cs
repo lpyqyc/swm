@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 namespace Swm.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class RolesController : ControllerBase
     {
         private readonly ILogger _logger;
@@ -44,15 +44,12 @@ namespace Swm.Web.Controllers
         }
 
         // TODO 挪走
-        [HttpGet]
-        [Route("get-app-info")]
-        public async Task<ActionResult> GetAppInfoAsync()
+        [HttpGet("get-app-info")]
+        public async Task<ApiData> GetAppInfoAsync()
         {
-            return await Task.FromResult(Ok(new
+            return this.Success2(new
             {
-                AppName = "Arctic",
-                Version = "1.0",
-            }));
+            });
         }
 
 
@@ -64,22 +61,18 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [OperationType(OperationTypes.查看角色)]
-        public async Task<ListResult<RoleListItem>> List([FromQuery]RoleListArgs args)
+        public async Task<ListData<RoleListItem>> List([FromQuery]RoleListArgs args)
         {
             var pagedList = await _session.Query<Role>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new ListResult<RoleListItem>
+            return this.ListData(pagedList, x => new RoleListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new RoleListItem
-                {
-                    RoleId = x.RoleId,
-                    RoleName = x.RoleName,
-                    IsBuiltIn = x.IsBuiltIn,
-                    AllowedOpTypes = x.AllowedOpTypes,
-                    ctime = x.ctime,
-                    Comment = x.Comment,
-                })
-            };
+                RoleId = x.RoleId,
+                RoleName = x.RoleName,
+                IsBuiltIn = x.IsBuiltIn,
+                AllowedOpTypes = x.AllowedOpTypes,
+                ctime = x.ctime,
+                Comment = x.Comment,
+            });
         }
 
         /// <summary>
@@ -87,9 +80,8 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet]
-        [Route("select-list")]
-        public async Task<List<RoleSelectListItem>> SelectList()
+        [HttpGet("get-select-list")]
+        public async Task<ApiData<List<RoleSelectListItem>>> SelectList()
         {
             var items = await _session.Query<Role>()
                 .Select(x => new RoleSelectListItem
@@ -99,7 +91,7 @@ namespace Swm.Web.Controllers
                     IsBuiltIn = x.IsBuiltIn,
                 })
                 .ToListAsync();
-            return items;
+            return this.Success2(items);
         }
 
         /// <summary>
@@ -108,9 +100,9 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost]
+        [HttpPost("create")]
         [OperationType(OperationTypes.创建角色)]
-        public async Task<IActionResult> Create(CreateRoleArgs args)
+        public async Task<ApiData> Create(CreateRoleArgs args)
         {
             if (_session.Query<Role>().Any(x => x.RoleName == args.RoleName))
             {
@@ -124,7 +116,7 @@ namespace Swm.Web.Controllers
             await _session.SaveAsync(role);
             await _opHelper.SaveOpAsync("RoleId: {0}，角色名：{1}。", role.RoleId, role.RoleName);
 
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
@@ -133,14 +125,14 @@ namespace Swm.Web.Controllers
         /// <param name="id">角色id</param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpDelete("{id}")]
+        [HttpPost("delete/{id}")]
         [OperationType(OperationTypes.删除角色)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ApiData> Delete(int id)
         {
             Role role = await _session.GetAsync<Role>(id);
             if (role.IsBuiltIn)
             {
-                return NotFound(id);
+                throw new InvalidOperationException("不能删除内置角色");
             }
 
             var users = await _session.Query<User>().Where(x => x.Roles.Contains(role)).ToListAsync();
@@ -151,7 +143,7 @@ namespace Swm.Web.Controllers
             await _session.DeleteAsync(role);
             await _opHelper.SaveOpAsync("RoleId: {0}，角色名：{1}", role.RoleId, role.RoleName);
 
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
@@ -161,14 +153,14 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPut("{id}")]
+        [HttpPost("edit/{id}")]
         [OperationType(OperationTypes.编辑角色)]
-        public async Task<IActionResult> Edit(int id, EditRoleArgs args)
+        public async Task<ApiData> Edit(int id, EditRoleArgs args)
         {
             Role role = await _session.GetAsync<Role>(id);
             if (role == null)
             {
-                return NotFound(id);
+                throw new InvalidOperationException("角色不存在。");
             }
             if (_session.Query<Role>().Any(x => x.RoleId != id && x.RoleName == args.RoleName))
             {
@@ -181,7 +173,7 @@ namespace Swm.Web.Controllers
             await _session.SaveAsync(role);
             await _opHelper.SaveOpAsync("RoleId: {0}，角色名：{1}", role.RoleId, role.RoleName);
 
-            return this.Success();
+            return this.Success2();
         }
     }
 }

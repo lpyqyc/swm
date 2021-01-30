@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class LocationsController : ControllerBase
     {
@@ -53,36 +53,30 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("list-storage-locations")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看货位)]
-        [Route("/storage-locations")]
-        public async Task<ListResult<StorageLocationListItem>> StorageLocationList([FromQuery]StorageLocationListArgs args)
+        public async Task<ListData<StorageLocationListItem>> StorageLocationList([FromQuery] StorageLocationListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new ListResult<StorageLocationListItem>
+            return this.ListData(pagedList, x => new StorageLocationListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new StorageLocationListItem
-                {
-                    LocationId = x.LocationId,
-                    LocationCode = x.LocationCode,
-                    LanewayId = x.Rack.Laneway.LanewayId,
-                    LanewayCode = x.Rack.Laneway.LanewayCode,
-                    WeightLimit = x.WeightLimit,
-                    HeightLimit = x.HeightLimit,
-                    InboundCount = x.InboundCount,
-                    InboundDisabled = x.InboundDisabled,
-                    InboundDisabledComment = x.InboundDisabledComment,
-                    OutboundCount = x.OutboundCount,
-                    OutboundDisabled = x.OutboundDisabled,
-                    OutboundDisabledComment = x.OutboundDisabledComment,
-                    StorageGroup = x.StorageGroup,
-                    UnitloadCount = x.UnitloadCount,
-                }),
-                Total = pagedList.Total
-            };
+                LocationId = x.LocationId,
+                LocationCode = x.LocationCode,
+                LanewayId = x.Rack.Laneway.LanewayId,
+                LanewayCode = x.Rack.Laneway.LanewayCode,
+                WeightLimit = x.WeightLimit,
+                HeightLimit = x.HeightLimit,
+                InboundCount = x.InboundCount,
+                InboundDisabled = x.InboundDisabled,
+                InboundDisabledComment = x.InboundDisabledComment,
+                OutboundCount = x.OutboundCount,
+                OutboundDisabled = x.OutboundDisabled,
+                OutboundDisabledComment = x.OutboundDisabledComment,
+                StorageGroup = x.StorageGroup,
+                UnitloadCount = x.UnitloadCount,
+            });
         }
 
         /// <summary>
@@ -90,35 +84,29 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("list-key-points")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看关键点)]
-        [Route("/key-points")]
-        public async Task<ListResult<KeyPointListItem>> KeyPointList([FromQuery]KeyPointListArgs args)
+        public async Task<ListData<KeyPointListItem>> KeyPointList([FromQuery] KeyPointListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new ListResult<KeyPointListItem>
+            return this.ListData(pagedList, x => new KeyPointListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new KeyPointListItem
-                {
-                    LocationId = x.LocationId,
-                    LocationCode = x.LocationCode,
-                    InboundCount = x.InboundCount,
-                    InboundDisabled = x.InboundDisabled,
-                    InboundDisabledComment = x.InboundDisabledComment,
-                    InboundLimit = x.InboundLimit,
-                    OutboundCount = x.OutboundCount,
-                    OutboundDisabled = x.OutboundDisabled,
-                    OutboundDisabledComment = x.OutboundDisabledComment,
-                    OutboundLimit = x.OutboundLimit,
-                    Tag = x.Tag,
-                    RequestType = x.RequestType,
-                    UnitloadCount = x.UnitloadCount,
-                }),
-                Total = pagedList.Total
-            };
+                LocationId = x.LocationId,
+                LocationCode = x.LocationCode,
+                InboundCount = x.InboundCount,
+                InboundDisabled = x.InboundDisabled,
+                InboundDisabledComment = x.InboundDisabledComment,
+                InboundLimit = x.InboundLimit,
+                OutboundCount = x.OutboundCount,
+                OutboundDisabled = x.OutboundDisabled,
+                OutboundDisabledComment = x.OutboundDisabledComment,
+                OutboundLimit = x.OutboundLimit,
+                Tag = x.Tag,
+                RequestType = x.RequestType,
+                UnitloadCount = x.UnitloadCount,
+            });
         }
 
         ///// <summary>
@@ -148,11 +136,10 @@ namespace Swm.Web.Controllers
         /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("{ids}/actions/disable-inbound")]
+        [HttpPost("disable-inbound/[[{ids}]]")]
         [OperationType(OperationTypes.禁止入站)]
         [AutoTransaction]
-        public async Task<ActionResult> DisableInbound(string ids, DisableInboundArgs args)
+        public async Task<ApiData> DisableInbound(string ids, DisableInboundArgs args)
         {
             List<int> list = ids
                 .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -192,7 +179,7 @@ namespace Swm.Web.Controllers
             }
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止入站", affected);
 
-            return this.Success();
+            return this.Success2();
 
             async Task DisableOneAsync(Location loc)
             {
@@ -216,8 +203,6 @@ namespace Swm.Web.Controllers
                     affected++;
                 }
             }
-
-
         }
 
         /// <summary>
@@ -226,11 +211,10 @@ namespace Swm.Web.Controllers
         /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("{ids}/actions/enable-inbound")]
+        [HttpPost("enable-inbound/[[{ids}]]")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ActionResult> EnableInbound(string ids, EnableInboundArgs args)
+        public async Task<ApiData> EnableInbound(string ids, EnableInboundArgs args)
         {
             List<int> list = ids
                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -272,7 +256,7 @@ namespace Swm.Web.Controllers
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许入站。", affected);
 
-            return this.Success();
+            return this.Success2();
 
             async Task EnableOneAsync(Location loc)
             {
@@ -303,11 +287,10 @@ namespace Swm.Web.Controllers
         /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("{ids}/actions/disable-outbound")]
+        [HttpPost("disable-outbound/[[{ids}]]")]
         [OperationType(OperationTypes.禁止出站)]
         [AutoTransaction]
-        public async Task<ActionResult> DisableOutbound(string ids, DisableOutboundArgs args)
+        public async Task<ApiData> DisableOutbound(string ids, DisableOutboundArgs args)
         {
             List<int> list = ids
                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -352,7 +335,7 @@ namespace Swm.Web.Controllers
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止出站。", affected);
 
-            return this.Success();
+            return this.Success2();
 
             async Task DisableOneAsync(Location loc)
             {
@@ -383,11 +366,10 @@ namespace Swm.Web.Controllers
         /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("{ids}/actions/enable-outbound")]
+        [HttpPost("enable-outbound/[[{ids}]]")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ActionResult> EnableOutbound(string ids, EnableOutboundArgs args)
+        public async Task<ApiData> EnableOutbound(string ids, EnableOutboundArgs args)
         {
             List<int> list = ids
                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -432,7 +414,7 @@ namespace Swm.Web.Controllers
             }
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许出站。", affected);
-            return this.Success();
+            return this.Success2();
 
             async Task EnableOneAsync(Location loc)
             {
@@ -463,11 +445,10 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("/key-points")]
+        [HttpPost("create-key-point")]
         [OperationType(OperationTypes.创建关键点)]
         [AutoTransaction]
-        public async Task<IActionResult> CreateKeyPoint(CreateKeyPointArgs args)
+        public async Task<ApiData> CreateKeyPoint(CreateKeyPointArgs args)
         {
             Location loc = _locFactory.CreateLocation(args.LocationCode, LocationTypes.K, null, 0, 0);
             loc.RequestType = args.RequestType;
@@ -478,7 +459,7 @@ namespace Swm.Web.Controllers
             _ = await _opHelper.SaveOpAsync("{0}#{1}", loc.LocationCode, loc.LocationId);
             await _eventBus.FireEventAsync("KeyPointChanged", null);
 
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
@@ -487,16 +468,15 @@ namespace Swm.Web.Controllers
         /// <param name="id">关键点Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPut]
-        [Route("/key-points/{id}")]
+        [HttpPost("edit-key-point/{id}")]
         [OperationType(OperationTypes.编辑关键点)]
         [AutoTransaction]
-        public async Task<IActionResult> EditKeyPoint(int id, EditKeyPointArgs args)
+        public async Task<ApiData> EditKeyPoint(int id, EditKeyPointArgs args)
         {
             Location loc = await _session.GetAsync<Location>(id);
             if (loc == null || loc.LocationType != LocationTypes.K)
             {
-                return NotFound(id);
+                throw new InvalidOperationException("关键点不存在");
             }
             loc.LocationCode = args.LocationCode;
             loc.RequestType = args.RequestType;
@@ -508,12 +488,7 @@ namespace Swm.Web.Controllers
 
             await _eventBus.FireEventAsync("KeyPointChanged", null);
 
-            return this.Success();
-        }
-    
-    
-    
-    
-    
+            return this.Success2();
+        }    
     }
 }

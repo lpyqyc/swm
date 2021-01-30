@@ -42,9 +42,9 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 物料类型
         /// </summary>
+        [SearchArg]
         [SourceProperty("Material.MaterialType")]
-        [SearchArg(SearchMode.In)]
-        public string[]? MaterialTypes { get; set; }
+        public string? MaterialType { get; set; }
 
         /// <summary>
         /// 物料代码，不支持模糊查询

@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 namespace Swm.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class MaterialsController : ControllerBase
     {
         readonly ILogger _logger;
@@ -56,36 +56,31 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet]
+        [HttpGet("list")]
         [OperationType(OperationTypes.查看物料)]
-        public async Task<ListResult<MaterialListItem>> List([FromQuery] MaterialListArgs args)
+        public async Task<ListData<MaterialListItem>> List([FromQuery] MaterialListArgs args)
         {
             var pagedList = await _session.Query<Material>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new ListResult<MaterialListItem>
+            return this.ListData(pagedList, x => new MaterialListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new MaterialListItem
-                {
-                    MaterialId = x.MaterialId,
-                    MaterialCode = x.MaterialCode,
-                    MaterialType = x.MaterialType,
-                    Description = x.Description,
-                    Specification = x.Specification,
-                    BatchEnabled = x.BatchEnabled,
-                    MaterialGroup = x.MaterialGroup,
-                    ValidDays = x.ValidDays,
-                    StandingTime = x.StandingTime,
-                    AbcClass = x.AbcClass,
-                    Uom = x.Uom,
-                    LowerBound = x.LowerBound,
-                    UpperBound = x.UpperBound,
-                    DefaultQuantity = x.DefaultQuantity,
-                    DefaultStorageGroup = x.DefaultStorageGroup,
-                    Comment = x.Comment
-                }),
-                Total = pagedList.Total
-            };
+                MaterialId = x.MaterialId,
+                MaterialCode = x.MaterialCode,
+                MaterialType = x.MaterialType,
+                Description = x.Description,
+                Specification = x.Specification,
+                BatchEnabled = x.BatchEnabled,
+                MaterialGroup = x.MaterialGroup,
+                ValidDays = x.ValidDays,
+                StandingTime = x.StandingTime,
+                AbcClass = x.AbcClass,
+                Uom = x.Uom,
+                LowerBound = x.LowerBound,
+                UpperBound = x.UpperBound,
+                DefaultQuantity = x.DefaultQuantity,
+                DefaultStorageGroup = x.DefaultStorageGroup,
+                Comment = x.Comment
+            });
         }
 
         /// <summary>
@@ -94,9 +89,8 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet]
-        [Route("select-list")]
-        public async Task<List<MaterialSelectListItem>> SelectList(MaterialSelectListArgs args)
+        [HttpGet("get-select-list")]
+        public async Task<ApiData<List<MaterialSelectListItem>>> SelectList(MaterialSelectListArgs args)
         {
             var items = await _session.Query<Material>()
                 .FilterByKeyword(args.Keyword, args.MaterialType)
@@ -110,7 +104,7 @@ namespace Swm.Web.Controllers
                 .Take(args.Limit ?? 10)
                 .ToListAsync();
 
-            return items;
+            return this.Success2(items);
         }
 
         /// <summary>
@@ -118,9 +112,8 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet]
-        [Route("material-type-select-list")]
-        public async Task<List<MaterialTypeSelectListItem>> MaterialTypesSelectList()
+        [HttpGet("get-material-type-select-list")]
+        public async Task<ApiData<List<MaterialTypeSelectListItem>>> MaterialTypesSelectList()
         {
             var appCodes = await _session
                 .Query<AppCode>()
@@ -135,7 +128,7 @@ namespace Swm.Web.Controllers
                     DisplayOrder = x.DisplayOrder,
                 }).ToList();
 
-            return list;
+            return this.Success2(list);
         }
 
         /// <summary>
@@ -147,13 +140,13 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [HttpPost("actions/import")]
-        public async Task<ActionResult> Import(IFormFile file)
+        [HttpPost("import")]
+        public async Task<ApiData> Import(IFormFile file)
         {
             string[] arr = new[] { ".xlsx", ".xls" };
             if (arr.Contains(Path.GetExtension(file.FileName)?.ToLower()) == false)
             {
-                return BadRequest("无效的文件扩展名");
+                throw new InvalidOperationException("无效的文件扩展名。");
             }
 
 
@@ -204,7 +197,7 @@ namespace Swm.Web.Controllers
 
             _ = await _opHelper.SaveOpAsync($"导入 {imported}，覆盖 {covered}");
 
-            return Ok($"导入 {imported}，覆盖 {covered}");
+            return this.Success2($"导入 {imported}，覆盖 {covered}");
 
 
             static async Task<string> WriteFileAsync(IFormFile file)

@@ -26,7 +26,7 @@ namespace Swm.Web.Controllers
     /// 提供调试功能。
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class DebugController : ControllerBase
     {
         readonly ILogger _logger;
@@ -52,18 +52,17 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="requestInfo"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("simulate-request")]
+        [HttpPost("simulate-request")]
         [OperationType(OperationTypes.模拟请求)]
         [AutoTransaction]
-        public async Task<IActionResult> SimulateRequest(RequestInfo requestInfo)
+        public async Task<ApiData> SimulateRequest(RequestInfo requestInfo)
         {
             _logger.Information("正在模拟请求 {requestInfo}", requestInfo);
             await _eventBus.FireEventAsync(EventTypes.PreRequest, requestInfo);
             await _eventBus.FireEventAsync(EventTypes.Request, requestInfo);
             var op = await _opHelper.SaveOpAsync("{0}", requestInfo);
             _logger.Information("模拟请求成功");
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
@@ -71,17 +70,16 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="taskInfo"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("simulate-task-completion")]
+        [HttpPost("simulate-task-completion")]
         [OperationType(OperationTypes.模拟完成)]
         [AutoTransaction]
-        public async Task<IActionResult> SimulateTaskCompletionAsync(CompletedTaskInfo taskInfo)
+        public async Task<ApiData> SimulateTaskCompletionAsync(CompletedTaskInfo taskInfo)
         {
             _logger.Information("正在模拟任务完成 {taskInfo}", taskInfo);
             await _eventBus.FireEventAsync(EventTypes.TaskCompleted, taskInfo);
             _logger.Information("已模拟任务完成");
             var op = await _opHelper.SaveOpAsync("{0}", taskInfo);
-            return this.Success();
+            return this.Success2();
         }
     }
 }

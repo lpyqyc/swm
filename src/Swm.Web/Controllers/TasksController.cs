@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 namespace Swm.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class TasksController : ControllerBase
     {
         readonly ILogger _logger;
@@ -50,7 +50,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet]
         [OperationType(OperationTypes.查看任务)]
-        public async Task<ListResult<TaskListItem>> List([FromQuery]TaskListArgs args)
+        public async Task<ListData<TaskListItem>> List([FromQuery]TaskListArgs args)
         {
             if (args.Sort == null)
             {
@@ -59,36 +59,31 @@ namespace Swm.Web.Controllers
 
             var pagedList = await _session.Query<TransportTask>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new ListResult<TaskListItem>
+            return this.ListData(pagedList, x => new TaskListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new TaskListItem
+                TaskId = x.TaskId,
+                TaskCode = x.TaskCode,
+                TaskType = x.TaskType,
+                PalletCode = x.Unitload.PalletCode,
+                StartLocationCode = x.Start.LocationCode,
+                EndLocationCode = x.End.LocationCode,
+                SendTime = x.SendTime,
+                OrderCode = x.OrderCode,
+                Comment = x.Comment,
+                Items = x.Unitload.Items.Select(i => new UnitloadItemInfo
                 {
-                    TaskId = x.TaskId,
-                    TaskCode = x.TaskCode,
-                    TaskType = x.TaskType,
-                    PalletCode = x.Unitload.PalletCode,
-                    StartLocationCode = x.Start.LocationCode,
-                    EndLocationCode = x.End.LocationCode,
-                    SendTime = x.SendTime,
-                    OrderCode = x.OrderCode,
-                    Comment = x.Comment,
-                    Items = x.Unitload.Items.Select(i => new UnitloadItemInfo
-                    {
-                        UnitloadItemId = i.UnitloadItemId,
-                        MaterialId = i.Material.MaterialId,
-                        MaterialCode = i.Material.MaterialCode,
-                        MaterialType = i.Material.MaterialType,
-                        Description = i.Material.Description,
-                        Specification = i.Material.Specification,
-                        Batch = i.Batch,
-                        StockStatus = i.StockStatus,
-                        Quantity = i.Quantity,
-                        Uom = i.Uom,
-                    }).ToList(),
-                }),
-                Total = pagedList.Total,
-            };
+                    UnitloadItemId = i.UnitloadItemId,
+                    MaterialId = i.Material.MaterialId,
+                    MaterialCode = i.Material.MaterialCode,
+                    MaterialType = i.Material.MaterialType,
+                    Description = i.Material.Description,
+                    Specification = i.Material.Specification,
+                    Batch = i.Batch,
+                    StockStatus = i.StockStatus,
+                    Quantity = i.Quantity,
+                    Uom = i.Uom,
+                }).ToList(),
+            });
         }
 
         /// <summary>
@@ -97,10 +92,9 @@ namespace Swm.Web.Controllers
         /// <param name="args">查询参数</param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet]
-        [Route("archived")]
+        [HttpGet(("archived"))]
         [OperationType(OperationTypes.查看任务)]
-        public async Task<ListResult<ArchivedTaskListItem>> Archived([FromQuery]ArchivedTaskListArgs args)
+        public async Task<ListData<ArchivedTaskListItem>> Archived([FromQuery]ArchivedTaskListArgs args)
         {
             if (args.Sort == null)
             {
@@ -109,38 +103,33 @@ namespace Swm.Web.Controllers
 
             var pagedList = await _session.Query<ArchivedTransportTask>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return new ListResult<ArchivedTaskListItem>
+            return this.ListData(pagedList, x => new ArchivedTaskListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new ArchivedTaskListItem
+                TaskId = x.TaskId,
+                TaskCode = x.TaskCode,
+                TaskType = x.TaskType,
+                PalletCode = x.Unitload.PalletCode,
+                StartLocationCode = x.Start.LocationCode,
+                EndLocationCode = x.End.LocationCode,
+                SendTime = x.SendTime,
+                OrderCode = x.OrderCode,
+                Comment = x.Comment,
+                ArchivedAt = x.ArchivedAt,
+                Cancelled = x.Cancelled,
+                Items = x.Unitload.Items.Select(i => new UnitloadItemInfo
                 {
-                    TaskId = x.TaskId,
-                    TaskCode = x.TaskCode,
-                    TaskType = x.TaskType,
-                    PalletCode = x.Unitload.PalletCode,
-                    StartLocationCode = x.Start.LocationCode,
-                    EndLocationCode = x.End.LocationCode,
-                    SendTime = x.SendTime,
-                    OrderCode = x.OrderCode,
-                    Comment = x.Comment,
-                    ArchivedAt = x.ArchivedAt,
-                    Cancelled = x.Cancelled,
-                    Items = x.Unitload.Items.Select(i => new UnitloadItemInfo
-                    {
-                        UnitloadItemId = i.UnitloadItemId,
-                        MaterialId = i.Material.MaterialId,
-                        MaterialCode = i.Material.MaterialCode,
-                        MaterialType = i.Material.MaterialType,
-                        Description = i.Material.Description,
-                        Specification = i.Material.Specification,
-                        Batch = i.Batch,
-                        StockStatus = i.StockStatus,
-                        Quantity = i.Quantity,
-                        Uom = i.Uom,
-                    }).ToList(),
-                }),
-                Total = pagedList.Total,
-            };
+                    UnitloadItemId = i.UnitloadItemId,
+                    MaterialId = i.Material.MaterialId,
+                    MaterialCode = i.Material.MaterialCode,
+                    MaterialType = i.Material.MaterialType,
+                    Description = i.Material.Description,
+                    Specification = i.Material.Specification,
+                    Batch = i.Batch,
+                    StockStatus = i.StockStatus,
+                    Quantity = i.Quantity,
+                    Uom = i.Uom,
+                }).ToList(),
+            });
         }
 
         /// <summary>
@@ -151,19 +140,19 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [OperationType(OperationTypes.更改货载位置)]
         [HttpPost("actions/change-unitloads-location")]
-        public async Task<ActionResult> ChangeLocationAsync(ChangeLocationArgs args)
+        public async Task<ApiData> ChangeLocationAsync(ChangeLocationArgs args)
         {
             Unitload unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == args.PalletCode).SingleOrDefaultAsync();
 
             if (unitload == null)
             {
-                throw new Exception("托盘号不存在：" + args.PalletCode);
+                throw new InvalidOperationException("托盘号不存在。");
             }
 
             Location dest = await _session.Query<Location>().Where(x => x.LocationCode == args.DestinationLocationCode).SingleOrDefaultAsync();
             if (dest == null)
             {
-                throw new Exception("货位号不存在：" + args.DestinationLocationCode);
+                throw new Exception("货位号不存在。");
             }
 
             var originalLocationCode = unitload.CurrentLocation?.LocationCode;
@@ -178,7 +167,7 @@ namespace Swm.Web.Controllers
 
             _logger.Information("已将托盘 {palletCode} 的位置从 {originalLocationCode} 改为 {destinationLocationCode}", args.PalletCode, originalLocationCode, args.DestinationLocationCode);
 
-            return this.Success();
+            return this.Success2();
         }
 
     }

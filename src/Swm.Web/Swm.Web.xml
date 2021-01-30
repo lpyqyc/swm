@@ -4,6 +4,31 @@
         <name>Swm.Web</name>
     </assembly>
     <members>
+        <member name="T:Swm.Web.ApiData">
+            <summary>
+            API 返回的数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ApiData.Success">
+            <summary>
+            是否成功
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ApiData.ErrorMessage">
+            <summary>
+            错误消息
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ApiData.TraceId">
+            <summary>
+            唯一的请求Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ApiData.Host">
+            <summary>
+            主机
+            </summary>
+        </member>
         <member name="T:Swm.Web.DefaultOperaionTypeAuthoriztion">
             <summary>
             <see cref="T:Swm.Web.IOperaionTypeAuthoriztion"/> 接口的默认实现
@@ -100,7 +125,7 @@
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.AppSettingsController.Edit(System.String,Swm.Web.Controllers.EditAppSettingArgs)">
+        <member name="M:Swm.Web.Controllers.AppSettingsController.Set(System.String,Swm.Web.Controllers.SetAppSettingArgs)">
             <summary>
             更改设置
             </summary>
@@ -108,20 +133,11 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.AppSettingsController.Create(System.String,Swm.Web.Controllers.CreateAppSettingArgs)">
+        <member name="M:Swm.Web.Controllers.AppSettingsController.Create(Swm.Web.Controllers.CreateAppSettingArgs)">
             <summary>
             更改设置
             </summary>
-            <param name="settingName">设置名称</param>
             <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.ControllerBaseExtensions.Success(Microsoft.AspNetCore.Mvc.ControllerBase,System.Object)">
-            <summary>
-            表示操作成功。http 状态码 201。
-            </summary>
-            <param name="controller"></param>
-            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.DebugController">
@@ -617,7 +633,7 @@
             <summary>
             更改库存状态
             </summary>
-            <param name="ids">半角逗号分隔的货载项Id，货载项列表使用 GET /unitloads/items 获取</param>
+            <param name="itemIds">半角逗号分隔的货载项Id，货载项列表使用 GET /unitloads/items 获取</param>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -919,6 +935,11 @@
             创建程序设置操作的参数
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingName">
+            <summary>
+            设置名称
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingType">
             <summary>
             设置类型
@@ -1052,16 +1073,6 @@
         <member name="P:Swm.Web.Controllers.DisableOutboundArgs.Comment">
             <summary>
             禁止出站的操作备注
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.EditAppSettingArgs">
-            <summary>
-            编辑程序设置操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditAppSettingArgs.SettingValue">
-            <summary>
-            设置值
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.EditInboundLineInfo">
@@ -1275,7 +1286,7 @@
             结束时间
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.FlowListArgs.MaterialTypes">
+        <member name="P:Swm.Web.Controllers.FlowListArgs.MaterialType">
             <summary>
             物料类型
             </summary>
@@ -2691,6 +2702,16 @@
             是否内置角色，内置角色不能删除
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.SetAppSettingArgs">
+            <summary>
+            编辑程序设置操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SetAppSettingArgs.SettingValue">
+            <summary>
+            设置值
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.SetPortsArgs">
             <summary>
             设置巷道出口的操作参数。
@@ -3833,26 +3854,28 @@
             <param name="sheet"></param>
             <returns></returns>
         </member>
-        <member name="T:Swm.Web.ListResult`1">
+        <member name="T:Swm.Web.ListData`1">
             <summary>
-            表示列表页结果
+            列表页数据
             </summary>
-            <remarks>
-            与前端 antd protable 匹配的数据结构。
-            </remarks>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TElement"></typeparam>
         </member>
-        <member name="P:Swm.Web.ListResult`1.Success">
+        <member name="P:Swm.Web.ListData`1.Data">
             <summary>
-            是否成功
+            数据
             </summary>
         </member>
-        <member name="P:Swm.Web.ListResult`1.Data">
+        <member name="P:Swm.Web.ListData`1.CurrentPage">
             <summary>
-            数据列表
+            当前页
             </summary>
         </member>
-        <member name="P:Swm.Web.ListResult`1.Total">
+        <member name="P:Swm.Web.ListData`1.PageSize">
+            <summary>
+            页大小
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ListData`1.Total">
             <summary>
             记录总数
             </summary>

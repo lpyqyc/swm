@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AppSettingsController : ControllerBase
     {
@@ -32,18 +32,13 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("list")]
         [DebugShowArgs]
         [AutoTransaction]
-        public async Task<ListResult<AppSetting>> List([FromQuery] AppSettingListArgs args)
+        public async Task<ListData<AppSetting>> List([FromQuery] AppSettingListArgs args)
         {
             var pagedList = await _session.Query<AppSetting>().SearchAsync(args, "settingName ASC", 1, 9999);
-            return new ListResult<AppSetting>
-            {
-                Success = true,
-                Data = pagedList.List,
-                Total = pagedList.Total
-            };
+            return this.ListData(pagedList);
         }
 
 
@@ -54,9 +49,9 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPut("{settingName}")]
+        [HttpPost("set/{settingName}")]
         [OperationType(OperationTypes.更改设置)]
-        public async Task<IActionResult> Edit([Required] string? settingName, EditAppSettingArgs args)
+        public async Task<ApiData> Set([Required] string? settingName, SetAppSettingArgs args)
         {
             settingName = settingName?.Trim();
             if (string.IsNullOrEmpty(settingName))
@@ -66,8 +61,9 @@ namespace Swm.Web.Controllers
             var setting = await _appSettingService.GetAsync(settingName);
             if (setting == null)
             {
-                return NotFound(settingName);
+                throw new InvalidOperationException("设置不存在");
             }
+
             var prevValue = setting.SettingValue;
 
             switch (setting.SettingType)
@@ -88,21 +84,20 @@ namespace Swm.Web.Controllers
             _logger.Information("将设置 {settingName} 的值由 {prevValue} 改为 {value}", settingName, prevValue, args.SettingValue);
             await _opHelper.SaveOpAsync($"设置名 {settingName}，前值 {prevValue}，新值 {args.SettingValue}", settingName, prevValue, args.SettingValue);
 
-            return this.Success();
+            return this.Success2();
         }
 
         /// <summary>
         /// 更改设置
         /// </summary>
-        /// <param name="settingName">设置名称</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost("{settingName}")]
+        [HttpPost("create")]
         [OperationType(OperationTypes.更改设置)]
-        public async Task<IActionResult> Create([Required] string? settingName, CreateAppSettingArgs args)
+        public async Task<ApiData> Create(CreateAppSettingArgs args)
         {
-            settingName = settingName?.Trim();
+            var settingName = args.SettingName?.Trim();
             if (string.IsNullOrEmpty(settingName))
             {
                 throw new InvalidOperationException("设置名不能为空。");
@@ -132,7 +127,7 @@ namespace Swm.Web.Controllers
             _logger.Information("创建设置 {settingName}，值为 {value}", settingName, args.SettingValue);
             await _opHelper.SaveOpAsync($"设置名 {settingName}，值 {args.SettingValue}", settingName, args.SettingValue);
 
-            return this.Success();
+            return this.Success2();
         }
     }
 }
