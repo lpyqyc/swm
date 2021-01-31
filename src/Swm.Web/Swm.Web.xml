@@ -118,28 +118,6 @@
             POLICY 常数
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.AppSettingsController.List(Swm.Web.Controllers.AppSettingListArgs)">
-            <summary>
-            程序设置列表
-            </summary>
-            <param name="args">查询参数</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.AppSettingsController.Set(System.String,Swm.Web.Controllers.SetAppSettingArgs)">
-            <summary>
-            更改设置
-            </summary>
-            <param name="settingName">设置名称</param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.AppSettingsController.Create(Swm.Web.Controllers.CreateAppSettingArgs)">
-            <summary>
-            更改设置
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
         <member name="T:Swm.Web.Controllers.DebugController">
             <summary>
             提供调试功能。
@@ -247,20 +225,20 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.List(Swm.Web.Controllers.LanewayListArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.GetLanewayList(Swm.Web.Controllers.LanewayListArgs)">
             <summary>
             获取所有巷道
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.SelectList">
+        <member name="M:Swm.Web.Controllers.LocController.GetLanewayOptions">
             <summary>
             巷道选择列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOffline(System.Int32,Swm.Web.Controllers.TakeOfflineArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.TakeOffline(System.Int32,Swm.Web.Controllers.TakeOfflineArgs)">
             <summary>
             使巷道脱机
             </summary>
@@ -268,7 +246,7 @@
             <param name="args">参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.TakeOnline(System.Int32,Swm.Web.Controllers.TakeOnlineArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.TakeOnline(System.Int32,Swm.Web.Controllers.TakeOnlineArgs)">
             <summary>
             使巷道联机
             </summary>
@@ -276,7 +254,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.SetPorts(System.Int32,Swm.Web.Controllers.SetPortsArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.SetPorts(System.Int32,Swm.Web.Controllers.SetPortsArgs)">
             <summary>
             设置巷道可以到达的出口
             </summary>
@@ -284,34 +262,47 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.GetSideViewData(System.Int32)">
+        <member name="M:Swm.Web.Controllers.LocController.GetSideViewData(System.Int32)">
             <summary>
             巷道侧视图
             </summary>
             <param name="id">巷道Id</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LanewaysController.RebuildLanewaysStat">
+        <member name="M:Swm.Web.Controllers.LocController.RebuildLanewaysStat">
             <summary>
             重建所有巷道的统计信息，这个操作消耗资源较多
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.StorageLocationList(Swm.Web.Controllers.StorageLocationListArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.GetPortList(Swm.Web.Controllers.PortListArgs)">
+            <summary>
+            出口列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocController.GetPortOptions">
+            <summary>
+            出口选择列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocController.GetStorageLocationList(Swm.Web.Controllers.StorageLocationListArgs)">
             <summary>
             货位列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.KeyPointList(Swm.Web.Controllers.KeyPointListArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.GetKeyPointList(Swm.Web.Controllers.KeyPointListArgs)">
             <summary>
             关键点列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.DisableInbound(System.String,Swm.Web.Controllers.DisableInboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.DisableInbound(System.String,Swm.Web.Controllers.DisableInboundArgs)">
             <summary>
             禁止入站
             </summary>
@@ -319,7 +310,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.EnableInbound(System.String,Swm.Web.Controllers.EnableInboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.EnableInbound(System.String,Swm.Web.Controllers.EnableInboundArgs)">
             <summary>
             允许入站
             </summary>
@@ -327,7 +318,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.DisableOutbound(System.String,Swm.Web.Controllers.DisableOutboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.DisableOutbound(System.String,Swm.Web.Controllers.DisableOutboundArgs)">
             <summary>
             禁止出站
             </summary>
@@ -335,7 +326,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.EnableOutbound(System.String,Swm.Web.Controllers.EnableOutboundArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.EnableOutbound(System.String,Swm.Web.Controllers.EnableOutboundArgs)">
             <summary>
             允许入站
             </summary>
@@ -343,14 +334,14 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.CreateKeyPoint(Swm.Web.Controllers.CreateKeyPointArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.CreateKeyPoint(Swm.Web.Controllers.CreateKeyPointArgs)">
             <summary>
             创建关键点
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocationsController.EditKeyPoint(System.Int32,Swm.Web.Controllers.EditKeyPointArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.EditKeyPoint(System.Int32,Swm.Web.Controllers.EditKeyPointArgs)">
             <summary>
             编辑关键点
             </summary>
@@ -397,13 +388,6 @@
             导入物料主数据
             </summary>
             <param name="file"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.OpsController.List(Swm.Web.Controllers.OpListArgs)">
-            <summary>
-            操作记录列表
-            </summary>
-            <param name="args">查询参数</param>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.OutboundOrdersController">
@@ -493,54 +477,6 @@
             </summary>
             <param name="outboundOrder"></param>
         </member>
-        <member name="M:Swm.Web.Controllers.PortsController.List(Swm.Web.Controllers.PortListArgs)">
-            <summary>
-            出口列表
-            </summary>
-            <param name="args">查询参数</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.PortsController.SelectList">
-            <summary>
-            出口选择列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.RolesController.List(Swm.Web.Controllers.RoleListArgs)">
-            <summary>
-            角色列表
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.RolesController.SelectList">
-            <summary>
-            获取角色的选择列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.RolesController.Create(Swm.Web.Controllers.CreateRoleArgs)">
-            <summary>
-            创建角色
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.RolesController.Delete(System.Int32)">
-            <summary>
-            删除角色
-            </summary>
-            <param name="id">角色id</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.RolesController.Edit(System.Int32,Swm.Web.Controllers.EditRoleArgs)">
-            <summary>
-            编辑角色
-            </summary>
-            <param name="id">角色id</param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
         <member name="M:Swm.Web.Controllers.StocksController.List(Swm.Web.Controllers.StockListArgs)">
             <summary>
             实时库存
@@ -571,6 +507,108 @@
             <summary>
             库龄报表
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetAppSettingList(Swm.Web.Controllers.AppSettingListArgs)">
+            <summary>
+            程序设置列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.UpdateAppSetting(System.String,Swm.Web.Controllers.SetAppSettingArgs)">
+            <summary>
+            更改设置
+            </summary>
+            <param name="settingName">设置名称</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.Create(Swm.Web.Controllers.CreateAppSettingArgs)">
+            <summary>
+            更改设置
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetUserList(Swm.Web.Controllers.UserListArgs)">
+            <summary>
+            用户列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.CreateUser(Swm.Web.Controllers.CreateUserArgs)">
+            <summary>
+            创建用户
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Swm.Web.Controllers.SysController.DeleteUser(System.Int32)" -->
+        <member name="M:Swm.Web.Controllers.SysController.UpdateUser(System.Int32,Swm.Web.Controllers.UpdateUserArgs)">
+            <summary>
+            编辑用户
+            </summary>
+            <param name="id">用户id</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.HashPassword(System.String,System.String)">
+            <summary>
+            对密码进行散列。
+            </summary>
+            <param name="password">密码明文</param>
+            <param name="salt">密码盐度</param>
+            <returns>散列后的密码</returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetMd5Hash(System.String)">
+            <summary>
+            使用 md5 算法获取输入字符串的 hash 值
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetRoleList(Swm.Web.Controllers.RoleListArgs)">
+            <summary>
+            角色列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetRoleOptions">
+            <summary>
+            获取角色的选择列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.CreateRole(Swm.Web.Controllers.CreateRoleArgs)">
+            <summary>
+            创建角色
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.DeleteRole(System.Int32)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="id">角色id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.UpdateRole(System.Int32,Swm.Web.Controllers.UpdateRoleArgs)">
+            <summary>
+            编辑角色
+            </summary>
+            <param name="id">角色id</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetOpList(Swm.Web.Controllers.OpListArgs)">
+            <summary>
+            操作记录列表
+            </summary>
+            <param name="args">查询参数</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.TasksController.List(Swm.Web.Controllers.TaskListArgs)">
@@ -635,44 +673,6 @@
             </summary>
             <param name="itemIds">半角逗号分隔的货载项Id，货载项列表使用 GET /unitloads/items 获取</param>
             <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.UsersController.List(Swm.Web.Controllers.UserListArgs)">
-            <summary>
-            用户列表
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.UsersController.Create(Swm.Web.Controllers.CreateUserArgs)">
-            <summary>
-            创建用户
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:Swm.Web.Controllers.UsersController.Delete(System.Int32)" -->
-        <member name="M:Swm.Web.Controllers.UsersController.Edit(System.Int32,Swm.Web.Controllers.EditUserArgs)">
-            <summary>
-            编辑用户
-            </summary>
-            <param name="id">用户id</param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.UsersController.HashPassword(System.String,System.String)">
-            <summary>
-            对密码进行散列。
-            </summary>
-            <param name="password">密码明文</param>
-            <param name="salt">密码盐度</param>
-            <returns>散列后的密码</returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.UsersController.GetMd5Hash(System.String)">
-            <summary>
-            使用 md5 算法获取输入字符串的 hash 值
-            </summary>
-            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.AgeReportListItem">
@@ -1219,36 +1219,6 @@
         <member name="P:Swm.Web.Controllers.EditOutboundOrderArgs.Comment">
             <summary>
             备注
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.EditRoleArgs">
-            <summary>
-            编辑角色操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditRoleArgs.RoleName">
-            <summary>
-            角色名称
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditRoleArgs.Comment">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.EditUserArgs">
-            <summary>
-            编辑用户操作的参数。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditUserArgs.Roles">
-            <summary>
-            所属角色
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditUserArgs.Password">
-            <summary>
-            密码
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.EnableInboundArgs">
@@ -1823,22 +1793,22 @@
             总脱机时间
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.LanewaySelectListItem">
+        <member name="T:Swm.Web.Controllers.LanewayOption">
             <summary>
             选择列表的数据项
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewaySelectListItem.LanewayId">
+        <member name="P:Swm.Web.Controllers.LanewayOption.LanewayId">
             <summary>
             巷道Id
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewaySelectListItem.LanewayCode">
+        <member name="P:Swm.Web.Controllers.LanewayOption.LanewayCode">
             <summary>
             巷道编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewaySelectListItem.Offline">
+        <member name="P:Swm.Web.Controllers.LanewayOption.Offline">
             <summary>
             是否离线
             </summary>
@@ -2602,22 +2572,22 @@
             检查时间
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.PortSelectListItem">
+        <member name="T:Swm.Web.Controllers.PortOption">
             <summary>
             选择列表的数据项
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.PortSelectListItem.PortId">
+        <member name="P:Swm.Web.Controllers.PortOption.PortId">
             <summary>
             出口Id
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.PortSelectListItem.PortCode">
+        <member name="P:Swm.Web.Controllers.PortOption.PortCode">
             <summary>
             出口编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.PortSelectListItem.CurrentUat">
+        <member name="P:Swm.Web.Controllers.PortOption.CurrentUat">
             <summary>
             当前下架的单据
             </summary>
@@ -2682,22 +2652,22 @@
             备注
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.RoleSelectListItem">
+        <member name="T:Swm.Web.Controllers.RoleOption">
             <summary>
             角色选择列表数据项
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.RoleSelectListItem.RoleId">
+        <member name="P:Swm.Web.Controllers.RoleOption.RoleId">
             <summary>
             角色Id
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.RoleSelectListItem.RoleName">
+        <member name="P:Swm.Web.Controllers.RoleOption.RoleName">
             <summary>
             角色名
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.RoleSelectListItem.IsBuiltIn">
+        <member name="P:Swm.Web.Controllers.RoleOption.IsBuiltIn">
             <summary>
             是否内置角色，内置角色不能删除
             </summary>
@@ -3745,6 +3715,36 @@
         <member name="P:Swm.Web.Controllers.UnitloadListItem.Items">
             <summary>
             货载明细列表
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UpdateRoleArgs">
+            <summary>
+            编辑角色操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateRoleArgs.RoleName">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateRoleArgs.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UpdateUserArgs">
+            <summary>
+            编辑用户操作的参数。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateUserArgs.Roles">
+            <summary>
+            所属角色
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateUserArgs.Password">
+            <summary>
+            密码
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.UserListArgs">

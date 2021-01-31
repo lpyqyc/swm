@@ -77,7 +77,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 可到达的出口
         /// </summary>
-        public PortSelectListItem[] Ports { get; init; } = default!;
+        public PortOption[] Ports { get; init; } = default!;
 
         /// <summary>
         /// 总脱机时间

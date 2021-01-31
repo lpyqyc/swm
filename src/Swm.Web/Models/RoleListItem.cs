@@ -57,7 +57,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 角色选择列表数据项
     /// </summary>
-    public class RoleSelectListItem
+    public class RoleOption
     {
         /// <summary>
         /// 角色Id

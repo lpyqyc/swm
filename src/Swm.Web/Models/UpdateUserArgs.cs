@@ -19,7 +19,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 编辑用户操作的参数。
     /// </summary>
-    public class EditUserArgs
+    public class UpdateUserArgs
     {
         /// <summary>
         /// 所属角色

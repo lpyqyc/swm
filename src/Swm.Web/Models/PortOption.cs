@@ -12,26 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 编辑角色操作的参数
+    /// 选择列表的数据项
     /// </summary>
-    public class EditRoleArgs
+    public class PortOption
     {
         /// <summary>
-        /// 角色名称
+        /// 出口Id
         /// </summary>
-        [Required]
-        public string RoleName { get; set; } = default!;
+        public int PortId { get; init; }
 
         /// <summary>
-        /// 备注
+        /// 出口编码
         /// </summary>
-        public string? Comment { get; set; }
+        public string PortCode { get; init; } = default!;
+        
+        // TODO 重命名
+        /// <summary>
+        /// 当前下架的单据
+        /// </summary>
+        public string? CurrentUat { get; init; }
     }
 
-
+    
 }

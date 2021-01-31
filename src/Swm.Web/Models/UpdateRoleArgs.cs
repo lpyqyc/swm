@@ -12,30 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 选择列表的数据项
+    /// 编辑角色操作的参数
     /// </summary>
-    public class LanewaySelectListItem
+    public class UpdateRoleArgs
     {
         /// <summary>
-        /// 巷道Id
+        /// 角色名称
         /// </summary>
-        public int LanewayId { get; init; }
+        [Required]
+        public string RoleName { get; set; } = default!;
 
         /// <summary>
-        /// 巷道编码
+        /// 备注
         /// </summary>
-        public string LanewayCode { get; init; } = default!;
-
-
-        /// <summary>
-        /// 是否离线
-        /// </summary>
-        public bool Offline { get; init; }
-
+        public string? Comment { get; set; }
     }
 
-    
+
 }

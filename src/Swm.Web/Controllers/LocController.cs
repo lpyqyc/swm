@@ -27,18 +27,20 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
+
+
     [Route("api/[controller]")]
     [ApiController]
-    public class LocationsController : ControllerBase
+    public class LocController : ControllerBase
     {
         readonly ISession _session;
+        readonly OpHelper _opHelper;
         readonly LocationHelper _locHelper;
         readonly ILocationFactory _locFactory;
-        readonly OpHelper _opHelper;
         readonly ILogger _logger;
         readonly SimpleEventBus _eventBus;
 
-        public LocationsController(ISession session, LocationHelper locHelper, ILocationFactory locFactory, OpHelper opHelper, SimpleEventBus eventBus, ILogger logger)
+        public LocController(ISession session, LocationHelper locHelper, ILocationFactory locFactory, OpHelper opHelper, SimpleEventBus eventBus, ILogger logger)
         {
             _session = session;
             _locHelper = locHelper;
@@ -49,15 +51,309 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
+        /// 获取所有巷道
+        /// </summary>
+        /// <param name="args">查询参数</param>
+        /// <returns></returns>
+        [HttpGet("get-laneway-list")]
+        [DebugShowArgs]
+        [AutoTransaction]
+        [OperationType(OperationTypes.查看巷道)]
+        public async Task<ListData<LanewayListItem>> GetLanewayList([FromQuery] LanewayListArgs args)
+        {
+            var pagedList = await _session.Query<Laneway>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+            return this.ListData(pagedList, x => new LanewayListItem
+            {
+                LanewayId = x.LanewayId,
+                LanewayCode = x.LanewayCode,
+                Automated = x.Automated,
+                DoubleDeep = x.DoubleDeep,
+                Offline = x.Offline,
+                OfflineComment = x.OfflineComment,
+                TotalLocationCount = x.GetTotalLocationCount(),
+                AvailableLocationCount = x.GetAvailableLocationCount(),
+                ReservedLocationCount = x.ReservedLocationCount,
+                UsageRate = (x.GetTotalLocationCount() - x.GetAvailableLocationCount()) / (double)x.GetTotalLocationCount(),
+                UsageInfos = x.Usage.Select(x => new LanewayUsageInfo
+                {
+                    StorageGroup = x.Key.StorageGroup,
+                    WeightLimit = x.Key.WeightLimit,
+                    HeightLimit = x.Key.HeightLimit,
+                    Specification = x.Key.Specification,
+                    Total = x.Value.Total,
+                    Loaded = x.Value.Loaded,
+                    InboundDisabled = x.Value.InboundDisabled,
+                    Available = x.Value.Available,
+                }).ToArray(),
+                Ports = x.Ports
+                        .Select(x => new PortOption
+                        {
+                            PortId = x.PortId,
+                            PortCode = x.PortCode,
+                            CurrentUat = x.CurrentUat?.ToString()
+                        })
+                        .ToArray(),
+                TotalOfflineHours = x.TotalOfflineHours,
+            });
+        }
+
+        /// <summary>
+        /// 巷道选择列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-laneway-options")]
+        [AutoTransaction]
+        public async Task<ApiData<List<LanewayOption>>> GetLanewayOptions()
+        {
+            var items = await _session.Query<Laneway>()
+                .Select(x => new LanewayOption
+                {
+                    LanewayId = x.LanewayId,
+                    LanewayCode = x.LanewayCode,
+                    Offline = x.Offline,
+                })
+                .ToListAsync();
+            return this.Success2(items);
+        }
+
+        /// <summary>
+        /// 使巷道脱机
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="args">参数</param>
+        /// <returns></returns>
+        [HttpPost("take-offline/{id}")]
+        [OperationType(OperationTypes.脱机巷道)]
+        [AutoTransaction]
+        public async Task<ApiData> TakeOffline(int id, [FromBody]TakeOfflineArgs args)
+        {
+            Laneway laneway = await _session.GetAsync<Laneway>(id);
+            if (laneway == null)
+            {
+                throw new InvalidOperationException("巷道不存在。");
+            }
+
+            if (laneway.Offline == true)
+            {
+                throw new InvalidOperationException($"巷道已处于脱机状态。【{laneway.LanewayCode}】");
+            }
+
+            laneway.Offline = true;
+            laneway.TakeOfflineTime = DateTime.Now;
+            laneway.OfflineComment = args.Comment;
+            await _session.UpdateAsync(laneway);
+            _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】，备注【{args.Comment}】");
+            _logger.Information("已将巷道 {lanewayCode} 脱机", laneway.LanewayCode);
+
+            return this.Success2();
+        }
+
+
+        /// <summary>
+        /// 使巷道联机
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost("take-online/{id}")]
+        [OperationType(OperationTypes.联机巷道)]
+        [AutoTransaction]
+        public async Task<ApiData> TakeOnline(int id, TakeOnlineArgs args)
+        {
+            Laneway laneway = await _session.GetAsync<Laneway>(id);
+            if (laneway == null)
+            {
+                throw new InvalidOperationException("巷道不存在");
+            }
+
+            if (laneway.Offline == false)
+            {
+                throw new InvalidOperationException($"巷道已处于联机状态。【{laneway.LanewayCode}】");
+            }
+
+            laneway.Offline = false;
+            laneway.TotalOfflineHours += DateTime.Now.Subtract(laneway.TakeOfflineTime).TotalHours;
+            laneway.OfflineComment = args.Comment;
+            await _session.UpdateAsync(laneway);
+            _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】");
+            _logger.Information("已将巷道 {lanewayCode} 联机", laneway.LanewayCode);
+
+            return this.Success2();
+        }
+
+        /// <summary>
+        /// 设置巷道可以到达的出口
+        /// </summary>
+        /// <param name="id">巷道Id</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost("set-ports/{id}")]
+        [OperationType(OperationTypes.设置出口)]
+        [AutoTransaction]
+        public async Task<ApiData> SetPorts(int id, SetPortsArgs args)
+        {
+            Laneway laneway = await _session.GetAsync<Laneway>(id);
+            if (laneway == null)
+            {
+                throw new InvalidOperationException("巷道不存在");
+            }
+
+            laneway.Ports.Clear();
+            foreach (var portId in args.PortIdList)
+            {
+                Port port = await _session.GetAsync<Port>(portId);
+                laneway.Ports.Add(port);
+            }
+
+            var op = await _opHelper.SaveOpAsync("巷道【{0}】，{1} 个出货口", laneway.LanewayCode, laneway.Ports.Count);
+            _logger.Information("设置出货口成功，{lanewayCode} --> {ports}", laneway.LanewayCode, string.Join(",", laneway.Ports.Select(x => x.PortCode)));
+
+            return this.Success2();
+        }
+
+        /// <summary>
+        /// 巷道侧视图
+        /// </summary>
+        /// <param name="id">巷道Id</param>
+        /// <returns></returns>
+        [HttpGet("get-side-view/{id}")]
+        [OperationType(OperationTypes.侧视图)]
+        [AutoTransaction]
+        public async Task<ApiData<SideViewData>> GetSideViewData(int id)
+        {
+            Laneway? laneway = await _session.GetAsync<Laneway>(id);
+            if (laneway == null)
+            {
+                throw new InvalidOperationException("巷道不存在");
+            }
+
+            var sideViewData = new SideViewData
+            {
+                LanewayCode = laneway.LanewayCode,
+                Offline = laneway.Offline,
+                OfflineComment = laneway.OfflineComment,
+                Racks = laneway.Racks.Select(rack => new SideViewRack
+                {
+                    RackCode = rack.RackCode,
+                    Side = rack.Side,
+                    Columns = rack.Columns,
+                    Levels = rack.Levels,
+                    Deep = rack.Deep,
+                    LocationCount = rack.Locations
+                        .Where(x => x.Exists)
+                        .Count(),
+                    AvailableCount = rack.Locations
+                        .Where(x =>
+                            x.Exists
+                            && x.UnitloadCount == 0
+                            && x.InboundCount == 0
+                            && x.InboundDisabled == false)
+                        .Count(),
+                    Locations = rack.Locations.Select(loc => new SideViewLocation
+                    {
+                        LocationId = loc.LocationId,
+                        LocationCode = loc.LocationCode,
+                        Loaded = loc.UnitloadCount > 0,
+                        Level = loc.Level,
+                        Column = loc.Column,
+                        InboundDisabled = loc.InboundDisabled,
+                        InboundDisabledComment = loc.InboundDisabledComment,
+                        InboundCount = loc.InboundCount,
+                        InboundLimit = loc.InboundLimit,
+                        OutboundDisabled = loc.OutboundDisabled,
+                        OutboundDisabledComment = loc.OutboundDisabledComment,
+                        OutboundLimit = loc.OutboundLimit,
+                        OutboundCount = loc.OutboundCount,
+                        Specification = loc.Specification,
+                        StorageGroup = loc.StorageGroup,
+                        WeightLimit = loc.WeightLimit,
+                        HeightLimit = loc.HeightLimit,
+                        Exists = loc.Exists,
+                        i1 = loc.Cell.i1,
+                        o1 = loc.Cell.o1,
+                        i2 = loc.Cell.i2,
+                        o2 = loc.Cell.o2,
+                        i3 = loc.Cell.i3,
+                        o3 = loc.Cell.o3,
+                    }).ToList()
+                }).ToList(),
+            };
+
+            return this.Success2(sideViewData);
+        }
+
+        /// <summary>
+        /// 重建所有巷道的统计信息，这个操作消耗资源较多
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("rebuild-stats")]
+        [OperationType(OperationTypes.重建巷道统计信息)]
+        [AutoTransaction]
+        public async Task<ApiData> RebuildLanewaysStat()
+        {
+            var laneways = await _session.Query<Laneway>().ToListAsync();
+            foreach (var laneway in laneways)
+            {
+                await _locHelper.RebuildLanewayStatAsync(laneway);
+            }
+            return this.Success2();
+        }
+
+        /// <summary>
+        /// 出口列表
+        /// </summary>
+        /// <param name="args">查询参数</param>
+        /// <returns></returns>
+        [HttpGet("get-port-list")]
+        [DebugShowArgs]
+        [AutoTransaction]
+        [OperationType(OperationTypes.查看出口)]
+        public async Task<ListData<PortListItem>> GetPortList([FromQuery] PortListArgs args)
+        {
+            var pagedList = await _session.Query<Port>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+            return this.ListData(pagedList, x => new PortListItem
+            {
+                PortId = x.PortId,
+                PortCode = x.PortCode,
+                CurrentUat = x.CurrentUat?.ToString(),
+                KP1 = x.KP1.LocationCode,
+                KP2 = x.KP2?.LocationCode,
+                Laneways = x.Laneways.Select(x => x.LanewayCode).ToArray(),
+                CheckedAt = x.CheckedAt,
+                CheckMessage = x.CheckMessage,
+            });
+        }
+
+        /// <summary>
+        /// 出口选择列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-port-options")]
+        [AutoTransaction]
+        public async Task<ApiData<List<PortOption>>> GetPortOptions()
+        {
+            var list = await _session.Query<Port>().ToListAsync();
+            var items = list
+                .Select(x => new PortOption
+                {
+                    PortId = x.PortId,
+                    PortCode = x.PortCode,
+                    CurrentUat = x.CurrentUat?.ToString(),
+                })
+                .ToList();
+            return this.Success2(items);
+        }
+
+        /// <summary>
         /// 货位列表
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet("list-storage-locations")]
+        [HttpGet("get-storage-location-list")]
         [DebugShowArgs]
         [AutoTransaction]
-        [OperationType(OperationTypes.查看货位)]
-        public async Task<ListData<StorageLocationListItem>> StorageLocationList([FromQuery] StorageLocationListArgs args)
+        [OperationType(OperationTypes.查看位置)]
+        public async Task<ListData<StorageLocationListItem>> GetStorageLocationList([FromQuery] StorageLocationListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return this.ListData(pagedList, x => new StorageLocationListItem
@@ -84,11 +380,11 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet("list-key-points")]
+        [HttpGet("get-key-point-list")]
         [DebugShowArgs]
         [AutoTransaction]
-        [OperationType(OperationTypes.查看关键点)]
-        public async Task<ListData<KeyPointListItem>> KeyPointList([FromQuery] KeyPointListArgs args)
+        [OperationType(OperationTypes.查看位置)]
+        public async Task<ListData<KeyPointListItem>> GetKeyPointList([FromQuery] KeyPointListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return this.ListData(pagedList, x => new KeyPointListItem
@@ -489,6 +785,8 @@ namespace Swm.Web.Controllers
             await _eventBus.FireEventAsync("KeyPointChanged", null);
 
             return this.Success2();
-        }    
+        }
+
     }
+
 }

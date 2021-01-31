@@ -17,23 +17,24 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 选择列表的数据项
     /// </summary>
-    public class PortSelectListItem
+    public class LanewayOption
     {
         /// <summary>
-        /// 出口Id
+        /// 巷道Id
         /// </summary>
-        public int PortId { get; init; }
+        public int LanewayId { get; init; }
 
         /// <summary>
-        /// 出口编码
+        /// 巷道编码
         /// </summary>
-        public string PortCode { get; init; } = default!;
-        
-        // TODO 重命名
+        public string LanewayCode { get; init; } = default!;
+
+
         /// <summary>
-        /// 当前下架的单据
+        /// 是否离线
         /// </summary>
-        public string? CurrentUat { get; init; }
+        public bool Offline { get; init; }
+
     }
 
     
