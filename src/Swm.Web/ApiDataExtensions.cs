@@ -65,6 +65,18 @@ namespace Swm.Web
             };
         }
 
+        public static OptionsData<T> OptionsData<T>(this ControllerBase controller, List<T> items)
+        {
+            return new Web.OptionsData<T>
+            {
+                Success = true,
+                Data = items,
+                ErrorMessage = string.Empty,
+                Host = controller.Request.Host.ToString(),
+                TraceId = controller.HttpContext.TraceIdentifier,
+            };
+        }
+
         public static ApiData Error2(this ControllerBase controller, string? errorMessage)
         {
             return new ApiData

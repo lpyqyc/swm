@@ -12,34 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 物料选择列表参数
+    /// 编辑关键点操作的参数
     /// </summary>
-    public class MaterialSelectListArgs
+    public class UpdateKeyPointArgs
     {
         /// <summary>
-        /// 关键字
+        /// 货位编号
         /// </summary>
-        public string Keyword { get; set; }
+        [Required]
+        public string LocationCode { get; set; } = default!;
 
         /// <summary>
-        /// 物料类型
+        /// 请求类型
         /// </summary>
-        public string MaterialType { get; set; }
-
-        // TODO 不好实现，考虑去掉
-        public bool InStockOnly { get; set; }
+        public string? RequestType { get; set; }
 
         /// <summary>
-        /// 取多少条记录，默认为 10
+        /// 标记
         /// </summary>
-        public int? Limit { get; set; } = 10;
+        public string? Tag { get; set; }
 
+        /// <summary>
+        /// 入站数限制
+        /// </summary>
+        [Range(1, 999)]
+        public int InboundLimit { get; set; }
+
+        /// <summary>
+        /// 出站数限制
+        /// </summary>
+        [Range(1, 999)]
+        public int OutboundLimit { get; set; }
     }
-
-
-
 
 }

@@ -19,7 +19,7 @@ namespace Swm.Web
         public const string 查看物料 = "物料.查看物料";
         public const string 导入物料主数据 = "物料.导入物料主数据";
 
-        public const string 无单据组盘 = "出入.无单据组盘";
+        public const string 独立组盘 = "出入.无单据组盘";
         public const string 实时库存 = "库存.实时库存";
         public const string 查看货载 = "库存.查看货载";
         public const string 更改库存状态 = "库存.更改库存状态";

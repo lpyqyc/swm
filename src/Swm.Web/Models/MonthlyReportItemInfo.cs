@@ -18,7 +18,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 月报数据项
+    /// 表示库存月报的数据项。
     /// </summary>
     public class MonthlyReportItemInfo
     {

@@ -1,4 +1,3 @@
-using Arctic.AppCodes;
 using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +16,12 @@ namespace Swm.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StocksController : ControllerBase
+    public class RptController : ControllerBase
     {
         readonly ISession _session;
         readonly ILogger _logger;
 
-        public StocksController(ISession session, ILogger logger)
+        public RptController(ISession session, ILogger logger)
         {
             _session = session;
             _logger = logger;
@@ -33,14 +32,14 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet("list")]
+        [HttpGet("get-inventory-report")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.实时库存)]
-        public async Task<ListData<StockListItem>> List([FromQuery] StockListArgs args)
+        public async Task<ListData<InventoryReprotItemInfo>> GetInventoryReport([FromQuery] StockListArgs args)
         {
             var pagedList = await _session.Query<Stock>().Where(x => x.Quantity != 0).SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new StockListItem
+            return this.ListData(pagedList, x => new InventoryReprotItemInfo
             {
                 StockId = x.StockId,
                 mtime = x.mtime,
@@ -55,26 +54,7 @@ namespace Swm.Web.Controllers
             });
         }
 
-        /// <summary>
-        /// 获取库存状态的选择列表
-        /// </summary>
-        /// <returns></returns>
-        [AutoTransaction]
-        [HttpGet("stock-status-select-list")]
-        public async Task<List<StockStatusSelectListItem>> StockStatusSelectList()
-        {
-            var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.StockStatus);
 
-            var items = list.Select(x => new StockStatusSelectListItem
-            {
-                StockStatus = x.AppCodeValue,
-                Description = x.Description,
-                Scope = x.Scope,
-                DisplayOrder = x.DisplayOrder,
-            }).ToList();
-
-            return items;
-        }
 
 
         /// <summary>
@@ -237,7 +217,7 @@ GROUP BY MaterialId, Batch, StockStatus, Uom";
         /// <returns></returns>
         [HttpGet("get-age-report")]
         [AutoTransaction]
-        public async Task<ListData<AgeReportListItem>> GetAges()
+        public async Task<ListData<AgeReportItemInfo>> GetAgeReport()
         {
             const string ageCase = @"
 CASE 
@@ -262,7 +242,7 @@ GROUP BY m.MaterialCode, m.Description, m.Specification, i.Batch, i.StockStatus,
 ";
 
             var rows = await _session.CreateQuery(hql).SetResultTransformer(Transformers.AliasToEntityMap).ListAsync<Hashtable>();
-            List<AgeReportListItem> ages = new List<AgeReportListItem>();
+            List<AgeReportItemInfo> ages = new List<AgeReportItemInfo>();
             foreach (var row in rows)
             {
                 var item = new
@@ -285,7 +265,7 @@ GROUP BY m.MaterialCode, m.Description, m.Specification, i.Batch, i.StockStatus,
 
                 if (age == null)
                 {
-                    age = new AgeReportListItem
+                    age = new AgeReportItemInfo
                     {
                         MaterialCode = item.MaterialCode!,
                         Description = item.Description!,
@@ -316,7 +296,7 @@ GROUP BY m.MaterialCode, m.Description, m.Specification, i.Batch, i.StockStatus,
                 }
             }
 
-            return new ListData<AgeReportListItem>
+            return new ListData<AgeReportItemInfo>
             {
                 Success = true,
                 Data = ages,

@@ -6,7 +6,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 列表页的数据项。
     /// </summary>
-    public class StockListItem
+    public class InventoryReprotItemInfo
     {
         /// <summary>
         /// 库存Id

@@ -15,26 +15,30 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 表示出口选项列表中的元素
+    /// 表示库存状态选项列表中的元素
     /// </summary>
-    public class PortOption
+    public class StockStatusOption
     {
         /// <summary>
-        /// 出口Id
+        /// 库存状态
         /// </summary>
-        public int PortId { get; init; }
+        public string StockStatus { get; set; } = default!;
 
         /// <summary>
-        /// 出口编码
+        /// 物料类型说明
         /// </summary>
-        public string PortCode { get; init; } = default!;
-        
-        // TODO 重命名
+        public string? Description { get; set; }
+
         /// <summary>
-        /// 当前下架的单据
+        /// 适用范围
         /// </summary>
-        public string? CurrentUat { get; init; }
+        public string? Scope { get; set; } 
+
+        /// <summary>
+        /// 展示顺序
+        /// </summary>
+        public int DisplayOrder { get; set; }
+
     }
 
-    
 }

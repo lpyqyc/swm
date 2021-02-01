@@ -54,26 +54,4 @@ namespace Swm.Web.Controllers
 
     }
 
-    /// <summary>
-    /// 角色选择列表数据项
-    /// </summary>
-    public class RoleOption
-    {
-        /// <summary>
-        /// 角色Id
-        /// </summary>
-        public int RoleId { get; set; }
-
-        /// <summary>
-        /// 角色名
-        /// </summary>
-        public string RoleName { get; set; }
-
-        /// <summary>
-        /// 是否内置角色，内置角色不能删除
-        /// </summary>
-        public bool IsBuiltIn { get; set; }
-
-    }
-
 }

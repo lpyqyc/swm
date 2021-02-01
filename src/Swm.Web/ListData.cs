@@ -43,4 +43,13 @@ namespace Swm.Web
         public int Total { get; init; }
     }
 
+
+    /// <summary>
+    /// 表示选项列表
+    /// </summary>
+    /// <typeparam name="TElement"></typeparam>
+    public record OptionsData<TElement> : ApiData<List<TElement>>
+    {
+
+    }
 }

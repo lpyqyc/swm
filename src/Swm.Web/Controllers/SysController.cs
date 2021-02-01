@@ -334,12 +334,12 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 获取角色的选择列表
+        /// 获取角色的选项列表
         /// </summary>
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("get-role-options")]
-        public async Task<ApiData<List<RoleOption>>> GetRoleOptions()
+        public async Task<OptionsData<RoleOption>> GetRoleOptions()
         {
             var items = await _session.Query<Role>()
                 .Select(x => new RoleOption
@@ -349,7 +349,7 @@ namespace Swm.Web.Controllers
                     IsBuiltIn = x.IsBuiltIn,
                 })
                 .ToListAsync();
-            return this.Success2(items);
+            return this.OptionsData(items);
         }
 
         /// <summary>

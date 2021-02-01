@@ -155,19 +155,6 @@
             根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.FlowsController.List(Swm.Web.Controllers.FlowListArgs)">
-            <summary>
-            获取流水列表
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.FlowsController.BizTypeSelectList">
-            <summary>
-            获取业务类型列表数据
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:Swm.Web.Controllers.InboundOrdersController">
             <summary>
             操作入库单。
@@ -234,7 +221,7 @@
         </member>
         <member name="M:Swm.Web.Controllers.LocController.GetLanewayOptions">
             <summary>
-            巷道选择列表
+            获取巷道的选项列表
             </summary>
             <returns></returns>
         </member>
@@ -284,7 +271,7 @@
         </member>
         <member name="M:Swm.Web.Controllers.LocController.GetPortOptions">
             <summary>
-            出口选择列表
+            获取出口的选项列表
             </summary>
             <returns></returns>
         </member>
@@ -341,7 +328,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.EditKeyPoint(System.Int32,Swm.Web.Controllers.EditKeyPointArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.UpdateKeyPoint(System.Int32,Swm.Web.Controllers.UpdateKeyPointArgs)">
             <summary>
             编辑关键点
             </summary>
@@ -363,31 +350,99 @@
             <param name="args">跟踪参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.List(Swm.Web.Controllers.MaterialListArgs)">
+        <member name="M:Swm.Web.Controllers.MatlController.GetMaterialList(Swm.Web.Controllers.MaterialListArgs)">
             <summary>
             物料列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.SelectList(Swm.Web.Controllers.MaterialSelectListArgs)">
+        <member name="M:Swm.Web.Controllers.MatlController.GetMaterialOptions(Swm.Web.Controllers.MaterialOptionsArgs)">
             <summary>
-            物料选择列表
+            获取物料的选项列表
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.MaterialTypesSelectList">
+        <member name="M:Swm.Web.Controllers.MatlController.GetMaterialTypeOptions">
             <summary>
-            获取物料类型的选择列表
+            获取物料类型的选项列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MaterialsController.Import(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:Swm.Web.Controllers.MatlController.ImportMaterials(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             导入物料主数据
             </summary>
             <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.GetFlowList(Swm.Web.Controllers.FlowListArgs)">
+            <summary>
+            获取流水列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.GetBizTypeOptions">
+            <summary>
+            获取业务类型列表数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.GetOpHintTypeOptions">
+            <summary>
+            获取操作提示类型的选项列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.GetStockStatusOptions">
+            <summary>
+            获取库存状态的选项列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.GetUnitloadList(Swm.Web.Controllers.UnitloadListArgs)">
+            <summary>
+            货载列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.GetUnitloadItemList(Swm.Web.Controllers.UnitloadItemListArgs)">
+            <summary>
+            货载项列表，用于在变更状态页面展示货载项
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.GetUnitloadDetails(System.Int32)">
+            <summary>
+            货载详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.GetUnitloadDetails(System.String)">
+            <summary>
+            货载详情
+            </summary>
+            <param name="palletCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.PalletizeStandalonely(Swm.Web.Controllers.PalletizeWithoutOrderArgs)">
+            <summary>
+            独立组盘
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.MatlController.ChangeStockStatus(System.String,Swm.Web.Controllers.ChangeStockStatusArgs)">
+            <summary>
+            更改库存状态
+            </summary>
+            <param name="itemIds">半角逗号分隔的货载项Id</param>
+            <param name="args"></param>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.OutboundOrdersController">
@@ -477,33 +532,27 @@
             </summary>
             <param name="outboundOrder"></param>
         </member>
-        <member name="M:Swm.Web.Controllers.StocksController.List(Swm.Web.Controllers.StockListArgs)">
+        <member name="M:Swm.Web.Controllers.RptController.GetInventoryReport(Swm.Web.Controllers.StockListArgs)">
             <summary>
             实时库存
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.StocksController.StockStatusSelectList">
-            <summary>
-            获取库存状态的选择列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.StocksController.GetMonthlyReport(System.DateTime)">
+        <member name="M:Swm.Web.Controllers.RptController.GetMonthlyReport(System.DateTime)">
             <summary>
             获取月报列表
             </summary>
             <param name="month">表示月份的时间，例如 2021-01</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.StocksController.BuildMonthlyReport">
+        <member name="M:Swm.Web.Controllers.RptController.BuildMonthlyReport">
             <summary>
             生成月报
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.StocksController.GetAges">
+        <member name="M:Swm.Web.Controllers.RptController.GetAgeReport">
             <summary>
             库龄报表
             </summary>
@@ -578,7 +627,7 @@
         </member>
         <member name="M:Swm.Web.Controllers.SysController.GetRoleOptions">
             <summary>
-            获取角色的选择列表
+            获取角色的选项列表
             </summary>
             <returns></returns>
         </member>
@@ -611,121 +660,79 @@
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.TasksController.List(Swm.Web.Controllers.TaskListArgs)">
+        <member name="M:Swm.Web.Controllers.TskController.GetTaskList(Swm.Web.Controllers.TaskListArgs)">
             <summary>
             任务列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.TasksController.Archived(Swm.Web.Controllers.ArchivedTaskListArgs)">
+        <member name="M:Swm.Web.Controllers.TskController.GetArchivedTaskList(Swm.Web.Controllers.ArchivedTaskListArgs)">
             <summary>
             历史任务列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.TasksController.ChangeLocationAsync(Swm.Web.Controllers.ChangeLocationArgs)">
+        <member name="M:Swm.Web.Controllers.TskController.ChangeUnitloadLocation(System.String,Swm.Web.Controllers.ChangeLocationArgs)">
             <summary>
             更改货载位置
             </summary>
+            <param name="palletCode">要更改位置的托盘号</param>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.List(Swm.Web.Controllers.UnitloadListArgs)">
+        <member name="T:Swm.Web.Controllers.AgeReportItemInfo">
             <summary>
-            货载列表
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.UnitloadItemList(Swm.Web.Controllers.UnitloadItemListArgs)">
-            <summary>
-            货载项列表，用于在变更状态页面展示货载项
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.Detail(System.Int32)">
-            <summary>
-            货载详情
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.Detail(System.String)">
-            <summary>
-            货载详情
-            </summary>
-            <param name="palletCode"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.PalletizeWithoutOrder(Swm.Web.Controllers.PalletizeWithoutOrderArgs)">
-            <summary>
-            无单据组盘
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.UnitloadsController.ChangeStockStatus(System.String,Swm.Web.Controllers.ChangeStockStatusArgs)">
-            <summary>
-            更改库存状态
-            </summary>
-            <param name="itemIds">半角逗号分隔的货载项Id，货载项列表使用 GET /unitloads/items 获取</param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Swm.Web.Controllers.AgeReportListItem">
-            <summary>
-            库龄报表的数据项
+            表示库龄报表的数据项。
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.MaterialCode">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.MaterialCode">
             <summary>
             料号
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.Description">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.Description">
             <summary>
             描述
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.Specification">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.Specification">
             <summary>
             规格
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.Batch">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.Batch">
             <summary>
             批号
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.StockStatus">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.StockStatus">
             <summary>
             库存状态
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.Uom">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.Uom">
             <summary>
             计量单位
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.ZeroToSevenDays">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.ZeroToSevenDays">
             <summary>
             7天以内的库存数量
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.SevenToThirtyDays">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.SevenToThirtyDays">
             <summary>
             7到30天的库存数量
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.ThirtyToNinetyDays">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.ThirtyToNinetyDays">
             <summary>
             30天到90天的库存数量
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.AgeReportListItem.MoreThanNinetyDays">
+        <member name="P:Swm.Web.Controllers.AgeReportItemInfo.MoreThanNinetyDays">
             <summary>
             90天以上的库存数量
             </summary>
@@ -905,14 +912,14 @@
             更改货载位置参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.ChangeLocationArgs.PalletCode">
-            <summary>
-            托盘号
-            </summary>
-        </member>
         <member name="P:Swm.Web.Controllers.ChangeLocationArgs.DestinationLocationCode">
             <summary>
             目标货位编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ChangeLocationArgs.Comment">
+            <summary>
+            备注
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.ChangeStockStatusArgs">
@@ -1131,36 +1138,6 @@
         <member name="P:Swm.Web.Controllers.EditInboundOrderArgs.Comment">
             <summary>
             备注
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.EditKeyPointArgs">
-            <summary>
-            编辑关键点操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.LocationCode">
-            <summary>
-            货位编号
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.RequestType">
-            <summary>
-            请求类型
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.Tag">
-            <summary>
-            标记
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.InboundLimit">
-            <summary>
-            入站数限制
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditKeyPointArgs.OutboundLimit">
-            <summary>
-            出站数限制
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.EditOutboundLineInfo">
@@ -1568,6 +1545,61 @@
             出库单明细集合。
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.InventoryReprotItemInfo">
+            <summary>
+            列表页的数据项。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.StockId">
+            <summary>
+            库存Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.mtime">
+            <summary>
+            库存最后一次变动时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.MaterialCode">
+            <summary>
+            物料代码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.Description">
+            <summary>
+            物料描述
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.Quantity">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.Uom">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.OutOrdering">
+            <summary>
+            出库次序
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.AgeBaseline">
+            <summary>
+            库龄基线
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.KeyPointListArgs">
             <summary>
             列表查询参数
@@ -1795,7 +1827,7 @@
         </member>
         <member name="T:Swm.Web.Controllers.LanewayOption">
             <summary>
-            选择列表的数据项
+            表示巷道选项列表中的元素
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.LanewayOption.LanewayId">
@@ -2092,72 +2124,72 @@
             备注
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.MaterialSelectListArgs">
+        <member name="T:Swm.Web.Controllers.MaterialOption">
             <summary>
-            物料选择列表参数
+            表示物料选项列表中的元素。
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.MaterialSelectListArgs.Keyword">
-            <summary>
-            关键字
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.MaterialSelectListArgs.MaterialType">
-            <summary>
-            物料类型
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.MaterialSelectListArgs.Limit">
-            <summary>
-            取多少条记录，默认为 10
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.MaterialSelectListItem">
-            <summary>
-            物料选择列表的数据项
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.MaterialSelectListItem.MaterialId">
+        <member name="P:Swm.Web.Controllers.MaterialOption.MaterialId">
             <summary>
             物料Id
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.MaterialSelectListItem.MaterialCode">
+        <member name="P:Swm.Web.Controllers.MaterialOption.MaterialCode">
             <summary>
             物料编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.MaterialSelectListItem.Description">
+        <member name="P:Swm.Web.Controllers.MaterialOption.Description">
             <summary>
             物料描述
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.MaterialSelectListItem.MaterialType">
+        <member name="P:Swm.Web.Controllers.MaterialOption.MaterialType">
             <summary>
             物料类型
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.MaterialTypeSelectListItem">
+        <member name="T:Swm.Web.Controllers.MaterialOptionsArgs">
             <summary>
-            物料类型选择列表的数据项
+            物料选项列表的参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.MaterialTypeSelectListItem.MaterialType">
+        <member name="P:Swm.Web.Controllers.MaterialOptionsArgs.Keyword">
+            <summary>
+            关键字
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialOptionsArgs.MaterialType">
             <summary>
             物料类型
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.MaterialTypeSelectListItem.Description">
+        <member name="P:Swm.Web.Controllers.MaterialOptionsArgs.Limit">
+            <summary>
+            取多少条记录，默认为 10
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.MaterialTypeOption">
+            <summary>
+            表示物料类型选项列表中的元素
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialTypeOption.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialTypeOption.Description">
             <summary>
             物料类型说明
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.MaterialTypeSelectListItem.Scope">
+        <member name="P:Swm.Web.Controllers.MaterialTypeOption.Scope">
             <summary>
             适用范围
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.MaterialTypeSelectListItem.DisplayOrder">
+        <member name="P:Swm.Web.Controllers.MaterialTypeOption.DisplayOrder">
             <summary>
             展示顺序
             </summary>
@@ -2179,7 +2211,7 @@
         </member>
         <member name="T:Swm.Web.Controllers.MonthlyReportItemInfo">
             <summary>
-            月报数据项
+            表示库存月报的数据项。
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.MonthlyReportItemInfo.Month">
@@ -2574,7 +2606,7 @@
         </member>
         <member name="T:Swm.Web.Controllers.PortOption">
             <summary>
-            选择列表的数据项
+            表示出口选项列表中的元素
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortOption.PortId">
@@ -2654,7 +2686,7 @@
         </member>
         <member name="T:Swm.Web.Controllers.RoleOption">
             <summary>
-            角色选择列表数据项
+            表示角色选项列表中的元素
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.RoleOption.RoleId">
@@ -2917,82 +2949,27 @@
             每页大小
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.StockListItem">
+        <member name="T:Swm.Web.Controllers.StockStatusOption">
             <summary>
-            列表页的数据项。
+            表示库存状态选项列表中的元素
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.StockId">
-            <summary>
-            库存Id
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.mtime">
-            <summary>
-            库存最后一次变动时间
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.MaterialCode">
-            <summary>
-            物料代码
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.Description">
-            <summary>
-            物料描述
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.Batch">
-            <summary>
-            批号
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.StockStatus">
+        <member name="P:Swm.Web.Controllers.StockStatusOption.StockStatus">
             <summary>
             库存状态
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.Quantity">
-            <summary>
-            数量
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.Uom">
-            <summary>
-            计量单位
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.OutOrdering">
-            <summary>
-            出库次序
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockListItem.AgeBaseline">
-            <summary>
-            库龄基线
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.StockStatusSelectListItem">
-            <summary>
-            库存状态选择列表的数据项
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockStatusSelectListItem.StockStatus">
-            <summary>
-            库存状态
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.StockStatusSelectListItem.Description">
+        <member name="P:Swm.Web.Controllers.StockStatusOption.Description">
             <summary>
             物料类型说明
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.StockStatusSelectListItem.Scope">
+        <member name="P:Swm.Web.Controllers.StockStatusOption.Scope">
             <summary>
             适用范围
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.StockStatusSelectListItem.DisplayOrder">
+        <member name="P:Swm.Web.Controllers.StockStatusOption.DisplayOrder">
             <summary>
             展示顺序
             </summary>
@@ -3307,92 +3284,92 @@
             备注
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.UnitloadDetail">
+        <member name="T:Swm.Web.Controllers.UnitloadDetails">
             <summary>
             货载详情
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.UnitloadId">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.UnitloadId">
             <summary>
             货载Id
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.PalletCode">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.PalletCode">
             <summary>
             托盘号
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.ctime">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.ctime">
             <summary>
             创建时间
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.LocationCode">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.LocationCode">
             <summary>
             所在货位编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.LanewayCode">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.LanewayCode">
             <summary>
             所在巷道编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.OpHintType">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.OpHintType">
             <summary>
             操作提示类型
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.OpHintInfo">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.OpHintInfo">
             <summary>
             操作提示信息
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.Comment">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.Comment">
             <summary>
             备注
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.BeingMoved">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.BeingMoved">
             <summary>
             是否有任务
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTask">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.CurrentTask">
             <summary>
             当前任务
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentUat">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.CurrentUat">
             <summary>
             当前分配到的单据
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.Items">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.Items">
             <summary>
             货载明细列表
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo">
+        <member name="T:Swm.Web.Controllers.UnitloadDetails.CurrentTaskInfo">
             <summary>
             当前任务信息
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo.TaskCode">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.CurrentTaskInfo.TaskCode">
             <summary>
             当前任务号
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo.TaskType">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.CurrentTaskInfo.TaskType">
             <summary>
             当前任务类型
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo.StartLocationCode">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.CurrentTaskInfo.StartLocationCode">
             <summary>
             起点位置编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentTaskInfo.EndLocationCode">
+        <member name="P:Swm.Web.Controllers.UnitloadDetails.CurrentTaskInfo.EndLocationCode">
             <summary>
             终点位置编码
             </summary>
@@ -3717,6 +3694,36 @@
             货载明细列表
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.UpdateKeyPointArgs">
+            <summary>
+            编辑关键点操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateKeyPointArgs.LocationCode">
+            <summary>
+            货位编号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateKeyPointArgs.RequestType">
+            <summary>
+            请求类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateKeyPointArgs.Tag">
+            <summary>
+            标记
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateKeyPointArgs.InboundLimit">
+            <summary>
+            入站数限制
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateKeyPointArgs.OutboundLimit">
+            <summary>
+            出站数限制
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.UpdateRoleArgs">
             <summary>
             编辑角色操作的参数
@@ -3880,27 +3887,33 @@
             记录总数
             </summary>
         </member>
-        <member name="T:Swm.Web.BizTypeSelectListItem">
+        <member name="T:Swm.Web.OptionsData`1">
             <summary>
-            业务类型列表数据项
+            表示选项列表
+            </summary>
+            <typeparam name="TElement"></typeparam>
+        </member>
+        <member name="T:Swm.Web.BizTypeOption">
+            <summary>
+            表示业务类型选项列表中的元素
             </summary>
         </member>
-        <member name="P:Swm.Web.BizTypeSelectListItem.BizType">
+        <member name="P:Swm.Web.BizTypeOption.BizType">
             <summary>
             业务类型
             </summary>
         </member>
-        <member name="P:Swm.Web.BizTypeSelectListItem.Description">
+        <member name="P:Swm.Web.BizTypeOption.Description">
             <summary>
             描述
             </summary>
         </member>
-        <member name="P:Swm.Web.BizTypeSelectListItem.Scope">
+        <member name="P:Swm.Web.BizTypeOption.Scope">
             <summary>
             适用范围
             </summary>
         </member>
-        <member name="P:Swm.Web.BizTypeSelectListItem.DisplayOrder">
+        <member name="P:Swm.Web.BizTypeOption.DisplayOrder">
             <summary>
             展示次序
             </summary>
@@ -3958,6 +3971,21 @@
         <member name="P:Swm.Web.LogEntry.SourceContext">
             <summary>
             源上下文
+            </summary>
+        </member>
+        <member name="T:Swm.Web.OpHintTypeOption">
+            <summary>
+            表示操作提示类型选项列表中的元素
+            </summary>
+        </member>
+        <member name="P:Swm.Web.OpHintTypeOption.OpHintType">
+            <summary>
+            操作提示类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.OpHintTypeOption.DisplayOrder">
+            <summary>
+            展示次序
             </summary>
         </member>
         <member name="T:Arctic.Web.Controllers.ErrorController">

@@ -15,7 +15,7 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 选择列表的数据项
+    /// 表示巷道选项列表中的元素
     /// </summary>
     public class LanewayOption
     {

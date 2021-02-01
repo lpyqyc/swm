@@ -12,34 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Web.Controllers
+namespace Swm.Web
 {
     /// <summary>
-    /// 物料选择列表的数据项
+    /// 表示业务类型选项列表中的元素
     /// </summary>
-    public class MaterialSelectListItem
+    public class BizTypeOption
     {
         /// <summary>
-        /// 物料Id
+        /// 业务类型
         /// </summary>
-        public int MaterialId { get; set; }
+        public string BizType { get; set; } = default!;
 
         /// <summary>
-        /// 物料编码
+        /// 描述
         /// </summary>
-        public string MaterialCode { get; set; } = default!;
+        public string? Description { get; set; }
 
         /// <summary>
-        /// 物料描述
+        /// 适用范围
         /// </summary>
-        public string Description { get; set; } = default!;
+        public string? Scope { get; set; }
 
         /// <summary>
-        /// 物料类型
+        /// 展示次序
         /// </summary>
-        public string MaterialType { get; set; } = default!;
-
+        public int DisplayOrder { get; set; }
     }
-
-
 }

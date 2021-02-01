@@ -27,14 +27,14 @@ namespace Swm.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TasksController : ControllerBase
+    public class TskController : ControllerBase
     {
         readonly ILogger _logger;
         readonly ISession _session;
         readonly TaskHelper _taskHelper;
         readonly OpHelper _opHelper;
 
-        public TasksController(ISession session, TaskHelper taskHelper, OpHelper opHelper, ILogger logger)
+        public TskController(ISession session, TaskHelper taskHelper, OpHelper opHelper, ILogger logger)
         {
             _logger = logger;
             _taskHelper = taskHelper;
@@ -48,9 +48,9 @@ namespace Swm.Web.Controllers
         /// <param name="args">查询参数</param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet]
+        [HttpGet("get-task-list")]
         [OperationType(OperationTypes.查看任务)]
-        public async Task<ListData<TaskListItem>> List([FromQuery]TaskListArgs args)
+        public async Task<ListData<TaskListItem>> GetTaskList([FromQuery]TaskListArgs args)
         {
             if (args.Sort == null)
             {
@@ -92,9 +92,9 @@ namespace Swm.Web.Controllers
         /// <param name="args">查询参数</param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet(("archived"))]
+        [HttpGet("get-archived-task-list")]
         [OperationType(OperationTypes.查看任务)]
-        public async Task<ListData<ArchivedTaskListItem>> Archived([FromQuery]ArchivedTaskListArgs args)
+        public async Task<ListData<ArchivedTaskListItem>> GetArchivedTaskList([FromQuery]ArchivedTaskListArgs args)
         {
             if (args.Sort == null)
             {
@@ -135,14 +135,15 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 更改货载位置
         /// </summary>
+        /// <param name="palletCode">要更改位置的托盘号</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
         [OperationType(OperationTypes.更改货载位置)]
-        [HttpPost("actions/change-unitloads-location")]
-        public async Task<ApiData> ChangeLocationAsync(ChangeLocationArgs args)
+        [HttpPost("change-unitload-location/{palletCode}")]
+        public async Task<ApiData> ChangeUnitloadLocation(string palletCode, ChangeLocationArgs args)
         {
-            Unitload unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == args.PalletCode).SingleOrDefaultAsync();
+            Unitload unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == palletCode).SingleOrDefaultAsync();
 
             if (unitload == null)
             {
@@ -161,11 +162,11 @@ namespace Swm.Web.Controllers
                 originalLocationCode = Cst.None;
             }
 
-            var archived = await _taskHelper.ChangeUnitloadsLocationAsync(unitload, dest, string.Format("user: {0}", this.User?.Identity?.Name ?? "-"));
+            var archived = await _taskHelper.ChangeUnitloadsLocationAsync(unitload, dest, args.Comment + string.Format("user: {0}", this.User?.Identity?.Name ?? "-"));
 
             _ = await _opHelper.SaveOpAsync("任务号 {0}", archived.TaskCode);
 
-            _logger.Information("已将托盘 {palletCode} 的位置从 {originalLocationCode} 改为 {destinationLocationCode}", args.PalletCode, originalLocationCode, args.DestinationLocationCode);
+            _logger.Information("已将托盘 {palletCode} 的位置从 {originalLocationCode} 改为 {destinationLocationCode}", palletCode, originalLocationCode, args.DestinationLocationCode);
 
             return this.Success2();
         }

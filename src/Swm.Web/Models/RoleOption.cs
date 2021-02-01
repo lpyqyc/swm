@@ -12,31 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Web
+namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 业务类型列表数据项
+    /// 表示角色选项列表中的元素
     /// </summary>
-    public class BizTypeSelectListItem
+    public class RoleOption
     {
         /// <summary>
-        /// 业务类型
+        /// 角色Id
         /// </summary>
-        public string BizType { get; set; } = default!;
+        public int RoleId { get; set; }
 
         /// <summary>
-        /// 描述
+        /// 角色名
         /// </summary>
-        public string? Description { get; set; }
+        public string RoleName { get; set; }
 
         /// <summary>
-        /// 适用范围
+        /// 是否内置角色，内置角色不能删除
         /// </summary>
-        public string? Scope { get; set; }
+        public bool IsBuiltIn { get; set; }
 
-        /// <summary>
-        /// 展示次序
-        /// </summary>
-        public int DisplayOrder { get; set; }
     }
+
 }

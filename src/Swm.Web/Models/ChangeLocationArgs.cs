@@ -22,16 +22,15 @@ namespace Swm.Web.Controllers
     public class ChangeLocationArgs
     {
         /// <summary>
-        /// 托盘号
-        /// </summary>
-        [Required]
-        public string PalletCode { get; set; } = default!;
-
-        /// <summary>
         /// 目标货位编码
         /// </summary>
         [Required]
         public string DestinationLocationCode { get; set; } = default!;
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string? Comment { get; set; }
     }
 
 }

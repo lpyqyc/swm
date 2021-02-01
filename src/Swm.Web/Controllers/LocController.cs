@@ -98,12 +98,12 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 巷道选择列表
+        /// 获取巷道的选项列表
         /// </summary>
         /// <returns></returns>
         [HttpGet("get-laneway-options")]
         [AutoTransaction]
-        public async Task<ApiData<List<LanewayOption>>> GetLanewayOptions()
+        public async Task<OptionsData<LanewayOption>> GetLanewayOptions()
         {
             var items = await _session.Query<Laneway>()
                 .Select(x => new LanewayOption
@@ -113,7 +113,7 @@ namespace Swm.Web.Controllers
                     Offline = x.Offline,
                 })
                 .ToListAsync();
-            return this.Success2(items);
+            return this.OptionsData(items);
         }
 
         /// <summary>
@@ -325,12 +325,12 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 出口选择列表
+        /// 获取出口的选项列表
         /// </summary>
         /// <returns></returns>
         [HttpGet("get-port-options")]
         [AutoTransaction]
-        public async Task<ApiData<List<PortOption>>> GetPortOptions()
+        public async Task<OptionsData<PortOption>> GetPortOptions()
         {
             var list = await _session.Query<Port>().ToListAsync();
             var items = list
@@ -341,7 +341,7 @@ namespace Swm.Web.Controllers
                     CurrentUat = x.CurrentUat?.ToString(),
                 })
                 .ToList();
-            return this.Success2(items);
+            return this.OptionsData(items);
         }
 
         /// <summary>
@@ -764,10 +764,10 @@ namespace Swm.Web.Controllers
         /// <param name="id">关键点Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost("edit-key-point/{id}")]
+        [HttpPost("update-key-point/{id}")]
         [OperationType(OperationTypes.编辑关键点)]
         [AutoTransaction]
-        public async Task<ApiData> EditKeyPoint(int id, EditKeyPointArgs args)
+        public async Task<ApiData> UpdateKeyPoint(int id, UpdateKeyPointArgs args)
         {
             Location loc = await _session.GetAsync<Location>(id);
             if (loc == null || loc.LocationType != LocationTypes.K)

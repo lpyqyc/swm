@@ -15,26 +15,31 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 表示出口选项列表中的元素
+    /// 表示物料选项列表中的元素。
     /// </summary>
-    public class PortOption
+    public class MaterialOption
     {
         /// <summary>
-        /// 出口Id
+        /// 物料Id
         /// </summary>
-        public int PortId { get; init; }
+        public int MaterialId { get; set; }
 
         /// <summary>
-        /// 出口编码
+        /// 物料编码
         /// </summary>
-        public string PortCode { get; init; } = default!;
-        
-        // TODO 重命名
+        public string MaterialCode { get; set; } = default!;
+
         /// <summary>
-        /// 当前下架的单据
+        /// 物料描述
         /// </summary>
-        public string? CurrentUat { get; init; }
+        public string Description { get; set; } = default!;
+
+        /// <summary>
+        /// 物料类型
+        /// </summary>
+        public string MaterialType { get; set; } = default!;
+
     }
 
-    
+
 }

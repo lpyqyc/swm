@@ -12,33 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Web.Controllers
+namespace Swm.Web
 {
     /// <summary>
-    /// 库存状态选择列表的数据项
+    /// 表示操作提示类型选项列表中的元素
     /// </summary>
-    public class StockStatusSelectListItem
+    public class OpHintTypeOption
     {
         /// <summary>
-        /// 库存状态
+        /// 操作提示类型
         /// </summary>
-        public string StockStatus { get; set; } = default!;
+        public string OpHintType { get; set; } = default!;
+
 
         /// <summary>
-        /// 物料类型说明
-        /// </summary>
-        public string? Description { get; set; }
-
-        /// <summary>
-        /// 适用范围
-        /// </summary>
-        public string? Scope { get; set; } 
-
-        /// <summary>
-        /// 展示顺序
+        /// 展示次序
         /// </summary>
         public int DisplayOrder { get; set; }
-
     }
-
 }

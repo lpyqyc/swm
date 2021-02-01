@@ -20,7 +20,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 货载详情
     /// </summary>
-    public class UnitloadDetail
+    public class UnitloadDetails
     {
         /// <summary>
         /// 货载Id
