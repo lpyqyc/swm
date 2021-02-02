@@ -22,9 +22,15 @@ namespace Swm.Web.Controllers
     public class UpdateUserArgs
     {
         /// <summary>
+        /// 用户名
+        /// </summary>
+        public string? UserName { get; set; }
+
+        /// <summary>
         /// 所属角色
         /// </summary>
-        public string[] Roles { get; set; }
+        public string[]? Roles { get; set; }
+
 
         /// <summary>
         /// 密码

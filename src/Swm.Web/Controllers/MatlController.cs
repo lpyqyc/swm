@@ -142,8 +142,6 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [OperationType(OperationTypes.导入物料主数据)]
         [AutoTransaction]
-        [ProducesResponseType(StatusCodes.Status200OK)] // TODO 移除响应标记
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [HttpPost("import-materials")]
         public async Task<ApiData> ImportMaterials(IFormFile file)
         {
@@ -494,11 +492,10 @@ namespace Swm.Web.Controllers
 
             var op = await _opHelper.SaveOpAsync($"托盘号：{args.PalletCode}");
 
-            // TODO 处理硬编码：无单据组盘
             await _palletizationHelper.PalletizeAsync(args.PalletCode,
                                                       items,
                                                       op.OperationType,
-                                                      "无单据组盘" // TODO 这里有硬编码文本
+                                                      "独立组盘" // TODO 这里有硬编码文本
                                                       );
 
             return this.Success2();

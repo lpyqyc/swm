@@ -173,6 +173,12 @@ namespace Swm.Web.Controllers
         [OperationType(OperationTypes.创建用户)]
         public async Task<ApiData> CreateUser(CreateUserArgs args)
         {
+            args.UserName = args.UserName.Trim();
+            var dup = await _session.Query<User>().AnyAsync(x => x.UserName == args.UserName);
+            if (dup)
+            {
+                throw new InvalidOperationException("用户名重复。");
+            }
             User user = new User();
             user.UserName = args.UserName;
             user.PasswordSalt = Guid.NewGuid().ToString();
@@ -182,7 +188,7 @@ namespace Swm.Web.Controllers
 
             await _session.SaveAsync(user);
             _ = await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
-
+            
             return this.Success2();
         }
 
@@ -224,7 +230,14 @@ namespace Swm.Web.Controllers
                 throw new InvalidOperationException("用户不存在。");
             }
 
-            if (String.IsNullOrEmpty(args.Password) == false)
+            if (_session.Query<User>().Any(x => x.UserId != id && x.UserName == args.UserName))
+            {
+                throw new InvalidOperationException("用户名重复。");
+            }
+
+            user.UserName = args.UserName;
+
+            if (string.IsNullOrEmpty(args.Password) == false)
             {
                 user.PasswordSalt = Guid.NewGuid().ToString();
                 user.PasswordHash = HashPassword(args.Password, user.PasswordSalt);
@@ -364,7 +377,7 @@ namespace Swm.Web.Controllers
         {
             if (_session.Query<Role>().Any(x => x.RoleName == args.RoleName))
             {
-                throw new InvalidOperationException("名称重复。");
+                throw new InvalidOperationException("角色名重复。");
             }
 
             Role role = new Role();
@@ -422,7 +435,7 @@ namespace Swm.Web.Controllers
             }
             if (_session.Query<Role>().Any(x => x.RoleId != id && x.RoleName == args.RoleName))
             {
-                throw new InvalidOperationException("名称重复。");
+                throw new InvalidOperationException("角色名重复。");
             }
 
             role.RoleName = args.RoleName;

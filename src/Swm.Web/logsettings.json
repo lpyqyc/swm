@@ -18,7 +18,7 @@
       {
         "Name": "ByExcluding",
         "Args": {
-          "expression": "StartsWith(RequestPath, '/logs')"
+          "expression": "StartsWith(RequestPath, '/api/logs')"
         }
       }
     ],

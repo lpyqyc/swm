@@ -39,8 +39,8 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet("list")]
-        public async Task<ListData<LogEntry>> List([FromQuery]LogListArgs args)
+        [HttpGet("get-log-list")]
+        public async Task<ListData<LogEntry>> GetLogList([FromQuery] LogListArgs args)
         {
             var pagedList = await SearchLogsAsync(_context.Logs.AsNoTracking(), args.Filter, args.Sort, args.Current, args.PageSize);
 
@@ -57,8 +57,8 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">跟踪参数</param>
         /// <returns></returns>
-        [HttpGet("trace")]
-        public async Task<ListData<LogEntry>> Trace([FromQuery]LogTraceArgs args)
+        [HttpGet("trace-log")]
+        public async Task<ListData<LogEntry>> TraceLog([FromQuery] LogTraceArgs args)
         {
             var pagedList = await SearchLogsAsync(_context.Logs.AsNoTracking(), args.Filter, args.Sort, args.Current, args.PageSize);
 

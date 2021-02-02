@@ -336,14 +336,14 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LogsController.List(Swm.Web.Controllers.LogListArgs)">
+        <member name="M:Swm.Web.Controllers.LogsController.GetLogList(Swm.Web.Controllers.LogListArgs)">
             <summary>
             日志列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LogsController.Trace(Swm.Web.Controllers.LogTraceArgs)">
+        <member name="M:Swm.Web.Controllers.LogsController.TraceLog(Swm.Web.Controllers.LogTraceArgs)">
             <summary>
             跟踪日志
             </summary>
@@ -3742,6 +3742,11 @@
         <member name="T:Swm.Web.Controllers.UpdateUserArgs">
             <summary>
             编辑用户操作的参数。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateUserArgs.UserName">
+            <summary>
+            用户名
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.UpdateUserArgs.Roles">
