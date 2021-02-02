@@ -17,6 +17,7 @@ using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.International.Converters.PinYinConverter;
 using NHibernate;
 using NHibernate.Linq;
 using NPOI.SS.UserModel;
@@ -189,8 +190,12 @@ namespace Swm.Web.Controllers
                 material.Uom = Convert.ToString(row["计量单位"])?.ToUpper();
                 material.DefaultQuantity = Convert.ToDecimal(row["每托数量"]);
                 material.Specification = Convert.ToString(row["规格型号"]);
-                // TODO 取拼音首字母
-                // material.MnemonicCode = PinyinUtil.ChineseCap(material.Description).NullSafeLeft(20);
+                string pinyin = GetPinyin(material.Description);
+                if (pinyin.Length > 20)
+                {
+                    pinyin = pinyin.Substring(0, 20);
+                }
+                material.MnemonicCode = pinyin;
 
                 await _session.SaveOrUpdateAsync(material);
                 _logger.Information("已导入物料 {material}", material.MaterialCode);
@@ -218,7 +223,29 @@ namespace Swm.Web.Controllers
                 return path;
             }
 
+            static string GetPinyin(string? text)
+            {
+                if (text == null)
+                {
+                    return string.Empty;
+                }
+                var charArray = text
+                    .Select(ch =>
+                    {
+                        if (ChineseChar.IsValidChar(ch))
+                        {
+                            ChineseChar cc = new ChineseChar(ch);
+                            if (cc.Pinyins.Count > 0 && cc.Pinyins[0].Length > 0)
+                            {
+                                return cc.Pinyins[0][0];
+                            }
+                        }
 
+                        return ch;
+                    })
+                    .ToArray();
+                return new string(charArray);
+            }
         }
 
 
