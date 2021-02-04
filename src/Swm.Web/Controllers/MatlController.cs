@@ -543,16 +543,16 @@ namespace Swm.Web.Controllers
         {
             if (string.IsNullOrWhiteSpace(args.IssuingStockStatus))
             {
-                throw new InvalidOperationException("未提供发出状态");
+                throw new InvalidOperationException("未提供发出状态。");
             }
             if (string.IsNullOrWhiteSpace(args.ReceivingStockStatus))
             {
-                throw new InvalidOperationException("未提供接收状态");
+                throw new InvalidOperationException("未提供接收状态。");
             }
 
             if (args.IssuingStockStatus == args.ReceivingStockStatus)
             {
-                throw new InvalidOperationException("发出状态和接收状态不能相同");
+                throw new InvalidOperationException("发出状态和接收状态不能相同。");
             }
 
             List<int> list = itemIds
