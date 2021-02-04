@@ -104,7 +104,9 @@ namespace Swm.Web.Controllers
                     MaterialId = x.MaterialId,
                     MaterialCode = x.MaterialCode,
                     Description = x.Description,
+                    Specification = x.Specification,
                     MaterialType = x.MaterialType,
+                    Uom = x.Uom,
                 })
                 .Take(args.Limit ?? 10)
                 .ToListAsync();
@@ -204,7 +206,7 @@ namespace Swm.Web.Controllers
 
             _ = await _opHelper.SaveOpAsync($"导入 {imported}，覆盖 {covered}");
 
-            return this.Success2($"导入 {imported}，覆盖 {covered}");
+            return this.Success($"导入 {imported}，覆盖 {covered}");
 
 
             static async Task<string> WriteFileAsync(IFormFile file)
@@ -434,7 +436,7 @@ namespace Swm.Web.Controllers
                 throw new InvalidOperationException("货载不存在。");
             }
 
-            return this.Success2(ToUnitloadDetails(unitload));
+            return this.Success(ToUnitloadDetails(unitload));
         }
 
         /// <summary>
@@ -453,7 +455,7 @@ namespace Swm.Web.Controllers
                 throw new InvalidOperationException("货载不存在。");
             }
 
-            return this.Success2(ToUnitloadDetails(unitload));
+            return this.Success(ToUnitloadDetails(unitload));
         }
 
         private UnitloadDetails ToUnitloadDetails(Unitload unitload)
@@ -525,7 +527,7 @@ namespace Swm.Web.Controllers
                                                       "独立组盘" // TODO 这里有硬编码文本
                                                       );
 
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -608,7 +610,7 @@ namespace Swm.Web.Controllers
                 await _session.UpdateAsync(item.Unitload).ConfigureAwait(false);
             }
 
-            return this.Success2();
+            return this.Success();
         }
 
         internal static (bool ok, string reason) CanChangeStockStatus(UnitloadItem item)

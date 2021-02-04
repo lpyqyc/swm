@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
+
 namespace Swm.Web
 {
     /// <summary>
-    /// API 返回的数据
+    /// 表示 WebApi 返回的数据
     /// </summary>
     public record ApiData
     {
@@ -41,8 +43,51 @@ namespace Swm.Web
     }
 
 
+    /// <summary>
+    /// 表示 WebApi 返回的数据
+    /// </summary>
     public record ApiData<TData> : ApiData
     {
+        /// <summary>
+        /// 数据。
+        /// </summary>
         public TData? Data { get; init; }
+    }
+
+    /// <summary>
+    /// 表示列表页数据
+    /// </summary>
+    /// <typeparam name="TElement"></typeparam>
+    public record ListData<TElement> : ApiData
+    {
+        /// <summary>
+        /// 数据
+        /// </summary>
+        public List<TElement>? Data { get; init; }
+
+        /// <summary>
+        /// 当前页
+        /// </summary>
+        public int CurrentPage { get; init; }
+
+        /// <summary>
+        /// 页大小
+        /// </summary>
+        public int PageSize { get; init; }
+
+        /// <summary>
+        /// 记录总数
+        /// </summary>
+        public int Total { get; init; }
+    }
+
+
+    /// <summary>
+    /// 表示选项列表的数据
+    /// </summary>
+    /// <typeparam name="TElement"></typeparam>
+    public record OptionsData<TElement> : ApiData<List<TElement>>
+    {
+
     }
 }

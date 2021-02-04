@@ -145,7 +145,7 @@ namespace Swm.Web.Controllers
             _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】，备注【{args.Comment}】");
             _logger.Information("已将巷道 {lanewayCode} 脱机", laneway.LanewayCode);
 
-            return this.Success2();
+            return this.Success();
         }
 
 
@@ -178,7 +178,7 @@ namespace Swm.Web.Controllers
             _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】");
             _logger.Information("已将巷道 {lanewayCode} 联机", laneway.LanewayCode);
 
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace Swm.Web.Controllers
             var op = await _opHelper.SaveOpAsync("巷道【{0}】，{1} 个出货口", laneway.LanewayCode, laneway.Ports.Count);
             _logger.Information("设置出货口成功，{lanewayCode} --> {ports}", laneway.LanewayCode, string.Join(",", laneway.Ports.Select(x => x.PortCode)));
 
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace Swm.Web.Controllers
                 }).ToList(),
             };
 
-            return this.Success2(sideViewData);
+            return this.Success(sideViewData);
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace Swm.Web.Controllers
             {
                 await _locHelper.RebuildLanewayStatAsync(laneway);
             }
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace Swm.Web.Controllers
             }
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止入站", affected);
 
-            return this.Success2();
+            return this.Success();
 
             async Task DisableOneAsync(Location loc)
             {
@@ -552,7 +552,7 @@ namespace Swm.Web.Controllers
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许入站。", affected);
 
-            return this.Success2();
+            return this.Success();
 
             async Task EnableOneAsync(Location loc)
             {
@@ -631,7 +631,7 @@ namespace Swm.Web.Controllers
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止出站。", affected);
 
-            return this.Success2();
+            return this.Success();
 
             async Task DisableOneAsync(Location loc)
             {
@@ -710,7 +710,7 @@ namespace Swm.Web.Controllers
             }
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许出站。", affected);
-            return this.Success2();
+            return this.Success();
 
             async Task EnableOneAsync(Location loc)
             {
@@ -755,7 +755,7 @@ namespace Swm.Web.Controllers
             _ = await _opHelper.SaveOpAsync("{0}#{1}", loc.LocationCode, loc.LocationId);
             await _eventBus.FireEventAsync("KeyPointChanged", null);
 
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -772,7 +772,7 @@ namespace Swm.Web.Controllers
             Location loc = await _session.GetAsync<Location>(id);
             if (loc == null || loc.LocationType != LocationTypes.K)
             {
-                throw new InvalidOperationException("关键点不存在");
+                throw new InvalidOperationException("关键点不存在。");
             }
             loc.LocationCode = args.LocationCode;
             loc.RequestType = args.RequestType;
@@ -784,7 +784,7 @@ namespace Swm.Web.Controllers
 
             await _eventBus.FireEventAsync("KeyPointChanged", null);
 
-            return this.Success2();
+            return this.Success();
         }
 
     }

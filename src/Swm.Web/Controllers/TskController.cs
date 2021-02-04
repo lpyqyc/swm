@@ -168,7 +168,7 @@ namespace Swm.Web.Controllers
 
             _logger.Information("已将托盘 {palletCode} 的位置从 {originalLocationCode} 改为 {destinationLocationCode}", palletCode, originalLocationCode, args.DestinationLocationCode);
 
-            return this.Success2();
+            return this.Success();
         }
 
     }

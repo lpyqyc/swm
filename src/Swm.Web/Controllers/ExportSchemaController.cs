@@ -56,7 +56,7 @@ namespace Swm.Web.Controllers
             await export.CreateAsync(true, true);
             _logger.Information("已导出数据库架构");
 
-            return this.Success2();
+            return this.Success();
         }
     }
 

@@ -112,7 +112,7 @@ namespace Swm.Web.Controllers
             {
                 const string msg = "尚未产生流水";
                 _logger.Debug(msg);
-                return this.Success2();
+                return this.Success();
             }
 
             initDate = initDate.Value.Date;
@@ -133,7 +133,7 @@ namespace Swm.Web.Controllers
             {
                 const string msg = "当月的月报要到下个月才生成";
                 _logger.Debug(msg);
-                return this.Success2();
+                return this.Success();
             }
 
             // 顺着已经生成的月报向后生成
@@ -202,7 +202,7 @@ GROUP BY MaterialId, Batch, StockStatus, Uom";
 
             await _session.SaveAsync(report);
             _logger.Information("已生成 {month} 的月报", report.Month.ToString("yyyy-MM}"));
-            return this.Success2();
+            return this.Success();
 
             bool Appears<TStockKey>(MonthlyReportItem entry, IEnumerable<MonthlyReportItem> entries, out MonthlyReportItem? found) where TStockKey : StockKeyBase
             {

@@ -36,7 +36,7 @@ namespace Swm.Web.Controllers
         /// 托盘号
         /// </summary>
         [SearchArg(SearchMode.Like)]
-        [SourceProperty(nameof(UnitloadSnapshot.PalletCode))]
+        [SourceProperty("Unitload.PalletCode")]
         public string? PalletCode { get; set; }
 
         /// <summary>
@@ -64,6 +64,12 @@ namespace Swm.Web.Controllers
         /// </summary>
         [SearchArg(SearchMode.Expression)]
         public string? AnyLocationCode { get; set; }
+
+        /// <summary>
+        /// 任务是否取消
+        /// </summary>
+        [SearchArg]
+        public bool? Canncelled { get; set; }
 
         /// <summary>
         /// AnyLocationCode 的查询条件

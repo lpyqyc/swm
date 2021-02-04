@@ -25,7 +25,7 @@ namespace Swm.Web.Controllers
         public string StockStatus { get; set; } = default!;
 
         /// <summary>
-        /// 物料类型说明
+        /// 库存状态说明
         /// </summary>
         public string? Description { get; set; }
 

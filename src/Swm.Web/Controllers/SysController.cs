@@ -90,7 +90,7 @@ namespace Swm.Web.Controllers
             _logger.Information("将设置 {settingName} 的值由 {prevValue} 改为 {value}", settingName, prevValue, args.SettingValue);
             await _opHelper.SaveOpAsync($"设置名 {settingName}，前值 {prevValue}，新值 {args.SettingValue}", settingName, prevValue, args.SettingValue);
 
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Swm.Web.Controllers
             _logger.Information("创建设置 {settingName}，值为 {value}", settingName, args.SettingValue);
             await _opHelper.SaveOpAsync($"设置名 {settingName}，值 {args.SettingValue}", settingName, args.SettingValue);
 
-            return this.Success2();
+            return this.Success();
         }
 
         #region 用户和角色
@@ -189,7 +189,7 @@ namespace Swm.Web.Controllers
             await _session.SaveAsync(user);
             _ = await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
             
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace Swm.Web.Controllers
 
             await _session.DeleteAsync(user);
             await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Swm.Web.Controllers
 
             await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
 
-            return this.Success2();
+            return this.Success();
         }
 
 
@@ -387,7 +387,7 @@ namespace Swm.Web.Controllers
             await _session.SaveAsync(role);
             await _opHelper.SaveOpAsync("RoleId: {0}，角色名：{1}。", role.RoleId, role.RoleName);
 
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace Swm.Web.Controllers
             await _session.DeleteAsync(role);
             await _opHelper.SaveOpAsync("RoleId: {0}，角色名：{1}", role.RoleId, role.RoleName);
 
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace Swm.Web.Controllers
             await _session.SaveAsync(role);
             await _opHelper.SaveOpAsync("RoleId: {0}，角色名：{1}", role.RoleId, role.RoleName);
 
-            return this.Success2();
+            return this.Success();
         }
 
         #endregion

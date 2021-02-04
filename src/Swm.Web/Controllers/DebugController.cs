@@ -62,7 +62,7 @@ namespace Swm.Web.Controllers
             await _eventBus.FireEventAsync(EventTypes.Request, requestInfo);
             var op = await _opHelper.SaveOpAsync("{0}", requestInfo);
             _logger.Information("模拟请求成功");
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -70,16 +70,16 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="taskInfo"></param>
         /// <returns></returns>
-        [HttpPost("simulate-task-completion")]
+        [HttpPost("simulate-completion")]
         [OperationType(OperationTypes.模拟完成)]
         [AutoTransaction]
-        public async Task<ApiData> SimulateTaskCompletionAsync(CompletedTaskInfo taskInfo)
+        public async Task<ApiData> SimulateCompletion(CompletedTaskInfo taskInfo)
         {
             _logger.Information("正在模拟任务完成 {taskInfo}", taskInfo);
             await _eventBus.FireEventAsync(EventTypes.TaskCompleted, taskInfo);
             _logger.Information("已模拟任务完成");
             var op = await _opHelper.SaveOpAsync("{0}", taskInfo);
-            return this.Success2();
+            return this.Success();
         }
     }
 }

@@ -35,10 +35,19 @@ namespace Swm.Web.Controllers
         public string Description { get; set; } = default!;
 
         /// <summary>
+        /// 物料规格
+        /// </summary>
+        public string Specification  { get; set; } = default!;
+
+        /// <summary>
         /// 物料类型
         /// </summary>
         public string MaterialType { get; set; } = default!;
 
+        /// <summary>
+        /// 计量单位
+        /// </summary>
+        public string Uom { get; set; } = default!;
     }
 
 

@@ -196,7 +196,7 @@ namespace Swm.Web.Controllers
             _logger.Information("已创建入库单 {inboundOrder}", inboundOrder);
             _ = await _opHelper.SaveOpAsync(inboundOrder.InboundOrderCode);
 
-            return this.Success2();
+            return this.Success();
         }
 
 
@@ -293,7 +293,7 @@ namespace Swm.Web.Controllers
             _logger.Information("已更新入库单 {inboundOrder}", inboundOrder);
             _ = await _opHelper.SaveOpAsync("{0}", inboundOrder);
 
-            return this.Success2();
+            return this.Success();
         }
 
 
@@ -317,7 +317,7 @@ namespace Swm.Web.Controllers
             _logger.Information("已删除入库单 {inboundOrder}", inboundOrder);
             await _opHelper.SaveOpAsync(inboundOrder.InboundOrderCode);
 
-            return this.Success2();
+            return this.Success();
         }
 
         /// <summary>
@@ -354,7 +354,7 @@ namespace Swm.Web.Controllers
 
             await _simpleEventBus.FireEventAsync(EventTypes.InboundOrderClosed, inboundOrder);
 
-            return this.Success2();
+            return this.Success();
         }
 
 

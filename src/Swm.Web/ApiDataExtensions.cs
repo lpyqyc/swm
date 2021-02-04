@@ -23,7 +23,7 @@ namespace Swm.Web
 {
     public static class ApiDataExtensions
     {
-        public static ApiData Success2(this ControllerBase controller)
+        public static ApiData Success(this ControllerBase controller)
         {
             return new ApiData
             {
@@ -34,7 +34,7 @@ namespace Swm.Web
             };
         }
 
-        public static ApiData<TData> Success2<TData>(this ControllerBase controller, TData? data)
+        public static ApiData<TData> Success<TData>(this ControllerBase controller, TData? data)
         {
             return new ApiData<TData>
             {
@@ -77,7 +77,7 @@ namespace Swm.Web
             };
         }
 
-        public static ApiData Error2(this ControllerBase controller, string? errorMessage)
+        public static ApiData Error(this ControllerBase controller, string? errorMessage)
         {
             return new ApiData
             {
