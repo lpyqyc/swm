@@ -34,7 +34,7 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 程序设置列表
+        /// 参数列表
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
@@ -49,25 +49,25 @@ namespace Swm.Web.Controllers
 
 
         /// <summary>
-        /// 更改设置
+        /// 更改参数
         /// </summary>
-        /// <param name="settingName">设置名称</param>
+        /// <param name="settingName">参数名称</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
         [HttpPost("update-app-setting/{settingName}")]
-        [OperationType(OperationTypes.更改设置)]
+        [OperationType(OperationTypes.更改参数)]
         public async Task<ApiData> UpdateAppSetting([Required] string? settingName, SetAppSettingArgs args)
         {
             settingName = settingName?.Trim();
             if (string.IsNullOrEmpty(settingName))
             {
-                throw new InvalidOperationException("设置名不能为空。");
+                throw new InvalidOperationException("参数名不能为空。");
             }
             var setting = await _appSettingService.GetAsync(settingName);
             if (setting == null)
             {
-                throw new InvalidOperationException("设置不存在");
+                throw new InvalidOperationException("参数不存在");
             }
 
             var prevValue = setting.SettingValue;
@@ -87,32 +87,32 @@ namespace Swm.Web.Controllers
                     break;
             }
 
-            _logger.Information("将设置 {settingName} 的值由 {prevValue} 改为 {value}", settingName, prevValue, args.SettingValue);
-            await _opHelper.SaveOpAsync($"设置名 {settingName}，前值 {prevValue}，新值 {args.SettingValue}", settingName, prevValue, args.SettingValue);
+            _logger.Information("将参数 {settingName} 的值由 {prevValue} 改为 {value}", settingName, prevValue, args.SettingValue);
+            await _opHelper.SaveOpAsync($"参数名 {settingName}，前值 {prevValue}，新值 {args.SettingValue}", settingName, prevValue, args.SettingValue);
 
             return this.Success();
         }
 
         /// <summary>
-        /// 更改设置
+        /// 更改参数
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
         [HttpPost("create-app-setting")]
-        [OperationType(OperationTypes.更改设置)]
+        [OperationType(OperationTypes.更改参数)]
         public async Task<ApiData> Create(CreateAppSettingArgs args)
         {
             var settingName = args.SettingName?.Trim();
             if (string.IsNullOrEmpty(settingName))
             {
-                throw new InvalidOperationException("设置名不能为空。");
+                throw new InvalidOperationException("参数名不能为空。");
             }
 
             var setting = await _appSettingService.GetAsync(settingName);
             if (setting != null)
             {
-                throw new InvalidOperationException("设置已存在。");
+                throw new InvalidOperationException("餐宿已存在。");
             }
 
             switch (args.SettingType)
@@ -130,8 +130,8 @@ namespace Swm.Web.Controllers
                     break;
             }
 
-            _logger.Information("创建设置 {settingName}，值为 {value}", settingName, args.SettingValue);
-            await _opHelper.SaveOpAsync($"设置名 {settingName}，值 {args.SettingValue}", settingName, args.SettingValue);
+            _logger.Information("创建参数 {settingName}，值为 {value}", settingName, args.SettingValue);
+            await _opHelper.SaveOpAsync($"参数名 {settingName}，值 {args.SettingValue}", settingName, args.SettingValue);
 
             return this.Success();
         }

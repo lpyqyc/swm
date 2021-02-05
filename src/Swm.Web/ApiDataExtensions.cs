@@ -45,6 +45,18 @@ namespace Swm.Web
                 TraceId = controller.HttpContext.TraceIdentifier,
             };
         }
+
+        public static ApiData Failure(this ControllerBase controller, string? errorMessage)
+        {
+            return new ApiData
+            {
+                Success = true,
+                ErrorMessage = errorMessage,
+                Host = controller.Request.Host.ToString(),
+                TraceId = controller.HttpContext.TraceIdentifier,
+            };
+        }
+
         public static ListData<T> ListData<T>(this ControllerBase controller, PagedList<T> pagedList)
         {
             return controller.ListData(pagedList, x => x);

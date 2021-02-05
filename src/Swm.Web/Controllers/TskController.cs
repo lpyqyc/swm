@@ -52,12 +52,7 @@ namespace Swm.Web.Controllers
         [OperationType(OperationTypes.查看任务)]
         public async Task<ListData<TaskListItem>> GetTaskList([FromQuery]TaskListArgs args)
         {
-            if (args.Sort == null)
-            {
-                args.Sort = "TaskId DESC";                
-            }
-
-            var pagedList = await _session.Query<TransportTask>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+            var pagedList = await _session.Query<TransportTask>().SearchAsync(args, "TaskId DESC", 1, 999);
 
             return this.ListData(pagedList, x => new TaskListItem
             {

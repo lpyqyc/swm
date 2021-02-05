@@ -2,6 +2,7 @@ namespace Swm.Web
 {
     internal class OperationTypes
     {
+
         public const string 查看巷道 = "位置.查看巷道";
         public const string 脱机巷道 = "位置.脱机巷道";
         public const string 联机巷道 = "位置.联机巷道";
@@ -32,6 +33,7 @@ namespace Swm.Web
         public const string 模拟完成 = "调试.模拟完成";
 
 
+        public const string 更改参数 = "系统.更改设置";
         public const string 查看用户 = "系统.查看用户";
         public const string 创建用户 = "系统.创建用户";
         public const string 删除用户 = "系统.删除用户";
@@ -56,7 +58,10 @@ namespace Swm.Web
         public const string 关闭入库单 = "出入.关闭入库单";
 
 
-        public const string 更改设置 = "系统.更改设置";
+
+        public const string 登录 = "账号.登录";
+        public const string 修改密码 = "账号.修改密码";
+
 
     }
 }

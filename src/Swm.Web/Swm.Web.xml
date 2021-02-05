@@ -515,22 +515,22 @@
         </member>
         <member name="M:Swm.Web.Controllers.SysController.GetAppSettingList(Swm.Web.Controllers.AppSettingListArgs)">
             <summary>
-            程序设置列表
+            参数列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.SysController.UpdateAppSetting(System.String,Swm.Web.Controllers.SetAppSettingArgs)">
             <summary>
-            更改设置
+            更改参数
             </summary>
-            <param name="settingName">设置名称</param>
+            <param name="settingName">参数名称</param>
             <param name="args"></param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.SysController.Create(Swm.Web.Controllers.CreateAppSettingArgs)">
             <summary>
-            更改设置
+            更改参数
             </summary>
             <param name="args"></param>
             <returns></returns>
@@ -781,12 +781,12 @@
         </member>
         <member name="T:Swm.Web.Controllers.AppSettingListArgs">
             <summary>
-            列表查询参数
+            参数列表查询参数
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.AppSettingListArgs.SettingName">
             <summary>
-            设置名称
+            参数名称
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.ArchivedTaskListArgs">
@@ -986,22 +986,22 @@
         </member>
         <member name="T:Swm.Web.Controllers.CreateAppSettingArgs">
             <summary>
-            创建程序设置操作的参数
+            创建参数操作的参数
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingName">
             <summary>
-            设置名称
+            参数名称
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingType">
             <summary>
-            设置类型
+            参数类型
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.CreateAppSettingArgs.SettingValue">
             <summary>
-            设置值
+            参数值
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.CreateInboundOrderArgs">
@@ -2763,12 +2763,12 @@
         </member>
         <member name="T:Swm.Web.Controllers.SetAppSettingArgs">
             <summary>
-            编辑程序设置操作的参数
+            编辑参数操作的参数
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.SetAppSettingArgs.SettingValue">
             <summary>
-            设置值
+            参数值
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.SetPortsArgs">
@@ -3269,21 +3269,6 @@
         <member name="P:Swm.Web.Controllers.TaskListArgs.LanewayIdListExpr">
             <summary>
             LanewayIdList 的查询条件
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.TaskListArgs.Sort">
-            <summary>
-            排序字段
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.TaskListArgs.Current">
-            <summary>
-            基于 1 的当前页面，默认值为 1。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.TaskListArgs.PageSize">
-            <summary>
-            每页大小，默认值为 10。
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.TaskListItem">
