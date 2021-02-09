@@ -667,6 +667,13 @@
             <param name="id">出库单Id</param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.WioController.GetAllocatedUnitloads(System.Int32)">
+            <summary>
+            获取分配给出库单的货载
+            </summary>
+            <param name="outboundOrderId"></param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.WioController.CreateOutboundOrder(Swm.Web.Controllers.CreateOutboundOrderArgs)">
             <summary>
             创建出库单
@@ -695,7 +702,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.WioController.Allocate(System.Int32,Swm.Model.OutboundOrderAllocationOptions)">
+        <member name="M:Swm.Web.Controllers.WioController.Allocate(System.Int32,Swm.Model.AllocatStockOptions)">
             <summary>
             为出库单分配库存
             </summary>

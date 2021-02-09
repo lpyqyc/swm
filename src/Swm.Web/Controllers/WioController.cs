@@ -150,7 +150,48 @@ namespace Swm.Web.Controllers
                     QuantityUndelivered = i.QuantityUndelivered,
                     Comment = i.Comment,
                 }).ToList(),
+                UnitloadCount = outboundOrder.Unitloads.Count,
             });
+        }
+
+        /// <summary>
+        /// 获取分配给出库单的货载
+        /// </summary>
+        /// <param name="outboundOrderId"></param>
+        /// <returns></returns>
+        [HttpGet("get-allocated-unitloads/{outboundOrderId}")]
+        [DebugShowArgs]
+        [AutoTransaction]
+        [OperationType(OperationTypes.查看出库单)]
+        public async Task<ApiData<UnitloadListItem[]>> GetAllocatedUnitloads(int outboundOrderId)
+        {
+            var outboundOrder = await _session.GetAsync<OutboundOrder>(outboundOrderId);
+            return this.Success(outboundOrder.Unitloads.Select(x => new UnitloadListItem
+            {
+                UnitloadId = x.UnitloadId,
+                PalletCode = x.PalletCode,
+                ctime = x.ctime,
+                mtime = x.mtime,
+                LocationCode = x.CurrentLocation.LocationCode,
+                LanewayCode = x.CurrentLocation?.Rack?.Laneway?.LanewayCode,
+                BeingMoved = x.BeingMoved,
+                Items = x.Items.Select(i => new UnitloadItemInfo
+                {
+                    UnitloadItemId = i.UnitloadItemId,
+                    MaterialId = i.Material.MaterialId,
+                    MaterialCode = i.Material.MaterialCode,
+                    MaterialType = i.Material.MaterialType,
+                    Description = i.Material.Description,
+                    Specification = i.Material.Specification,
+                    Batch = i.Batch,
+                    StockStatus = i.StockStatus,
+                    Quantity = i.Quantity,
+                    Uom = i.Uom,
+                }).ToList(),
+                Allocated = (x.CurrentUat != null),
+
+                Comment = x.Comment
+            }).ToArray());
         }
 
 
@@ -270,7 +311,7 @@ namespace Swm.Web.Controllers
                             }
                         }
                         break;
-                    case "added":
+                    case "add":
                         {
                             OutboundLine line = new OutboundLine();
                             var material = await _session.Query<Material>()
@@ -393,7 +434,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("allocate-stock/{id}")]
         [OperationType(OperationTypes.分配库存)]
-        public async Task<ApiData> Allocate(int id, [FromBody] OutboundOrderAllocationOptions options)
+        public async Task<ApiData> Allocate(int id, [FromBody] AllocatStockOptions options)
         {
             OutboundOrder? outboundOrder = await _session.GetAsync<OutboundOrder>(id);
 
@@ -401,11 +442,15 @@ namespace Swm.Web.Controllers
             {
                 throw new InvalidOperationException("出库单不存在或已关闭。");
             }
-
+            if (options.ChunkSize > 50)
+            {
+                options.ChunkSize = 50;
+            }
             await _outboundOrderAllocator.AllocateAsync(outboundOrder, options);
 
             return this.Success();
         }
+
 
         /// <summary>
         /// 为出库单取消库内分配

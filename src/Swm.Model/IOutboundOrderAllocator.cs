@@ -26,7 +26,7 @@ namespace Swm.Model
         /// </summary>
         /// <param name="outboundOrder">要分配库存的出库单</param>
         /// <param name="options">分配选项</param>
-        Task AllocateAsync(OutboundOrder outboundOrder, OutboundOrderAllocationOptions options);
+        Task AllocateAsync(OutboundOrder outboundOrder, AllocatStockOptions options);
 
 
         /// <summary>

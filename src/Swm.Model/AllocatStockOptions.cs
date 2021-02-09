@@ -19,7 +19,7 @@ namespace Swm.Model
     /// <summary>
     /// 出库单库存分配选项
     /// </summary>
-    public class OutboundOrderAllocationOptions
+    public class AllocatStockOptions
     {
         /// <summary>
         /// 指示在哪些区域内分配，null 或空数组表示在全部区域分配
