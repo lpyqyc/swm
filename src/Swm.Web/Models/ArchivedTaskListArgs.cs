@@ -186,8 +186,8 @@ namespace Swm.Web.Controllers
                 if (LanewayIdList != null && LanewayIdList.Length > 0)
                 {
                     return (x =>
-                        this.LanewayIdList.Contains(x.Start.Rack.Laneway.LanewayId)
-                        || this.LanewayIdList.Contains(x.End.Rack.Laneway.LanewayId)
+                        this.LanewayIdList.Contains(x.Start.Laneway.LanewayId)
+                        || this.LanewayIdList.Contains(x.End.Laneway.LanewayId)
                         );
                 }
                 else

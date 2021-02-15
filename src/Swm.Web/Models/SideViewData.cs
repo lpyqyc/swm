@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Swm.Model;
 using System.Collections.Generic;
 
 namespace Swm.Web.Controllers
@@ -27,14 +28,27 @@ namespace Swm.Web.Controllers
         public string LanewayCode { get; set; } = default!;
 
         /// <summary>
-        /// 货架数据
-        /// </summary>
-        public List<SideViewRack> Racks { get; set; } = default!;
-
-        /// <summary>
         /// 巷道是否离线
         /// </summary>
         public bool Offline { get; set; }
+
+
+
+        /// <summary>
+        /// 巷道的货位数，不包含 <see cref="Location.Exists"/> 为 false 的货位。
+        /// </summary>
+        public int LocationCount { get; set; }
+
+        /// <summary>
+        /// 巷道的可用货位数，即存在、无货、无入站任务、未禁止入站的货位
+        /// </summary>
+        public int AvailableCount { get; set; }
+
+
+        /// <summary>
+        /// 巷道的货位，包含 <see cref="Location.Exists"/> 为 false 的货位。
+        /// </summary>
+        public List<SideViewLocation> Locations { get; set; } = default!;
 
         /// <summary>
         /// 巷道离线的备注

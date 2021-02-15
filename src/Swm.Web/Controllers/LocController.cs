@@ -232,51 +232,45 @@ namespace Swm.Web.Controllers
                 LanewayCode = laneway.LanewayCode,
                 Offline = laneway.Offline,
                 OfflineComment = laneway.OfflineComment,
-                Racks = laneway.Racks.Select(rack => new SideViewRack
-                {
-                    RackCode = rack.RackCode,
-                    Side = rack.Side,
-                    Columns = rack.Columns,
-                    Levels = rack.Levels,
-                    Deep = rack.Deep,
-                    LocationCount = rack.Locations
-                        .Where(x => x.Exists)
-                        .Count(),
-                    AvailableCount = rack.Locations
+                AvailableCount = laneway.Locations
                         .Where(x =>
                             x.Exists
                             && x.UnitloadCount == 0
                             && x.InboundCount == 0
                             && x.InboundDisabled == false)
                         .Count(),
-                    Locations = rack.Locations.Select(loc => new SideViewLocation
-                    {
-                        LocationId = loc.LocationId,
-                        LocationCode = loc.LocationCode,
-                        Loaded = loc.UnitloadCount > 0,
-                        Level = loc.Level,
-                        Column = loc.Column,
-                        InboundDisabled = loc.InboundDisabled,
-                        InboundDisabledComment = loc.InboundDisabledComment,
-                        InboundCount = loc.InboundCount,
-                        InboundLimit = loc.InboundLimit,
-                        OutboundDisabled = loc.OutboundDisabled,
-                        OutboundDisabledComment = loc.OutboundDisabledComment,
-                        OutboundLimit = loc.OutboundLimit,
-                        OutboundCount = loc.OutboundCount,
-                        Specification = loc.Specification,
-                        StorageGroup = loc.StorageGroup,
-                        WeightLimit = loc.WeightLimit,
-                        HeightLimit = loc.HeightLimit,
-                        Exists = loc.Exists,
-                        i1 = loc.Cell.i1,
-                        o1 = loc.Cell.o1,
-                        i2 = loc.Cell.i2,
-                        o2 = loc.Cell.o2,
-                        i3 = loc.Cell.i3,
-                        o3 = loc.Cell.o3,
-                    }).ToList()
-                }).ToList(),
+                LocationCount = laneway.Locations
+                        .Where(x => x.Exists)
+                        .Count(),
+                Locations = laneway.Locations.Select(loc => new SideViewLocation
+                {
+                    LocationId = loc.LocationId,
+                    LocationCode = loc.LocationCode,
+                    Loaded = loc.UnitloadCount > 0,
+                    Side = loc.Side,
+                    Deep = loc.Deep,
+                    Level = loc.Level,
+                    Column = loc.Column,
+                    InboundDisabled = loc.InboundDisabled,
+                    InboundDisabledComment = loc.InboundDisabledComment,
+                    InboundCount = loc.InboundCount,
+                    InboundLimit = loc.InboundLimit,
+                    OutboundDisabled = loc.OutboundDisabled,
+                    OutboundDisabledComment = loc.OutboundDisabledComment,
+                    OutboundLimit = loc.OutboundLimit,
+                    OutboundCount = loc.OutboundCount,
+                    Specification = loc.Specification,
+                    StorageGroup = loc.StorageGroup,
+                    WeightLimit = loc.WeightLimit,
+                    HeightLimit = loc.HeightLimit,
+                    Exists = loc.Exists,
+                    i1 = loc.Cell.i1,
+                    o1 = loc.Cell.o1,
+                    i2 = loc.Cell.i2,
+                    o2 = loc.Cell.o2,
+                    i3 = loc.Cell.i3,
+                    o3 = loc.Cell.o3,
+                }).ToList()
             };
 
             return this.Success(sideViewData);
@@ -360,8 +354,8 @@ namespace Swm.Web.Controllers
             {
                 LocationId = x.LocationId,
                 LocationCode = x.LocationCode,
-                LanewayId = x.Rack.Laneway.LanewayId,
-                LanewayCode = x.Rack.Laneway.LanewayCode,
+                LanewayId = x.Laneway.LanewayId,
+                LanewayCode = x.Laneway.LanewayCode,
                 WeightLimit = x.WeightLimit,
                 HeightLimit = x.HeightLimit,
                 InboundCount = x.InboundCount,
@@ -468,7 +462,7 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            var laneways = locs.Where(x => x.Rack != null).Select(x => x.Rack.Laneway).Distinct();
+            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
             foreach (var laneway in laneways)
             {
                 await _locHelper.RebuildLanewayStatAsync(laneway);
@@ -544,7 +538,7 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            var laneways = locs.Where(x => x.Rack != null).Select(x => x.Rack.Laneway).Distinct();
+            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
             foreach (var laneway in laneways)
             {
                 await _locHelper.RebuildLanewayStatAsync(laneway);
@@ -623,7 +617,7 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            var laneways = locs.Where(x => x.Rack != null).Select(x => x.Rack.Laneway).Distinct();
+            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
             foreach (var laneway in laneways)
             {
                 await _locHelper.RebuildLanewayStatAsync(laneway);
@@ -703,7 +697,7 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            var laneways = locs.Where(x => x.Rack != null).Select(x => x.Rack.Laneway).Distinct();
+            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
             foreach (var laneway in laneways)
             {
                 await _locHelper.RebuildLanewayStatAsync(laneway);

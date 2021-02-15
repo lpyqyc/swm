@@ -151,9 +151,20 @@ namespace Swm.Model
 
 
         /// <summary>
-        /// 获取或设置此货位所属的货架。
+        /// 指示货位属于哪个巷道
         /// </summary>
-        public virtual Rack Rack { get; internal protected set; }
+        public virtual Laneway Laneway { get; set; }
+
+        /// <summary>
+        /// 指示货位在巷道哪一侧。
+        /// </summary>
+        public virtual RackSide Side { get; set; }
+
+        /// <summary>
+        /// 指示货位属于第几深位。
+        /// </summary>
+        public virtual RackDeep Deep { get; set; }
+
 
         /// <summary>
         /// 此位置的列。
@@ -203,18 +214,18 @@ namespace Swm.Model
                 throw new InvalidOperationException();
             }
 
-            if (this.Rack.Laneway.DoubleDeep == false)
+            if (this.Laneway.DoubleDeep == false)
             {
                 throw new InvalidOperationException();
             }
 
-            if (this.Rack.Deep != RackDeep.Deep2)
+            if (this.Deep != RackDeep.Deep2)
             {
                 string errMsg = string.Format("{0} 不是二深货位。", this.LocationCode);
                 throw new InvalidOperationException(errMsg);
             }
 
-            return this.Cell.Locations.Single(x => x.Rack.Deep == RackDeep.Deep1);
+            return this.Cell.Locations.Single(x => x.Deep == RackDeep.Deep1);
         }
 
 
@@ -225,18 +236,18 @@ namespace Swm.Model
                 throw new InvalidOperationException();
             }
 
-            if (this.Rack.Laneway.DoubleDeep == false)
+            if (this.Laneway.DoubleDeep == false)
             {
                 throw new InvalidOperationException();
             }
 
-            if (this.Rack.Deep != RackDeep.Deep1)
+            if (this.Deep != RackDeep.Deep1)
             {
                 string errMsg = string.Format("{0} 不是一深货位。", this.LocationCode);
                 throw new InvalidOperationException(errMsg);
             }
 
-            return this.Cell.Locations.Single(x => x.Rack.Deep == RackDeep.Deep2);
+            return this.Cell.Locations.Single(x => x.Deep == RackDeep.Deep2);
         }
 
 
@@ -284,7 +295,7 @@ namespace Swm.Model
                     WeightLimit = WeightLimit,
                     HeightLimit = HeightLimit,
                 };
-                var usage = Rack.Laneway.Usage;
+                var usage = Laneway.Usage;
                 if (usage.ContainsKey(key))
                 {
                     var loaded = Loaded();
@@ -334,7 +345,7 @@ namespace Swm.Model
                     HeightLimit = HeightLimit,
                 };
 
-                var usage = Rack.Laneway.Usage;
+                var usage = Laneway.Usage;
                 if (usage.ContainsKey(key))
                 {
                     var loaded = Loaded();

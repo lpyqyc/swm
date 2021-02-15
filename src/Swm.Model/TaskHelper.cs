@@ -187,7 +187,7 @@ namespace Swm.Model
                 throw new FailToBuildTaskException(FailtoBuildTaskReason.OutboundLimitReached);
             }
 
-            if (start?.Rack?.Laneway?.Automated == false)
+            if (start?.Laneway?.Automated == false)
             {
                 throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayNotAutomated);
             }
@@ -195,13 +195,13 @@ namespace Swm.Model
             if (start.LocationType == LocationTypes.S)
             {
 
-                if (start.Rack.Laneway.Offline)
+                if (start.Laneway.Offline)
                 {
                     throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayOffline);
                 }
 
 
-                if (start.Rack.Deep == RackDeep.Deep2)
+                if (start.Deep == RackDeep.Deep2)
                 {
                     Location deep1 = start.GetDeep1();
 
@@ -257,19 +257,19 @@ namespace Swm.Model
                 throw new FailToBuildTaskException(FailtoBuildTaskReason.InboundLimitReached);
             }
 
-            if (end?.Rack?.Laneway?.Automated == false)
+            if (end?.Laneway?.Automated == false)
             {
                 throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayNotAutomated);
             }
 
             if (end.LocationType == LocationTypes.S)
             {
-                if (end.Rack.Laneway.Offline)
+                if (end.Laneway.Offline)
                 {
                     throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayOffline);
                 }
 
-                if (end.Rack.Deep == RackDeep.Deep2)
+                if (end.Deep == RackDeep.Deep2)
                 {
                     Location deep1 = end.GetDeep1();
 

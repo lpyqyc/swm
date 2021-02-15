@@ -40,7 +40,7 @@ namespace Swm.Model.Mappings
 
             Property(cl => cl.Comment);
 
-            Set(cl => cl.Racks, set => {
+            Set(cl => cl.Locations, set => {
                 set.Inverse(true);
                 set.BatchSize(10);
                 set.Cache(cache => cache.Usage(CacheUsage.ReadWrite));
