@@ -48,7 +48,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 货架是第几深位
         /// </summary>
-        public RackDeep Deep { get; set; }
+        public int Deep { get; set; }
 
         /// <summary>
         /// 所在层

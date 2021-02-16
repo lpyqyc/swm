@@ -201,7 +201,7 @@ namespace Swm.Model
                 }
 
 
-                if (start.Deep == RackDeep.Deep2)
+                if (start.Deep == 2)
                 {
                     Location deep1 = start.GetDeep1();
 
@@ -269,7 +269,7 @@ namespace Swm.Model
                     throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayOffline);
                 }
 
-                if (end.Deep == RackDeep.Deep2)
+                if (end.Deep == 2)
                 {
                     Location deep1 = end.GetDeep1();
 

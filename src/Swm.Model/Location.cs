@@ -163,7 +163,7 @@ namespace Swm.Model
         /// <summary>
         /// 指示货位属于第几深位。
         /// </summary>
-        public virtual RackDeep Deep { get; set; }
+        public virtual int Deep { get; set; }
 
 
         /// <summary>
@@ -219,13 +219,13 @@ namespace Swm.Model
                 throw new InvalidOperationException();
             }
 
-            if (this.Deep != RackDeep.Deep2)
+            if (this.Deep != 2)
             {
                 string errMsg = string.Format("{0} 不是二深货位。", this.LocationCode);
                 throw new InvalidOperationException(errMsg);
             }
 
-            return this.Cell.Locations.Single(x => x.Deep == RackDeep.Deep1);
+            return this.Cell.Locations.Single(x => x.Deep == 1);
         }
 
 
@@ -241,13 +241,13 @@ namespace Swm.Model
                 throw new InvalidOperationException();
             }
 
-            if (this.Deep != RackDeep.Deep1)
+            if (this.Deep != 1)
             {
                 string errMsg = string.Format("{0} 不是一深货位。", this.LocationCode);
                 throw new InvalidOperationException(errMsg);
             }
 
-            return this.Cell.Locations.Single(x => x.Deep == RackDeep.Deep2);
+            return this.Cell.Locations.Single(x => x.Deep == 2);
         }
 
 
