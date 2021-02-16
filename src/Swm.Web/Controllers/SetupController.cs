@@ -115,15 +115,15 @@ namespace Swm.Web.Controllers
             List<(string rackCode, RackSide side, int deep)> racks = new List<(string rack, RackSide side, int deep)>();
             if (args.DoubleDeep)
             {
-                racks.Add(($"{args.LanewayCode}A", RackSide.Left, 2));
-                racks.Add(($"{args.LanewayCode}B", RackSide.Left, 1));
-                racks.Add(($"{args.LanewayCode}C", RackSide.Right, 1));
-                racks.Add(($"{args.LanewayCode}D", RackSide.Right, 2));
+                racks.Add(($"{args.LanewayCode}1", RackSide.Left, 2));
+                racks.Add(($"{args.LanewayCode}2", RackSide.Left, 1));
+                racks.Add(($"{args.LanewayCode}3", RackSide.Right, 1));
+                racks.Add(($"{args.LanewayCode}4", RackSide.Right, 2));
             }
             else
             {
-                racks.Add(($"{args.LanewayCode}L1", RackSide.Left, 1));
-                racks.Add(($"{args.LanewayCode}R1", RackSide.Right, 1));
+                racks.Add(($"{args.LanewayCode}1", RackSide.Left, 1));
+                racks.Add(($"{args.LanewayCode}2", RackSide.Right, 1));
             }
             int k = 0;
             for (int i = 0; i < levels; i++)
@@ -152,7 +152,7 @@ namespace Swm.Web.Controllers
                             loc.Side = rack.side;
                             loc.Deep = rack.deep;
                             loc.StorageGroup = Cst.DefaultStorageGroup;
-                            loc.Specification = Cst.None;
+                            loc.Specification = Cst.NA;
                             loc.Cell = cell;
                             cell.Locations.Add(loc);
                         }
