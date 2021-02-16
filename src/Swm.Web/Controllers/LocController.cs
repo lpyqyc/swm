@@ -781,6 +781,48 @@ namespace Swm.Web.Controllers
             return this.Success();
         }
 
+        [OperationType(OperationTypes.创建出口)]
+        [AutoTransaction]
+        [HttpPost("create-port")]
+        public async Task<ApiData> CreatePort(CreatePortArgs args)
+        {
+            Port port = new Port();
+            port.PortCode = args.PortCode;
+            if (string.IsNullOrWhiteSpace(args.KP1) == false)
+            {
+                port.KP1 = await CreateKeyPointAsync(_locFactory, _session, args.KP1);
+            }
+            if (string.IsNullOrWhiteSpace(args.KP2) == false)
+            {
+                port.KP2 = await CreateKeyPointAsync(_locFactory, _session, args.KP2);
+            }
+
+            await _session.SaveAsync(port).ConfigureAwait(false);
+
+            return this.Success();
+
+            static async Task<Location> CreateKeyPointAsync(ILocationFactory locationFactory, ISession session, string locationCode)
+            {
+                Location loc = locationFactory.CreateLocation(locationCode, LocationTypes.K, null, 0, 0);
+                loc.RequestType = Cst.NA;
+                loc.Tag = "港口";
+                loc.InboundLimit = 999;
+                loc.OutboundLimit = 999;
+                await session.SaveAsync(loc).ConfigureAwait(false);
+                return loc;
+            }
+
+        }
+        
+    }
+
+    public record CreatePortArgs
+    {
+        public string PortCode { get; set; }
+
+        public string KP1 { get; set; }
+        
+        public string KP2 { get; set; }
     }
 
 }

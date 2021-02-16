@@ -153,7 +153,7 @@ namespace Swm.Model
         /// <summary>
         /// 指示货位属于哪个巷道
         /// </summary>
-        public virtual Laneway Laneway { get; set; }
+        public virtual Laneway Laneway { get; internal protected set; }
 
         /// <summary>
         /// 指示货位在巷道哪一侧。

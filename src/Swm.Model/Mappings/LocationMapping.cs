@@ -72,8 +72,7 @@ namespace Swm.Model.Mappings
             Property(cl => cl.UnitloadCount);
             ManyToOne(cl => cl.Cell, m => {
                 m.Column("CellId");
-                // TODO 仅在生成工具中配置为可更新
-                m.Update(true);
+                m.Update(false);
             });
 
             Property(cl => cl.Tag);

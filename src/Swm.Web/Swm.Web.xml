@@ -187,16 +187,6 @@
             <param name="taskInfo"></param>
             <returns></returns>
         </member>
-        <member name="T:Swm.Web.Controllers.ExportSchemaController">
-            <summary>
-            向数据库导出表结构的工具。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.Controllers.ExportSchemaController.Create">
-            <summary>
-            根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.InboundOrdersController">
             <summary>
             操作入库单。
@@ -512,6 +502,16 @@
             库龄报表
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.SetupController">
+            <summary>
+            向数据库导出表结构的工具。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.SetupController.ExportSchema">
+            <summary>
+            根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
+            </summary>
         </member>
         <member name="M:Swm.Web.Controllers.SysController.GetAppSettingList(Swm.Web.Controllers.AppSettingListArgs)">
             <summary>

@@ -9,6 +9,7 @@ namespace Swm.Web
         public const string 重建巷道统计信息 = "位置.重建巷道统计信息";
         public const string 设置出口 = "位置.设置出口";
         public const string 查看出口 = "位置.查看出口";
+        public const string 创建出口 = "位置.创建出口";
         public const string 查看位置 = "位置.查看位置";
         public const string 禁止入站 = "位置.禁止入站";
         public const string 允许入站 = "位置.允许入站";
