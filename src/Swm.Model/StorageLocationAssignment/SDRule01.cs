@@ -90,7 +90,7 @@ namespace Swm.Model.StorageLocationAssignment
             string queryString = $@"
 SELECT loc1.LocationId
 
-FROM Location loc1, 
+FROM Location loc1 JOIN loc1.Cell cell, 
      Location loc2 
 
 WHERE loc1.Deep = 1
@@ -105,7 +105,7 @@ AND loc2.InboundCount = 0
 AND NOT EXISTS (
     FROM Unitload 
     WHERE CurrentLocation = loc2 
-    AND (OutFlag <> :outFlag OR Allocated = true)
+    AND (OutFlag <> :outFlag OR CurrentUat IS NOT NULL)
 )
 AND loc1.Exists = true
 AND loc1.UnitloadCount = 0
@@ -120,7 +120,7 @@ AND loc1.Specification = :locSpec
 {"AND loc1.Column NOT IN (:excludedColumnList)".If(excludedColumnList)}
 {"AND loc1.Level NOT IN (:excludedLevelList)".If(excludedLevelList)}
 
-ORDER BY loc1.WeightLimit, loc1.HeightLimit, loc1.Cell.$orderBy
+ORDER BY loc1.WeightLimit, loc1.HeightLimit, cell.$orderBy
 ";
             queryString = queryString.Replace("$orderBy", orderBy);
 

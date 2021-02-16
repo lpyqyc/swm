@@ -89,7 +89,7 @@ namespace Swm.Model.StorageLocationAssignment
             string queryString = $@"
 SELECT loc2.LocationId
 
-FROM Location loc1, 
+FROM Location loc1 JOIN loc1.Cell cell, 
      Location loc2 
 
 WHERE loc1.Deep = 1
@@ -114,7 +114,7 @@ AND loc2.Specification = :locSpec
 {"AND loc2.Column NOT IN (:excludedColumnList)".If(excludedColumnList)}
 {"AND loc2.Level NOT IN (:excludedLevelList)".If(excludedLevelList)}
 
-ORDER BY loc2.WeightLimit, loc2.HeightLimit, loc1.Cell.$orderBy
+ORDER BY loc2.WeightLimit, loc2.HeightLimit, cell.$orderBy
 ";
 
             queryString = queryString.Replace("$orderBy", orderBy);
