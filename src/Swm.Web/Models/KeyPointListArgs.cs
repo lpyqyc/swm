@@ -20,7 +20,7 @@ using System.Linq.Expressions;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表查询参数
+    /// 关键点列表的查询参数
     /// </summary>
     public class KeyPointListArgs
     {

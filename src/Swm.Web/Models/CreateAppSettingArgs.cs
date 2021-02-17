@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 创建参数操作的参数
+    /// 创建参数的操作参数
     /// </summary>
     public class CreateAppSettingArgs
     {

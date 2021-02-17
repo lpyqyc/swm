@@ -12,23 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
-
-namespace Swm.Web.Controllers
+namespace Swm.Web
 {
     /// <summary>
-    /// 表示物料类型选项列表中的元素
+    /// 表示业务类型选项
     /// </summary>
-    public class MaterialTypeOption
+    public class BizTypeInfo
     {
         /// <summary>
-        /// 物料类型
+        /// 业务类型
         /// </summary>
-        [Required]
-        public string MaterialType { get; set; } = default!;
+        public string BizType { get; set; } = default!;
 
         /// <summary>
-        /// 物料类型说明
+        /// 描述
         /// </summary>
         public string? Description { get; set; }
 
@@ -38,10 +35,8 @@ namespace Swm.Web.Controllers
         public string? Scope { get; set; }
 
         /// <summary>
-        /// 展示顺序
+        /// 展示次序
         /// </summary>
         public int DisplayOrder { get; set; }
-
     }
-
 }

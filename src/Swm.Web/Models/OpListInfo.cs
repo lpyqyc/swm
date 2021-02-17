@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表页的数据项。
+    /// 操作记录信息
     /// </summary>
-    public class OpListItem
+    public class OpListInfo
     {
         /// <summary>
         /// Id

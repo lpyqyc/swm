@@ -17,12 +17,12 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 脱机巷道的操作参数
+    /// 使巷道脱机和联机的操作参数
     /// </summary>
     public class TakeOfflineArgs
     {
         /// <summary>
-        /// 脱机操作备注
+        /// 脱机或联机的操作备注。联机也需要填写操作备注，操作鼠标偶尔会出现手抖连续误点击的情况，要求填写操作备注，使强制用户使用键盘的安全措施。
         /// </summary>
         [Required]
         public string Comment { get; set; } = default!;

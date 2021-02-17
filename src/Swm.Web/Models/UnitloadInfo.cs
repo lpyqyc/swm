@@ -18,29 +18,19 @@ using System.Collections.Generic;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 用户列表数据项
+    /// 货载列表的数据项
     /// </summary>
-    public class UserListItem
+    public class UnitloadInfo
     {
         /// <summary>
-        /// 用户Id
+        /// 货载Id
         /// </summary>
-        public int UserId { get; set; }
-
+        public int UnitloadId { get; set; }
+        
         /// <summary>
-        /// 用户名
+        /// 托盘号
         /// </summary>
-        public string UserName { get; set; }
-
-        /// <summary>
-        /// 是否内置用户，内置用户不能删除
-        /// </summary>
-        public bool IsBuiltIn { get; set; }
-
-        /// <summary>
-        /// 所属角色
-        /// </summary>
-        public IEnumerable<string> Roles { get; set; }
+        public string PalletCode { get; set; } = default!;
 
         /// <summary>
         /// 创建时间
@@ -48,19 +38,40 @@ namespace Swm.Web.Controllers
         public DateTime ctime { get; set; }
 
         /// <summary>
+        /// 更新时间
+        /// </summary>
+        public DateTime mtime { get; set; }
+
+        /// <summary>
+        /// 所在货位编码
+        /// </summary>
+        public string LocationCode { get; set; } = default!;
+
+
+        /// <summary>
+        /// 所在巷道编码
+        /// </summary>
+        public string? LanewayCode { get; set; }
+
+        /// <summary>
+        /// 托盘是否已分配
+        /// </summary>
+        public bool Allocated { get; set; }
+
+        /// <summary>
         /// 备注
         /// </summary>
         public string? Comment { get; set; }
 
         /// <summary>
-        /// 是否锁定，锁定用户不能登录
+        /// 是否有任务
         /// </summary>
-        public bool IsLocked { get; set; }
+        public bool BeingMoved { get; set; }
 
         /// <summary>
-        /// 锁定原因
+        /// 货载明细列表
         /// </summary>
-        public string? LockedReason { get; set; }
+        public List<UnitloadItemInfo> Items { get; set; } = new List<UnitloadItemInfo>();
     }
 
 }

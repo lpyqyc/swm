@@ -12,28 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 表示角色选项列表中的元素
+    /// 创建和编辑关键点的操作参数
     /// </summary>
-    public class RoleOption
+    public class CreateUpdateKeyPointArgs
     {
         /// <summary>
-        /// 角色Id
+        /// 货位编号
         /// </summary>
-        public int RoleId { get; set; }
+        [Required]
+        public string LocationCode { get; set; } = default!;
 
         /// <summary>
-        /// 角色名
+        /// 请求类型
         /// </summary>
-        public string RoleName { get; set; }
+        public string? RequestType { get; set; }
 
         /// <summary>
-        /// 是否内置角色，内置角色不能删除
+        /// 标记
         /// </summary>
-        public bool IsBuiltIn { get; set; }
+        public string? Tag { get; set; }
 
+        /// <summary>
+        /// 入站数限制
+        /// </summary>
+        [Range(1, 999)]
+        public int InboundLimit { get; set; }
+
+        /// <summary>
+        /// 出站数限制
+        /// </summary>
+        [Range(1, 999)]
+        public int OutboundLimit { get; set; }
     }
 
 }

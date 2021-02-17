@@ -17,9 +17,9 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 创建角色操作的参数
+    /// 创建和编辑角色的操作参数
     /// </summary>
-    public class CreateRoleArgs
+    public class CreateUpdateRoleArgs
     {
         /// <summary>
         /// 角色名称
@@ -32,7 +32,6 @@ namespace Swm.Web.Controllers
         /// </summary>
         public string? Comment { get; set; }
     }
-
 
 
 }

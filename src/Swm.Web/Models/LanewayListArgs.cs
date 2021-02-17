@@ -20,7 +20,7 @@ using System.Collections.Specialized;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表查询参数
+    /// 巷道列表的查询参数
     /// </summary>
     public class LanewayListArgs
     {

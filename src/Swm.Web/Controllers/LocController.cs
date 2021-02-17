@@ -51,7 +51,7 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 获取所有巷道
+        /// 巷道列表
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
@@ -59,10 +59,10 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看巷道)]
-        public async Task<ListData<LanewayListItem>> GetLanewayList([FromQuery] LanewayListArgs args)
+        public async Task<ListData<LanewayInfo>> GetLanewayList([FromQuery] LanewayListArgs args)
         {
             var pagedList = await _session.Query<Laneway>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new LanewayListItem
+            return this.ListData(pagedList, x => new LanewayInfo
             {
                 LanewayId = x.LanewayId,
                 LanewayCode = x.LanewayCode,
@@ -86,7 +86,7 @@ namespace Swm.Web.Controllers
                     Available = x.Value.Available,
                 }).ToArray(),
                 Ports = x.Ports
-                        .Select(x => new PortOption
+                        .Select(x => new PortInfo
                         {
                             PortId = x.PortId,
                             PortCode = x.PortCode,
@@ -103,10 +103,10 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [HttpGet("get-laneway-options")]
         [AutoTransaction]
-        public async Task<OptionsData<LanewayOption>> GetLanewayOptions()
+        public async Task<OptionsData<LanewayInfo>> GetLanewayOptions()
         {
             var items = await _session.Query<Laneway>()
-                .Select(x => new LanewayOption
+                .Select(x => new LanewayInfo
                 {
                     LanewayId = x.LanewayId,
                     LanewayCode = x.LanewayCode,
@@ -158,7 +158,7 @@ namespace Swm.Web.Controllers
         [HttpPost("take-online/{id}")]
         [OperationType(OperationTypes.联机巷道)]
         [AutoTransaction]
-        public async Task<ApiData> TakeOnline(int id, TakeOnlineArgs args)
+        public async Task<ApiData> TakeOnline(int id, TakeOfflineArgs args)
         {
             Laneway laneway = await _session.GetAsync<Laneway>(id);
             if (laneway == null)
@@ -302,10 +302,10 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出口)]
-        public async Task<ListData<PortListItem>> GetPortList([FromQuery] PortListArgs args)
+        public async Task<ListData<PortInfo>> GetPortList([FromQuery] PortListArgs args)
         {
             var pagedList = await _session.Query<Port>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new PortListItem
+            return this.ListData(pagedList, x => new PortInfo
             {
                 PortId = x.PortId,
                 PortCode = x.PortCode,
@@ -324,11 +324,11 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [HttpGet("get-port-options")]
         [AutoTransaction]
-        public async Task<OptionsData<PortOption>> GetPortOptions()
+        public async Task<OptionsData<PortInfo>> GetPortOptions()
         {
             var list = await _session.Query<Port>().ToListAsync();
             var items = list
-                .Select(x => new PortOption
+                .Select(x => new PortInfo
                 {
                     PortId = x.PortId,
                     PortCode = x.PortCode,
@@ -339,7 +339,7 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 货位列表
+        /// 储位列表
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
@@ -347,10 +347,10 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看位置)]
-        public async Task<ListData<StorageLocationListItem>> GetStorageLocationList([FromQuery] StorageLocationListArgs args)
+        public async Task<ListData<StorageLocationInfo>> GetStorageLocationList([FromQuery] StorageLocationListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new StorageLocationListItem
+            return this.ListData(pagedList, x => new StorageLocationInfo
             {
                 LocationId = x.LocationId,
                 LocationCode = x.LocationCode,
@@ -378,10 +378,10 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看位置)]
-        public async Task<ListData<KeyPointListItem>> GetKeyPointList([FromQuery] KeyPointListArgs args)
+        public async Task<ListData<KeyPointInfo>> GetKeyPointList([FromQuery] KeyPointListArgs args)
         {
             var pagedList = await _session.Query<Location>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new KeyPointListItem
+            return this.ListData(pagedList, x => new KeyPointInfo
             {
                 LocationId = x.LocationId,
                 LocationCode = x.LocationCode,
@@ -429,7 +429,7 @@ namespace Swm.Web.Controllers
         [HttpPost("disable-inbound/[[{ids}]]")]
         [OperationType(OperationTypes.禁止入站)]
         [AutoTransaction]
-        public async Task<ApiData> DisableInbound(string ids, DisableInboundArgs args)
+        public async Task<ApiData> DisableInbound(string ids, DisableLocationArgs args)
         {
             List<int> list = ids
                 .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -504,7 +504,7 @@ namespace Swm.Web.Controllers
         [HttpPost("enable-inbound/[[{ids}]]")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ApiData> EnableInbound(string ids, EnableInboundArgs args)
+        public async Task<ApiData> EnableInbound(string ids, DisableLocationArgs args)
         {
             List<int> list = ids
                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -580,7 +580,7 @@ namespace Swm.Web.Controllers
         [HttpPost("disable-outbound/[[{ids}]]")]
         [OperationType(OperationTypes.禁止出站)]
         [AutoTransaction]
-        public async Task<ApiData> DisableOutbound(string ids, DisableOutboundArgs args)
+        public async Task<ApiData> DisableOutbound(string ids, DisableLocationArgs args)
         {
             List<int> list = ids
                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -659,7 +659,7 @@ namespace Swm.Web.Controllers
         [HttpPost("enable-outbound/[[{ids}]]")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ApiData> EnableOutbound(string ids, EnableOutboundArgs args)
+        public async Task<ApiData> EnableOutbound(string ids, DisableLocationArgs args)
         {
             List<int> list = ids
                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -738,7 +738,7 @@ namespace Swm.Web.Controllers
         [HttpPost("create-key-point")]
         [OperationType(OperationTypes.创建关键点)]
         [AutoTransaction]
-        public async Task<ApiData> CreateKeyPoint(CreateKeyPointArgs args)
+        public async Task<ApiData> CreateKeyPoint(CreateUpdateKeyPointArgs args)
         {
             Location loc = _locFactory.CreateLocation(args.LocationCode, LocationTypes.K, null, 0, 0);
             loc.RequestType = args.RequestType;
@@ -761,7 +761,7 @@ namespace Swm.Web.Controllers
         [HttpPost("update-key-point/{id}")]
         [OperationType(OperationTypes.编辑关键点)]
         [AutoTransaction]
-        public async Task<ApiData> UpdateKeyPoint(int id, UpdateKeyPointArgs args)
+        public async Task<ApiData> UpdateKeyPoint(int id, CreateUpdateKeyPointArgs args)
         {
             Location loc = await _session.GetAsync<Location>(id);
             if (loc == null || loc.LocationType != LocationTypes.K)
@@ -781,6 +781,11 @@ namespace Swm.Web.Controllers
             return this.Success();
         }
 
+        /// <summary>
+        /// 创建出口
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         [OperationType(OperationTypes.创建出口)]
         [AutoTransaction]
         [HttpPost("create-port")]
@@ -814,15 +819,6 @@ namespace Swm.Web.Controllers
 
         }
         
-    }
-
-    public record CreatePortArgs
-    {
-        public string PortCode { get; set; }
-
-        public string KP1 { get; set; }
-        
-        public string KP2 { get; set; }
     }
 
 }

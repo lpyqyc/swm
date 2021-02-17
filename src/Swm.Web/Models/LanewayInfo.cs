@@ -1,4 +1,4 @@
-﻿// Copyright 2020 王建军
+// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,75 +12,78 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 任务列表的数据项
+    /// 巷道信息
     /// </summary>
-    public class ArchivedTaskListItem
+    public class LanewayInfo
     {
         /// <summary>
-        /// 任务Id
+        /// 巷道Id
         /// </summary>
-        public int TaskId { get; set; }
+        public int LanewayId { get; init; }
 
         /// <summary>
-        /// 任务号
+        /// 巷道编码
         /// </summary>
-        public string TaskCode { get; set; } = default!;
+        public string LanewayCode { get; init; } = default!;
 
         /// <summary>
-        /// 任务类型
+        /// 是否自动化巷道
         /// </summary>
-        public string TaskType { get; set; } = default!;
+        public bool Automated { get; init; }
 
         /// <summary>
-        /// 托盘号
+        /// 是否双深
         /// </summary>
-        public string PalletCode { get; set; } = default!;
+        public bool DoubleDeep { get; init; }
 
         /// <summary>
-        /// 起点
+        /// 是否离线
         /// </summary>
-        public string StartLocationCode { get; set; } = default!;
+        public bool Offline { get; init; }
 
         /// <summary>
-        /// 终点
+        /// 离线备注
         /// </summary>
-        public string EndLocationCode { get; set; } = default!;
+        public string? OfflineComment { get; init; }
 
         /// <summary>
-        /// 任务下发给Wcs的时间
+        /// 货位总数
         /// </summary>
-        public DateTime SendTime { get; set; }
+        public int TotalLocationCount { get; init; }
 
         /// <summary>
-        /// 货载明细
+        /// 可用货位数
         /// </summary>
-        public List<UnitloadItemInfo> Items { get; set; } = default!;
+        public int AvailableLocationCount { get; init; }
 
         /// <summary>
-        /// 单号
+        /// 保留货位数
         /// </summary>
-        public string OrderCode { get; set; } = default!;
+        public int ReservedLocationCount { get; init; }
 
         /// <summary>
-        /// 备注
+        /// 货位使用率
         /// </summary>
-        public string Comment { get; set; } = default!;
+        public double UsageRate { get; init; }
 
         /// <summary>
-        /// 归档时间，也就是任务完成时间
+        /// 货位使用数据
         /// </summary>
-        public DateTime ArchivedAt { get; set; }
+        public LanewayUsageInfo[]? UsageInfos { get; init; }
 
         /// <summary>
-        /// 是否取消，true 表示已取消
+        /// 可到达的出口
         /// </summary>
-        public bool Cancelled { get; set; }
+        public PortInfo[] Ports { get; init; } = default!;
+
+        /// <summary>
+        /// 总脱机时间
+        /// </summary>
+        public double TotalOfflineHours { get; init; }
+
     }
 
 }

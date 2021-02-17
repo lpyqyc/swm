@@ -59,11 +59,11 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("get-material-list")]
         [OperationType(OperationTypes.查看物料)]
-        public async Task<ListData<MaterialListItem>> GetMaterialList([FromQuery] MaterialListArgs args)
+        public async Task<ListData<MaterialInfo>> GetMaterialList([FromQuery] MaterialListArgs args)
         {
             var pagedList = await _session.Query<Material>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return this.ListData(pagedList, x => new MaterialListItem
+            return this.ListData(pagedList, x => new MaterialInfo
             {
                 MaterialId = x.MaterialId,
                 MaterialCode = x.MaterialCode,
@@ -91,11 +91,11 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("get-material-options")]
-        public async Task<OptionsData<MaterialOption>> GetMaterialOptions([FromQuery] MaterialOptionsArgs args)
+        public async Task<OptionsData<MaterialInfo>> GetMaterialOptions([FromQuery] MaterialOptionsArgs args)
         {
             var items = await _session.Query<Material>()
                 .FilterByKeyword(args.Keyword, args.MaterialType)
-                .Select(x => new MaterialOption
+                .Select(x => new MaterialInfo
                 {
                     MaterialId = x.MaterialId,
                     MaterialCode = x.MaterialCode,
@@ -116,14 +116,14 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("get-material-type-options")]
-        public async Task<OptionsData<MaterialTypeOption>> GetMaterialTypeOptions()
+        public async Task<OptionsData<MaterialTypeInfo>> GetMaterialTypeOptions()
         {
             var appCodes = await _session
                 .Query<AppCode>()
                 .GetAppCodesAsync(AppCodeTypes.MaterialType);
 
             var list = appCodes
-                .Select(x => new MaterialTypeOption
+                .Select(x => new MaterialTypeInfo
                 {
                     MaterialType = x.AppCodeValue,
                     Description = x.Description,
@@ -255,11 +255,11 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("get-flow-list")]
-        public async Task<ListData<FlowListItem>> GetFlowList([FromQuery] FlowListArgs args)
+        public async Task<ListData<FlowInfo>> GetFlowList([FromQuery] FlowListArgs args)
         {
             var pagedList = await _session.Query<Flow>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return this.ListData(pagedList, x => new FlowListItem
+            return this.ListData(pagedList, x => new FlowInfo
             {
                 FlowId = x.FlowId,
                 ctime = x.ctime,
@@ -282,16 +282,16 @@ namespace Swm.Web.Controllers
 
 
         /// <summary>
-        /// 获取业务类型列表数据
+        /// 获取业务类型选择列表
         /// </summary>
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("get-biz-type-options")]
-        public async Task<OptionsData<BizTypeOption>> GetBizTypeOptions()
+        public async Task<OptionsData<BizTypeInfo>> GetBizTypeOptions()
         {
             var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.BizType);
 
-            var items = list.Select(x => new BizTypeOption
+            var items = list.Select(x => new BizTypeInfo
             {
                 BizType = x.AppCodeValue,
                 Description = x.Description,
@@ -350,11 +350,11 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("get-unitload-list")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ListData<UnitloadListItem>> GetUnitloadList([FromQuery] UnitloadListArgs args)
+        public async Task<ListData<UnitloadInfo>> GetUnitloadList([FromQuery] UnitloadListArgs args)
         {
             var pagedList = await _session.Query<Unitload>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return this.ListData(pagedList, x => new UnitloadListItem
+            return this.ListData(pagedList, x => new UnitloadInfo
             {
                 UnitloadId = x.UnitloadId,
                 PalletCode = x.PalletCode,
@@ -390,11 +390,11 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("get-unitload-item-list")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ListData<UnitloadItemListItem>> GetUnitloadItemList([FromQuery] UnitloadItemListArgs args)
+        public async Task<ListData<UnitloadItemInfo>> GetUnitloadItemList([FromQuery] UnitloadItemListArgs args)
         {
             var pagedList = await _session.Query<UnitloadItem>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return this.ListData(pagedList, x => new UnitloadItemListItem
+            return this.ListData(pagedList, x => new UnitloadItemInfo
             {
                 UnitloadItemId = x.UnitloadItemId,
                 PalletCode = x.Unitload.PalletCode,
@@ -479,13 +479,12 @@ namespace Swm.Web.Controllers
                     Uom = i.Uom,
                 }).ToList(),
                 Comment = unitload.Comment,
-                CurrentTask = task == null ? null : new UnitloadDetails.CurrentTaskInfo
-                {
-                    TaskCode = task.TaskCode,
-                    TaskType = task.TaskType,
-                    StartLocationCode = task.Start.LocationCode,
-                    EndLocationCode = task.End.LocationCode,
-                },
+
+                CurrentTaskCode = task?.TaskCode,
+                CurrentTaskType = task?.TaskType,
+                CurrentTaskStartLocationCode = task?.Start?.LocationCode,
+                CurrentTaskEndLocationCode = task?.End?.LocationCode,
+
                 CurrentUat = unitload.CurrentUat?.ToString(),
                 OpHintInfo = unitload.OpHintInfo,
                 OpHintType = unitload.OpHintType,
@@ -501,19 +500,18 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("palletize-standalonely")]
         [OperationType(OperationTypes.独立组盘)]
-        public async Task<ApiData> PalletizeStandalonely(PalletizeWithoutOrderArgs args)
+        public async Task<ApiData> PalletizeStandalonely(PalletizeStandalonelyArgs args)
         {
             List<PalletizationItemInfo<DefaultStockKey>> items = new List<PalletizationItemInfo<DefaultStockKey>>();
-            foreach (var item in args.Items)
+
+            Material material = await _session.Query<Material>().GetMaterialAsync(args.MaterialCode);
+            if (material == null)
             {
-                Material material = await _session.Query<Material>().GetMaterialAsync(item.MaterialCode);
-                if (material == null)
-                {
-                    throw new InvalidOperationException($"物料主数据不存在：【{item.MaterialCode}】");
-                }
-                DefaultStockKey stockKey = new DefaultStockKey(material, item.Batch, item.StockStatus, item.Uom);
-                items.Add(new PalletizationItemInfo<DefaultStockKey> { StockKey = stockKey, Quantity = item.Quantity });
+                throw new InvalidOperationException($"物料主数据不存在：【{args.MaterialCode}】");
             }
+            DefaultStockKey stockKey = new DefaultStockKey(material, args.Batch, args.StockStatus, args.Uom);
+            items.Add(new PalletizationItemInfo<DefaultStockKey> { StockKey = stockKey, Quantity = args.Quantity });
+
 
             var op = await _opHelper.SaveOpAsync($"托盘号：{args.PalletCode}");
 

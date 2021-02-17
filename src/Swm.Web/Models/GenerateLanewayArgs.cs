@@ -17,33 +17,32 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 无单据组盘。
+    /// 生成巷道的操作参数
     /// </summary>
-    public class PalletizeWithoutOrderArgs
+    public class GenerateLanewayArgs
     {
+        /// <summary>
+        /// 巷道编码
+        /// </summary>
         [Required]
-        public string PalletCode { get; set; }
+        public string LanewayCode { get; set; } = default!;
 
-        public ItemInfoToPalletizeWithoutOrder[] Items { get; set; }
+        /// <summary>
+        /// 是否双深
+        /// </summary>
+        public bool DoubleDeep { get; set; }
 
-        public class ItemInfoToPalletizeWithoutOrder
-        {
-            [Required]
-            public string MaterialCode { get; set; }
+        /// <summary>
+        /// 列数
+        /// </summary>
+        [Range(1, 999)]
+        public int Columns { get; set; }
 
-            [Required]
-            public string Batch { get; set; }
-
-            [Required]
-            public string StockStatus { get; set; }
-
-            public decimal Quantity { get; set; }
-
-            [Required]
-            public string Uom { get; set; }
-        }
+        /// <summary>
+        /// 层数
+        /// </summary>
+        [Range(1, 999)]
+        public int Levels { get; set; }
 
     }
-
-
 }

@@ -17,7 +17,7 @@ using System;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 月报的数据
+    /// 月报数据
     /// </summary>
     public class MonthlyReportDetail
     {

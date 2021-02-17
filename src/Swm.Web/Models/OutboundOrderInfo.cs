@@ -12,82 +12,92 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Collections.Generic;
+
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表页的数据项
+    /// 出库单列表页的数据项
     /// </summary>
-    public class KeyPointListItem
+    public class OutboundOrderInfo
     {
         /// <summary>
-        /// 货位 Id
+        /// 出库单Id
         /// </summary>
-        public int LocationId { get; set; }
+        public int OutboundOrderId { get; set; }
 
         /// <summary>
-        /// 货位编码
+        /// 出库单编号。
         /// </summary>
-        public string LocationCode { get; set; } = default!;
-
-
-        /// <summary>
-        /// 入站数
-        /// </summary>
-        public int InboundCount { get; set; }
-
-        /// <summary>
-        /// 禁止入站
-        /// </summary>
-        public bool InboundDisabled { get; set; }
-
-        /// <summary>
-        /// 禁止入站备注
-        /// </summary>
-        public string? InboundDisabledComment { get; set; }
-
-        /// <summary>
-        /// 入站数限制
-        /// </summary>
-        public int InboundLimit { get; set; }
+        public string OutboundOrderCode { get; set; }
 
 
         /// <summary>
-        /// 出站数
+        /// 创建时间
         /// </summary>
-        public int OutboundCount { get; set; }
+        public DateTime ctime { get; set; }
 
         /// <summary>
-        /// 禁止出站
+        /// 创建人
         /// </summary>
-        public bool OutboundDisabled { get; set; }
+        public string cuser { get; set; }
 
         /// <summary>
-        /// 禁止出站备注
+        /// 修改时间
         /// </summary>
-        public string? OutboundDisabledComment { get; set; }
+        public DateTime mtime { get; set; }
 
         /// <summary>
-        /// 出站数限制
+        /// 修改人
         /// </summary>
-        public int OutboundLimit { get; set; }
+        public string muser { get; set; }
 
 
         /// <summary>
-        /// 标记
+        /// 业务类型
         /// </summary>
-        public string? Tag { get; set; }
+        public string BizType { get; set; }
 
         /// <summary>
-        /// 请求类型
+        /// 业务单据号
         /// </summary>
-        public string? RequestType { get; set; }
+        public string BizOrder { get; set; }
 
         /// <summary>
-        /// 货载数
+        /// 是否已关闭
+        /// </summary>
+        public bool Closed { get; set; }
+
+        /// <summary>
+        /// 关闭时间
+        /// </summary>
+        public DateTime? ClosedAt { get; set; }
+
+        /// <summary>
+        /// 由谁关闭
+        /// </summary>
+        public string ClosedBy { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Comment { get; set; }
+
+        /// <summary>
+        /// 出库单明细集合。
+        /// </summary>
+        public List<OutboundLineInfo> Lines { get; set; }
+
+        /// <summary>
+        /// 已分配的货载数
         /// </summary>
         public int UnitloadCount { get; set; }
+
 
     }
 
 
+
 }
+

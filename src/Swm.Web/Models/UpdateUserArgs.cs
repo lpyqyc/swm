@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 编辑用户操作的参数。
+    /// 编辑用户的操作参数。
     /// </summary>
     public class UpdateUserArgs
     {

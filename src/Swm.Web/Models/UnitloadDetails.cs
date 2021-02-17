@@ -69,11 +69,6 @@ namespace Swm.Web.Controllers
         public bool BeingMoved { get; set; }
 
         /// <summary>
-        /// 当前任务
-        /// </summary>
-        public CurrentTaskInfo? CurrentTask { get; set; }
-
-        /// <summary>
         /// 当前分配到的单据
         /// </summary>
         public string? CurrentUat { get; set; }
@@ -83,31 +78,28 @@ namespace Swm.Web.Controllers
         /// </summary>
         public List<UnitloadItemInfo> Items { get; set; } = new List<UnitloadItemInfo>();
 
+
         /// <summary>
-        /// 当前任务信息
+        /// 当前任务号
         /// </summary>
-        public class CurrentTaskInfo
-        {
-            /// <summary>
-            /// 当前任务号
-            /// </summary>
-            public string TaskCode { get; set; } = default!;
+        public string? CurrentTaskCode { get; set; }
 
-            /// <summary>
-            /// 当前任务类型
-            /// </summary>
-            public string TaskType { get; set; } = default!;
+        /// <summary>
+        /// 当前任务类型
+        /// </summary>
+        public string? CurrentTaskType { get; set; }
 
-            /// <summary>
-            /// 起点位置编码
-            /// </summary>
-            public string StartLocationCode { get; set; } = default!;
+        /// <summary>
+        /// 当前任务起点位置编码
+        /// </summary>
+        public string? CurrentTaskStartLocationCode { get; set; }
 
-            /// <summary>
-            /// 终点位置编码
-            /// </summary>
-            public string EndLocationCode { get; set; } = default!;
-        }
+        /// <summary>
+        /// 当前任务终点位置编码
+        /// </summary>
+        public string? CurrentTaskEndLocationCode { get; set; }
+
+
     }
 
 

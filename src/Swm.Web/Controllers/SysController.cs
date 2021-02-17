@@ -146,11 +146,11 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("get-user-list")]
         [OperationType(OperationTypes.查看用户)]
-        public async Task<ListData<UserListItem>> GetUserList([FromQuery] UserListArgs args)
+        public async Task<ListData<UserInfo>> GetUserList([FromQuery] UserListArgs args)
         {
             var pagedList = await _session.Query<User>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return this.ListData(pagedList, x => new UserListItem
+            return this.ListData(pagedList, x => new UserInfo
             {
                 UserId = x.UserId,
                 UserName = x.UserName,
@@ -332,10 +332,10 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("get-role-list")]
         [OperationType(OperationTypes.查看角色)]
-        public async Task<ListData<RoleListItem>> GetRoleList([FromQuery] RoleListArgs args)
+        public async Task<ListData<RoleInfo>> GetRoleList([FromQuery] RoleListArgs args)
         {
             var pagedList = await _session.Query<Role>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new RoleListItem
+            return this.ListData(pagedList, x => new RoleInfo
             {
                 RoleId = x.RoleId,
                 RoleName = x.RoleName,
@@ -352,10 +352,10 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("get-role-options")]
-        public async Task<OptionsData<RoleOption>> GetRoleOptions()
+        public async Task<OptionsData<RoleInfo>> GetRoleOptions()
         {
             var items = await _session.Query<Role>()
-                .Select(x => new RoleOption
+                .Select(x => new RoleInfo
                 {
                     RoleId = x.RoleId,
                     RoleName = x.RoleName,
@@ -373,7 +373,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("create-role")]
         [OperationType(OperationTypes.创建角色)]
-        public async Task<ApiData> CreateRole(CreateRoleArgs args)
+        public async Task<ApiData> CreateRole(CreateUpdateRoleArgs args)
         {
             if (_session.Query<Role>().Any(x => x.RoleName == args.RoleName))
             {
@@ -426,7 +426,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("update-role/{id}")]
         [OperationType(OperationTypes.编辑角色)]
-        public async Task<ApiData> UpdateRole(int id, UpdateRoleArgs args)
+        public async Task<ApiData> UpdateRole(int id, CreateUpdateRoleArgs args)
         {
             Role role = await _session.GetAsync<Role>(id);
             if (role == null)
@@ -457,14 +457,14 @@ namespace Swm.Web.Controllers
         [HttpGet("get-op-list")]
         [DebugShowArgs]
         [AutoTransaction]
-        public async Task<ListData<OpListItem>> GetOpList([FromQuery] OpListArgs args)
+        public async Task<ListData<OpListInfo>> GetOpList([FromQuery] OpListArgs args)
         {
             if (string.IsNullOrWhiteSpace(args.Sort))
             {
                 args.Sort = "opId desc";
             }
             var pagedList = await _session.Query<Op>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new OpListItem
+            return this.ListData(pagedList, x => new OpListInfo
             {
                 OpId = x.OpId,
                 ctime = x.ctime,

@@ -1,4 +1,4 @@
-﻿// Copyright 2020 王建军
+// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,65 +13,59 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 货载列表的数据项
+    /// 列表页的数据项
     /// </summary>
-    public class UnitloadListItem
+    public class PortInfo
     {
         /// <summary>
-        /// 货载Id
+        /// 出口Id
         /// </summary>
-        public int UnitloadId { get; set; }
-        
-        /// <summary>
-        /// 托盘号
-        /// </summary>
-        public string PalletCode { get; set; } = default!;
+        public int PortId { get; init; }
 
         /// <summary>
-        /// 创建时间
+        /// 出口编码
         /// </summary>
-        public DateTime ctime { get; set; }
-
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        public DateTime mtime { get; set; }
-
-        /// <summary>
-        /// 所在货位编码
-        /// </summary>
-        public string LocationCode { get; set; } = default!;
+        public string PortCode { get; init; } = default!;
 
 
         /// <summary>
-        /// 所在巷道编码
+        /// 出口的关键点1，不为 null
         /// </summary>
-        public string? LanewayCode { get; set; }
+        public string KP1 { get; init; } = default!;
 
         /// <summary>
-        /// 托盘是否已分配
+        /// 出口的关键点2，可能为 null
         /// </summary>
-        public bool Allocated { get; set; }
+        public string? KP2 { get; init; }
 
         /// <summary>
-        /// 备注
+        /// 可到达此出口的巷道
         /// </summary>
-        public string? Comment { get; set; }
+        public string[]? Laneways { get; init; }
+
+        // TODO 重命名
+        /// <summary>
+        /// 当前下架的单据
+        /// </summary>
+        public string? CurrentUat { get; init; }
+
+        // TODO 重命名
+        /// <summary>
+        /// 最近一次为此出口调度下架的时间
+        /// </summary>
+        public DateTime? CheckedAt { get; init; }
 
         /// <summary>
-        /// 是否有任务
+        /// 最近一次为此出口调度下架的消息
         /// </summary>
-        public bool BeingMoved { get; set; }
+        public string? CheckMessage { get; init; }
 
-        /// <summary>
-        /// 货载明细列表
-        /// </summary>
-        public List<UnitloadItemInfo> Items { get; set; } = new List<UnitloadItemInfo>();
+
     }
+
 
 }

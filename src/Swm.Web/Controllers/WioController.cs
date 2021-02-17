@@ -71,10 +71,10 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出库单)]
-        public async Task<ListData<OutboundOrderListItem>> GetOutboundOrderList([FromQuery]OutboundOrderListArgs args)
+        public async Task<ListData<OutboundOrderInfo>> GetOutboundOrderList([FromQuery]OutboundOrderListArgs args)
         {
             var pagedList = await _session.Query<OutboundOrder>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new OutboundOrderListItem
+            return this.ListData(pagedList, x => new OutboundOrderInfo
             {
                 OutboundOrderId = x.OutboundOrderId,
                 OutboundOrderCode = x.OutboundOrderCode,
@@ -117,10 +117,10 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出库单)]
-        public async Task<ApiData<OutboundOrderListItem>> GetOutboundOrderDetails(int id)
+        public async Task<ApiData<OutboundOrderInfo>> GetOutboundOrderDetails(int id)
         {
             var outboundOrder = await _session.GetAsync<OutboundOrder>(id);
-            return this.Success(new OutboundOrderListItem
+            return this.Success(new OutboundOrderInfo
             {
                 OutboundOrderId = outboundOrder.OutboundOrderId,
                 OutboundOrderCode = outboundOrder.OutboundOrderCode,
@@ -163,10 +163,10 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出库单)]
-        public async Task<ApiData<UnitloadListItem[]>> GetAllocatedUnitloads(int outboundOrderId)
+        public async Task<ApiData<UnitloadInfo[]>> GetAllocatedUnitloads(int outboundOrderId)
         {
             var outboundOrder = await _session.GetAsync<OutboundOrder>(outboundOrderId);
-            return this.Success(outboundOrder.Unitloads.Select(x => new UnitloadListItem
+            return this.Success(outboundOrder.Unitloads.Select(x => new UnitloadInfo
             {
                 UnitloadId = x.UnitloadId,
                 PalletCode = x.PalletCode,

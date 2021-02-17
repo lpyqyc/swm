@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 设置巷道出口的操作参数。
+    /// 设置巷道可到达的出口的操作参数。
     /// </summary>
     public class SetPortsArgs
     {

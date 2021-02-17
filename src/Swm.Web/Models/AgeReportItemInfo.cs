@@ -20,34 +20,34 @@ namespace Swm.Web.Controllers
     public class AgeReportItemInfo
     {
         /// <summary>
-        /// 料号
+        /// 物料编码
         /// </summary>
-        public string MaterialCode { get; set; }
+        public string MaterialCode { get; set; } = default!;
 
         /// <summary>
-        /// 描述
+        /// 物料描述
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
 
         /// <summary>
-        /// 规格
+        /// 物料规格
         /// </summary>
-        public string Specification { get; set; }
+        public string Specification { get; set; } = default!;
 
         /// <summary>
         /// 批号
         /// </summary>
-        public string Batch { get; set; }
+        public string Batch { get; set; } = default!;
 
         /// <summary>
         /// 库存状态
         /// </summary>
-        public string StockStatus { get; set; }
+        public string StockStatus { get; set; } = default!;
 
         /// <summary>
         /// 计量单位
         /// </summary>
-        public string Uom { get; set; }
+        public string Uom { get; set; } = default!;
 
         /// <summary>
         /// 7天以内的库存数量

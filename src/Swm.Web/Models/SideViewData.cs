@@ -18,7 +18,7 @@ using System.Collections.Generic;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 侧视图数据
+    /// 侧视图数据。
     /// </summary>
     public class SideViewData
     {

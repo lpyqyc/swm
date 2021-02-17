@@ -15,19 +15,19 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 物料选项列表的参数
+    /// 物料选择列表的查询参数
     /// </summary>
     public class MaterialOptionsArgs
     {
         /// <summary>
         /// 关键字
         /// </summary>
-        public string Keyword { get; set; }
+        public string? Keyword { get; set; }
 
         /// <summary>
         /// 物料类型
         /// </summary>
-        public string MaterialType { get; set; }
+        public string? MaterialType { get; set; }
 
         // TODO 不好实现，考虑去掉
         public bool InStockOnly { get; set; }

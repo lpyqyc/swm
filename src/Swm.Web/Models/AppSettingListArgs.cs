@@ -3,7 +3,7 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 参数列表查询参数
+    /// 参数列表的查询参数
     /// </summary>
     public class AppSettingListArgs
     {

@@ -21,9 +21,9 @@ using System.Text.Json.Serialization;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 任务列表的数据项
+    /// 任务信息
     /// </summary>
-    public class TaskListItem
+    public class TaskInfo
     {
         /// <summary>
         /// 任务Id

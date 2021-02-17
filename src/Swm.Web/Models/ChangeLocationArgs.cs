@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 更改货载位置参数
+    /// 更改货载位置的操作参数
     /// </summary>
     public class ChangeLocationArgs
     {

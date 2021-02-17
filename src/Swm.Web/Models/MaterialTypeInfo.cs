@@ -12,29 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 表示出口选项列表中的元素
+    /// 表示物料类型选项列表中的元素
     /// </summary>
-    public class PortOption
+    public class MaterialTypeInfo
     {
         /// <summary>
-        /// 出口Id
+        /// 物料类型
         /// </summary>
-        public int PortId { get; init; }
+        [Required]
+        public string MaterialType { get; set; } = default!;
 
         /// <summary>
-        /// 出口编码
+        /// 物料类型说明
         /// </summary>
-        public string PortCode { get; init; } = default!;
-        
-        // TODO 重命名
+        public string? Description { get; set; }
+
         /// <summary>
-        /// 当前下架的单据
+        /// 适用范围
         /// </summary>
-        public string? CurrentUat { get; init; }
+        public string? Scope { get; set; }
+
+        /// <summary>
+        /// 展示顺序
+        /// </summary>
+        public int DisplayOrder { get; set; }
+
     }
 
-    
 }

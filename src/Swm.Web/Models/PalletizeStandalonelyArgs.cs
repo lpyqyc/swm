@@ -17,37 +17,47 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 编辑关键点操作的参数
+    /// 无单据组盘的操作参数。
     /// </summary>
-    public class UpdateKeyPointArgs
+    public class PalletizeStandalonelyArgs
     {
         /// <summary>
-        /// 货位编号
+        /// 托盘号
         /// </summary>
         [Required]
-        public string LocationCode { get; set; } = default!;
+        public string PalletCode { get; set; } = default!;
 
         /// <summary>
-        /// 请求类型
+        /// 物料编码
         /// </summary>
-        public string? RequestType { get; set; }
+        [Required]
+        public string MaterialCode { get; set; } = default!;
 
         /// <summary>
-        /// 标记
+        /// 批号
         /// </summary>
-        public string? Tag { get; set; }
+        [Required]
+        public string Batch { get; set; } = default!;
 
         /// <summary>
-        /// 入站数限制
+        /// 库存状态
         /// </summary>
-        [Range(1, 999)]
-        public int InboundLimit { get; set; }
+        [Required]
+        public string StockStatus { get; set; } = default!;
 
         /// <summary>
-        /// 出站数限制
+        /// 数量
         /// </summary>
-        [Range(1, 999)]
-        public int OutboundLimit { get; set; }
+        public decimal Quantity { get; set; }
+
+        /// <summary>
+        /// 计量单位
+        /// </summary>
+        [Required]
+        public string Uom { get; set; } = default!;
+
+
     }
+
 
 }

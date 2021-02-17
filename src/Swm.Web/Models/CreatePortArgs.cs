@@ -12,43 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 表示物料选项列表中的元素。
+    /// 创建出口的操作参数
     /// </summary>
-    public class MaterialOption
+    public class CreatePortArgs
     {
         /// <summary>
-        /// 物料Id
+        /// 出口编码
         /// </summary>
-        public int MaterialId { get; set; }
+        [Required]
+        public string PortCode { get; set; } = default!;
 
         /// <summary>
-        /// 物料编码
+        /// 关键点一的编码
         /// </summary>
-        public string MaterialCode { get; set; } = default!;
+        [Required]
+        public string KP1 { get; set; } = default!;
 
         /// <summary>
-        /// 物料描述
+        /// 关键点二的编码，可以为 null
         /// </summary>
-        public string Description { get; set; } = default!;
-
-        /// <summary>
-        /// 物料规格
-        /// </summary>
-        public string Specification  { get; set; } = default!;
-
-        /// <summary>
-        /// 物料类型
-        /// </summary>
-        public string MaterialType { get; set; } = default!;
-
-        /// <summary>
-        /// 计量单位
-        /// </summary>
-        public string Uom { get; set; } = default!;
+        public string? KP2 { get; set; }
     }
-
 
 }

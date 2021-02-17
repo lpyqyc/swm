@@ -50,11 +50,11 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("get-task-list")]
         [OperationType(OperationTypes.查看任务)]
-        public async Task<ListData<TaskListItem>> GetTaskList([FromQuery]TaskListArgs args)
+        public async Task<ListData<TaskInfo>> GetTaskList([FromQuery]TaskListArgs args)
         {
             var pagedList = await _session.Query<TransportTask>().SearchAsync(args, "TaskId DESC", 1, 999);
 
-            return this.ListData(pagedList, x => new TaskListItem
+            return this.ListData(pagedList, x => new TaskInfo
             {
                 TaskId = x.TaskId,
                 TaskCode = x.TaskCode,
@@ -89,7 +89,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("get-archived-task-list")]
         [OperationType(OperationTypes.查看任务)]
-        public async Task<ListData<ArchivedTaskListItem>> GetArchivedTaskList([FromQuery]ArchivedTaskListArgs args)
+        public async Task<ListData<ArchivedTaskInfo>> GetArchivedTaskList([FromQuery]ArchivedTaskListArgs args)
         {
             if (args.Sort == null)
             {
@@ -98,7 +98,7 @@ namespace Swm.Web.Controllers
 
             var pagedList = await _session.Query<ArchivedTransportTask>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return this.ListData(pagedList, x => new ArchivedTaskListItem
+            return this.ListData(pagedList, x => new ArchivedTaskInfo
             {
                 TaskId = x.TaskId,
                 TaskCode = x.TaskCode,

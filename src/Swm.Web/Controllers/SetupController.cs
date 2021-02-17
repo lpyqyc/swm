@@ -99,7 +99,11 @@ namespace Swm.Web.Controllers
             return this.Success();
         }
 
-
+        /// <summary>
+        /// 生成巷道
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         [HttpPost("generate-laneway")]
         [AutoTransaction]
         public async Task<ApiData> GenerateLaneway(GenerateLanewayArgs args)
@@ -200,14 +204,5 @@ WHEN MATCHED THEN UPDATE SET c.o1 = t.o1;");
 
             return this.Success(laneway.LanewayCode);
         }
-    }
-
-    public record GenerateLanewayArgs
-    {
-        public string LanewayCode { get; set; }
-        public bool DoubleDeep { get; set; }
-        public int Columns { get; set; }
-        public int Levels { get; set; }
-
     }
 }

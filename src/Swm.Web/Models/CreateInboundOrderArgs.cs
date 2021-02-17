@@ -18,7 +18,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 创建入库单操作的参数
+    /// 创建入库单的操作参数
     /// </summary>
     public class CreateInboundOrderArgs
     {

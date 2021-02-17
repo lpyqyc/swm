@@ -22,7 +22,7 @@ using System.Linq.Expressions;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 任务列表的查询参数
+    /// 历史任务列表的查询参数
     /// </summary>
     public class ArchivedTaskListArgs
     {

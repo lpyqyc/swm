@@ -25,7 +25,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 出库单明细Id。
         /// </summary>
-        public Int32 OutboundLineId { get; set; }
+        public int OutboundLineId { get; set; }
 
         /// <summary>
         /// 物料Id
@@ -67,7 +67,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 计量单位。
         /// </summary>
-        public String Uom { get; set; } = Cst.None;
+        public string Uom { get; set; } = Cst.None;
 
         /// <summary>
         /// 需求数量。
@@ -87,7 +87,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 备注
         /// </summary>
-        public String Comment { get; set; }
+        public string Comment { get; set; }
     }
 
 }

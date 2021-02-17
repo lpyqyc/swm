@@ -17,7 +17,7 @@ using Arctic.NHibernateExtensions;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 角色列表查询参数
+    /// 角色列表的查询参数
     /// </summary>
     public class RoleListArgs
     {

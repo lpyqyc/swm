@@ -12,92 +12,84 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 出库单列表页的数据项
+    /// 储位信息。
     /// </summary>
-    public class OutboundOrderListItem
+    public class StorageLocationInfo
     {
         /// <summary>
-        /// 出库单Id
+        /// 货位 Id
         /// </summary>
-        public int OutboundOrderId { get; set; }
+        public int LocationId { get; set; }
 
         /// <summary>
-        /// 出库单编号。
+        /// 货位编码
         /// </summary>
-        public string OutboundOrderCode { get; set; }
-
+        public string LocationCode { get; set; } = default!;
 
         /// <summary>
-        /// 创建时间
+        /// 巷道 Id
         /// </summary>
-        public DateTime ctime { get; set; }
+        public int LanewayId { get; set; }
 
         /// <summary>
-        /// 创建人
+        /// 巷道编码
         /// </summary>
-        public string cuser { get; set; }
+        public string LanewayCode { get; set; } = default!;
 
         /// <summary>
-        /// 修改时间
+        /// 限重
         /// </summary>
-        public DateTime mtime { get; set; }
+        public decimal WeightLimit { get; set; }
 
         /// <summary>
-        /// 修改人
+        /// 限高
         /// </summary>
-        public string muser { get; set; }
-
+        public decimal HeightLimit { get; set; }
 
         /// <summary>
-        /// 业务类型
+        /// 入站数
         /// </summary>
-        public string BizType { get; set; }
+        public int InboundCount { get; set; }
 
         /// <summary>
-        /// 业务单据号
+        /// 禁止入站
         /// </summary>
-        public string BizOrder { get; set; }
+        public bool InboundDisabled { get; set; }
 
         /// <summary>
-        /// 是否已关闭
+        /// 禁止入站备注
         /// </summary>
-        public bool Closed { get; set; }
+        public string? InboundDisabledComment { get; set; }
 
         /// <summary>
-        /// 关闭时间
+        /// 出站数
         /// </summary>
-        public DateTime? ClosedAt { get; set; }
+        public int OutboundCount { get; set; }
 
         /// <summary>
-        /// 由谁关闭
+        /// 禁止出站
         /// </summary>
-        public string ClosedBy { get; set; }
+        public bool OutboundDisabled { get; set; }
 
         /// <summary>
-        /// 备注
+        /// 禁止出站备注
         /// </summary>
-        public string Comment { get; set; }
+        public string? OutboundDisabledComment { get; set; }
 
         /// <summary>
-        /// 出库单明细集合。
+        /// 存储分组
         /// </summary>
-        public List<OutboundLineInfo> Lines { get; set; }
+        public string StorageGroup { get; set; } = default!;
 
         /// <summary>
-        /// 已分配的货载数
+        /// 货载数
         /// </summary>
         public int UnitloadCount { get; set; }
-
 
     }
 
 
-
 }
-

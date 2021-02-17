@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,59 +13,54 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表页的数据项
+    /// 用户信息
     /// </summary>
-    public class PortListItem
+    public class UserInfo
     {
         /// <summary>
-        /// 出口Id
+        /// 用户Id
         /// </summary>
-        public int PortId { get; init; }
+        public int UserId { get; set; }
 
         /// <summary>
-        /// 出口编码
+        /// 用户名
         /// </summary>
-        public string PortCode { get; init; } = default!;
-
+        public string UserName { get; set; }
 
         /// <summary>
-        /// 出口的关键点1，不为 null
+        /// 是否内置用户，内置用户不能删除
         /// </summary>
-        public string KP1 { get; init; } = default!;
+        public bool IsBuiltIn { get; set; }
 
         /// <summary>
-        /// 出口的关键点2，可能为 null
+        /// 所属角色
         /// </summary>
-        public string? KP2 { get; init; }
+        public IEnumerable<string> Roles { get; set; }
 
         /// <summary>
-        /// 可到达此出口的巷道
+        /// 创建时间
         /// </summary>
-        public string[]? Laneways { get; init; }
-
-        // TODO 重命名
-        /// <summary>
-        /// 当前下架的单据
-        /// </summary>
-        public string? CurrentUat { get; init; }
-
-        // TODO 重命名
-        /// <summary>
-        /// 检查时间
-        /// </summary>
-        public DateTime? CheckedAt { get; init; }
+        public DateTime ctime { get; set; }
 
         /// <summary>
-        /// 检查时间
+        /// 备注
         /// </summary>
-        public string? CheckMessage { get; init; }
+        public string? Comment { get; set; }
 
+        /// <summary>
+        /// 是否锁定，锁定用户不能登录
+        /// </summary>
+        public bool IsLocked { get; set; }
 
+        /// <summary>
+        /// 锁定原因
+        /// </summary>
+        public string? LockedReason { get; set; }
     }
-
 
 }

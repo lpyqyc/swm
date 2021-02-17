@@ -12,19 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Swm.Model;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 物料列表的数据项
+    /// 流水信息
     /// </summary>
-    public class MaterialListItem
+    public class FlowInfo
     {
         /// <summary>
-        /// 物料Id
+        /// 流水Id
         /// </summary>
-        public int MaterialId { get; set; }
+        public int FlowId { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime ctime { get; set; }
 
         /// <summary>
         /// 物料编码
@@ -33,70 +41,71 @@ namespace Swm.Web.Controllers
         public string MaterialCode { get; set; } = default!;
 
         /// <summary>
-        /// 物料类型
-        /// </summary>
-        public string MaterialType { get; set; } = default!;
-
-        /// <summary>
         /// 物料描述
         /// </summary>
+        [Required]
         public string Description { get; set; } = default!;
 
         /// <summary>
-        /// 规格
+        /// 批号
         /// </summary>
-        public string Specification { get; set; } = default!;
+        [Required]
+        public string Batch { get; set; } = default!;
 
         /// <summary>
-        /// 是否启用批次管理
+        /// 库存状态
         /// </summary>
-        public bool BatchEnabled { get; set; }
+        [Required]
+        public string StockStatus { get; set; } = default!;
 
         /// <summary>
-        /// 物料分组
+        /// 业务类型
         /// </summary>
-        public string? MaterialGroup { get; set; }
+        [Required]
+        public string BizType { get; set; } = default!;
 
         /// <summary>
-        /// 有效天数
+        /// 流动方向
         /// </summary>
-        public decimal ValidDays { get; set; }
+        [Required]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public FlowDirection Direction { get; set; }
 
         /// <summary>
-        /// 静置时间
+        /// 托盘号
         /// </summary>
-        public decimal StandingTime { get; set; }
+        public string? PalletCode { get; set; }
 
         /// <summary>
-        /// ABC分类
+        /// WMS 单号
         /// </summary>
-        public string? AbcClass { get; set; }
+        public string? OrderCode { get; set; }
+
+        /// <summary>
+        /// 业务单号
+        /// </summary>
+        public string? BizOrder { get; set; }
+
+        /// <summary>
+        /// 操作类型
+        /// </summary>
+        public string OperationType { get; set; } = default!;
+
+        /// <summary>
+        /// 数量
+        /// </summary>
+        public decimal Quantity { get; set; }
 
         /// <summary>
         /// 计量单位
         /// </summary>
+        [Required]
         public string Uom { get; set; } = default!;
 
         /// <summary>
-        /// 库存下边界
+        /// 操作人
         /// </summary>
-        public decimal LowerBound { get; set; }
-
-        /// <summary>
-        /// 库存上边界
-        /// </summary>
-        public decimal UpperBound { get; set; }
-
-        // TODO 重命名，分离到单独的结构中
-        /// <summary>
-        /// 默认数量
-        /// </summary>
-        public decimal DefaultQuantity { get; set; }
-
-        /// <summary>
-        /// 默认存储分组
-        /// </summary>
-        public string DefaultStorageGroup { get; set; } = default!;
+        public string? cuser { get; set; }
 
         /// <summary>
         /// 备注
@@ -104,8 +113,6 @@ namespace Swm.Web.Controllers
         public string? Comment { get; set; }
 
     }
-
-
 
 
 }

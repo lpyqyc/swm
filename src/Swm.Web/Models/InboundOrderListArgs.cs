@@ -14,6 +14,8 @@
 
 using Arctic.NHibernateExtensions;
 using Swm.Model;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Swm.Web.Controllers

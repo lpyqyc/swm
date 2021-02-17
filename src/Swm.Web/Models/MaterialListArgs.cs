@@ -17,7 +17,7 @@ using Arctic.NHibernateExtensions;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表查询参数
+    /// 物料主数据列表的查询参数
     /// </summary>
     public class MaterialListArgs
     {

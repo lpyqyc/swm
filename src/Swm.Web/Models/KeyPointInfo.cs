@@ -15,9 +15,9 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表页的数据项
+    /// 关键点信息。
     /// </summary>
-    public class StorageLocationListItem
+    public class KeyPointInfo
     {
         /// <summary>
         /// 货位 Id
@@ -29,25 +29,6 @@ namespace Swm.Web.Controllers
         /// </summary>
         public string LocationCode { get; set; } = default!;
 
-        /// <summary>
-        /// 巷道 Id
-        /// </summary>
-        public int LanewayId { get; set; }
-
-        /// <summary>
-        /// 巷道编码
-        /// </summary>
-        public string LanewayCode { get; set; } = default!;
-
-        /// <summary>
-        /// 限重
-        /// </summary>
-        public decimal WeightLimit { get; set; }
-
-        /// <summary>
-        /// 限高
-        /// </summary>
-        public decimal HeightLimit { get; set; }
 
         /// <summary>
         /// 入站数
@@ -65,6 +46,12 @@ namespace Swm.Web.Controllers
         public string? InboundDisabledComment { get; set; }
 
         /// <summary>
+        /// 入站数限制
+        /// </summary>
+        public int InboundLimit { get; set; }
+
+
+        /// <summary>
         /// 出站数
         /// </summary>
         public int OutboundCount { get; set; }
@@ -80,9 +67,20 @@ namespace Swm.Web.Controllers
         public string? OutboundDisabledComment { get; set; }
 
         /// <summary>
-        /// 存储分组
+        /// 出站数限制
         /// </summary>
-        public string StorageGroup { get; set; } = default!;
+        public int OutboundLimit { get; set; }
+
+
+        /// <summary>
+        /// 标记
+        /// </summary>
+        public string? Tag { get; set; }
+
+        /// <summary>
+        /// 请求类型
+        /// </summary>
+        public string? RequestType { get; set; }
 
         /// <summary>
         /// 货载数

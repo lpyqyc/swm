@@ -4,7 +4,7 @@ using System;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表查询参数
+    /// 实时库存列表的查询参数
     /// </summary>
     public class StockListArgs
     {

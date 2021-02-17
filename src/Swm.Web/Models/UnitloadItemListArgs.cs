@@ -17,7 +17,7 @@ using Arctic.NHibernateExtensions;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 货载项列表的查询参数
+    /// 货载明细列表的查询参数
     /// </summary>
     public class UnitloadItemListArgs
     {

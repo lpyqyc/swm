@@ -20,7 +20,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 用户列表查询参数
+    /// 用户列表的查询参数
     /// </summary>
     public class UserListArgs
     {

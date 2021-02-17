@@ -15,7 +15,7 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 出库单取消分配参数
+    /// 出库单取消分配的操作参数
     /// </summary>
     public class OutboundOrderDeallocateArgs
     {
