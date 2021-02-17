@@ -58,10 +58,13 @@ namespace Swm.Model.Mappings
             Property(cl => cl.HeightLimit);
             Property(cl => cl.Specification);
 
-            ManyToOne(cl => cl.Rack, m => {
-                m.Column("RackId");
+            ManyToOne(cl => cl.Laneway, m => {
+                m.Column("LanewayId");
                 m.Update(false);
             });
+            Property(cl => cl.Side);
+            Property(cl => cl.Deep);
+
             Property(cl => cl.Column, prop => prop.Update(false));
             Property(cl => cl.Level, prop => prop.Update(false));
             Property(cl => cl.StorageGroup);
@@ -69,8 +72,7 @@ namespace Swm.Model.Mappings
             Property(cl => cl.UnitloadCount);
             ManyToOne(cl => cl.Cell, m => {
                 m.Column("CellId");
-                // TODO 仅在生成工具中配置为可更新
-                m.Update(true);
+                m.Update(false);
             });
 
             Property(cl => cl.Tag);

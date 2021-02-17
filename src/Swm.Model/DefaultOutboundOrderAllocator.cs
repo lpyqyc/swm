@@ -118,7 +118,7 @@ namespace Swm.Model
                 .OrderBy(x => x.OutOrdering)
                 .ThenBy(x => x.Unitload.CurrentLocation.Cell.oByShape)
                 .ThenBy(x => x.Unitload.CurrentLocation.Cell.o1)
-                .ThenBy(x => x.Unitload.CurrentLocation.Rack.Deep)
+                .ThenBy(x => x.Unitload.CurrentLocation.Deep)
                 .LoadInChunksAsync(options.ChunkSize);
             await foreach (var item in Union(included, candidateItems))
             {
@@ -310,7 +310,7 @@ namespace Swm.Model
                 passed = false;
             }
 
-            if (InAreas(item.Unitload.CurrentLocation?.Rack?.Laneway?.Area, options.Areas) || options.IncludePallets.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase))
+            if (InAreas(item.Unitload.CurrentLocation.Laneway?.Area, options.Areas) || options.IncludePallets.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase))
             {
                 _logger.Debug("（√）在指定区域、或显式包含");
             }
@@ -320,7 +320,7 @@ namespace Swm.Model
                 passed = false;
             }
 
-            if (item.Unitload.CurrentLocation?.Rack?.Laneway?.Offline == false || options.SkipOfflineLaneways == false || options.IncludePallets.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase))
+            if (item.Unitload.CurrentLocation.Laneway?.Offline == false || options.SkipOfflineLaneways == false || options.IncludePallets.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase))
             {
                 _logger.Debug("（√）巷道未脱机、或允许从脱机巷道分配、或显式包含");
             }

@@ -10,8 +10,8 @@ namespace Swm.Model.Tests
             Location loc = new Location();
             loc.LocationType = LocationTypes.S;
             loc.Cell = For<Cell>();
-            loc.Rack = For<Rack>();
-            loc.Rack.Laneway.Automated.Returns(true);
+            loc.Laneway = For<Laneway>();
+            loc.Laneway.Automated.Returns(true);
             loc.InboundLimit = 1;
             loc.OutboundLimit = 1;
             return loc;

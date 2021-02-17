@@ -42,7 +42,6 @@ namespace Swm.Model
 
             var keys = _session.Query<Laneway>()
                 .Where(x => x == laneway)
-                .SelectMany(x => x.Racks)
                 .SelectMany(x => x.Locations)
                 .Where(x => x.Exists)
                 .GroupBy(x => new
@@ -69,7 +68,6 @@ namespace Swm.Model
             {
                 var q = _session.Query<Laneway>()
                     .Where(x => x == laneway)
-                    .SelectMany(x => x.Racks)
                     .SelectMany(x => x.Locations)
                     .Where(x => x.Exists
                         && x.StorageGroup == key.StorageGroup

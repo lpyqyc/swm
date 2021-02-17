@@ -24,7 +24,7 @@ namespace Swm.Model.Tests
             {
                 LocationType = LocationTypes.S, 
                 Cell = Substitute.For<Cell>(),
-                Rack = Substitute.For<Rack>(),
+                Laneway = Substitute.For<Laneway>(),
             };
 
             Assert.False(loc.Loaded());
@@ -47,7 +47,7 @@ namespace Swm.Model.Tests
             {
                 LocationType = LocationTypes.K,
                 Cell = Substitute.For<Cell>(),
-                Rack = Substitute.For<Rack>(),
+                Laneway = Substitute.For<Laneway>(),
             };
 
             Assert.False(loc.Loaded());
@@ -84,7 +84,7 @@ namespace Swm.Model.Tests
             {
                 LocationType = LocationTypes.K,
                 Cell = Substitute.For<Cell>(),
-                Rack = Substitute.For<Rack>(),
+                Laneway = Substitute.For<Laneway>(),
                 UnitloadCount = 2,
             };
 
@@ -109,7 +109,7 @@ namespace Swm.Model.Tests
             {
                 LocationType = LocationTypes.S,
                 Cell = Substitute.For<Cell>(),
-                Rack = Substitute.For<Rack>(),
+                Laneway = Substitute.For<Laneway>(),
                 UnitloadCount = 2,
             };
 
@@ -135,7 +135,7 @@ namespace Swm.Model.Tests
             {
                 LocationType = LocationTypes.S,
                 Cell = Substitute.For<Cell>(),
-                Rack = Substitute.For<Rack>(),
+                Laneway = Substitute.For<Laneway>(),
                 UnitloadCount = 1,
             };
 

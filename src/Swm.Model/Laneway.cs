@@ -27,7 +27,7 @@ namespace Swm.Model
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this.Automated = true;
-            this.Racks = new HashSet<Rack>();
+            this.Locations = new HashSet<Location>();
             this.Ports = new HashSet<Port>();
             this.Usage = new Dictionary<LanewayUsageKey, LanewayUsageData>();
         }
@@ -57,7 +57,7 @@ namespace Swm.Model
 
         public virtual String Comment { get; set; }
 
-        public virtual ISet<Rack> Racks { get; protected set; }
+        public virtual ISet<Location> Locations { get; protected set; }
 
         public virtual bool Automated { get; set; }
 

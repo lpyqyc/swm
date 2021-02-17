@@ -187,16 +187,6 @@
             <param name="taskInfo"></param>
             <returns></returns>
         </member>
-        <member name="T:Swm.Web.Controllers.ExportSchemaController">
-            <summary>
-            向数据库导出表结构的工具。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.Controllers.ExportSchemaController.Create">
-            <summary>
-            根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.InboundOrdersController">
             <summary>
             操作入库单。
@@ -512,6 +502,16 @@
             库龄报表
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.SetupController">
+            <summary>
+            向数据库导出表结构的工具。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.SetupController.ExportSchema">
+            <summary>
+            根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
+            </summary>
         </member>
         <member name="M:Swm.Web.Controllers.SysController.GetAppSettingList(Swm.Web.Controllers.AppSettingListArgs)">
             <summary>
@@ -2798,14 +2798,24 @@
             巷道编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.SideViewData.Racks">
-            <summary>
-            货架数据
-            </summary>
-        </member>
         <member name="P:Swm.Web.Controllers.SideViewData.Offline">
             <summary>
             巷道是否离线
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewData.LocationCount">
+            <summary>
+            巷道的货位数，不包含 <see cref="P:Swm.Model.Location.Exists"/> 为 false 的货位。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewData.AvailableCount">
+            <summary>
+            巷道的可用货位数，即存在、无货、无入站任务、未禁止入站的货位
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewData.Locations">
+            <summary>
+            巷道的货位，包含 <see cref="P:Swm.Model.Location.Exists"/> 为 false 的货位。
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.SideViewData.OfflineComment">
@@ -2831,6 +2841,16 @@
         <member name="P:Swm.Web.Controllers.SideViewLocation.Loaded">
             <summary>
             是否有货
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.Side">
+            <summary>
+            货架在巷道的哪一侧
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SideViewLocation.Deep">
+            <summary>
+            货架是第几深位
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.SideViewLocation.Level">
@@ -2936,51 +2956,6 @@
         <member name="P:Swm.Web.Controllers.SideViewLocation.o3">
             <summary>
             出次序3
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.SideViewRack">
-            <summary>
-            侧视图货架数据
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SideViewRack.RackCode">
-            <summary>
-            货架编码
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SideViewRack.Side">
-            <summary>
-            货架在巷道的哪一侧
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SideViewRack.Columns">
-            <summary>
-            货架列数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SideViewRack.Levels">
-            <summary>
-            货架层数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SideViewRack.Deep">
-            <summary>
-            货架是第几深位
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SideViewRack.LocationCount">
-            <summary>
-            货架的货位数，不包含 <see cref="P:Swm.Model.Location.Exists"/> 为 false 的货位。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SideViewRack.AvailableCount">
-            <summary>
-            货架的可用货位数，即存在、无货、无入站任务、未禁止入站的货位
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.SideViewRack.Locations">
-            <summary>
-            货架的货位，包含 <see cref="P:Swm.Model.Location.Exists"/> 为 false 的货位。
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.StockListArgs">

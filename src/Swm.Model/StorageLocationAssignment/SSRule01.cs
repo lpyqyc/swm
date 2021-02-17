@@ -86,9 +86,8 @@ namespace Swm.Model.StorageLocationAssignment
             string queryString = $@"
 SELECT loc.LocationId
 FROM Location loc
-JOIN loc.Rack rack
 JOIN loc.Cell c
-WHERE rack.Laneway = :laneway
+WHERE loc.Laneway = :laneway
 
 AND loc.Exists = true
 AND loc.UnitloadCount = 0

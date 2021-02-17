@@ -52,7 +52,7 @@ namespace Swm.Web.Controllers
                 {
                     return null;
                 }
-                return x => LanewayIdList.Contains(x.Rack.Laneway.LanewayId);
+                return x => LanewayIdList.Contains(x.Laneway.LanewayId);
             }
         }
 

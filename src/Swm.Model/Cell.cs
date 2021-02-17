@@ -159,8 +159,8 @@ namespace Swm.Model
 
         void UpdateSD()
         {
-            this.Shape = "SD_" + (this.Locations.Single(x => x.Rack.Deep == RackDeep.Deep1).Loaded() ? "1" : "0")
-                + (this.Locations.Single(x => x.Rack.Deep == RackDeep.Deep2).Loaded() ? "1" : "0");
+            this.Shape = "SD_" + (this.Locations.Single(x => x.Deep == 1).Loaded() ? "1" : "0")
+                + (this.Locations.Single(x => x.Deep == 2).Loaded() ? "1" : "0");
             SDUnitShape shape = (SDUnitShape)Enum.Parse(typeof(SDUnitShape), this.Shape);
             switch (shape)
             {

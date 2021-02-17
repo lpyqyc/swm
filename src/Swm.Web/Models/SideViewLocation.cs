@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Swm.Model;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Swm.Web.Controllers
 {
@@ -36,6 +38,17 @@ namespace Swm.Web.Controllers
         /// 是否有货
         /// </summary>
         public bool Loaded { get; set; }
+
+        /// <summary>
+        /// 货架在巷道的哪一侧
+        /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public RackSide Side { get; set; }
+
+        /// <summary>
+        /// 货架是第几深位
+        /// </summary>
+        public int Deep { get; set; }
 
         /// <summary>
         /// 所在层

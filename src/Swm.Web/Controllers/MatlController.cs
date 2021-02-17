@@ -91,7 +91,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("get-material-options")]
-        public async Task<OptionsData<MaterialOption>> GetMaterialOptions(MaterialOptionsArgs args)
+        public async Task<OptionsData<MaterialOption>> GetMaterialOptions([FromQuery] MaterialOptionsArgs args)
         {
             var items = await _session.Query<Material>()
                 .FilterByKeyword(args.Keyword, args.MaterialType)
@@ -361,7 +361,7 @@ namespace Swm.Web.Controllers
                 ctime = x.ctime,
                 mtime = x.mtime,
                 LocationCode = x.CurrentLocation.LocationCode,
-                LanewayCode = x.CurrentLocation?.Rack?.Laneway?.LanewayCode,
+                LanewayCode = x.CurrentLocation?.Laneway?.LanewayCode,
                 BeingMoved = x.BeingMoved,
                 Items = x.Items.Select(i => new UnitloadItemInfo
                 {
@@ -399,7 +399,7 @@ namespace Swm.Web.Controllers
                 UnitloadItemId = x.UnitloadItemId,
                 PalletCode = x.Unitload.PalletCode,
                 LocationCode = x.Unitload.CurrentLocation.LocationCode,
-                LanewayCode = x.Unitload.CurrentLocation.Rack?.Laneway?.LanewayCode,
+                LanewayCode = x.Unitload.CurrentLocation.Laneway?.LanewayCode,
                 BeingMoved = x.Unitload.BeingMoved,
                 MaterialId = x.Material.MaterialId,
                 MaterialCode = x.Material.MaterialCode,
@@ -463,7 +463,7 @@ namespace Swm.Web.Controllers
                 PalletCode = unitload.PalletCode,
                 ctime = unitload.ctime,
                 LocationCode = unitload.CurrentLocation.LocationCode,
-                LanewayCode = unitload.CurrentLocation?.Rack?.Laneway?.LanewayCode,
+                LanewayCode = unitload.CurrentLocation?.Laneway?.LanewayCode,
                 BeingMoved = unitload.BeingMoved,
                 Items = unitload.Items.Select(i => new UnitloadItemInfo
                 {
