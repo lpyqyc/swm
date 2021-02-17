@@ -91,7 +91,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("get-material-options")]
-        public async Task<OptionsData<MaterialOption>> GetMaterialOptions(MaterialOptionsArgs args)
+        public async Task<OptionsData<MaterialOption>> GetMaterialOptions([FromQuery] MaterialOptionsArgs args)
         {
             var items = await _session.Query<Material>()
                 .FilterByKeyword(args.Keyword, args.MaterialType)
