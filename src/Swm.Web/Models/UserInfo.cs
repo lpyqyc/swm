@@ -30,7 +30,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; set; } = default!;
 
         /// <summary>
         /// 是否内置用户，内置用户不能删除
@@ -40,7 +40,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 所属角色
         /// </summary>
-        public IEnumerable<string> Roles { get; set; }
+        public IEnumerable<string>? Roles { get; set; }
 
         /// <summary>
         /// 创建时间

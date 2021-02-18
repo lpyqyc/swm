@@ -25,6 +25,9 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
+    /// <summary>
+    /// 提供任务 api
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class TskController : ControllerBase

@@ -27,8 +27,9 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
-
-
+    /// <summary>
+    /// 提供位置 api
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class LocController : ControllerBase
@@ -553,13 +554,13 @@ namespace Swm.Web.Controllers
                 if (loc.InboundDisabled)
                 {
                     loc.InboundDisabled = false;
-                    loc.InboundDisabledComment = null;
+                    loc.InboundDisabledComment = args.Comment;
                     await _session.UpdateAsync(loc);
 
                     LocationOp op = new LocationOp
                     {
                         OpType = _opHelper.GetOperationType(),
-                        Comment = null,
+                        Comment = args.Comment,
                         ctime = DateTime.Now,
                         Location = loc
                     };
@@ -711,13 +712,13 @@ namespace Swm.Web.Controllers
                 if (loc.OutboundDisabled)
                 {
                     loc.OutboundDisabled = false;
-                    loc.OutboundDisabledComment = null;
+                    loc.OutboundDisabledComment = args.Comment;
                     await _session.UpdateAsync(loc);
 
                     LocationOp op = new LocationOp
                     {
                         OpType = _opHelper.GetOperationType(),
-                        Comment = null,
+                        Comment = args.Comment,
                         ctime = DateTime.Now,
                         Location = loc
                     };
@@ -791,8 +792,10 @@ namespace Swm.Web.Controllers
         [HttpPost("create-port")]
         public async Task<ApiData> CreatePort(CreatePortArgs args)
         {
-            Port port = new Port();
-            port.PortCode = args.PortCode;
+            Port port = new Port
+            {
+                PortCode = args.PortCode
+            };
             if (string.IsNullOrWhiteSpace(args.KP1) == false)
             {
                 port.KP1 = await CreateKeyPointAsync(_locFactory, _session, args.KP1);

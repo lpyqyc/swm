@@ -9,7 +9,7 @@ namespace Swm.Web.Controllers
     public class OpListInfo
     {
         /// <summary>
-        /// Id
+        /// 操作记录 Id
         /// </summary>
         public int OpId { get; set; }
 

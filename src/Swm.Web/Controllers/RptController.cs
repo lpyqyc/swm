@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
+    /// <summary>
+    /// 提供报表 api
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class RptController : ControllerBase
@@ -36,7 +39,7 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.实时库存)]
-        public async Task<ListData<InventoryReprotItemInfo>> GetInventoryReport([FromQuery] StockListArgs args)
+        public async Task<ListData<InventoryReprotItemInfo>> GetInventoryReport([FromQuery] InventoryReportArgs args)
         {
             var pagedList = await _session.Query<Stock>().Where(x => x.Quantity != 0).SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return this.ListData(pagedList, x => new InventoryReprotItemInfo
@@ -125,8 +128,10 @@ namespace Swm.Web.Controllers
                 .FirstOrDefaultAsync();
             if (prev == null)
             {
-                prev = new MonthlyReport();
-                prev.Month = initMonth.AddMonths(-1);
+                prev = new MonthlyReport
+                {
+                    Month = initMonth.AddMonths(-1)
+                };
             }
 
             if (prev.Month.AddMonths(1) >= thisMonth)
@@ -192,8 +197,10 @@ GROUP BY MaterialId, Batch, StockStatus, Uom";
                 }
             }
 
-            MonthlyReport report = new MonthlyReport();
-            report.Month = prev.Month.AddMonths(1);
+            MonthlyReport report = new MonthlyReport
+            {
+                Month = prev.Month.AddMonths(1)
+            };
             foreach (var entry in list)
             {
                 report.Items.Add(entry);

@@ -15,7 +15,7 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 表示库龄报表的数据项。
+    /// 库龄报表的数据项
     /// </summary>
     public class AgeReportItemInfo
     {

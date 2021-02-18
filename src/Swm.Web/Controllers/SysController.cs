@@ -7,7 +7,6 @@ using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Cryptography;
@@ -16,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
+    /// <summary>
+    /// 提供系统 api
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class SysController : ControllerBase
@@ -34,7 +36,7 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 参数列表
+        /// 系统参数列表
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
@@ -56,8 +58,8 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpPost("update-app-setting/{settingName}")]
-        [OperationType(OperationTypes.更改参数)]
-        public async Task<ApiData> UpdateAppSetting([Required] string? settingName, SetAppSettingArgs args)
+        [OperationType(OperationTypes.更改系统参数)]
+        public async Task<ApiData> UpdateAppSetting([Required] string? settingName, UpdateAppSettingArgs args)
         {
             settingName = settingName?.Trim();
             if (string.IsNullOrEmpty(settingName))
@@ -100,7 +102,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpPost("create-app-setting")]
-        [OperationType(OperationTypes.更改参数)]
+        [OperationType(OperationTypes.更改系统参数)]
         public async Task<ApiData> Create(CreateAppSettingArgs args)
         {
             var settingName = args.SettingName?.Trim();
@@ -179,9 +181,11 @@ namespace Swm.Web.Controllers
             {
                 throw new InvalidOperationException("用户名重复。");
             }
-            User user = new User();
-            user.UserName = args.UserName;
-            user.PasswordSalt = Guid.NewGuid().ToString();
+            User user = new User
+            {
+                UserName = args.UserName,
+                PasswordSalt = Guid.NewGuid().ToString()
+            };
             user.PasswordHash = HashPassword(args.Password, user.PasswordSalt);
 
             SetRoles(user, args.Roles);
@@ -195,7 +199,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 删除用户
         /// </summary>
-        /// <param name="id"><用户id/param>
+        /// <param name="id">用户id</param>
         /// <returns></returns>
         [AutoTransaction]
         [HttpPost("delete-user/{id}")]
@@ -308,19 +312,18 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         internal static string GetMd5Hash(string input)
         {
-            using (MD5 md5Hasher = MD5.Create())
+            using MD5 md5Hasher = MD5.Create();
+
+            byte[] data = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            StringBuilder sBuilder = new StringBuilder();
+
+            for (int i = 0; i < data.Length; i++)
             {
-                byte[] data = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-                StringBuilder sBuilder = new StringBuilder();
-
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
-
-                return sBuilder.ToString();
+                sBuilder.Append(data[i].ToString("x2"));
             }
+
+            return sBuilder.ToString();
         }
 
 
@@ -380,9 +383,11 @@ namespace Swm.Web.Controllers
                 throw new InvalidOperationException("角色名重复。");
             }
 
-            Role role = new Role();
-            role.RoleName = args.RoleName;
-            role.Comment = args.Comment;
+            Role role = new Role
+            {
+                RoleName = args.RoleName,
+                Comment = args.Comment
+            };
 
             await _session.SaveAsync(role);
             await _opHelper.SaveOpAsync("RoleId: {0}，角色名：{1}。", role.RoleId, role.RoleName);

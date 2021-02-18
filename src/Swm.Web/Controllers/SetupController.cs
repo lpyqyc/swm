@@ -113,8 +113,10 @@ namespace Swm.Web.Controllers
             int columns = args.Columns;
             int levels = args.Levels;
 
-            Laneway laneway = new Laneway(args.DoubleDeep);
-            laneway.LanewayCode = args.LanewayCode;
+            Laneway laneway = new Laneway(args.DoubleDeep)
+            {
+                LanewayCode = args.LanewayCode
+            };
             await _session.SaveAsync(laneway).ConfigureAwait(false);
             List<(string rackCode, RackSide side, int deep)> racks = new List<(string rack, RackSide side, int deep)>();
             if (args.DoubleDeep)
@@ -139,13 +141,15 @@ namespace Swm.Web.Controllers
                         k++;
                         int col = j + 1;
                         int lv = i + 1;
-                        Cell cell = new Cell();
-                        cell.Laneway = laneway;
-                        cell.Side = side.Key;
-                        cell.Column = col;
-                        cell.Level = lv;
-                        cell.i1 = laneway.LanewayId * 10000 + k;
-                        cell.o1 = laneway.LanewayId * 10000 + k;
+                        Cell cell = new Cell
+                        {
+                            Laneway = laneway,
+                            Side = side.Key,
+                            Column = col,
+                            Level = lv,
+                            i1 = laneway.LanewayId * 10000 + k,
+                            o1 = laneway.LanewayId * 10000 + k
+                        };
 
                         foreach (var rack in side)
                         {

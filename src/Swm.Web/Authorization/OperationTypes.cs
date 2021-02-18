@@ -34,7 +34,7 @@ namespace Swm.Web
         public const string 模拟完成 = "调试.模拟完成";
 
 
-        public const string 更改参数 = "系统.更改设置";
+        public const string 更改系统参数 = "系统.更改系统参数";
         public const string 查看用户 = "系统.查看用户";
         public const string 创建用户 = "系统.创建用户";
         public const string 删除用户 = "系统.删除用户";

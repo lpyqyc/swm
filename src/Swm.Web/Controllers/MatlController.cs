@@ -30,6 +30,9 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
+    /// <summary>
+    /// 提供物料 api
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class MatlController : ControllerBase
@@ -390,11 +393,11 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("get-unitload-item-list")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ListData<UnitloadItemInfo>> GetUnitloadItemList([FromQuery] UnitloadItemListArgs args)
+        public async Task<ListData<ChangeStockStatusUnitloadItemInfo>> GetChangeStockStatusUnitloadItemList([FromQuery] ChangeStockStatusUnitloadItemListArgs args)
         {
             var pagedList = await _session.Query<UnitloadItem>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
-            return this.ListData(pagedList, x => new UnitloadItemInfo
+            return this.ListData(pagedList, x => new ChangeStockStatusUnitloadItemInfo
             {
                 UnitloadItemId = x.UnitloadItemId,
                 PalletCode = x.Unitload.PalletCode,

@@ -32,7 +32,7 @@ namespace Swm.Web.Controllers
         public string LocationType { get; } = LocationTypes.S;
 
         /// <summary>
-        /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+        /// 货位编码。支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
         [SearchArg(SearchMode.Like)]
         public string? LocationCode { get; set; }

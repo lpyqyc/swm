@@ -12,20 +12,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
 namespace Swm.Web.Controllers
 {
-    // TODO 多处引用，写转换函数
     /// <summary>
-    /// 货载明细信息
+    /// 为变更库存状态展示的货载明细信息
     /// </summary>
-    public class UnitloadItemInfo
+    public class ChangeStockStatusUnitloadItemInfo
     {
         /// <summary>
         /// 货载项Id
         /// </summary>
         public int UnitloadItemId { get; set; }
+
+        /// <summary>
+        /// 托盘号
+        /// </summary>
+        public string PalletCode { get; set; } = default!;
+
+        /// <summary>
+        /// 所在货位编码
+        /// </summary>
+        public string LocationCode { get; set; } = default!;
+
+
+        /// <summary>
+        /// 所在巷道编码
+        /// </summary>
+        public string? LanewayCode { get; set; }
+
+        /// <summary>
+        /// 托盘是否已分配
+        /// </summary>
+        public bool Allocated { get; set; }
+
+        /// <summary>
+        /// 托盘是否有任务
+        /// </summary>
+        public bool BeingMoved { get; set; }
+
+        /// <summary>
+        /// 托盘是否有盘点错误
+        /// </summary>
+        public bool HasCountingError { get; set; }
 
         /// <summary>
         /// 物料Id
@@ -71,6 +99,17 @@ namespace Swm.Web.Controllers
         /// 计量单位
         /// </summary>
         public string Uom { get; set; } = default!;
+
+        /// <summary>
+        /// 是否可变更库存状态
+        /// </summary>
+        public bool CanChangeStockStatus { get; set; }
+
+        /// <summary>
+        /// 不可变更库存状态的原因
+        /// </summary>
+        public string ReasonWhyStockStatusCannotBeChanged { get; set; } = string.Empty;
+
     }
 
 }

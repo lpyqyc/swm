@@ -4,19 +4,19 @@ using System;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 实时库存列表的查询参数
+    /// 实时库存报表的查询参数
     /// </summary>
-    public class StockListArgs
+    public class InventoryReportArgs
     {
         /// <summary>
-        /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+        /// 物料编码
         /// </summary>
-        [SearchArg(SearchMode.Like)]
+        [SearchArg(SearchMode.Equal)]
         [SourceProperty("Material.MaterialCode")]
         public string? MaterialCode { get; set; }
 
         /// <summary>
-        /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+        /// 批号
         /// </summary>
         [SearchArg(SearchMode.Like)]
         public string? Batch { get; set; }

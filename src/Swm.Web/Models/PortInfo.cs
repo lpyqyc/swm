@@ -17,7 +17,7 @@ using System;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表页的数据项
+    /// 出口信息
     /// </summary>
     public class PortInfo
     {

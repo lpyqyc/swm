@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 列表页的数据项。
+    /// 库存信息
     /// </summary>
     public class InventoryReprotItemInfo
     {
@@ -22,24 +22,24 @@ namespace Swm.Web.Controllers
         /// 物料代码
         /// </summary>
         [Required]
-        public string MaterialCode { get; set; }
+        public string MaterialCode { get; set; } = default!;
 
         /// <summary>
         /// 物料描述
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
 
         /// <summary>
         /// 批号
         /// </summary>
-        public string Batch { get; set; }
+        public string Batch { get; set; } = default!;
 
         /// <summary>
         /// 库存状态
         /// </summary>
         [MaxLength(10)]
         [Required]
-        public string StockStatus { get; set; }
+        public string StockStatus { get; set; } = default!;
 
         /// <summary>
         /// 数量
@@ -50,14 +50,14 @@ namespace Swm.Web.Controllers
         /// 计量单位
         /// </summary>
         [Required]
-        public string Uom { get; set; }
+        public string Uom { get; set; } = default!;
 
         /// <summary>
         /// 出库次序
         /// </summary>
         [MaxLength(20)]
         [Required]
-        public string OutOrdering { get; set; }
+        public string OutOrdering { get; set; } = default!;
 
         /// <summary>
         /// 库龄基线

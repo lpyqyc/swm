@@ -43,7 +43,7 @@ namespace Swm.Web.Controllers
         public string Description { get; set; } = default!;
 
         /// <summary>
-        /// 规格
+        /// 物料规格
         /// </summary>
         public string Specification { get; set; } = default!;
 
@@ -63,7 +63,7 @@ namespace Swm.Web.Controllers
         public decimal ValidDays { get; set; }
 
         /// <summary>
-        /// 静置时间
+        /// 静置时间（以小时为单位）
         /// </summary>
         public decimal StandingTime { get; set; }
 

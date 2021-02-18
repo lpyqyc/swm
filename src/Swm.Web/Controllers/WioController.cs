@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 出入库。
+    /// 提供出入库 api。
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]

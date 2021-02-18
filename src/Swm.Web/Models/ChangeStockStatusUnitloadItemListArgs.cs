@@ -19,7 +19,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 货载明细列表的查询参数
     /// </summary>
-    public class UnitloadItemListArgs
+    public class ChangeStockStatusUnitloadItemListArgs
     {
         /// <summary>
         /// 托盘号

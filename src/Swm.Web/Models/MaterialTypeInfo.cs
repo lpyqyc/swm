@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 表示物料类型选项列表中的元素
+    /// 物料类型信息
     /// </summary>
     public class MaterialTypeInfo
     {

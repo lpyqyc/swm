@@ -20,7 +20,7 @@ using System.Linq;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 日志查询参数
+    /// 日志列表的查询参数
     /// </summary>
     public class LogListArgs
     {

@@ -31,14 +31,14 @@ namespace Swm.Web.Controllers
         public string LocationType { get; } = LocationTypes.K;
 
         /// <summary>
-        /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+        /// 位置编码。支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
         [SearchArg(SearchMode.Like)]
         public string? LocationCode { get; set; }
 
 
         /// <summary>
-        /// 支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
+        /// 标记。支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
         [SearchArg(SearchMode.Like)]
         public string? Tag { get; set; }

@@ -40,7 +40,7 @@ namespace Swm.Web.Controllers
         public string? PalletCode { get; set; }
 
         /// <summary>
-        /// 托盘号
+        /// 任务类型
         /// </summary>
         [SearchArg(SearchMode.Like)]
         public string? TaskType { get; set; }
