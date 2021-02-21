@@ -775,7 +775,7 @@
             出库单下架
             </summary>
             <param name="id">出库单 Id</param>
-            <param name="ports">港口编码</param>
+            <param name="ports">出口编码</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.WioController.CheckOnCloseAsync(Swm.Model.OutboundOrder)">
@@ -2843,7 +2843,7 @@
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.CurrentUat">
             <summary>
-            当前下架的单据
+            当前下架的单据，例如“出库单”
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.CheckedAt">

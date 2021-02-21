@@ -334,6 +334,11 @@ namespace Swm.Web.Controllers
                     PortId = x.PortId,
                     PortCode = x.PortCode,
                     CurrentUat = x.CurrentUat?.ToString(),
+                    KP1 = x.KP1.LocationCode,
+                    KP2 = x.KP2?.LocationCode,
+                    Laneways = x.Laneways.Select(x => x.LanewayCode).ToArray(),
+                    CheckedAt = x.CheckedAt,
+                    CheckMessage = x.CheckMessage,
                 })
                 .ToList();
             return this.OptionsData(items);

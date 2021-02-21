@@ -42,16 +42,16 @@ namespace Swm.Model
         /// <summary>
         /// 出库单Id
         /// </summary>
-        public virtual Int32 OutboundOrderId { get; protected set; }
+        public virtual int OutboundOrderId { get; protected set; }
 
         /// <summary>
         /// 出库单编号。
         /// </summary>
         [Required]
         [MaxLength(20)]
-        public virtual String OutboundOrderCode { get; set; }
+        public virtual string OutboundOrderCode { get; set; }
 
-        public virtual Int32 v { get; set; }
+        public virtual int v { get; set; }
 
         /// <summary>
         /// 创建时间

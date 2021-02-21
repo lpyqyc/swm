@@ -49,9 +49,10 @@ namespace Swm.Web.Controllers
 
         // TODO 重命名
         /// <summary>
-        /// 当前下架的单据
+        /// 当前下架的单据，例如“出库单”
         /// </summary>
         public string? CurrentUat { get; init; }
+
 
         // TODO 重命名
         /// <summary>

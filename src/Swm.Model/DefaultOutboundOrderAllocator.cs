@@ -238,7 +238,7 @@ namespace Swm.Model
                 passed = false;
             }
 
-            if (line.Batch == null || line.Batch == item.Batch)
+            if (string.IsNullOrWhiteSpace(line.Batch) || line.Batch == item.Batch)
             {
                 _logger.Debug("（√）批号匹配");
             }
