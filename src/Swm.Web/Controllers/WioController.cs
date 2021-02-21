@@ -507,16 +507,21 @@ namespace Swm.Web.Controllers
             return this.Success();
         }
 
-
+        /// <summary>
+        /// 出库单下架
+        /// </summary>
+        /// <param name="id">出库单 Id</param>
+        /// <param name="ports">出口编码</param>
+        /// <returns></returns>
         [AutoTransaction]
         [OperationType(OperationTypes.出库单下架)]
-        [HttpPost]
+        [HttpPost("attach-to-ports/{id}")]
         public async Task<ApiData> AttachToPorts(int id, string[] ports)
         {
             OutboundOrder obo = _session.Get<OutboundOrder>(id);
             _logger.Information("正在将出库单附加到出口");
             _logger.Debug("出库单 Id 是 {outboundOrderId}", id);
-            _logger.Debug("出口是 {ports} 上", ports);
+            _logger.Debug("出口是 {ports}", ports);
 
             if (obo == null || obo.Closed)
             {

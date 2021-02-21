@@ -770,6 +770,14 @@
             <param name="args">取消参数</param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.WioController.AttachToPorts(System.Int32,System.String[])">
+            <summary>
+            出库单下架
+            </summary>
+            <param name="id">出库单 Id</param>
+            <param name="ports">港口编码</param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.WioController.CheckOnCloseAsync(Swm.Model.OutboundOrder)">
             <summary>
             对出库单进行关闭前检查。
