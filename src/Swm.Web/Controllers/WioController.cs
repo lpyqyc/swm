@@ -508,6 +508,59 @@ namespace Swm.Web.Controllers
         }
 
 
+        [AutoTransaction]
+        [OperationType(OperationTypes.出库单下架)]
+        [HttpPost]
+        public async Task<ApiData> AttachToPorts(int id, string[] ports)
+        {
+            OutboundOrder obo = _session.Get<OutboundOrder>(id);
+            _logger.Information("正在将出库单附加到出口");
+            _logger.Debug("出库单 Id 是 {outboundOrderId}", id);
+            _logger.Debug("出口是 {ports} 上", ports);
+
+            if (obo == null || obo.Closed)
+            {
+                string errmsg = string.Format("出库单不存在，或已关闭，#{0}。", id);
+                throw new InvalidOperationException(errmsg);
+            }
+
+            _logger.Information("出库单单号 {outboundOrderCode}", obo.OutboundOrderCode);
+            if (obo.Unitloads.Where(x => x.InRack()).Count() == 0)
+            {
+                _logger.Warning("出库单 {outboundOrderCode} 在货架上没有货载", obo.OutboundOrderCode);
+                return this.Failure($"出库单 {obo.OutboundOrderCode} 在货架上没有货载");
+            }
+
+            if (ports == null)
+            {
+                ports = new string[0];
+            }
+
+            var arr = _session.Query<Port>().Where(x => ports.Contains(x.PortCode)).ToArray();
+            var prev = _session.Query<Port>().Where(x => x.CurrentUat == obo).ToArray();
+
+            // 移除页面上没有指定的
+            var deleted = prev.Where(x => arr.Contains(x) == false);
+            foreach (var port in deleted)
+            {
+                _logger.Debug("将 {outboundOrderCode} 从 {port} 移除", obo.OutboundOrderCode, port.PortCode);
+                port.ResetCurrentUat();
+            }
+
+            // 添加页面上新增的
+            var added = arr.Except(prev);
+            foreach (var port in added)
+            {
+                port.SetCurrentUat(obo);
+                _logger.Debug("将 {outboundOrderCode} 附加到 {port}", obo.OutboundOrderCode, port.PortCode);
+            }
+
+            string str = string.Join(", ", _session.Query<Port>().Where(x => x.CurrentUat == obo).Select(x => x.PortCode));
+            await _opHelper.SaveOpAsync("{0}@{1}", obo.OutboundOrderCode, str);
+
+            return this.Success();
+        }
+
 
         /// <summary>
         /// 对出库单进行关闭前检查。
