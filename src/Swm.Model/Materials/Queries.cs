@@ -115,9 +115,9 @@ namespace Swm.Model
             if (string.IsNullOrEmpty(keyword) == false)
             {
                 q = q.Where(x =>
-                    Arctic.NHibernateExtensions.SqlMethods.Like(x.MaterialCode, keyword)
-                    || Arctic.NHibernateExtensions.SqlMethods.Like(x.Description, keyword)
-                    || Arctic.NHibernateExtensions.SqlMethods.Like(x.MnemonicCode, keyword)
+                    x.MaterialCode.Contains(keyword)
+                    || x.Description.Contains(keyword)
+                    || x.MnemonicCode.Contains(keyword)
                 );
             }
 
