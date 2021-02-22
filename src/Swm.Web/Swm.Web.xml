@@ -790,7 +790,7 @@
             </summary>
             <param name="outboundOrder"></param>
         </member>
-        <member name="M:Swm.Web.Controllers.WioController.GetAvailableQuantity(Swm.Web.Controllers.GetQuantityArgs)">
+        <member name="M:Swm.Web.Controllers.WioController.GetAvailableQuantity(Swm.Web.Controllers.GetAvailableQuantityArgs)">
             <summary>
             获取可用库存数量
             </summary>
@@ -1668,27 +1668,27 @@
             层数
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.GetQuantityArgs">
+        <member name="T:Swm.Web.Controllers.GetAvailableQuantityArgs">
             <summary>
             批号选择列表的查询参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.GetQuantityArgs.MaterialCode">
+        <member name="P:Swm.Web.Controllers.GetAvailableQuantityArgs.MaterialCode">
             <summary>
             物料编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.GetQuantityArgs.StockStatus">
+        <member name="P:Swm.Web.Controllers.GetAvailableQuantityArgs.StockStatus">
             <summary>
             库存状态
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.GetQuantityArgs.Batch">
+        <member name="P:Swm.Web.Controllers.GetAvailableQuantityArgs.Batch">
             <summary>
             批号
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.GetQuantityArgs.OutboundOrderCode">
+        <member name="P:Swm.Web.Controllers.GetAvailableQuantityArgs.OutboundOrderCode">
             <summary>
             出库单号
             </summary>
