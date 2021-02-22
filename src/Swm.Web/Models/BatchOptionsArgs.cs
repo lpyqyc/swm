@@ -15,9 +15,9 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 物料选择列表的查询参数
+    /// 批号选择列表的查询参数
     /// </summary>
-    public class MaterialOptionsArgs
+    public class BatchOptionsArgs
     {
         /// <summary>
         /// 关键字
@@ -25,14 +25,14 @@ namespace Swm.Web.Controllers
         public string? Keyword { get; set; }
 
         /// <summary>
-        /// 物料类型
+        /// 物料编码
         /// </summary>
-        public string? MaterialType { get; set; }
+        public string? MaterialCode { get; set; }
 
         /// <summary>
-        /// 是否只取有库存的物料
+        /// 库存状态
         /// </summary>
-        public bool InStockOnly { get; set; }
+        public string? StockStatus { get; set; }
 
         /// <summary>
         /// 取多少条记录，默认为 10
@@ -40,6 +40,5 @@ namespace Swm.Web.Controllers
         public int? Limit { get; set; } = 10;
 
     }
-
 
 }

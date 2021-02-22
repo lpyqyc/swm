@@ -413,6 +413,12 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.MatlController.GetBatchOptions(Swm.Web.Controllers.BatchOptionsArgs)">
+            <summary>
+            查找有库存的批号
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.MatlController.GetMaterialTypeOptions">
             <summary>
             获取物料类型的选项列表
@@ -784,6 +790,13 @@
             </summary>
             <param name="outboundOrder"></param>
         </member>
+        <member name="M:Swm.Web.Controllers.WioController.GetAvailableQuantity(Swm.Web.Controllers.GetQuantityArgs)">
+            <summary>
+            获取可用库存数量
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.Controllers.AgeReportItemInfo">
             <summary>
             库龄报表的数据项
@@ -1012,6 +1025,31 @@
         <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.PageSize">
             <summary>
             每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.BatchOptionsArgs">
+            <summary>
+            批号选择列表的查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.BatchOptionsArgs.Keyword">
+            <summary>
+            关键字
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.BatchOptionsArgs.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.BatchOptionsArgs.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.BatchOptionsArgs.Limit">
+            <summary>
+            取多少条记录，默认为 10
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.ChangeLocationArgs">
@@ -1628,6 +1666,31 @@
         <member name="P:Swm.Web.Controllers.GenerateLanewayArgs.Levels">
             <summary>
             层数
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.GetQuantityArgs">
+            <summary>
+            批号选择列表的查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetQuantityArgs.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetQuantityArgs.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetQuantityArgs.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetQuantityArgs.OutboundOrderCode">
+            <summary>
+            出库单号
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.InboundLineInfo">
@@ -2409,6 +2472,11 @@
         <member name="P:Swm.Web.Controllers.MaterialOptionsArgs.MaterialType">
             <summary>
             物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.MaterialOptionsArgs.InStockOnly">
+            <summary>
+            是否只取有库存的物料
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.MaterialOptionsArgs.Limit">

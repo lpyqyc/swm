@@ -114,6 +114,44 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
+        /// 查找有库存的批号
+        /// </summary>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpGet("get-batch-options")]
+        public async Task<OptionsData<string>> GetBatchOptions([FromQuery] BatchOptionsArgs args)
+        {
+            var keyword = args?.Keyword?.Trim();
+            var materialCode = args?.MaterialCode?.Trim();
+            var stockStatus = args?.StockStatus?.Trim();
+
+            var q = _session.Query<UnitloadItem>();
+            if (keyword != null)
+            {
+                q = q.Where(x => x.Batch.Contains(keyword));
+            }
+
+            if (materialCode != null)
+            {
+                q = q.Where(x => x.Material.MaterialCode == materialCode);
+            }
+
+            if (stockStatus != null)
+            {
+                q = q.Where(x => x.StockStatus == stockStatus);
+            }
+
+            List<string> arr = await q
+                .Select(x => x.Batch)
+                .OrderBy(x => x)
+                .Distinct()
+                .Take(args?.Limit ?? 10)
+                .ToListAsync();
+
+            return this.OptionsData(arr);
+        }
+
+        /// <summary>
         /// 获取物料类型的选项列表
         /// </summary>
         /// <returns></returns>
@@ -344,6 +382,7 @@ namespace Swm.Web.Controllers
 
             return this.OptionsData(items);
         }
+
 
         /// <summary>
         /// 货载列表

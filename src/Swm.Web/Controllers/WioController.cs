@@ -605,6 +605,65 @@ namespace Swm.Web.Controllers
             //}
         }
 
+        /// <summary>
+        /// 获取可用库存数量
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpGet("get-available-quantity")]
+        public async Task<ActionResult<ApiData<decimal>>> GetAvailableQuantity([FromQuery] GetAvailableQuantityArgs args)
+        {
+            string? material = args?.MaterialCode?.Trim();
+            string? stockStatus = args?.StockStatus?.Trim();
+            string? batch = args?.Batch?.Trim();
+            string? outboundOrderCode = args?.OutboundOrderCode?.Trim();
+
+            var q = _session.Query<UnitloadItem>()
+                .Where(x => x.Unitload.OpHintType == Cst.None
+                    && x.Unitload.HasCountingError == false
+                    && x.Unitload.BeingMoved == false
+                );
+
+            if (material != null)
+            {
+                q = q.Where(x => x.Material.MaterialCode == material);
+            }
+
+            if (stockStatus != null)
+            {
+                q = q.Where(x => x.StockStatus == stockStatus);
+            }
+
+            if (batch != null)
+            {
+                q = q.Where(x => x.Batch == batch);
+            }
+
+            if (outboundOrderCode == null)
+            {
+                q = q.Where(x => x.Unitload.CurrentUat == null);
+            }
+            else
+            {
+                OutboundOrder o = await _session.Query<OutboundOrder>().Where(x => x.OutboundOrderCode == outboundOrderCode).SingleOrDefaultAsync();
+                if (o == null)
+                {
+                    q = q.Where(x => x.Unitload.CurrentUat == null);
+                }
+                else
+                {
+                    q = q.Where(x => x.Unitload.CurrentUat == null || x.Unitload.CurrentUat == o);
+                }
+            }
+
+            var sum = q.Sum(x => (decimal?)x.Quantity) ?? 0m;
+
+            string str = sum.ToString("0.###");
+            return Content(str);
+        }
+
+
 
     }
 
