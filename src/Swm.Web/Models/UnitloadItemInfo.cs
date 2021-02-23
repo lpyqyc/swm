@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Swm.Web.Controllers
 {
@@ -68,9 +70,45 @@ namespace Swm.Web.Controllers
         public decimal Quantity { get; set; }
 
         /// <summary>
+        /// 已分配给出库单的数量
+        /// </summary>
+        public decimal QuantityAllocatedToOutboundOrder
+        {
+            get
+            {
+                return this.AllocationsToOutboundOrder == null || this.AllocationsToOutboundOrder.Length == 0 
+                    ? 0m 
+                    : this.AllocationsToOutboundOrder.Sum(x => x.QuantityAllocated);
+            }
+        }
+
+        /// <summary>
+        /// 分配给出库单行的数量明细，字典的键表示出库单明细的Id，字典的值表示分配的数量
+        /// </summary>
+        public AllocationInfoToOutboundOrder[]? AllocationsToOutboundOrder { get; set; }
+
+        /// <summary>
         /// 计量单位
         /// </summary>
         public string Uom { get; set; } = default!;
+
+
+        /// <summary>
+        /// 分配信息
+        /// </summary>
+        public class AllocationInfoToOutboundOrder
+        {
+            /// <summary>
+            /// 出库单明细Id
+            /// </summary>
+            public int OutboundLineId { get; set; }
+
+            /// <summary>
+            /// 分配数量
+            /// </summary>
+            public decimal QuantityAllocated { get; set; }
+        }
     }
+
 
 }

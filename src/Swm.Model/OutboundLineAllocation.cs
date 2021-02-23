@@ -66,7 +66,4 @@ namespace Swm.Model
             return !(left == right);
         }
     }
-
-
-
 }

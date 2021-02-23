@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Specialized;
 using System.Linq;
 
 namespace Swm.Web.Controllers
@@ -24,31 +22,6 @@ namespace Swm.Web.Controllers
     public class LogTraceArgs
     {
         /// <summary>
-        /// 查询开始时间
-        /// </summary>
-        public DateTime TimeFrom { get; set; }
-
-        /// <summary>
-        /// 取多少秒
-        /// </summary>
-        public int? Seconds { get; set; }
-
-        /// <summary>
-        /// 计算得到的查询结束时间
-        /// </summary>
-        internal DateTime? TimeTo
-        {
-            get
-            {
-                if (this.Seconds.HasValue)
-                {
-                    return this.TimeFrom.AddSeconds(Seconds.Value);
-                }
-                return null;
-            }
-        }
-
-        /// <summary>
         /// 请求Id
         /// </summary>
         public string? RequestId { get; set; }
@@ -57,6 +30,13 @@ namespace Swm.Web.Controllers
         /// 要查询的关键字
         /// </summary>
         public string? Keyword { get; set; }
+
+
+        /// <summary>
+        /// 日志级别
+        /// </summary>
+        public string[]? Levels { get; set; }
+
 
         /// <summary>
         /// 在查询对象上应用筛选条件
@@ -78,11 +58,9 @@ namespace Swm.Web.Controllers
                 q = q.Where(x => x.Message.Contains(Keyword));
             }
 
-            q = q.Where(x => x.Time >= TimeFrom);
-
-            if (TimeTo != null)
+            if (Levels != null)
             {
-                q = q.Where(x => x.Time <= TimeTo);
+                q = q.Where(x => Levels.Contains(x.Level));
             }
 
             return q;

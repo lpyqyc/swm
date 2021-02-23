@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "LogDb": "Server=localhost;Database=wms_logs;Integrated Security=SSPI;"
+    "LogDb": "Server=localhost;Database=swm_logs;Integrated Security=SSPI;"
   },
   "Serilog": {
     "Using": [ "Serilog.Expressions" ],

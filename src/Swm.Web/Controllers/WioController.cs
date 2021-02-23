@@ -186,6 +186,20 @@ namespace Swm.Web.Controllers
                     Batch = i.Batch,
                     StockStatus = i.StockStatus,
                     Quantity = i.Quantity,
+                    AllocationsToOutboundOrder = outboundOrder.Lines
+                        .SelectMany(line => line.Allocations.Select(alloc => new 
+                        {
+                            line.OutboundLineId,
+                            alloc.Quantity,
+                            alloc.UnitloadItem
+                        }))
+                        .Where(x => x.UnitloadItem == i)
+                        .Select(x => new UnitloadItemInfo.AllocationInfoToOutboundOrder
+                        {
+                            OutboundLineId = x.OutboundLineId,
+                            QuantityAllocated = x.Quantity,
+                        })
+                        .ToArray(),
                     Uom = i.Uom,
                 }).ToList(),
                 Allocated = (x.CurrentUat != null),
