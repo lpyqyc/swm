@@ -36,7 +36,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 备注
         /// </summary>
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
 
         public List<EditOutboundLineInfo> Lines { get; set; }
