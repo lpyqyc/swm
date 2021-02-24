@@ -440,7 +440,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpGet("get-unitload-detail/{palletCode}")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ApiData<UnitloadDetail>> GetUnitloadDetails(string palletCode)
+        public async Task<ApiData<UnitloadDetail>> GetUnitloadDetail(string palletCode)
         {
             var unitload = await _session.Query<Unitload>()
                 .Where(x => x.PalletCode == palletCode)
