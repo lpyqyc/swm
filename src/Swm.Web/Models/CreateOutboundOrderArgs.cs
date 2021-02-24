@@ -26,7 +26,7 @@ namespace Swm.Web.Controllers
         /// 业务类型
         /// </summary>
         [Required]
-        public string BizType { get; set; }
+        public string BizType { get; set; } = default!;
 
         /// <summary>
         /// 业务单据号
@@ -38,8 +38,10 @@ namespace Swm.Web.Controllers
         /// </summary>
         public string? Comment { get; set; }
 
-
-        public List<EditOutboundLineInfo> Lines { get; set; }
+        /// <summary>
+        /// 出库行信息
+        /// </summary>
+        public List<EditOutboundLineInfo> Lines { get; set; } = default!;
     }
 
 }
