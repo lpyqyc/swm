@@ -68,19 +68,7 @@ namespace Swm.Web.Controllers
                 SendTime = x.SendTime,
                 OrderCode = x.OrderCode,
                 Comment = x.Comment,
-                Items = x.Unitload.Items.Select(i => new UnitloadItemInfo
-                {
-                    UnitloadItemId = i.UnitloadItemId,
-                    MaterialId = i.Material.MaterialId,
-                    MaterialCode = i.Material.MaterialCode,
-                    MaterialType = i.Material.MaterialType,
-                    Description = i.Material.Description,
-                    Specification = i.Material.Specification,
-                    Batch = i.Batch,
-                    StockStatus = i.StockStatus,
-                    Quantity = i.Quantity,
-                    Uom = i.Uom,
-                }).ToList(),
+                Items = x.Unitload.Items.Select(i => DtoConvert.ToUnitloadItemInfo(i)).ToList(),
             });
         }
 
@@ -114,19 +102,7 @@ namespace Swm.Web.Controllers
                 Comment = x.Comment,
                 ArchivedAt = x.ArchivedAt,
                 Cancelled = x.Cancelled,
-                Items = x.Unitload.Items.Select(i => new UnitloadItemInfo
-                {
-                    UnitloadItemId = i.UnitloadItemId,
-                    MaterialId = i.Material.MaterialId,
-                    MaterialCode = i.Material.MaterialCode,
-                    MaterialType = i.Material.MaterialType,
-                    Description = i.Material.Description,
-                    Specification = i.Material.Specification,
-                    Batch = i.Batch,
-                    StockStatus = i.StockStatus,
-                    Quantity = i.Quantity,
-                    Uom = i.Uom,
-                }).ToList(),
+                Items = x.Unitload.Items.Select(i => DtoConvert.ToUnitloadItemInfo(i)).ToList(),
             });
         }
 

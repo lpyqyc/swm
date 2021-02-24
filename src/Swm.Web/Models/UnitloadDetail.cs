@@ -20,7 +20,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 货载详情
     /// </summary>
-    public class UnitloadDetails
+    public class UnitloadDetail
     {
         /// <summary>
         /// 货载Id
@@ -42,6 +42,10 @@ namespace Swm.Web.Controllers
         /// </summary>
         public string LocationCode { get; set; } = default!;
 
+        /// <summary>
+        /// 货载到达当前位置的时间
+        /// </summary>
+        public DateTime LocationTime { get; set; } = default!;
 
         /// <summary>
         /// 所在巷道编码

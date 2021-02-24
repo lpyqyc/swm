@@ -395,33 +395,7 @@ namespace Swm.Web.Controllers
         public async Task<ListData<UnitloadInfo>> GetUnitloadList([FromQuery] UnitloadListArgs args)
         {
             var pagedList = await _session.Query<Unitload>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-
-            return this.ListData(pagedList, x => new UnitloadInfo
-            {
-                UnitloadId = x.UnitloadId,
-                PalletCode = x.PalletCode,
-                ctime = x.ctime,
-                mtime = x.mtime,
-                LocationCode = x.CurrentLocation.LocationCode,
-                LanewayCode = x.CurrentLocation?.Laneway?.LanewayCode,
-                BeingMoved = x.BeingMoved,
-                Items = x.Items.Select(i => new UnitloadItemInfo
-                {
-                    UnitloadItemId = i.UnitloadItemId,
-                    MaterialId = i.Material.MaterialId,
-                    MaterialCode = i.Material.MaterialCode,
-                    MaterialType = i.Material.MaterialType,
-                    Description = i.Material.Description,
-                    Specification = i.Material.Specification,
-                    Batch = i.Batch,
-                    StockStatus = i.StockStatus,
-                    Quantity = i.Quantity,
-                    Uom = i.Uom,
-                }).ToList(),
-                Allocated = (x.CurrentUat != null),
-
-                Comment = x.Comment
-            });
+            return this.ListData(pagedList, x => DtoConvert.ToUnitloadInfo(x));
         }
 
         /// <summary>
@@ -461,77 +435,22 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 货载详情
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [AutoTransaction]
-        [HttpGet("get-unitload-details/{id}")]
-        [OperationType(OperationTypes.查看货载)]
-        public async Task<ApiData<UnitloadDetails>> GetUnitloadDetails(int id)
-        {
-            var unitload = await _session.GetAsync<Unitload>(id);
-            if (unitload == null)
-            {
-                throw new InvalidOperationException("货载不存在。");
-            }
-
-            return this.Success(ToUnitloadDetails(unitload));
-        }
-
-        /// <summary>
-        /// 货载详情
-        /// </summary>
         /// <param name="palletCode"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet("get-unitload-details/{palletCode}")]
+        [HttpGet("get-unitload-detail/{palletCode}")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ApiData<UnitloadDetails>> GetUnitloadDetails(string palletCode)
+        public async Task<ApiData<UnitloadDetail>> GetUnitloadDetails(string palletCode)
         {
-            var unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == palletCode).SingleOrDefaultAsync();
+            var unitload = await _session.Query<Unitload>()
+                .Where(x => x.PalletCode == palletCode)
+                .SingleOrDefaultAsync();
             if (unitload == null)
             {
                 throw new InvalidOperationException("货载不存在。");
             }
 
-            return this.Success(ToUnitloadDetails(unitload));
-        }
-
-        private UnitloadDetails ToUnitloadDetails(Unitload unitload)
-        {
-            var task = unitload.GetCurrentTask();
-            return new UnitloadDetails
-            {
-                UnitloadId = unitload.UnitloadId,
-                PalletCode = unitload.PalletCode,
-                ctime = unitload.ctime,
-                LocationCode = unitload.CurrentLocation.LocationCode,
-                LanewayCode = unitload.CurrentLocation?.Laneway?.LanewayCode,
-                BeingMoved = unitload.BeingMoved,
-                Items = unitload.Items.Select(i => new UnitloadItemInfo
-                {
-                    UnitloadItemId = i.UnitloadItemId,
-                    MaterialId = i.Material.MaterialId,
-                    MaterialCode = i.Material.MaterialCode,
-                    MaterialType = i.Material.MaterialType,
-                    Description = i.Material.Description,
-                    Specification = i.Material.Specification,
-                    Batch = i.Batch,
-                    StockStatus = i.StockStatus,
-                    Quantity = i.Quantity,
-                    Uom = i.Uom,
-                }).ToList(),
-                Comment = unitload.Comment,
-
-                CurrentTaskCode = task?.TaskCode,
-                CurrentTaskType = task?.TaskType,
-                CurrentTaskStartLocationCode = task?.Start?.LocationCode,
-                CurrentTaskEndLocationCode = task?.End?.LocationCode,
-
-                CurrentUat = unitload.CurrentUat?.ToString(),
-                OpHintInfo = unitload.OpHintInfo,
-                OpHintType = unitload.OpHintType,
-
-            };
+            return this.Success(DtoConvert.ToUnitloadDetail(unitload));
         }
 
         /// <summary>

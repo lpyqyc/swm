@@ -166,46 +166,7 @@ namespace Swm.Web.Controllers
         public async Task<ApiData<UnitloadInfo[]>> GetAllocatedUnitloads(int outboundOrderId)
         {
             var outboundOrder = await _session.GetAsync<OutboundOrder>(outboundOrderId);
-            return this.Success(outboundOrder.Unitloads.Select(x => new UnitloadInfo
-            {
-                UnitloadId = x.UnitloadId,
-                PalletCode = x.PalletCode,
-                ctime = x.ctime,
-                mtime = x.mtime,
-                LocationCode = x.CurrentLocation.LocationCode,
-                LanewayCode = x.CurrentLocation?.Laneway?.LanewayCode,
-                BeingMoved = x.BeingMoved,
-                Items = x.Items.Select(i => new UnitloadItemInfo
-                {
-                    UnitloadItemId = i.UnitloadItemId,
-                    MaterialId = i.Material.MaterialId,
-                    MaterialCode = i.Material.MaterialCode,
-                    MaterialType = i.Material.MaterialType,
-                    Description = i.Material.Description,
-                    Specification = i.Material.Specification,
-                    Batch = i.Batch,
-                    StockStatus = i.StockStatus,
-                    Quantity = i.Quantity,
-                    AllocationsToOutboundOrder = outboundOrder.Lines
-                        .SelectMany(line => line.Allocations.Select(alloc => new 
-                        {
-                            line.OutboundLineId,
-                            alloc.Quantity,
-                            alloc.UnitloadItem
-                        }))
-                        .Where(x => x.UnitloadItem == i)
-                        .Select(x => new UnitloadItemInfo.AllocationInfoToOutboundOrder
-                        {
-                            OutboundLineId = x.OutboundLineId,
-                            QuantityAllocated = x.Quantity,
-                        })
-                        .ToArray(),
-                    Uom = i.Uom,
-                }).ToList(),
-                Allocated = (x.CurrentUat != null),
-
-                Comment = x.Comment
-            }).ToArray());
+            return this.Success(outboundOrder.Unitloads.Select(x => DtoConvert.ToUnitloadInfo(x)).ToArray());
         }
 
 
