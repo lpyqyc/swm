@@ -1,4 +1,4 @@
-﻿// Copyright 2020 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,16 +20,22 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 编辑出库单操作的参数
     /// </summary>
-    public class EditOutboundOrderArgs
+    public class UpdateOutboundOrderArgs
     {
+        /// <summary>
+        /// 业务单号
+        /// </summary>
+        public string? BizOrder { get; set; }
+
         /// <summary>
         /// 备注
         /// </summary>
-        [Required]
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
-
-        public List<EditOutboundLineInfo> Lines { get; set; }
+        /// <summary>
+        /// 出库明细
+        /// </summary>
+        public List<EditOutboundLineInfo>? Lines { get; set; }
     }
 
 }

@@ -504,7 +504,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MatlController.GetUnitloadDetails(System.String)">
+        <member name="M:Swm.Web.Controllers.MatlController.GetUnitloadDetail(System.String)">
             <summary>
             货载详情
             </summary>
