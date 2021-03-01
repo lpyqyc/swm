@@ -231,7 +231,7 @@ namespace Swm.Web.Controllers
         [HttpPost("update-outbound-order/{id}")]
         [OperationType(OperationTypes.编辑出库单)]
         [AutoTransaction]
-        public async Task<ApiData> Edit(int id, EditOutboundOrderArgs args)
+        public async Task<ApiData> UpdateOutboundOrder(int id, UpdateOutboundOrderArgs args)
         {
             OutboundOrder outboundOrder = _session.Get<OutboundOrder>(id);
             if (outboundOrder == null)
@@ -253,6 +253,7 @@ namespace Swm.Web.Controllers
                 throw new InvalidOperationException(errMsg);
             }
 
+            outboundOrder.BizOrder = args.BizOrder;
             outboundOrder.Comment = args.Comment;
 
             if (args.Lines == null || args.Lines.Count == 0)
