@@ -50,7 +50,7 @@ namespace Swm.Web
         {
             return new ApiData
             {
-                Success = true,
+                Success = false,
                 ErrorMessage = errorMessage,
                 Host = controller.Request.Host.ToString(),
                 TraceId = controller.HttpContext.TraceIdentifier,

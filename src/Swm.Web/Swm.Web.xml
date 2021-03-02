@@ -758,7 +758,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.WioController.Edit(System.Int32,Swm.Web.Controllers.EditOutboundOrderArgs)">
+        <member name="M:Swm.Web.Controllers.WioController.UpdateOutboundOrder(System.Int32,Swm.Web.Controllers.UpdateOutboundOrderArgs)">
             <summary>
             编辑出库单
             </summary>
@@ -1510,16 +1510,6 @@
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.Comment">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.EditOutboundOrderArgs">
-            <summary>
-            编辑出库单操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundOrderArgs.Comment">
             <summary>
             备注
             </summary>
@@ -3818,6 +3808,26 @@
         <member name="P:Swm.Web.Controllers.UpdateAppSettingArgs.SettingValue">
             <summary>
             参数值
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UpdateOutboundOrderArgs">
+            <summary>
+            编辑出库单操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateOutboundOrderArgs.BizOrder">
+            <summary>
+            业务单号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateOutboundOrderArgs.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateOutboundOrderArgs.Lines">
+            <summary>
+            出库明细
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.UpdateUserArgs">
