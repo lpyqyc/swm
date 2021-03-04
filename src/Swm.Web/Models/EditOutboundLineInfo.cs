@@ -67,7 +67,7 @@ namespace Swm.Web.Controllers
         /// 需求数量。
         /// </summary>
         [Range(0, int.MaxValue)]
-        public decimal QuantityRequired { get; set; }
+        public decimal QuantityDemanded { get; set; }
 
         /// <summary>
         /// 备注

@@ -27,9 +27,9 @@ namespace Swm.Model
     public class OutboundOrder : IHasCtime, IHasCuser, IHasMtime, IHasMuser, IUnitloadAllocationTable
     {
         /// <summary>
-        /// 分配表类型描述
+        /// 出库单作为分配表时的根类型常量
         /// </summary>
-        public const string UatTypeDescription = "出库单";
+        public const string UatRootType = nameof(OutboundOrder);
 
         public OutboundOrder()
         {
@@ -154,7 +154,7 @@ namespace Swm.Model
         {
             return Lines.SelectMany(x => x.Allocations)
                 .Where(x => x.UnitloadItem == unitloadItem)
-                .Sum(x => x.Quantity);
+                .Sum(x => x.QuantityAllocated);
         }
 
 

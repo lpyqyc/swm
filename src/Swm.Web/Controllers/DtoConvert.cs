@@ -55,20 +55,14 @@ namespace Swm.Web.Controllers
                 Batch = unitloadItem.Batch,
                 StockStatus = unitloadItem.StockStatus,
                 Quantity = unitloadItem.Quantity,
-                AllocationsToOutboundOrder = obo?.Lines
-                    ?.SelectMany(line => line.Allocations.Select(alloc => new
+                AllocationsToOutboundOrder = unitloadItem.Allocations
+                    .Where(x => x.OutboundDemand is OutboundLine)
+                    .Select(x => new UnitloadItemInfo.AllocationInfoToOutboundOrder
                     {
-                        line.OutboundLineId,
-                        alloc.Quantity,
-                        alloc.UnitloadItem
-                    }))
-                    ?.Where(x => x.UnitloadItem == unitloadItem)
-                    ?.Select(x => new UnitloadItemInfo.AllocationInfoToOutboundOrder
-                    {
-                        OutboundLineId = x.OutboundLineId,
-                        QuantityAllocated = x.Quantity,
+                        OutboundLineId = ((OutboundLine)x.OutboundDemand).OutboundLineId,
+                        QuantityAllocated = x.QuantityAllocated,
                     })
-                    ?.ToArray(),
+                    .ToArray(),
                 Uom = unitloadItem.Uom,
             };
         }

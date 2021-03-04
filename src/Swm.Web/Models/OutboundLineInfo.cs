@@ -72,17 +72,17 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 需求数量。
         /// </summary>
-        public decimal QuantityRequired { get; set; }
+        public decimal QuantityDemanded { get; set; }
 
         /// <summary>
         /// 已出数量
         /// </summary>
-        public decimal QuantityDelivered { get; set; }
+        public decimal QuantityFulfilled { get; set; }
 
         /// <summary>
         /// 未出数量，MAX(应出-已出, 0)
         /// </summary>
-        public decimal QuantityUndelivered { get; set; }
+        public decimal QuantityUnfulfilled { get; set; }
 
         /// <summary>
         /// 备注

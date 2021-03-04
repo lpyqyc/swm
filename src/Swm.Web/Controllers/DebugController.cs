@@ -81,5 +81,12 @@ namespace Swm.Web.Controllers
             var op = await _opHelper.SaveOpAsync("{0}", taskInfo);
             return this.Success();
         }
+
+
+        [HttpGet("get-name")]
+        public ApiData GetName()
+        {
+            return this.Success(OutboundOrder.UatRootType);
+        }
     }
 }

@@ -189,13 +189,8 @@ namespace Swm.Model
             }
             var taken = Math.Min(available, line.ComputeShortage());
 
-            // 更新货载项的分配信息
-            OutboundLineAllocation allocation = new OutboundLineAllocation();
-            allocation.UnitloadItem = item;
-            allocation.Quantity = taken;
-            line.Allocations.Add(allocation);
-
-            item.Unitload.SetCurrentUat(line.OutboundOrder, OutboundOrder.UatTypeDescription);
+            line.Allocate(item, taken);
+            item.Unitload.SetCurrentUat(line.OutboundOrder, OutboundOrder.UatRootType);
             await _session.UpdateAsync(item.Unitload).ConfigureAwait(false);
 
             _logger.Information("为出库单明细 {outboundLine} 从货载项 {unitloadItem} 中分配了 {quantity} {uom}", line, item, taken, item.Uom);
@@ -415,7 +410,7 @@ namespace Swm.Model
             {
                 foreach (var alloc in line.Allocations.Where(x => x.UnitloadItem.Unitload == unitload).ToArray())
                 {
-                    line.Allocations.Remove(alloc);
+                    line.Deallocate(alloc);
                 }
             }
 
