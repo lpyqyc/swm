@@ -35,27 +35,18 @@ namespace Swm.Model.Mappings
             Property(cl => cl.StockStatus);
 
             Property(cl => cl.Uom);
-            Property(cl => cl.QuantityRequired);
-            Property(cl => cl.QuantityDelivered);
-            Property(cl => cl.QuantityUndelivered);
+            Property(cl => cl.QuantityDemanded);
+            Property(cl => cl.QuantityFulfilled);
             Property(cl => cl.Dirty);
 
             Property(cl => cl.Comment);
 
             Set(cl => cl.Allocations, set => {
-                set.Table("OutboundLineAllocations");
+                set.Inverse(true);
                 set.BatchSize(10);
-                set.Key(key => key.Column("OutboundLineId"));
-            }, rel => rel.Component(comp =>
-            {
-                comp.ManyToOne(cl => cl.UnitloadItem, m => {
-                    m.Column("UnitloadItemId");
-                    m.NotNullable(true);
-                    m.Update(false);
-                });
-                comp.Property(cl => cl.Quantity);
-            }));
-
+                set.Where($"OutboundDemandRootType = N'{OutboundLine.OutboundDemandRootType}'");
+                set.Key(key => key.Column("OutboundDemandId"));
+            }, rel => rel.OneToMany());
         }
     }
 

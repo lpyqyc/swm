@@ -319,11 +319,11 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.GetSideViewData(System.Int32)">
+        <member name="M:Swm.Web.Controllers.LocController.GetSideViewData(System.String)">
             <summary>
             巷道侧视图
             </summary>
-            <param name="id">巷道Id</param>
+            <param name="lanewayCode">巷道编号</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.LocController.RebuildLanewaysStat">
@@ -1504,7 +1504,7 @@
             计量单位。
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.QuantityRequired">
+        <member name="P:Swm.Web.Controllers.EditOutboundLineInfo.QuantityDemanded">
             <summary>
             需求数量。
             </summary>
@@ -2715,17 +2715,17 @@
             计量单位。
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.OutboundLineInfo.QuantityRequired">
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.QuantityDemanded">
             <summary>
             需求数量。
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.OutboundLineInfo.QuantityDelivered">
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.QuantityFulfilled">
             <summary>
             已出数量
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.OutboundLineInfo.QuantityUndelivered">
+        <member name="P:Swm.Web.Controllers.OutboundLineInfo.QuantityUnfulfilled">
             <summary>
             未出数量，MAX(应出-已出, 0)
             </summary>

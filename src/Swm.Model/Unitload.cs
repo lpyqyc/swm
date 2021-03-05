@@ -90,27 +90,27 @@ namespace Swm.Model
         /// CurrentUat 的类型，用于帮助映射 <see cref="IUnitloadAllocationTable.Unitloads"/> 属性。
         /// </summary>
         /// <remarks>
-        /// 映射 <see cref="CurrentUat"/> 属性的 any 元素的 CurrentUatType 列，取值可能是基类名称，也有可能是子类名称，CurrentUatTypeDescription 是为了提供固定不变的值。
+        /// 映射 <see cref="CurrentUat"/> 属性的 any 元素的 CurrentUatType 列，取值可能是基类名称，也有可能是子类名称，CurrentUatRootType 是为了提供固定不变的值。
         /// </remarks>
         [MaxLength(4)]
-        public virtual string CurrentUatTypeDescription { get; protected set; }
+        public virtual string CurrentUatRootType { get; protected set; }
 
 
         /// <summary>
-        /// 设置 <see cref="CurrentUat"/> 和 <see cref="CurrentUatTypeDescription"/> 属性。
+        /// 设置 <see cref="CurrentUat"/> 和 <see cref="CurrentUatRootType"/> 属性。
         /// </summary>
         /// <param name="uat"></param>
-        /// <param name="uatTypeDescription"></param>
-        public virtual void SetCurrentUat(IUnitloadAllocationTable uat, string uatTypeDescription)
+        /// <param name="uatRootType"></param>
+        public virtual void SetCurrentUat(IUnitloadAllocationTable uat, string uatRootType)
         {
             if (uat == null)
             {
                 throw new ArgumentNullException(nameof(uat));
             }
             
-            if (uatTypeDescription == null)
+            if (uatRootType == null)
             {
-                throw new ArgumentNullException(nameof(uatTypeDescription));
+                throw new ArgumentNullException(nameof(uatRootType));
             }
 
             if (this.CurrentUat != null && this.CurrentUat != uat)
@@ -119,16 +119,16 @@ namespace Swm.Model
             }
 
             this.CurrentUat = uat;
-            this.CurrentUatTypeDescription = uatTypeDescription;
+            this.CurrentUatRootType = uatRootType;
         }
 
         /// <summary>
-        /// 清除 <see cref="CurrentUat"/> 和 <see cref="CurrentUatTypeDescription"/> 属性。
+        /// 清除 <see cref="CurrentUat"/> 和 <see cref="CurrentUatRootType"/> 属性。
         /// </summary>
         public virtual void ResetCurrentUat()
         {
             this.CurrentUat = null;
-            this.CurrentUatTypeDescription = null;
+            this.CurrentUatRootType = null;
         }
 
         /// <summary>

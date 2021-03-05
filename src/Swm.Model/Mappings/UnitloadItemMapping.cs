@@ -50,6 +50,17 @@ namespace Swm.Model.Mappings
             Property(cl => cl.ProductionTime);
             Property(cl => cl.StockStatus);
 
+            Set(cl => cl.Allocations, set => {
+                set.Inverse(true);
+                set.Cascade(Cascade.All | Cascade.DeleteOrphans);
+                set.BatchSize(10);
+                set.Key(key => {
+                    key.Column(nameof(UnitloadItem.UnitloadItemId));
+                    key.NotNullable(true);
+                    key.Update(false);
+                });
+            }, rel => rel.OneToMany());
+
         }
     }
 

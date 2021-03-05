@@ -65,7 +65,7 @@ namespace Swm.Model.Mappings
             Property(cl => cl.CurrentLocationTime);
 
             // TODO 重命名
-            Property(cl => cl.CurrentUatTypeDescription);
+            Property(cl => cl.CurrentUatRootType);
             Any(cl => cl.CurrentUat, typeof(int), m =>
             {
                 m.Lazy(false);

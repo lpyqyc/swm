@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Model
@@ -59,6 +60,7 @@ namespace Swm.Model
         [Required]
         public virtual string OutOrdering { get; set; }
 
+        public virtual ISet<UnitloadItemAllocation> Allocations { get; protected set; } = new HashSet<UnitloadItemAllocation>();
 
         public override string ToString()
         {

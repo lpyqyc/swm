@@ -99,9 +99,9 @@ namespace Swm.Web.Controllers
                     Batch = i.Batch,
                     StockStatus = i.StockStatus,
                     Uom = i.Uom,
-                    QuantityRequired = i.QuantityRequired,
-                    QuantityDelivered = i.QuantityDelivered,
-                    QuantityUndelivered = i.QuantityUndelivered,
+                    QuantityDemanded = i.QuantityDemanded,
+                    QuantityFulfilled = i.QuantityFulfilled,
+                    QuantityUnfulfilled = i.GetQuantityUnfulfilled(),
                     Comment = i.Comment,
                 }).ToList(),
                 UnitloadCount = x.Unitloads.Count
@@ -145,9 +145,9 @@ namespace Swm.Web.Controllers
                     Batch = i.Batch,
                     StockStatus = i.StockStatus,
                     Uom = i.Uom,
-                    QuantityRequired = i.QuantityRequired,
-                    QuantityDelivered = i.QuantityDelivered,
-                    QuantityUndelivered = i.QuantityUndelivered,
+                    QuantityDemanded = i.QuantityDemanded,
+                    QuantityFulfilled = i.QuantityFulfilled,
+                    QuantityUnfulfilled = i.GetQuantityUnfulfilled(),
                     Comment = i.Comment,
                 }).ToList(),
                 UnitloadCount = outboundOrder.Unitloads.Count,
@@ -205,14 +205,14 @@ namespace Swm.Web.Controllers
                     throw new InvalidOperationException($"未找到编码为 {lineInfo.MaterialCode} 的物料。");
                 }
                 line.Material = material;
-                line.QuantityRequired = lineInfo.QuantityRequired;
-                line.QuantityDelivered = 0;
+                line.QuantityDemanded = lineInfo.QuantityDemanded;
+                line.QuantityFulfilled = 0;
                 line.Batch = lineInfo.Batch;
                 line.StockStatus = lineInfo.StockStatus;
                 line.Uom = lineInfo.Uom;
 
                 outboundOrder.AddLine(line);
-                _logger.Information("已添加出库单明细，物料 {materialCode}，批号 {batch}，需求数量 {quantity}", line.Material.MaterialCode, line.Batch, line.QuantityRequired);
+                _logger.Information("已添加出库单明细，物料 {materialCode}，批号 {batch}，需求数量 {quantity}", line.Material.MaterialCode, line.Batch, line.QuantityDemanded);
             }
 
             await _session.SaveAsync(outboundOrder);
@@ -280,8 +280,8 @@ namespace Swm.Web.Controllers
                     case "edit":
                         {
                             var line = outboundOrder.Lines.Single(x => x.OutboundLineId == lineInfo.OutboundLineId);
-                            line.QuantityRequired = lineInfo.QuantityRequired;
-                            if (line.QuantityRequired < line.QuantityDelivered)
+                            line.QuantityDemanded = lineInfo.QuantityDemanded;
+                            if (line.QuantityDemanded < line.QuantityFulfilled)
                             {
                                 _logger.Warning("出库单明细 {outboundLineId} 的需求数量修改后小于已出数量", line.OutboundLineId);
                             }
@@ -298,14 +298,14 @@ namespace Swm.Web.Controllers
                                 throw new InvalidOperationException($"未找到物料。编码 {lineInfo.MaterialCode}。");
                             }
                             line.Material = material;
-                            line.QuantityRequired = lineInfo.QuantityRequired;
-                            line.QuantityDelivered = 0;
+                            line.QuantityDemanded = lineInfo.QuantityDemanded;
+                            line.QuantityFulfilled = 0;
                             line.Batch = lineInfo.Batch;
                             line.StockStatus = lineInfo.StockStatus;
                             line.Uom = lineInfo.Uom;
 
                             outboundOrder.AddLine(line);
-                            _logger.Information("已添加出库单明细，物料 {materialCode}，批号 {batch}，需求数量 {quantity}", line.Material.MaterialCode, line.Batch, line.QuantityRequired);
+                            _logger.Information("已添加出库单明细，物料 {materialCode}，批号 {batch}，需求数量 {quantity}", line.Material.MaterialCode, line.Batch, line.QuantityDemanded);
                         }
                         break;
                     default:
