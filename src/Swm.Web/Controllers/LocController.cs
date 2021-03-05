@@ -215,14 +215,14 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 巷道侧视图
         /// </summary>
-        /// <param name="id">巷道Id</param>
+        /// <param name="lanewayCode">巷道编号</param>
         /// <returns></returns>
-        [HttpGet("get-side-view/{id}")]
+        [HttpGet("get-side-view/{lanewayCode}")]
         [OperationType(OperationTypes.侧视图)]
         [AutoTransaction]
-        public async Task<ApiData<SideViewData>> GetSideViewData(int id)
+        public async Task<ApiData<SideViewData>> GetSideViewData(string lanewayCode)
         {
-            Laneway? laneway = await _session.GetAsync<Laneway>(id);
+            Laneway? laneway = await _session.Query<Laneway>().SingleOrDefaultAsync(x => x.LanewayCode == lanewayCode);
             if (laneway == null)
             {
                 throw new InvalidOperationException("巷道不存在");
