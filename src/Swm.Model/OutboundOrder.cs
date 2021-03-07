@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Arctic.Auditing;
-using Arctic.NHibernateExtensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -164,5 +163,4 @@ namespace Swm.Model
         }
 
     }
-
 }

@@ -31,5 +31,7 @@ namespace Swm.Model
         public const string InboundOrderClosed = "InboundOrderClosed";
 
         public const string OutboundOrderClosed = "OutboundOrderClosed";
+
+        public const string FlowSaved = "FlowSaved";
     }
 }

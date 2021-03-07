@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.EventBus;
 using NHibernate;
 using NHibernate.Linq;
 using System;
@@ -25,16 +26,20 @@ namespace Swm.Model
         readonly IOutOrderingProvider _outOrderingProvider;
         readonly ISession _session;
         readonly IFlowFactory _flowFactory;
+        readonly SimpleEventBus _eventBus;
 
         public FlowHelper(ISession session,
             IFlowFactory flowFactory,
             IStockFactory stockFactory, 
-            IOutOrderingProvider outOrderingProvider)
+            IOutOrderingProvider outOrderingProvider,
+            SimpleEventBus eventBus
+            )
         {
             _stockFactory = stockFactory;
             _outOrderingProvider = outOrderingProvider;
             _session = session;
             _flowFactory = flowFactory;
+            _eventBus = eventBus;
         }
 
         /// <summary>
@@ -50,7 +55,7 @@ namespace Swm.Model
                 throw new InvalidOperationException("不能保存重复的流水。");
             }
             await _session.SaveAsync(flow);
-
+            await _eventBus.FireEventAsync(EventTypes.FlowSaved, flow);
             if (updateStock)
             {
                 var key = flow.GetStockKey<TStockKey>();

@@ -52,6 +52,7 @@ namespace Swm.Web
         public const string 出库单下架 = "出入.出库单下架";
         public const string 关闭出库单 = "出入.关闭出库单";
         public const string 分配库存 = "出入.分配库存";
+        public const string 拣货 = "出入.拣货";
 
         public const string 查看入库单 = "出入.查看入库单";
         public const string 创建入库单 = "出入.创建入库单";

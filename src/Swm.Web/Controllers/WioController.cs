@@ -42,6 +42,7 @@ namespace Swm.Web.Controllers
         readonly IAppSeqService _appSeqService;
         readonly SimpleEventBus _simpleEventBus;
         readonly IOutboundOrderAllocator _outboundOrderAllocator;
+        readonly OutboundOrderPickHelper _outboundOrderPickHelper;
 
         /// <summary>
         /// 初始化新实例。
@@ -52,13 +53,16 @@ namespace Swm.Web.Controllers
         /// <param name="opHelper"></param>
         /// <param name="simpleEventBus"></param>
         /// <param name="logger"></param>
-        public WioController(ISession session, IOutboundOrderAllocator outboundOrderAllocator, IAppSeqService appSeqService, OpHelper opHelper, SimpleEventBus simpleEventBus, ILogger logger)
+        public WioController(ISession session, IOutboundOrderAllocator outboundOrderAllocator,
+            OutboundOrderPickHelper outboundOrderPickHelper,
+            IAppSeqService appSeqService, OpHelper opHelper, SimpleEventBus simpleEventBus, ILogger logger)
         {
             _session = session;
             _outboundOrderAllocator = outboundOrderAllocator;
             _appSeqService = appSeqService;
             _opHelper = opHelper;
             _simpleEventBus = simpleEventBus;
+            _outboundOrderPickHelper = outboundOrderPickHelper;
             _logger = logger;
         }
 
@@ -423,6 +427,7 @@ namespace Swm.Web.Controllers
                 options.ChunkSize = 50;
             }
             await _outboundOrderAllocator.AllocateAsync(outboundOrder, options);
+            await _opHelper.SaveOpAsync("{0}: {1}", outboundOrder.OutboundOrderCode, options);
 
             return this.Success();
         }
@@ -639,6 +644,21 @@ namespace Swm.Web.Controllers
             return Content(str);
         }
 
+
+        /// <summary>
+        /// 从托盘中为出库单拣货
+        /// </summary>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpPost("pick/{palletCode}")]
+        [OperationType(OperationTypes.拣货)]
+        public async Task<ApiData> Pick(string palletCode, [FromBody] OutboundOrderPickInfo[] pickInfos)
+        {            
+            Unitload? unitload = await _session.Query<Unitload>().SingleOrDefaultAsync(x => x.PalletCode == palletCode);
+            var op = await _opHelper.SaveOpAsync("{0}: {1}", unitload.PalletCode, pickInfos);
+            await _outboundOrderPickHelper.PickAsync<DefaultStockKey>(unitload, pickInfos, op);
+            return this.Success();
+        }
 
 
     }
