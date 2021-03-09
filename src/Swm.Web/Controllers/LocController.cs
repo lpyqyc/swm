@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using NHibernate.Linq;
 using Serilog;
+using Swm.Constants;
+using Swm.Locations;
 using Swm.Model;
 using System;
 using System.Collections.Generic;
@@ -494,7 +496,7 @@ namespace Swm.Web.Controllers
                     };
                     await _session.SaveAsync(op);
 
-                    await _eventBus.FireEventAsync(EventTypes.LocationInboundDisabled, loc);
+                    await _eventBus.FireEventAsync(LocationsEventTypes.LocationInboundDisabled, loc);
 
                     affected++;
                 }
@@ -570,7 +572,7 @@ namespace Swm.Web.Controllers
                         Location = loc
                     };
                     await _session.SaveAsync(op);
-                    await _eventBus.FireEventAsync(EventTypes.LocationInboundEnabled, loc);
+                    await _eventBus.FireEventAsync(LocationsEventTypes.LocationInboundEnabled, loc);
 
                     affected++;
                 }
@@ -650,7 +652,7 @@ namespace Swm.Web.Controllers
                     };
                     await _session.SaveAsync(op);
 
-                    await _eventBus.FireEventAsync(EventTypes.LocationInboundDisabled, loc);
+                    await _eventBus.FireEventAsync(LocationsEventTypes.LocationInboundDisabled, loc);
                     affected++;
                 }
             }
@@ -729,7 +731,7 @@ namespace Swm.Web.Controllers
                     };
                     await _session.SaveAsync(op);
 
-                    await _eventBus.FireEventAsync(EventTypes.LocationInboundDisabled, loc);
+                    await _eventBus.FireEventAsync(LocationsEventTypes.LocationInboundDisabled, loc);
                     affected++;
                 }
             }
@@ -817,7 +819,7 @@ namespace Swm.Web.Controllers
             static async Task<Location> CreateKeyPointAsync(ILocationFactory locationFactory, ISession session, string locationCode)
             {
                 Location loc = locationFactory.CreateLocation(locationCode, LocationTypes.K, null, 0, 0);
-                loc.RequestType = Cst.NA;
+                loc.RequestType = Cst.None;
                 loc.Tag = "港口";
                 loc.InboundLimit = 999;
                 loc.OutboundLimit = 999;

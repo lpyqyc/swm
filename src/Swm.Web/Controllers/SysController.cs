@@ -6,6 +6,7 @@ using NHibernate;
 using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
+using Swm.Users;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;

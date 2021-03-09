@@ -21,6 +21,8 @@ using NHibernate.Cfg;
 using NHibernate.Linq;
 using NHibernate.Tool.hbm2ddl;
 using Serilog;
+using Swm.Constants;
+using Swm.Locations;
 using Swm.Model;
 using System;
 using System.Collections.Generic;
@@ -159,8 +161,8 @@ namespace Swm.Web.Controllers
                             loc.OutboundLimit = 1;
                             loc.Side = rack.side;
                             loc.Deep = rack.deep;
-                            loc.StorageGroup = Cst.DefaultStorageGroup;
-                            loc.Specification = Cst.NA;
+                            loc.StorageGroup = Cst.None;
+                            loc.Specification = Cst.None;
                             loc.Cell = cell;
                             cell.Locations.Add(loc);
                         }

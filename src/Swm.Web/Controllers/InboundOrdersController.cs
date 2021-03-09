@@ -20,6 +20,9 @@ using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using NHibernate.Linq;
 using Serilog;
+using Swm.InboundOrders;
+using Swm.Locations;
+using Swm.Materials;
 using Swm.Model;
 using System;
 using System.Linq;
@@ -352,7 +355,7 @@ namespace Swm.Web.Controllers
 
             _logger.Information("已关闭入库单 {inboundOrder}", inboundOrder);
 
-            await _simpleEventBus.FireEventAsync(EventTypes.InboundOrderClosed, inboundOrder);
+            await _simpleEventBus.FireEventAsync(InboundOrdersEventTypes.InboundOrderClosed, inboundOrder);
 
             return this.Success();
         }

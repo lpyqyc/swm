@@ -65,6 +65,6 @@ namespace Swm.Web
         public const string 登录 = "账号.登录";
         public const string 修改密码 = "账号.修改密码";
 
-
     }
+
 }
