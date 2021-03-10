@@ -49,27 +49,27 @@ namespace Swm.OutboundOrders
         /// 所属出库单。
         /// </summary>
         [Required]
-        public virtual OutboundOrder OutboundOrder { get; internal protected set; }
+        public virtual OutboundOrder? OutboundOrder { get; internal protected set; }
 
         /// <summary>
         /// 要出库的物料。
         /// </summary>
         [Required]
-        public virtual Material Material { get; set; }
+        public virtual Material Material { get; set; } = default!;
 
 
         /// <summary>
         /// 要出库的批号，可以为空
         /// </summary>
         [MaxLength(FIELD_LENGTH.BATCH)]
-        public virtual string? Batch { get; set; }
+        public virtual string? Batch { get; set; } = default!;
 
 
         /// <summary>
         /// 要出库的库存状态。
         /// </summary>
         [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
-        public virtual string StockStatus { get; set; }
+        public virtual string StockStatus { get; set; } = default!;
 
         /// <summary>
         /// 计量单位。

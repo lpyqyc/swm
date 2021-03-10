@@ -50,7 +50,7 @@ namespace Swm.OutboundOrders
         /// </remarks>
         /// <param name="outboundOrder">要分配库存的出库单</param>
         /// <param name="options">分配选项</param>
-        public async Task AllocateAsync(OutboundOrder outboundOrder, AllocatStockOptions options)
+        public async Task AllocateAsync(OutboundOrder outboundOrder, AllocateStockOptions options)
         {
             if (outboundOrder == null)
             {
@@ -62,7 +62,7 @@ namespace Swm.OutboundOrders
             }
             if (options == null)
             {
-                options = new AllocatStockOptions();
+                options = new AllocateStockOptions();
             }
             options.Normalize();            
 
@@ -87,7 +87,7 @@ namespace Swm.OutboundOrders
         /// <param name="laneways">用于分配的货载所在的巷道</param>
         /// <param name="includeUnitloads">要在分配中包含的货载，这些货载优先参与分配。</param>
         /// <param name="excludeUnitloads">要在分配中排除的货载，这些货载不会参与分配，即使出现在 includeUnitloads 中，也不参与分配。</param>
-        async Task ProcessLineAsync(OutboundLine line, AllocatStockOptions options)
+        async Task ProcessLineAsync(OutboundLine line, AllocateStockOptions options)
         {
             _logger.Information("正在为出库单明细 {outboundLine} 分配库存", line);
 
@@ -162,7 +162,7 @@ namespace Swm.OutboundOrders
         /// <param name="line">出库行</param>
         /// <param name="item">要从中分配的货载项</param>
         /// <returns>从货载项中分配的数量</returns>
-        async Task<decimal> AllocateItemAsync(OutboundLine line, UnitloadItem item, AllocatStockOptions options)
+        async Task<decimal> AllocateItemAsync(OutboundLine line, UnitloadItem item, AllocateStockOptions options)
         {
             if (!TestUnitloadItem(line, item, options))
             {
@@ -210,7 +210,7 @@ namespace Swm.OutboundOrders
         /// <param name="unitloadItem"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public bool TestUnitloadItem(OutboundLine line, UnitloadItem item, AllocatStockOptions options)
+        public bool TestUnitloadItem(OutboundLine line, UnitloadItem item, AllocateStockOptions options)
         {
             bool passed = true;
             _logger.Debug("检查出库单明细 {outboundLine} 与货载项 {unitloadItem} 是否匹配", line, item);

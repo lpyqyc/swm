@@ -82,7 +82,7 @@ namespace Swm.InboundOrders
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.APP_CODE)]
-        public virtual string? BizType { get; set; }
+        public virtual string BizType { get; set; } = default!;
 
 
         /// <summary>
