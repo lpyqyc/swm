@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using Swm.Locations;
 using Swm.Model;
 using System;
 using System.Linq.Expressions;

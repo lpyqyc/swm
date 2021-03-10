@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using NHibernate;
+using Swm.TransportTasks;
 using System;
 
 namespace Swm.Model.Extentions

@@ -5,6 +5,7 @@ using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
 using Serilog;
+using Swm.Materials;
 using Swm.Model;
 using System;
 using System.Collections;

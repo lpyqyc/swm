@@ -14,6 +14,8 @@
 
 using NHibernate;
 using Serilog;
+using Swm.Locations;
+using Swm.TransportTasks;
 using System.Threading.Tasks;
 
 namespace Swm.Model.Extentions

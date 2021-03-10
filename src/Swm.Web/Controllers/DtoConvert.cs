@@ -12,21 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.AppCodes;
-using Arctic.AspNetCore;
-using Arctic.NHibernateExtensions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.International.Converters.PinYinConverter;
-using NHibernate.Linq;
-using Serilog;
 using Swm.Model;
-using System;
-using System.Collections.Generic;
+using Swm.OutboundOrders;
+using Swm.Palletization;
+using Swm.TransportTasks;
 using System.Data;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
@@ -98,7 +89,7 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         public static UnitloadDetail ToUnitloadDetail(Unitload unitload)
         {
-            var task = unitload.GetCurrentTask();
+            var task = unitload.CurrentTask as TransportTask;
             OutboundOrder? obo = unitload.CurrentUat as OutboundOrder;
 
             return new UnitloadDetail

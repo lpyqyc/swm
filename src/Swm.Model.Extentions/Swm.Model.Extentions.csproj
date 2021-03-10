@@ -2,10 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Swm.Model\Swm.Model.csproj" />
+    <ProjectReference Include="..\Swm.Locations\Swm.Locations.csproj" />
+    <ProjectReference Include="..\Swm.Materials\Swm.Materials.csproj" />
+    <ProjectReference Include="..\Swm.Palletization\Swm.Palletization.csproj" />
+    <ProjectReference Include="..\Swm.StorageLocationAssignment\Swm.StorageLocationAssignment.csproj" />
+    <ProjectReference Include="..\Swm.TransportTasks\Swm.TransportTasks.csproj" />
   </ItemGroup>
 
 </Project>

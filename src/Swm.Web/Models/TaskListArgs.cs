@@ -14,6 +14,7 @@
 
 using Arctic.NHibernateExtensions;
 using Swm.Model;
+using Swm.TransportTasks;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

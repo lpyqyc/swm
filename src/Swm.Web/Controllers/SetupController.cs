@@ -21,6 +21,8 @@ using NHibernate.Cfg;
 using NHibernate.Linq;
 using NHibernate.Tool.hbm2ddl;
 using Serilog;
+using Swm.Constants;
+using Swm.Locations;
 using Swm.Model;
 using System;
 using System.Collections.Generic;
@@ -113,10 +115,7 @@ namespace Swm.Web.Controllers
             int columns = args.Columns;
             int levels = args.Levels;
 
-            Laneway laneway = new Laneway(args.DoubleDeep)
-            {
-                LanewayCode = args.LanewayCode
-            };
+            Laneway laneway = new Laneway(args.LanewayCode, args.DoubleDeep);
             await _session.SaveAsync(laneway).ConfigureAwait(false);
             List<(string rackCode, RackSide side, int deep)> racks = new List<(string rack, RackSide side, int deep)>();
             if (args.DoubleDeep)
@@ -141,9 +140,8 @@ namespace Swm.Web.Controllers
                         k++;
                         int col = j + 1;
                         int lv = i + 1;
-                        Cell cell = new Cell
+                        Cell cell = new Cell(laneway)
                         {
-                            Laneway = laneway,
                             Side = side.Key,
                             Column = col,
                             Level = lv,
@@ -159,8 +157,8 @@ namespace Swm.Web.Controllers
                             loc.OutboundLimit = 1;
                             loc.Side = rack.side;
                             loc.Deep = rack.deep;
-                            loc.StorageGroup = Cst.DefaultStorageGroup;
-                            loc.Specification = Cst.NA;
+                            loc.StorageGroup = Cst.None;
+                            loc.Specification = Cst.None;
                             loc.Cell = cell;
                             cell.Locations.Add(loc);
                         }

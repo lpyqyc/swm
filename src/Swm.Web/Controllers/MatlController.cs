@@ -20,7 +20,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.International.Converters.PinYinConverter;
 using NHibernate.Linq;
 using Serilog;
+using Swm.Constants;
+using Swm.Materials;
 using Swm.Model;
+using Swm.Palletization;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -43,8 +46,9 @@ namespace Swm.Web.Controllers
         readonly OpHelper _opHelper;
         readonly FlowHelper _flowHelper;
         readonly PalletizationHelper _palletizationHelper;
+        readonly MaterialService _materialService;
 
-        public MatlController(NHibernate.ISession session, IMaterialFactory materialFactory, FlowHelper flowHelper, PalletizationHelper palletizationHelper, OpHelper opHelper, ILogger logger)
+        public MatlController(NHibernate.ISession session, IMaterialFactory materialFactory, FlowHelper flowHelper, PalletizationHelper palletizationHelper, OpHelper opHelper, MaterialService materialService, ILogger logger)
         {
             _logger = logger;
             _materialFactory = materialFactory;
@@ -52,6 +56,7 @@ namespace Swm.Web.Controllers
             _flowHelper = flowHelper;
             _palletizationHelper = palletizationHelper;
             _session = session;
+            _materialService = materialService;
         }
 
         /// <summary>
@@ -159,19 +164,7 @@ namespace Swm.Web.Controllers
         [HttpGet("get-material-type-options")]
         public async Task<OptionsData<MaterialTypeInfo>> GetMaterialTypeOptions()
         {
-            var appCodes = await _session
-                .Query<AppCode>()
-                .GetAppCodesAsync(AppCodeTypes.MaterialType);
-
-            var list = appCodes
-                .Select(x => new MaterialTypeInfo
-                {
-                    MaterialType = x.AppCodeValue,
-                    Description = x.Description,
-                    Scope = x.Scope,
-                    DisplayOrder = x.DisplayOrder,
-                }).ToList();
-
+            var list = await _materialService.GetMaterialTypesAsync();
             return this.OptionsData(list);
         }
 
@@ -330,17 +323,8 @@ namespace Swm.Web.Controllers
         [HttpGet("get-biz-type-options")]
         public async Task<OptionsData<BizTypeInfo>> GetBizTypeOptions()
         {
-            var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.BizType);
-
-            var items = list.Select(x => new BizTypeInfo
-            {
-                BizType = x.AppCodeValue,
-                Description = x.Description,
-                Scope = x.Scope,
-                DisplayOrder = x.DisplayOrder
-            }).ToList();
-
-            return this.OptionsData(items);
+            var list = await _materialService.GetBizTypesAsync();
+            return this.OptionsData(list);
         }
 
         /// <summary>
@@ -368,19 +352,10 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         [AutoTransaction]
         [HttpGet("get-stock-status-options")]
-        public async Task<OptionsData<StockStatusOption>> GetStockStatusOptions()
+        public async Task<OptionsData<StockStatusInfo>> GetStockStatusOptions()
         {
-            var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.StockStatus);
-
-            var items = list.Select(x => new StockStatusOption
-            {
-                StockStatus = x.AppCodeValue,
-                Description = x.Description,
-                Scope = x.Scope,
-                DisplayOrder = x.DisplayOrder,
-            }).ToList();
-
-            return this.OptionsData(items);
+            var list = await _materialService.GetStockStatusAsync();
+            return this.OptionsData(list);
         }
 
 

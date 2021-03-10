@@ -33,8 +33,17 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Context;
+using Swm.InboundOrders;
+using Swm.Locations;
+using Swm.Materials;
 using Swm.Model;
-using Swm.Model.Cfg;
+using Swm.Model.Extentions;
+using Swm.OutboundOrders;
+using Swm.Palletization;
+using Swm.StorageLocationAssignment;
+using Swm.TransportTasks;
+using Swm.TransportTasks.Cfg;
+using Swm.Users;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -122,7 +131,26 @@ namespace Swm.Web
             builder.AddAppCodes();
             builder.AddAppSeqs();
             builder.AddAppSettings();
-            builder.AddSwm(Configuration.GetSection("Swm").Get<SwmOptions>());
+
+
+            builder.RegisterModule<OpsModule>();
+            builder.RegisterModule<UsersModule>();
+            builder.RegisterModule<MaterialsModule>();
+            builder.RegisterModule<LocationsModule>();
+            builder.RegisterModule<StorageLocationAssignmentModule>();
+            builder.RegisterModule(new PalletizationModule
+            {
+                PalletCodePattern = Configuration.GetSection("Swm:Palletization:PalletCodePattern").Value,
+            });
+            builder.RegisterModule(new TransportTasksModule 
+            {
+                RequestHandlers = Configuration.GetSection("Swm:TransportTasks:RequestHandlers").Get<RequestHandler[]>(),
+                CompletedTaskHandlers = Configuration.GetSection("Swm:TransportTasks:CompletedTaskHandlers").Get<CompletedTaskHandler[]>(),
+            });
+            builder.RegisterModule<OutboundOrdersModule>();
+            builder.RegisterModule<InboundOrdersModule>();
+
+            builder.AddEx();
 
             builder.AddEventBus(Configuration.GetSection("EventBus").Get<SimpleEventBusOptions>());
             builder.AddNHibernate();

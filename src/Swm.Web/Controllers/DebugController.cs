@@ -17,6 +17,8 @@ using Arctic.EventBus;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Swm.Model;
+using Swm.OutboundOrders;
+using Swm.TransportTasks;
 using System;
 using System.Threading.Tasks;
 
@@ -58,8 +60,8 @@ namespace Swm.Web.Controllers
         public async Task<ApiData> SimulateRequest(RequestInfo requestInfo)
         {
             _logger.Information("正在模拟请求 {requestInfo}", requestInfo);
-            await _eventBus.FireEventAsync(EventTypes.PreRequest, requestInfo);
-            await _eventBus.FireEventAsync(EventTypes.Request, requestInfo);
+            await _eventBus.FireEventAsync(TranportTasksEventTypes.PreRequest, requestInfo);
+            await _eventBus.FireEventAsync(TranportTasksEventTypes.Request, requestInfo);
             var op = await _opHelper.SaveOpAsync("{0}", requestInfo);
             _logger.Information("模拟请求成功");
             return this.Success();
@@ -76,17 +78,11 @@ namespace Swm.Web.Controllers
         public async Task<ApiData> SimulateCompletion(CompletedTaskInfo taskInfo)
         {
             _logger.Information("正在模拟任务完成 {taskInfo}", taskInfo);
-            await _eventBus.FireEventAsync(EventTypes.TaskCompleted, taskInfo);
+            await _eventBus.FireEventAsync(TranportTasksEventTypes.TaskCompleted, taskInfo);
             _logger.Information("已模拟任务完成");
             var op = await _opHelper.SaveOpAsync("{0}", taskInfo);
             return this.Success();
         }
 
-
-        [HttpGet("get-name")]
-        public ApiData GetName()
-        {
-            return this.Success(OutboundOrder.UatRootType);
-        }
     }
 }

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using Swm.Materials;
 using Swm.Model;
 using System;
 using System.Collections.Generic;

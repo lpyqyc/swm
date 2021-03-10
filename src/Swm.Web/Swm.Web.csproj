@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\WioController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Arctic.AppCodes" Version="1.0.2" />
     <PackageReference Include="Arctic.AppSeqs" Version="1.0.0-main-local" />
     <PackageReference Include="Arctic.AppSettings" Version="1.0.0" />
@@ -47,8 +51,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Swm.InboundOrders\Swm.InboundOrders.csproj" />
+    <ProjectReference Include="..\Swm.Locations\Swm.Locations.csproj" />
+    <ProjectReference Include="..\Swm.Materials\Swm.Materials.csproj" />
     <ProjectReference Include="..\Swm.Model.Extentions\Swm.Model.Extentions.csproj" />
-    <ProjectReference Include="..\Swm.Model\Swm.Model.csproj" />
+    <ProjectReference Include="..\Swm.Ops\Swm.Ops.csproj" />
+    <ProjectReference Include="..\Swm.OutboundOrders\Swm.OutboundOrders.csproj" />
+    <ProjectReference Include="..\Swm.Palletization\Swm.Palletization.csproj" />
+    <ProjectReference Include="..\Swm.TransportTasks\Swm.TransportTasks.csproj" />
+    <ProjectReference Include="..\Swm.Users\Swm.Users.csproj" />
   </ItemGroup>
 
   <ItemGroup>

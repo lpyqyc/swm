@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using Swm.InboundOrders;
 using Swm.Model;
 using System;
 using System.ComponentModel.DataAnnotations;

@@ -14,6 +14,7 @@
 
 using Autofac;
 using Serilog;
+using Swm.TransportTasks;
 
 namespace Swm.Model.Extentions
 {
@@ -22,7 +23,7 @@ namespace Swm.Model.Extentions
     /// </summary>
     public static class ExContainerBuilderExtensions
     {
-        static ILogger _logger = Log.ForContext(typeof(SwmContainerBuilderExtensions));
+        static ILogger _logger = Log.ForContext(typeof(ExContainerBuilderExtensions));
 
         public static void AddEx(this ContainerBuilder builder)
         {

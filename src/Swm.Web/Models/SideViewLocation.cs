@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Swm.Locations;
 using Swm.Model;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;

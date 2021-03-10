@@ -14,7 +14,10 @@
 
 using NHibernate;
 using Serilog;
-using Swm.Model.StorageLocationAssignment;
+using Swm.Locations;
+using Swm.Palletization;
+using Swm.StorageLocationAssignment;
+using Swm.TransportTasks;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
