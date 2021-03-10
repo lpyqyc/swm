@@ -37,6 +37,7 @@ namespace Swm.OutboundOrders
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
             RegisterBySuffix("Service");
+            RegisterBySuffix("Allocator");
 
             void RegisterBySuffix(string suffix)
             {

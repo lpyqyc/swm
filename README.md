@@ -1,6 +1,6 @@
 # swm
 
-swm 是 Stereoscopic Warehouse Management 和 Super Warehouse Management 的缩写。
+swm 是 Super Warehouse Management 的缩写。
 
 ## 目标
 

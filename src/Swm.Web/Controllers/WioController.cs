@@ -20,10 +20,13 @@ using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using NHibernate.Linq;
 using Serilog;
-using Swm.Model;
+using Swm.Constants;
+using Swm.Locations;
+using Swm.Materials;
+using Swm.OutboundOrders;
+using Swm.Palletization;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -400,7 +403,7 @@ namespace Swm.Web.Controllers
 
             _logger.Information("已关闭出库单 {outboundOrder}", outboundOrder);
 
-            await _simpleEventBus.FireEventAsync(EventTypes.OutboundOrderClosed, outboundOrder);
+            await _simpleEventBus.FireEventAsync(OutboundOrdersEventTypes.OutboundOrderClosed, outboundOrder);
 
             return this.Success();
         }
@@ -414,7 +417,7 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("allocate-stock/{id}")]
         [OperationType(OperationTypes.分配库存)]
-        public async Task<ApiData> Allocate(int id, [FromBody] AllocatStockOptions options)
+        public async Task<ApiData> Allocate(int id, [FromBody] AllocateStockOptions options)
         {
             OutboundOrder? outboundOrder = await _session.GetAsync<OutboundOrder>(id);
 
@@ -656,7 +659,7 @@ namespace Swm.Web.Controllers
         {            
             Unitload? unitload = await _session.Query<Unitload>().SingleOrDefaultAsync(x => x.PalletCode == palletCode);
             var op = await _opHelper.SaveOpAsync("{0}: {1}", unitload.PalletCode, pickInfos);
-            await _outboundOrderPickHelper.PickAsync<DefaultStockKey>(unitload, pickInfos, op);
+            await _outboundOrderPickHelper.PickAsync<DefaultStockKey>(unitload, pickInfos, op.OperationType);
             return this.Success();
         }
 
