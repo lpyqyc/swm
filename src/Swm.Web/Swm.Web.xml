@@ -413,6 +413,30 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.LocController.SetStorageGroup(System.String,Swm.Web.Controllers.SetStorageGroupArgs)">
+            <summary>
+            设置分组
+            </summary>
+            <param name="ids">逗号分隔的位置Id</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocController.SetHeightLimit(System.String,Swm.Web.Controllers.SetHeightLimitArgs)">
+            <summary>
+            设置限高
+            </summary>
+            <param name="ids">逗号分隔的位置Id</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocController.SetWeightLimit(System.String,Swm.Web.Controllers.SetWeightLimitArgs)">
+            <summary>
+            设置限重
+            </summary>
+            <param name="ids">逗号分隔的位置Id</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.LogsController.GetLogList(Swm.Web.Controllers.LogListArgs)">
             <summary>
             日志列表
@@ -3001,6 +3025,16 @@
             每页大小，默认值为 10。
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.SetHeightLimitArgs">
+            <summary>
+            设置限高的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SetHeightLimitArgs.HeightLimit">
+            <summary>
+            限高。
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.SetPortsArgs">
             <summary>
             设置巷道可到达的出口的操作参数。
@@ -3009,6 +3043,26 @@
         <member name="P:Swm.Web.Controllers.SetPortsArgs.PortIdList">
             <summary>
             出口Id列表
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.SetStorageGroupArgs">
+            <summary>
+            设置存储分组的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SetStorageGroupArgs.StorageGroup">
+            <summary>
+            禁用或启用位置的操作备注。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.SetWeightLimitArgs">
+            <summary>
+            设置限重的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SetWeightLimitArgs.WeightLimit">
+            <summary>
+            限重。
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.SideViewData">

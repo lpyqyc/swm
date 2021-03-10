@@ -3,14 +3,14 @@
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 禁用或启用位置的操作参数
+    /// 设置限高的操作参数
     /// </summary>
-    public class DisableLocationArgs
+    public class SetHeightLimitArgs
     {
         /// <summary>
-        /// 禁用或启用位置的操作备注。
+        /// 限高。
         /// </summary>
         [Required]
-        public string Comment { get; set; } = default!;
+        public decimal HeightLimit { get; set; }
     }
 }

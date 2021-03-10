@@ -453,7 +453,7 @@ namespace Swm.Web.Controllers
                 if (loc.LocationType == LocationTypes.N)
                 {
                     // N 位置无法禁入禁出
-                    _logger.Warning("不能禁用或启用 N 位置。");
+                    _logger.Warning("不能禁用或启用 N 位置");
                     continue;
                 }
 
@@ -529,7 +529,7 @@ namespace Swm.Web.Controllers
                 if (loc.LocationType == LocationTypes.N)
                 {
                     // N 位置无法禁入禁出
-                    _logger.Warning("不能禁用或启用 N 位置。");
+                    _logger.Warning("不能禁用或启用 N 位置");
                     continue;
                 }
 
@@ -608,7 +608,7 @@ namespace Swm.Web.Controllers
                 if (loc.LocationType == LocationTypes.N)
                 {
                     // N 位置无法禁入禁出
-                    _logger.Warning("不能禁用或启用 N 位置。");
+                    _logger.Warning("不能禁用或启用 N 位置");
                     continue;
                 }
 
@@ -688,7 +688,7 @@ namespace Swm.Web.Controllers
                 if (loc.LocationType == LocationTypes.N)
                 {
                     // N 位置无法禁入禁出
-                    _logger.Warning("不能禁用或启用 N 位置。");
+                    _logger.Warning("不能禁用或启用 N 位置");
                     continue;
                 }
 
@@ -711,7 +711,7 @@ namespace Swm.Web.Controllers
                 await _locHelper.RebuildLanewayStatAsync(laneway);
             }
 
-            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许出站。", affected);
+            _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许出站", affected);
             return this.Success();
 
             async Task EnableOneAsync(Location loc)
@@ -828,7 +828,175 @@ namespace Swm.Web.Controllers
             }
 
         }
-        
+
+
+        /// <summary>
+        /// 设置分组
+        /// </summary>
+        /// <param name="ids">逗号分隔的位置Id</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost("set-storage-group/[[{ids}]]")]
+        [OperationType(OperationTypes.设置分组)]
+        [AutoTransaction]
+        public async Task<ApiData> SetStorageGroup(string ids, SetStorageGroupArgs args)
+        {
+            List<int> list = ids
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(x => int.Parse(x))
+                .ToList();
+            List<Location> locs = await _session.Query<Location>()
+                .Where(x => list.Contains(x.LocationId))
+                .ToListAsync();
+
+            int affected = 0;
+            foreach (var loc in locs)
+            {
+                if (loc.LocationType != LocationTypes.S)
+                {
+                    // N 位置无法禁入禁出
+                    _logger.Warning("只能为类型为 S 的位置设置存储分组");
+                    continue;
+                }
+                LocationOp op = new LocationOp
+                {
+                    OpType = _opHelper.GetOperationType() ?? throw new InvalidOperationException(),
+                    Comment = $"{loc.StorageGroup} --> {args.StorageGroup}",
+                    ctime = DateTime.Now,
+                    Location = loc
+                };
+                await _session.SaveAsync(op);
+
+                loc.StorageGroup = args.StorageGroup;
+                await _session.UpdateAsync(loc);
+            }
+
+            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
+            foreach (var laneway in laneways)
+            {
+                if (laneway != null)
+                {
+                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                }
+            }
+            _ = await _opHelper.SaveOpAsync($"将 {affected} 个位置的存储分组设为 {args.StorageGroup}");
+
+            return this.Success();
+
+        }
+
+
+        /// <summary>
+        /// 设置限高
+        /// </summary>
+        /// <param name="ids">逗号分隔的位置Id</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost("set-height-limit/[[{ids}]]")]
+        [OperationType(OperationTypes.设置限高)]
+        [AutoTransaction]
+        public async Task<ApiData> SetHeightLimit(string ids, SetHeightLimitArgs args)
+        {
+            List<int> list = ids
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(x => int.Parse(x))
+                .ToList();
+            List<Location> locs = await _session.Query<Location>()
+                .Where(x => list.Contains(x.LocationId))
+                .ToListAsync();
+
+            int affected = 0;
+            foreach (var loc in locs)
+            {
+                if (loc.LocationType != LocationTypes.S)
+                {
+                    // N 位置无法禁入禁出
+                    _logger.Warning("只能为类型为 S 的位置设置限高");
+                    continue;
+                }
+                LocationOp op = new LocationOp
+                {
+                    OpType = _opHelper.GetOperationType() ?? throw new InvalidOperationException(),
+                    Comment = $"{loc.HeightLimit} --> {args.HeightLimit}",
+                    ctime = DateTime.Now,
+                    Location = loc
+                };
+                await _session.SaveAsync(op);
+
+                loc.HeightLimit = args.HeightLimit;
+                await _session.UpdateAsync(loc);
+            }
+
+            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
+            foreach (var laneway in laneways)
+            {
+                if (laneway != null)
+                {
+                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                }
+            }
+            _ = await _opHelper.SaveOpAsync($"将 {affected} 个位置的存储分组设为 {args.HeightLimit}");
+
+            return this.Success();
+
+        }
+
+
+
+        /// <summary>
+        /// 设置限重
+        /// </summary>
+        /// <param name="ids">逗号分隔的位置Id</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost("set-weight-limit/[[{ids}]]")]
+        [OperationType(OperationTypes.设置限重)]
+        [AutoTransaction]
+        public async Task<ApiData> SetWeightLimit(string ids, SetWeightLimitArgs args)
+        {
+            List<int> list = ids
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(x => int.Parse(x))
+                .ToList();
+            List<Location> locs = await _session.Query<Location>()
+                .Where(x => list.Contains(x.LocationId))
+                .ToListAsync();
+
+            int affected = 0;
+            foreach (var loc in locs)
+            {
+                if (loc.LocationType != LocationTypes.S)
+                {
+                    // N 位置无法禁入禁出
+                    _logger.Warning("只能为类型为 S 的位置设置限重");
+                    continue;
+                }
+                LocationOp op = new LocationOp
+                {
+                    OpType = _opHelper.GetOperationType() ?? throw new InvalidOperationException(),
+                    Comment = $"{loc.WeightLimit} --> {args.WeightLimit}",
+                    ctime = DateTime.Now,
+                    Location = loc
+                };
+                await _session.SaveAsync(op);
+                
+                loc.WeightLimit = args.WeightLimit;
+                await _session.UpdateAsync(loc);
+            }
+
+            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
+            foreach (var laneway in laneways)
+            {
+                if (laneway != null)
+                {
+                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                }
+            }
+            _ = await _opHelper.SaveOpAsync($"将 {affected} 个位置的存储分组设为 {args.WeightLimit}");
+
+            return this.Success();
+
+        }
     }
 
 }

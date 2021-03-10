@@ -17,6 +17,9 @@ namespace Swm.Web
         public const string 创建关键点 = "位置.创建关键点";
         public const string 编辑关键点 = "位置.编辑关键点";
         public const string 侧视图 = "位置.侧视图";
+        public const string 设置分组 = "位置.设置分组";
+        public const string 设置限高 = "位置.设置限高";
+        public const string 设置限重 = "位置.设置限重";
 
         public const string 查看物料 = "物料.查看物料";
         public const string 导入物料主数据 = "物料.导入物料主数据";
