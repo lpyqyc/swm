@@ -27,24 +27,23 @@ namespace Swm.Locations
     public class Cell
     {
         /// <summary>
-        /// 初始化 LocationUnit 类的新实例
+        /// 初始化新实例
         /// </summary>
-        public Cell()
+        protected Cell()
         {
             this.Locations = new HashSet<Location>();
         }
 
-
         /// <summary>
         /// Id
         /// </summary>
-        public virtual Int32 CellId { get; protected set; }
+        public virtual int CellId { get; protected set; }
 
         /// <summary>
         /// 此货位单元所属的巷道。
         /// </summary>
         [Required]
-        public virtual Laneway Laneway { get; set; }
+        public virtual Laneway Laneway { get; set; } = default!;
 
         /// <summary>
         /// 此货位单元在巷道的哪一侧。
@@ -70,7 +69,7 @@ namespace Swm.Locations
         /// </summary>
         [Required]
         [MaxLength(10)]
-        public virtual string Shape { get; internal protected set; }
+        public virtual string Shape { get; internal protected set; } = default!;
 
         /// <summary>
         /// 获取或设置此货位单元按形态决定的入次序。

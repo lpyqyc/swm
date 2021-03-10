@@ -28,18 +28,18 @@ namespace Swm.Locations
             this.Laneways = new HashSet<Laneway>();
         }
 
-        public virtual Int32 PortId { get; internal protected set; }
+        public virtual int PortId { get; internal protected set; }
 
         [Required]
         [MaxLength(20)]
-        public virtual string PortCode { get; set; }
+        public virtual string PortCode { get; set; } = default!;
 
-        public virtual Int32 v { get; set; }
+        public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }
 
         [Required]
-        public virtual Location KP1 { get; set; }
+        public virtual Location KP1 { get; set; } = default!;
 
         public virtual Location? KP2 { get; set; }
 

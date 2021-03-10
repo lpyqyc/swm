@@ -41,14 +41,14 @@ namespace Swm.Locations
         /// <summary>
         /// 主键
         /// </summary>
-        public virtual Int32 LocationId { get; internal protected set; }
+        public virtual int LocationId { get; internal protected set; }
 
         /// <summary>
         /// 获取或设置此位置的编码。这是自然键。
         /// </summary>
         [Required]
         [MaxLength(16)]
-        public virtual String LocationCode { get; set; }
+        public virtual string LocationCode { get; set; } = default!;
 
         /// <summary>
         /// 版本号
@@ -71,7 +71,7 @@ namespace Swm.Locations
         /// </summary>
         [MaxLength(4)]
         [Required]
-        public virtual string LocationType { get; internal protected set; }
+        public virtual string LocationType { get; internal protected set; } = default!;
 
 
         /// <summary>
@@ -94,12 +94,12 @@ namespace Swm.Locations
         /// 若为 true，则不允许生成新的以此位置为终点的任务。
         /// 已存在的任务不受影响，可以正常完成。
         /// </remarks>
-        public virtual Boolean InboundDisabled { get; set; }
+        public virtual bool InboundDisabled { get; set; }
 
         /// <summary>
         /// 获取或设置此位置禁止入站的备注。
         /// </summary>
-        public virtual String InboundDisabledComment { get; set; }
+        public virtual string? InboundDisabledComment { get; set; }
 
         /// <summary>
         /// 获取或设置此货位的出站数，已生成未下发的任务也计算在内。
@@ -121,17 +121,17 @@ namespace Swm.Locations
         /// 若为 true，则不允许生成新的以此位置为起点的任务。
         /// 已存在的任务不受影响，可以正常完成。
         /// </remarks>
-        public virtual Boolean OutboundDisabled { get; set; }
+        public virtual bool OutboundDisabled { get; set; }
 
         /// <summary>
         /// 获取或设置此位置禁止出站的备注。
         /// </summary>
-        public virtual String OutboundDisabledComment { get; set; }
+        public virtual string? OutboundDisabledComment { get; set; }
 
         /// <summary>
         /// 获取或设置此位置此货位是否存在。
         /// </summary>
-        public virtual Boolean Exists { get; set; }
+        public virtual bool Exists { get; set; }
 
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Swm.Locations
         /// <summary>
         /// 指示货位属于哪个巷道
         /// </summary>
-        public virtual Laneway Laneway { get; internal protected set; }
+        public virtual Laneway? Laneway { get; internal protected set; }
 
         /// <summary>
         /// 指示货位在巷道哪一侧。
@@ -194,23 +194,23 @@ namespace Swm.Locations
         /// <summary>
         /// 获取或设置此货位所在的单元格。仅适用于货架货位。
         /// </summary>
-        public virtual Cell Cell { get; set; }
+        public virtual Cell? Cell { get; set; }
 
         /// <summary>
         /// 获取或设置此位置的标记。
         /// </summary>
         [MaxLength(30)]
-        public virtual string Tag { get; set; }
+        public virtual string? Tag { get; set; }
 
         /// <summary>
         /// 获取或设置此位置上的请求类型，仅适用于关键点。
         /// </summary>
         [MaxLength(16)]
-        public virtual string RequestType { get; set; }
+        public virtual string? RequestType { get; set; }
 
         public virtual Location GetDeep1()
         {
-            if (this.LocationType != LocationTypes.S)
+            if (this.LocationType != LocationTypes.S || this.Laneway == null || this.Cell == null)
             {
                 throw new InvalidOperationException();
             }
@@ -232,7 +232,7 @@ namespace Swm.Locations
 
         public virtual Location GetDeep2()
         {
-            if (this.LocationType != LocationTypes.S)
+            if (this.LocationType != LocationTypes.S || this.Laneway == null || this.Cell == null)
             {
                 throw new InvalidOperationException();
             }
@@ -286,7 +286,7 @@ namespace Swm.Locations
 
             if (LocationType == LocationTypes.S)
             {
-                Cell.UpdateState();
+                Cell?.UpdateState();
 
                 // 更新巷道使用数据
                 var key = new LanewayUsageKey
@@ -296,8 +296,8 @@ namespace Swm.Locations
                     WeightLimit = WeightLimit,
                     HeightLimit = HeightLimit,
                 };
-                var usage = Laneway.Usage;
-                if (usage.ContainsKey(key))
+                var usage = Laneway?.Usage;
+                if (usage != null && usage.ContainsKey(key))
                 {
                     var loaded = Loaded();
                     var avail = Available();
@@ -336,7 +336,7 @@ namespace Swm.Locations
 
             if (LocationType == LocationTypes.S)
             {
-                Cell.UpdateState();
+                Cell?.UpdateState();
 
                 var key = new LanewayUsageKey
                 {
@@ -346,8 +346,8 @@ namespace Swm.Locations
                     HeightLimit = HeightLimit,
                 };
 
-                var usage = Laneway.Usage;
-                if (usage.ContainsKey(key))
+                var usage = Laneway?.Usage;
+                if (usage != null && usage.ContainsKey(key))
                 {
                     var loaded = Loaded();
                     var avail = Available();

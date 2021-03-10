@@ -115,10 +115,7 @@ namespace Swm.Web.Controllers
             int columns = args.Columns;
             int levels = args.Levels;
 
-            Laneway laneway = new Laneway(args.DoubleDeep)
-            {
-                LanewayCode = args.LanewayCode
-            };
+            Laneway laneway = new Laneway(args.LanewayCode, args.DoubleDeep);
             await _session.SaveAsync(laneway).ConfigureAwait(false);
             List<(string rackCode, RackSide side, int deep)> racks = new List<(string rack, RackSide side, int deep)>();
             if (args.DoubleDeep)

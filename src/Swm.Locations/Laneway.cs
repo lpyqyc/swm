@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Arctic.Auditing;
+using Swm.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,6 +25,7 @@ namespace Swm.Locations
     {
         protected Laneway()
         {
+            this.LanewayCode = Cst.None;
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this.Automated = true;
@@ -32,20 +34,20 @@ namespace Swm.Locations
             this.Usage = new Dictionary<LanewayUsageKey, LanewayUsageData>();
         }
 
-        public Laneway(bool doubleDeep)
+        public Laneway(string lanewayCode, bool doubleDeep)
             : this()
         {
-            this.DoubleDeep = doubleDeep;
-            this.Area = "NA";
+            this.LanewayCode = lanewayCode;
+            this.DoubleDeep = doubleDeep;            
         }
 
-        public virtual Int32 LanewayId { get; internal protected set; }
+        public virtual int LanewayId { get; internal protected set; }
 
         [Required]
         [MaxLength(4)]
-        public virtual String LanewayCode { get; set; }
+        public virtual string LanewayCode { get; internal protected set; }
 
-        public virtual Int32 v { get; set; }
+        public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }
 
@@ -53,17 +55,17 @@ namespace Swm.Locations
 
         [Required]
         [MaxLength(16)]
-        public virtual string Area { get; set; }
+        public virtual string Area { get; set; } = Cst.None;
 
-        public virtual String Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
         public virtual ISet<Location> Locations { get; protected set; }
 
         public virtual bool Automated { get; set; }
 
-        public virtual Boolean Offline { get; set; }
+        public virtual bool Offline { get; set; }
 
-        public virtual string OfflineComment { get; set; }
+        public virtual string? OfflineComment { get; set; }
 
         public virtual DateTime TakeOfflineTime { get; set; }
 
