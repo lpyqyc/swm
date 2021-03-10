@@ -25,10 +25,7 @@ namespace Swm.Locations
     /// </summary>
     public class Location : IHasCtime, IHasMtime
     {
-        /// <summary>
-        /// 初始化位置类的新实例。
-        /// </summary>
-        internal protected Location()
+        internal Location(string locationCode, string locationType)
         {
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
@@ -36,6 +33,25 @@ namespace Swm.Locations
             this.StorageGroup = Cst.None;
             this.RequestType = Cst.None;
             this.Specification = Cst.None;
+            this.LocationType = locationType;
+            this.LocationCode = locationCode;
+
+        }
+
+        /// <summary>
+        /// 初始化位置类的新实例。
+        /// </summary>
+        protected Location()
+        {
+            this.ctime = DateTime.Now;
+            this.mtime = DateTime.Now;
+            this.Exists = true;
+            this.StorageGroup = Cst.None;
+            this.RequestType = Cst.None;
+            this.Specification = Cst.None;
+            this.LocationType = Cst.None;
+            this.LocationCode = Cst.None;
+
         }
 
         /// <summary>
@@ -48,7 +64,7 @@ namespace Swm.Locations
         /// </summary>
         [Required]
         [MaxLength(16)]
-        public virtual string LocationCode { get; set; } = default!;
+        public virtual string LocationCode { get; set; }
 
         /// <summary>
         /// 版本号
@@ -71,7 +87,7 @@ namespace Swm.Locations
         /// </summary>
         [MaxLength(4)]
         [Required]
-        public virtual string LocationType { get; internal protected set; } = default!;
+        public virtual string LocationType { get; internal protected set; }
 
 
         /// <summary>
@@ -182,7 +198,7 @@ namespace Swm.Locations
         /// </summary>
         [MaxLength(10)]
         [Required]
-        public virtual string StorageGroup { get; set; }
+        public virtual string? StorageGroup { get; set; }
 
         /// <summary>
         /// 指示此货位上的货载数，此属性不适用于 <see cref="LocationTypes.N"/> 类型的货位。
@@ -291,7 +307,7 @@ namespace Swm.Locations
                 // 更新巷道使用数据
                 var key = new LanewayUsageKey
                 {
-                    StorageGroup = StorageGroup,
+                    StorageGroup = StorageGroup!,
                     Specification = Specification,
                     WeightLimit = WeightLimit,
                     HeightLimit = HeightLimit,
@@ -340,7 +356,7 @@ namespace Swm.Locations
 
                 var key = new LanewayUsageKey
                 {
-                    StorageGroup = StorageGroup,
+                    StorageGroup = StorageGroup!,
                     Specification = Specification,
                     WeightLimit = WeightLimit,
                     HeightLimit = HeightLimit,

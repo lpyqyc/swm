@@ -140,9 +140,8 @@ namespace Swm.Web.Controllers
                         k++;
                         int col = j + 1;
                         int lv = i + 1;
-                        Cell cell = new Cell
+                        Cell cell = new Cell(laneway)
                         {
-                            Laneway = laneway,
                             Side = side.Key,
                             Column = col,
                             Level = lv,

@@ -32,14 +32,14 @@ namespace Swm.Locations
 
         [Required]
         [MaxLength(20)]
-        public virtual string PortCode { get; set; } = default!;
+        public virtual string? PortCode { get; set; }
 
         public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }
 
         [Required]
-        public virtual Location KP1 { get; set; } = default!;
+        public virtual Location? KP1 { get; set; }
 
         public virtual Location? KP2 { get; set; }
 
@@ -82,7 +82,7 @@ namespace Swm.Locations
             this.CurrentUat = null;
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return this.PortCode;
         }

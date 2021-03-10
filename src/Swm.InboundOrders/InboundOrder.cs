@@ -34,19 +34,19 @@ namespace Swm.InboundOrders
         {
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
-            this.Lines = new HashSet<InboundLine>();
+            this._lines = new HashSet<InboundLine>();
             this.BizOrder = Cst.None;
         }
 
         /// <summary>
         /// Id
         /// </summary>
-        public virtual Int32 InboundOrderId { get; protected set; }
+        public virtual int InboundOrderId { get; protected set; }
 
         /// <summary>
         /// 版本号
         /// </summary>
-        public virtual Int32 v { get; set; }
+        public virtual int v { get; set; }
 
         /// <summary>
         /// 创建时间。
@@ -57,7 +57,7 @@ namespace Swm.InboundOrders
         /// 创建人。
         /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; }
+        public virtual string cuser { get; set; } = default!;
 
         /// <summary>
         /// 更新时间。
@@ -68,39 +68,39 @@ namespace Swm.InboundOrders
         /// 更改人
         /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string muser { get; set; }
+        public virtual string muser { get; set; } = default!;
 
         /// <summary>
         /// Wms 内部单号，自然键。
         /// </summary>
         [Required]
         [MaxLength(20)]
-        public virtual String InboundOrderCode { get; set; }
+        public virtual string? InboundOrderCode { get; set; }
 
         /// <summary>
         /// 业务类型。
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.APP_CODE)]
-        public virtual String BizType { get; set; }
+        public virtual string? BizType { get; set; }
 
 
         /// <summary>
         /// 业务单号，例如采购单，退货单，生产计划编号。
         /// </summary>
         [MaxLength(20)]
-        public virtual String BizOrder { get; set; }
+        public virtual string? BizOrder { get; set; }
 
         /// <summary>
         /// 是否已关闭。关闭的入库单不能再入库。
         /// </summary>
-        public virtual Boolean Closed { get; set; }
+        public virtual bool Closed { get; set; }
 
         /// <summary>
         /// 关单人。可以为空。
         /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual String ClosedBy { get; set; }
+        public virtual string? ClosedBy { get; set; }
 
         /// <summary>
         /// 关闭时间。
@@ -110,7 +110,7 @@ namespace Swm.InboundOrders
         /// <summary>
         /// 备注
         /// </summary>
-        public virtual String Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
         /// <summary>
         /// 此入库单中的行。
@@ -149,7 +149,7 @@ namespace Swm.InboundOrders
             this._lines.Remove(line);
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return this.InboundOrderCode;
         }

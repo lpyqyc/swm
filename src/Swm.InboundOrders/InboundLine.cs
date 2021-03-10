@@ -34,38 +34,38 @@ namespace Swm.InboundOrders
         /// <summary>
         /// 主键
         /// </summary>
-        public virtual Int32 InboundLineId { get; protected set; }
+        public virtual int InboundLineId { get; protected set; }
 
 
         /// <summary>
         /// 获取或设置此行所属的入库单。
         /// </summary>
         [Required]
-        public virtual InboundOrder InboundOrder { get; internal protected set; }
+        public virtual InboundOrder? InboundOrder { get; internal protected set; }
 
         /// <summary>
         /// 收货物料。
         /// </summary>
         [Required]
-        public virtual Material Material { get; set; }
+        public virtual Material? Material { get; set; }
 
         /// <summary>
         /// 收货批号。
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.BATCH)]
-        public virtual String Batch { get; set; }
+        public virtual string? Batch { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
-        public virtual string StockStatus { get; set; }
+        public virtual string? StockStatus { get; set; }
 
         /// <summary>
         /// 计量单位
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.UOM)]
-        public virtual String Uom { get; set; }
+        public virtual string? Uom { get; set; }
 
         /// <summary>
         /// 应收数。
@@ -88,7 +88,7 @@ namespace Swm.InboundOrders
         /// <summary>
         /// 备注
         /// </summary>
-        public virtual String Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
     }
 

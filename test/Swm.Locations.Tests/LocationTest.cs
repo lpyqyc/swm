@@ -8,7 +8,6 @@ namespace Swm.Locations.Tests
 {
     public class LocationTest
     {
-
         public LocationTest(ITestOutputHelper output)
         {
             Log.Logger = new LoggerConfiguration()
@@ -16,13 +15,11 @@ namespace Swm.Locations.Tests
                 .CreateLogger();
         }
 
-
         [Fact]
         public void IncreaseUnitloadCount_S位置()
         {
-            Location loc = new Location
+            Location loc = new Location("", LocationTypes.S)
             {
-                LocationType = LocationTypes.S,
                 Cell = Substitute.For<Cell>(),
                 Laneway = Substitute.For<Laneway>(),
             };
@@ -43,9 +40,8 @@ namespace Swm.Locations.Tests
         [Fact]
         public void EnterLocation_K位置()
         {
-            Location loc = new Location
+            Location loc = new Location("", LocationTypes.K)
             {
-                LocationType = LocationTypes.K,
                 Cell = Substitute.For<Cell>(),
                 Laneway = Substitute.For<Laneway>(),
             };
@@ -67,7 +63,7 @@ namespace Swm.Locations.Tests
         [Fact]
         public void IncreaseUnitloadCount_N位置_会抛出异常()
         {
-            Location loc = new Location
+            Location loc = new Location("", LocationTypes.N)
             {
                 LocationType = LocationTypes.N,
             };
@@ -80,9 +76,8 @@ namespace Swm.Locations.Tests
         [Fact]
         public void DecreaseUnitloadCount_K位置()
         {
-            Location loc = new Location
+            Location loc = new Location("", LocationTypes.K)
             {
-                LocationType = LocationTypes.K,
                 Cell = Substitute.For<Cell>(),
                 Laneway = Substitute.For<Laneway>(),
                 UnitloadCount = 2,
@@ -105,9 +100,8 @@ namespace Swm.Locations.Tests
         [Fact]
         public void DecreaseUnitloadCount_S位置()
         {
-            Location loc = new Location
+            Location loc = new Location("", LocationTypes.S)
             {
-                LocationType = LocationTypes.S,
                 Cell = Substitute.For<Cell>(),
                 Laneway = Substitute.For<Laneway>(),
                 UnitloadCount = 2,
@@ -131,9 +125,8 @@ namespace Swm.Locations.Tests
         [Fact]
         public void DecreaseUnitloadCount_小于0_会抛出异常()
         {
-            Location loc = new Location
+            Location loc = new Location("", LocationTypes.S)
             {
-                LocationType = LocationTypes.S,
                 Cell = Substitute.For<Cell>(),
                 Laneway = Substitute.For<Laneway>(),
                 UnitloadCount = 1,
@@ -153,10 +146,7 @@ namespace Swm.Locations.Tests
         [Fact]
         public void DecreaseUnitloadCount_N位置_会抛出异常()
         {
-            Location loc = new Location
-            {
-                LocationType = LocationTypes.N,
-            };
+            Location loc = new Location("", LocationTypes.N);
 
             Assert.Throws<InvalidOperationException>(loc.DecreaseUnitloadCount);
 

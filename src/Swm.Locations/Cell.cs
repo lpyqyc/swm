@@ -26,11 +26,17 @@ namespace Swm.Locations
     /// </summary>
     public class Cell
     {
+        protected Cell()
+        {
+            this.Locations = new HashSet<Location>();
+            this.Laneway = default!;
+        }
         /// <summary>
         /// 初始化新实例
         /// </summary>
-        protected Cell()
+        public Cell(Laneway laneway)
         {
+            this.Laneway = laneway;
             this.Locations = new HashSet<Location>();
         }
 
@@ -43,7 +49,7 @@ namespace Swm.Locations
         /// 此货位单元所属的巷道。
         /// </summary>
         [Required]
-        public virtual Laneway Laneway { get; set; } = default!;
+        public virtual Laneway Laneway { get; protected set; }
 
         /// <summary>
         /// 此货位单元在巷道的哪一侧。
@@ -69,7 +75,7 @@ namespace Swm.Locations
         /// </summary>
         [Required]
         [MaxLength(10)]
-        public virtual string Shape { get; internal protected set; } = default!;
+        public virtual string? Shape { get; internal protected set; }
 
         /// <summary>
         /// 获取或设置此货位单元按形态决定的入次序。

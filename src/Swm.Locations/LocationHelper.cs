@@ -53,7 +53,7 @@ namespace Swm.Locations
                 })
                 .Select(x => new LanewayUsageKey
                 {
-                    StorageGroup = x.Key.StorageGroup,
+                    StorageGroup = x.Key.StorageGroup!,
                     Specification = x.Key.Specification,
                     WeightLimit = x.Key.WeightLimit,
                     HeightLimit = x.Key.HeightLimit

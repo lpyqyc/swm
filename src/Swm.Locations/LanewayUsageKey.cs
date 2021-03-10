@@ -32,14 +32,14 @@ namespace Swm.Locations
         /// </summary>
         [Required]
         [MaxLength(10)]
-        public virtual string StorageGroup { get; set; }
+        public virtual string StorageGroup { get; set; } = default!;
 
         /// <summary>
         /// 获取统计信息的货位规格。
         /// </summary>
         [Required]
         [MaxLength(16)]
-        public virtual string Specification { get; set; }
+        public virtual string Specification { get; set; } = default!;
 
         /// <summary>
         /// 获取统计信息的货位限重。
@@ -51,12 +51,12 @@ namespace Swm.Locations
         /// </summary>
         public virtual decimal HeightLimit { get; set; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return this.Equals(obj as LanewayUsageKey);
         }
 
-        public virtual bool Equals(LanewayUsageKey other)
+        public virtual bool Equals(LanewayUsageKey? other)
         {
             if (other == null)
             {
@@ -78,12 +78,12 @@ namespace Swm.Locations
             return hashCode;
         }
 
-        public static bool operator ==(LanewayUsageKey left, LanewayUsageKey right)
+        public static bool operator ==(LanewayUsageKey? left, LanewayUsageKey? right)
         {
             return EqualityComparer<LanewayUsageKey>.Default.Equals(left, right);
         }
 
-        public static bool operator !=(LanewayUsageKey left, LanewayUsageKey right)
+        public static bool operator !=(LanewayUsageKey? left, LanewayUsageKey? right)
         {
             return !(left == right);
         }

@@ -31,7 +31,7 @@ namespace Swm.Locations
         /// </summary>
         /// <param name="q"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> GetRequestTypes(this IQueryable<Location> q)
+        public static Dictionary<string, string?> GetRequestTypes(this IQueryable<Location> q)
         {
             var list = q
                 .Where(x => x.LocationType == LocationTypes.K)
