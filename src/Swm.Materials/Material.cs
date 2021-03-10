@@ -35,41 +35,41 @@ namespace Swm.Materials
 
         [Required]
         [MaxLength(30)]
-        public virtual string MaterialCode { get; set; }
+        public virtual string MaterialCode { get; set; } = default!;
 
         public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; }
+        public virtual string cuser { get; set; } = default!;
 
         public virtual DateTime mtime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string muser { get; set; }
+        public virtual string muser { get; set; } = default!;
 
 
         [MaxLength(8)]
-        public virtual string MaterialType { get; set; }
+        public virtual string MaterialType { get; set; } = default!;
 
         [Required]
         [MaxLength(255)]
-        public virtual string Description { get; set; }
+        public virtual string Description { get; set; } = default!;
 
         [MaxLength(30)]
-        public virtual string SpareCode { get; set; }
+        public virtual string SpareCode { get; set; } = default!;
 
         [MaxLength(64)]
-        public virtual string Specification { get; set; }
+        public virtual string Specification { get; set; } = default!;
 
         [MaxLength(20)]
-        public virtual string MnemonicCode { get; set; }
+        public virtual string? MnemonicCode { get; set; }
 
         public virtual bool BatchEnabled { get; set; } = true;
 
         [MaxLength(50)]
-        public virtual string MaterialGroup { get; set; }
+        public virtual string? MaterialGroup { get; set; }
 
         public virtual decimal ValidDays { get; set; }
 
@@ -79,11 +79,11 @@ namespace Swm.Materials
         public virtual decimal StandingTime { get; set; }
 
         [MaxLength(1)]
-        public virtual string AbcClass { get; set; }
+        public virtual string? AbcClass { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.UOM)]
-        public virtual string Uom { get; set; }
+        public virtual string? Uom { get; set; }
 
 
 
@@ -96,9 +96,9 @@ namespace Swm.Materials
 
         [Required]
         [MaxLength(8)]
-        public virtual string DefaultStorageGroup { get; set; }
+        public virtual string? DefaultStorageGroup { get; set; }
 
-        public virtual string Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
     }
 

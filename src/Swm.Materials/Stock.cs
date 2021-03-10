@@ -38,25 +38,25 @@ namespace Swm.Materials
         public virtual DateTime mtime { get; set; }
 
         [Required]
-        public virtual Material Material { get; set; }
+        public virtual Material Material { get; set; } = default!;
 
         [Required]
         [MaxLength(FIELD_LENGTH.BATCH)]
-        public virtual string Batch { get; set; }
+        public virtual string Batch { get; set; } = default!;
 
         [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
         [Required]
-        public virtual string StockStatus { get; set; }
+        public virtual string StockStatus { get; set; } = default!;
 
         public virtual decimal Quantity { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.UOM)]
-        public virtual string Uom { get; set; }
+        public virtual string Uom { get; set; } = default!;
 
         [MaxLength(20)]
         [Required]
-        public virtual string OutOrdering { get; set; }
+        public virtual string OutOrdering { get; set; } = default!;
 
         public virtual bool Stocktaking { get; set; }
 

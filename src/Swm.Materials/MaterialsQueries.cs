@@ -29,7 +29,7 @@ namespace Swm.Materials
                 .ConfigureAwait(false);
         }
 
-        public static IQueryable<Material> FilterByKeyword(this IQueryable<Material> q, string? keyword = null, string type = null)
+        public static IQueryable<Material> FilterByKeyword(this IQueryable<Material> q, string? keyword = null, string? type = null)
         {
             keyword = keyword?.Trim();
             type = type?.Trim();
@@ -39,7 +39,7 @@ namespace Swm.Materials
                 q = q.Where(x =>
                     x.MaterialCode.Contains(keyword)
                     || x.Description.Contains(keyword)
-                    || x.MnemonicCode.Contains(keyword)
+                    || (x.MnemonicCode != null && x.MnemonicCode.Contains(keyword))
                 );
             }
 

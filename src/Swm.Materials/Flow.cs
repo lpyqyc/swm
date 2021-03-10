@@ -41,57 +41,57 @@ namespace Swm.Materials
         public virtual DateTime ctime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; }
+        public virtual string cuser { get; set; } = default!;
 
         [Required]
-        public virtual Material Material { get; set; }
+        public virtual Material Material { get; set; } = default!;
 
         [Required]
         [MaxLength(FIELD_LENGTH.BATCH)]
-        public virtual string Batch { get; set; }
+        public virtual string Batch { get; set; } = default!;
 
         [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
         [Required]
-        public virtual string StockStatus { get; set; }
+        public virtual string StockStatus { get; set; } = default!;
 
         public virtual decimal Quantity { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.UOM)]
-        public virtual string Uom { get; set; }
+        public virtual string Uom { get; set; } = default!;
 
 
         [Required]
         [MaxLength(FIELD_LENGTH.APP_CODE)]
-        public virtual string BizType { get; set; }
+        public virtual string BizType { get; set; } = default!;
 
         public virtual FlowDirection Direction { get; set; }
 
         // TODO 重命名
         [Required]
         [MaxLength(FIELD_LENGTH.OPERATION_TYPE)]
-        public virtual string OpType { get; set; }
+        public virtual string OpType { get; set; } = default!;
 
 
         [Required]
         [MaxLength(20)]
-        public virtual string TxNo { get; set; }
+        public virtual string TxNo { get; set; } = default!;
 
 
         [MaxLength(20)]
         [Required]
-        public virtual string OrderCode { get; set; }
+        public virtual string OrderCode { get; set; } = default!;
 
         [Required]
         [MaxLength(20)]
-        public virtual string BizOrder { get; set; }
+        public virtual string BizOrder { get; set; } = default!;
 
         [MaxLength(20)]
-        public virtual string PalletCode { get; set; }
+        public virtual string? PalletCode { get; set; }
 
         public virtual decimal Balance { get; set; }
 
-        public virtual string Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
     }
 }

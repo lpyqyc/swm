@@ -29,36 +29,36 @@ namespace Swm.Materials
         /// </summary>
         protected virtual int v { get; set; }
 
-
-        public virtual MonthlyReport MonthlyReport { get; set; }
+        [Required]
+        public virtual MonthlyReport MonthlyReport { get; set; } = default!;
 
         /// <summary>
         /// 物料
         /// </summary>
         [Required]
         [MaxLength(10)]
-        public virtual Material Material { get; set; }
+        public virtual Material Material { get; set; } = default!;
 
         /// <summary>
         /// 批号
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.BATCH)]
-        public virtual string Batch { get; set; }
+        public virtual string Batch { get; set; } = default!;
 
         /// <summary>
         /// 库存状态
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
-        public virtual string StockStatus { get; set; }
+        public virtual string StockStatus { get; set; } = default!;
 
         /// <summary>
         /// 计量单位
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.UOM)]
-        public virtual string Uom { get; set; }
+        public virtual string Uom { get; set; } = default!;
 
         /// <summary>
         /// 期初数量。期初数量 = 上期期末数量。
@@ -87,12 +87,12 @@ namespace Swm.Materials
             protected set { }
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(obj as MonthlyReportItem);
         }
 
-        public virtual bool Equals(MonthlyReportItem other)
+        public virtual bool Equals(MonthlyReportItem? other)
         {
             return other != null &&
                    EqualityComparer<MonthlyReport>.Default.Equals(MonthlyReport, other.MonthlyReport) &&
@@ -113,12 +113,12 @@ namespace Swm.Materials
             return hashCode;
         }
 
-        public static bool operator ==(MonthlyReportItem left, MonthlyReportItem right)
+        public static bool operator ==(MonthlyReportItem? left, MonthlyReportItem? right)
         {
             return EqualityComparer<MonthlyReportItem>.Default.Equals(left, right);
         }
 
-        public static bool operator !=(MonthlyReportItem left, MonthlyReportItem right)
+        public static bool operator !=(MonthlyReportItem? left, MonthlyReportItem? right)
         {
             return !(left == right);
         }

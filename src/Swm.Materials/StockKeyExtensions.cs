@@ -49,7 +49,7 @@ namespace Swm.Materials
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .ToArray();
 
-            List<object> values = new List<object>();
+            List<object?> values = new List<object?>();
             foreach (var keyParam in stockKeyType.GetConstructors()[0].GetParameters())
             {
                 var entityProp = entityProps.SingleOrDefault(x => x.Name == keyParam.Name);
@@ -57,11 +57,15 @@ namespace Swm.Materials
                 {
                     throw new InvalidOperationException($"未找到属性，类型【{hasStockKey.GetType()}】，名称【{keyParam.Name}】");
                 }
-                object value = entityProp.GetValue(hasStockKey);
+                object? value = entityProp.GetValue(hasStockKey);
                 values.Add(value);
             }
 
-            StockKeyBase stockKey = (StockKeyBase)Activator.CreateInstance(stockKeyType, values.ToArray());
+            var stockKey = (StockKeyBase?)Activator.CreateInstance(stockKeyType, values.ToArray());
+            if (stockKey == null)
+            {
+                throw new InvalidOperationException();
+            }
             return stockKey;
 
         }
@@ -89,7 +93,7 @@ namespace Swm.Materials
                 {
                     throw new InvalidOperationException($"未找到属性，类型【{hasStockKey.GetType()}】，名称【{keyProp.Name}】");
                 }
-                object value = keyProp.GetValue(stockKey);
+                object? value = keyProp.GetValue(stockKey);
                 entityProp.SetValue(hasStockKey, value);
             }
         }
@@ -114,7 +118,7 @@ namespace Swm.Materials
 
             return q;
             
-            (string name, object value)[] GetComponents()
+            (string name, object? value)[] GetComponents()
             {
                 return stockKey.GetType()
                     .GetProperties()
@@ -123,7 +127,7 @@ namespace Swm.Materials
             }
         }
 
-        internal static string BuildWhereClause(params (string name, object value)[] components)
+        internal static string BuildWhereClause(params (string name, object? value)[] components)
         {
             return string.Join(" AND ", components.Select((x, i) => $"{x.name} = @{i}"));
         }
