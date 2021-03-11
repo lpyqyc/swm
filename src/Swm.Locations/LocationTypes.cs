@@ -32,4 +32,12 @@ namespace Swm.Locations
         public const string N = "N";
     }
 
+
+    public static class LocationCodes
+    {
+        /// <summary>
+        ///  N 位置的编码
+        /// </summary>
+        public const string N = "N";
+    }
 }

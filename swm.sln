@@ -33,13 +33,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.InboundOrders", "src\Sw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.Ops", "src\Swm.Ops\Swm.Ops.csproj", "{3455BD05-A8E4-4A12-AA26-113E1D70D503}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swm.Materials.Tests", "test\Swm.Materials.Tests\Swm.Materials.Tests.csproj", "{C1383586-EEB4-4D1E-B145-1AE9E89F66BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.Materials.Tests", "test\Swm.Materials.Tests\Swm.Materials.Tests.csproj", "{C1383586-EEB4-4D1E-B145-1AE9E89F66BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swm.Locations.Tests", "test\Swm.Locations.Tests\Swm.Locations.Tests.csproj", "{23199AEF-7177-47E4-B988-A038B418161A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.Locations.Tests", "test\Swm.Locations.Tests\Swm.Locations.Tests.csproj", "{23199AEF-7177-47E4-B988-A038B418161A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swm.TransportTasks.Tests", "test\Swm.TransportTasks.Tests\Swm.TransportTasks.Tests.csproj", "{49DCB1C6-E7DB-40FA-BC78-64B843D50044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.TransportTasks.Tests", "test\Swm.TransportTasks.Tests\Swm.TransportTasks.Tests.csproj", "{49DCB1C6-E7DB-40FA-BC78-64B843D50044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swm.Palletization.Tests", "test\Swm.Palletization.Tests\Swm.Palletization.Tests.csproj", "{49DB261E-D6C7-4CB5-88E5-F3D015C6C91D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.Palletization.Tests", "test\Swm.Palletization.Tests\Swm.Palletization.Tests.csproj", "{49DB261E-D6C7-4CB5-88E5-F3D015C6C91D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

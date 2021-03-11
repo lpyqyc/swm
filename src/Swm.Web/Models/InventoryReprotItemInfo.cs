@@ -57,7 +57,7 @@ namespace Swm.Web.Controllers
         /// </summary>
         [MaxLength(20)]
         [Required]
-        public string OutOrdering { get; set; } = default!;
+        public string Fifo { get; set; } = default!;
 
         /// <summary>
         /// 库龄基线
