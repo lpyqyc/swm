@@ -19,9 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using NHibernate.Linq;
 using Serilog;
-using Swm.Constants;
 using Swm.Locations;
-using Swm.Model;
+using Swm.Palletization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -407,26 +406,6 @@ namespace Swm.Web.Controllers
             });
         }
 
-        ///// <summary>
-        ///// 关键点选择列表
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //[Route("k/select-list")]
-        //[AutoTransaction]
-        //public async Task<List<PortSelectListItem>> SelectListOfKAsync()
-        //{
-        //    var list = await _session.Query<Port>().ToListAsync();
-        //    var items = list
-        //        .Select(x => new PortSelectListItem
-        //        {
-        //            PortId = x.PortId,
-        //            PortCode = x.PortCode,
-        //            CurrentUat = x.CurrentUat?.ToString(),
-        //        })
-        //        .ToList();
-        //    return items;
-        //}
 
         /// <summary>
         /// 禁止入站
@@ -942,7 +921,6 @@ namespace Swm.Web.Controllers
         }
 
 
-
         /// <summary>
         /// 设置限重
         /// </summary>
@@ -979,7 +957,7 @@ namespace Swm.Web.Controllers
                     Location = loc
                 };
                 await _session.SaveAsync(op);
-                
+
                 loc.WeightLimit = args.WeightLimit;
                 await _session.UpdateAsync(loc);
             }
@@ -997,6 +975,53 @@ namespace Swm.Web.Controllers
             return this.Success();
 
         }
+
+
+
+
+        /// <summary>
+        /// 获取储位详情
+        /// </summary>
+        /// <param name="locationCode">位置编码</param>
+        /// <returns></returns>
+        [HttpGet("get-storage-location-detail/{locationCode}")]
+        [OperationType(OperationTypes.查看位置)]
+        [AutoTransaction]
+        public async Task<ApiData<StorageLocationDetail>> GetStorageLocationDetail(string locationCode)
+        {
+            var loc = await _session.Query<Location>().Where(x => x.LocationCode == locationCode).SingleOrDefaultAsync();
+            if (loc == null)
+            {
+                throw new InvalidOperationException("位置不存在");
+            }
+
+            var unitloads = await _session.Query<Unitload>()
+                .Where(x => x.CurrentLocation == loc)
+                .ToListAsync();
+
+            var detail = new StorageLocationDetail
+            {
+                LocationId = loc.LocationId,
+                LocationCode = loc.LocationCode,
+                LanewayId = loc.Laneway.LanewayId,
+                LanewayCode = loc.Laneway.LanewayCode,
+                WeightLimit = loc.WeightLimit,
+                HeightLimit = loc.HeightLimit,
+                InboundCount = loc.InboundCount,
+                InboundDisabled = loc.InboundDisabled,
+                InboundDisabledComment = loc.InboundDisabledComment,
+                OutboundCount = loc.OutboundCount,
+                OutboundDisabled = loc.OutboundDisabled,
+                OutboundDisabledComment = loc.OutboundDisabledComment,
+                StorageGroup = loc.StorageGroup,
+                UnitloadCount = loc.UnitloadCount,
+                Unitloads = unitloads.Select(u => DtoConvert.ToUnitloadDetail(u)).ToArray(),
+            };
+
+            return this.Success(detail);
+
+        }
+
     }
 
 }

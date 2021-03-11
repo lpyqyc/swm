@@ -437,6 +437,13 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.LocController.GetStorageLocationDetail(System.String)">
+            <summary>
+            获取储位详情
+            </summary>
+            <param name="locationCode">位置编码</param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.LogsController.GetLogList(Swm.Web.Controllers.LogListArgs)">
             <summary>
             日志列表
@@ -1996,7 +2003,7 @@
             计量单位
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.OutOrdering">
+        <member name="P:Swm.Web.Controllers.InventoryReprotItemInfo.Fifo">
             <summary>
             出库次序
             </summary>
@@ -3233,6 +3240,16 @@
         <member name="P:Swm.Web.Controllers.SideViewLocation.o3">
             <summary>
             出次序3
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.StorageLocationDetail">
+            <summary>
+            储位详情
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationDetail.Unitloads">
+            <summary>
+            在此货位上的货载，包含出站任务未完成的货载
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.StorageLocationInfo">

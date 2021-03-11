@@ -90,6 +90,4 @@ namespace Swm.Web.Controllers
         public int UnitloadCount { get; set; }
 
     }
-
-
 }
