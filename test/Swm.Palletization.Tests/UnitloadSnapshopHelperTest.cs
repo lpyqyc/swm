@@ -31,7 +31,7 @@ namespace Swm.Palletization.Tests
                 UnitloadItemId = 1,
                 Batch = "B1",
                 Material = new DefaultMaterialFactory().CreateMaterial(),
-                OutOrdering = "111",
+                Fifo = "111",
                 Quantity = 100,
                 StockStatus = "合格",
                 Uom = "PCS",
@@ -41,7 +41,7 @@ namespace Swm.Palletization.Tests
                 UnitloadItemId = 2,
                 Batch = "B2",
                 Material = new DefaultMaterialFactory().CreateMaterial(),
-                OutOrdering = "222",
+                Fifo = "222",
                 Quantity = 200,
                 StockStatus = "不合格",
                 Uom = "PCS",
@@ -68,7 +68,7 @@ namespace Swm.Palletization.Tests
             Assert.Equal(item1.UnitloadItemId, item1.UnitloadItemId);
             Assert.Equal(item1.Batch, item1.Batch);
             Assert.Same(item1.Material, item1.Material);
-            Assert.Equal(item1.OutOrdering, item1.OutOrdering);
+            Assert.Equal(item1.Fifo, item1.Fifo);
             Assert.Equal(item1.Quantity, item1.Quantity);
             Assert.Equal(item1.StockStatus, item1.StockStatus);
             Assert.Equal(item1.Uom, item1.Uom);
@@ -78,7 +78,7 @@ namespace Swm.Palletization.Tests
             Assert.Equal(item2.UnitloadItemId, item2.UnitloadItemId);
             Assert.Equal(item2.Batch, item2.Batch);
             Assert.Same(item2.Material, item2.Material);
-            Assert.Equal(item2.OutOrdering, item2.OutOrdering);
+            Assert.Equal(item2.Fifo, item2.Fifo);
             Assert.Equal(item2.Quantity, item2.Quantity);
             Assert.Equal(item2.StockStatus, item2.StockStatus);
             Assert.Equal(item2.Uom, item2.Uom);

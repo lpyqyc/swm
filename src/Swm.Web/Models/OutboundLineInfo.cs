@@ -68,7 +68,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 计量单位。
         /// </summary>
-        public string Uom { get; set; } = Cst.None;
+        public string Uom { get; set; }
 
         /// <summary>
         /// 需求数量。

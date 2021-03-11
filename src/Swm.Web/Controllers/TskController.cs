@@ -137,7 +137,7 @@ namespace Swm.Web.Controllers
             var originalLocationCode = unitload.CurrentLocation?.LocationCode;
             if (originalLocationCode == null)
             {
-                originalLocationCode = Cst.None;
+                originalLocationCode = "None";
             }
 
             var archived = await _taskHelper.ChangeUnitloadsLocationAsync(unitload, dest, args.Comment + string.Format("user: {0}", this.User?.Identity?.Name ?? "-"));

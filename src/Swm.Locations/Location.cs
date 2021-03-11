@@ -30,12 +30,8 @@ namespace Swm.Locations
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this.Exists = true;
-            this.StorageGroup = Cst.None;
-            this.RequestType = Cst.None;
-            this.Specification = Cst.None;
             this.LocationType = locationType;
             this.LocationCode = locationCode;
-
         }
 
         /// <summary>
@@ -46,12 +42,8 @@ namespace Swm.Locations
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this.Exists = true;
-            this.StorageGroup = Cst.None;
-            this.RequestType = Cst.None;
-            this.Specification = Cst.None;
-            this.LocationType = Cst.None;
-            this.LocationCode = Cst.None;
-
+            this.LocationType = default!;
+            this.LocationCode = default!;
         }
 
         /// <summary>
@@ -164,7 +156,7 @@ namespace Swm.Locations
         /// 指示此货位的规格（不含高度），例如【九角1200x1100】
         /// </summary>
         [MaxLength(16)]
-        public virtual string Specification { get; set; }
+        public virtual string? Specification { get; set; }
 
 
         /// <summary>

@@ -37,7 +37,6 @@ namespace Swm.OutboundOrders
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this.Lines = new HashSet<OutboundLine>();
-            this.BizOrder = Cst.None;
         }
 
         /// <summary>
@@ -81,13 +80,13 @@ namespace Swm.OutboundOrders
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.APP_CODE)]
-        public virtual String BizType { get; set; }
+        public virtual string BizType { get; set; }
 
         /// <summary>
         /// 业务单据号
         /// </summary>
         [MaxLength(20)]
-        public virtual String BizOrder { get; set; }
+        public virtual string? BizOrder { get; set; }
 
         /// <summary>
         /// 是否已关闭

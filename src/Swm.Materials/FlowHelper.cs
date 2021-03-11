@@ -65,7 +65,7 @@ namespace Swm.Materials
                 {
                     stock = _stockFactory.CreateStock();
                     stock.SetStockKey(key);
-                    stock.OutOrdering = _fifoProvider.GetFifo(key);
+                    stock.Fifo = _fifoProvider.GetFifo(key);
 
                     // TODO 暂取记录的创建时间作为库龄基线
                     stock.AgeBaseline = DateTime.Now;
@@ -95,7 +95,16 @@ namespace Swm.Materials
         /// <param name="orderCode">导致此流水产生的WMS单据号。</param>
         /// <param name="bizOrder">WMS单据号对应的业务单号，不需要时使用<see cref="Cst.None"/></param>
         /// <param name="palletCode">库存发生变动的托盘号</param>
-        void Populate<TStockKey>(Flow flow, TStockKey stockKey, decimal quantity, FlowDirection dir, string bizType, string opType, string palletCode, string orderCode = Cst.None, string bizOrder = Cst.None, string txNo = Cst.None)
+        void Populate<TStockKey>(Flow flow,
+                                 TStockKey stockKey,
+                                 decimal quantity,
+                                 FlowDirection dir,
+                                 string bizType,
+                                 string opType,
+                                 string palletCode,
+                                 string? orderCode = null,
+                                 string? bizOrder = null,
+                                 string? txNo = null)
             where TStockKey : StockKeyBase
         {
             if (flow == null)
@@ -138,7 +147,16 @@ namespace Swm.Materials
         /// <param name="txNo">事务号，一个事务有多条流水时，用事务号将这些流水串起来。目前仅用于库存转换类业务，非转换类业务使用 <see cref="Cst.None"/>，参考 <see cref="Flow.TxNo"/></param>
         /// <param name="updateStock">是否更新库存表数据</param>
         /// <returns></returns>
-        public async Task<Flow> CreateAndSaveAsync<TStockKey>(TStockKey stockKey, decimal quantity, FlowDirection dir, string bizType, string opType, string palletCode, string orderCode = Cst.None, string bizOrder = Cst.None, string txNo = Cst.None, bool updateStock = true)
+        public async Task<Flow> CreateAndSaveAsync<TStockKey>(TStockKey stockKey,
+                                                              decimal quantity,
+                                                              FlowDirection dir,
+                                                              string bizType,
+                                                              string opType,
+                                                              string palletCode,
+                                                              string? orderCode = null,
+                                                              string? bizOrder = null,
+                                                              string? txNo = null,
+                                                              bool updateStock = true)
             where TStockKey : StockKeyBase
         {
             var flow = _flowFactory.CreateFlow();

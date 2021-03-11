@@ -56,8 +56,8 @@ namespace Swm.Palletization
                                                    IEnumerable<PalletizationItemInfo<TStockKey>> items,
                                                    string opType,
                                                    string bizType,
-                                                   string orderCode = Cst.None,
-                                                   string bizOrder = Cst.None,
+                                                   string? orderCode = null,
+                                                   string? bizOrder = null,
                                                    bool updateStock = true)
             where TStockKey : StockKeyBase
         {
@@ -100,11 +100,11 @@ namespace Swm.Palletization
                 UnitloadItem unitloadItem = _unitloadFactory.CreateUnitloadItem();
                 unitloadItem.SetStockKey(item.StockKey);
                 unitloadItem.Quantity = item.Quantity;
-                unitloadItem.OutOrdering = _fifoProvider.GetFifo(item.StockKey);
+                unitloadItem.Fifo = _fifoProvider.GetFifo(item.StockKey);
                 unitload.AddItem(unitloadItem);
 
                 await _flowHelper
-                    .CreateAndSaveAsync(item.StockKey, item.Quantity, FlowDirection.Inbound, bizType, opType, palletCode, orderCode, bizOrder, Cst.None, updateStock)
+                    .CreateAndSaveAsync(item.StockKey, item.Quantity, FlowDirection.Inbound, bizType, opType, palletCode, orderCode, bizOrder, null, updateStock)
                     .ConfigureAwait(false);
             }
 
@@ -130,8 +130,8 @@ namespace Swm.Palletization
                                                    decimal quantity,
                                                    string opType,
                                                    string bizType,
-                                                   string orderCode = Cst.None,
-                                                   string bizOrder = Cst.None,
+                                                   string? orderCode = null,
+                                                   string? bizOrder = null,
                                                    bool updateStock = true)
             where TStockKey : StockKeyBase
         {

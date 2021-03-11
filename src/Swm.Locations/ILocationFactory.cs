@@ -16,7 +16,7 @@ namespace Swm.Locations
 {
     public interface ILocationFactory
     {
-        Location CreateLocation(string locationCode, string locationType, Laneway laneway, int column, int level);
+        Location CreateLocation(string locationCode, string locationType, Laneway? laneway, int column, int level);
     }
 
 

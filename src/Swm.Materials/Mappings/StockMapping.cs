@@ -62,7 +62,7 @@ namespace Swm.Materials.Mappings
 
 
             Property(cl => cl.Quantity);
-            Property(cl => cl.OutOrdering);
+            Property(cl => cl.Fifo);
 
             Property(cl => cl.Stocktaking);
             Property(cl => cl.AgeBaseline);

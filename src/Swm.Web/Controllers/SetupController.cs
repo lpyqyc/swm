@@ -73,7 +73,7 @@ namespace Swm.Web.Controllers
             _logger.Information("已导出数据库架构");
 
             _logger.Information("正在创建 N 位置");
-            Location loc = _locationFactory.CreateLocation(Cst.None, LocationTypes.N, null, 0, 0);
+            Location loc = _locationFactory.CreateLocation("None", LocationTypes.N, null, 0, 0);
             loc.InboundLimit = 999;
             loc.OutboundLimit = 999;
             await _session.SaveAsync(loc).ConfigureAwait(false);
@@ -157,8 +157,8 @@ namespace Swm.Web.Controllers
                             loc.OutboundLimit = 1;
                             loc.Side = rack.side;
                             loc.Deep = rack.deep;
-                            loc.StorageGroup = Cst.None;
-                            loc.Specification = Cst.None;
+                            loc.StorageGroup = "None";
+                            loc.Specification = "None";
                             loc.Cell = cell;
                             cell.Locations.Add(loc);
                         }

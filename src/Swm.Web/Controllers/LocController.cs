@@ -819,7 +819,7 @@ namespace Swm.Web.Controllers
             static async Task<Location> CreateKeyPointAsync(ILocationFactory locationFactory, ISession session, string locationCode)
             {
                 Location loc = locationFactory.CreateLocation(locationCode, LocationTypes.K, null, 0, 0);
-                loc.RequestType = Cst.None;
+                loc.RequestType = null;
                 loc.Tag = "港口";
                 loc.InboundLimit = 999;
                 loc.OutboundLimit = 999;

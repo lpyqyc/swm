@@ -73,18 +73,15 @@ namespace Swm.Materials
         public virtual string OpType { get; set; } = default!;
 
 
-        [Required]
         [MaxLength(20)]
-        public virtual string TxNo { get; set; } = default!;
+        public virtual string? TxNo { get; set; }
 
 
         [MaxLength(20)]
-        [Required]
-        public virtual string OrderCode { get; set; } = default!;
+        public virtual string? OrderCode { get; set; }
 
-        [Required]
         [MaxLength(20)]
-        public virtual string BizOrder { get; set; } = default!;
+        public virtual string? BizOrder { get; set; }
 
         [MaxLength(20)]
         public virtual string? PalletCode { get; set; }

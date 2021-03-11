@@ -604,7 +604,7 @@ namespace Swm.Web.Controllers
             string? outboundOrderCode = args?.OutboundOrderCode?.Trim();
 
             var q = _session.Query<UnitloadItem>()
-                .Where(x => x.Unitload.OpHintType == Cst.None
+                .Where(x => string.IsNullOrWhiteSpace(x.Unitload.OpHintType)
                     && x.Unitload.HasCountingError == false
                     && x.Unitload.BeingMoved == false
                 );

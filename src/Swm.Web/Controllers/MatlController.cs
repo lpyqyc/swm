@@ -562,7 +562,7 @@ namespace Swm.Web.Controllers
                 list.Add("有盘点错误");
             }
 
-            if (item.Unitload.OpHintType.IsNotNone())
+            if (string.IsNullOrWhiteSpace(item.Unitload.OpHintType))
             {
                 list.Add("有操作提示");
             }

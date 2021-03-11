@@ -63,7 +63,7 @@ namespace Swm.Web.Controllers
         /// 计量单位。
         /// </summary>
         [Required]
-        public string Uom { get; set; } = Cst.None;
+        public string Uom { get; set; }
 
         /// <summary>
         /// 应入数量

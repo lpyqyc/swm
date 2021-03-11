@@ -28,7 +28,7 @@ namespace Swm.Materials
         {
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
-            this.DefaultStorageGroup = Cst.None;
+            this.DefaultStorageGroup = "None";
         }
 
         public virtual int MaterialId { get; set; }

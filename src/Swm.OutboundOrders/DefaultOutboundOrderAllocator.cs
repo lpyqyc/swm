@@ -117,7 +117,7 @@ namespace Swm.OutboundOrders
                 .Where(x => 
                     included.Contains(x) == false   // 显式包含的货载项已在上面处理过，这里需排除
                     && x.Material == line.Material)
-                .OrderBy(x => x.OutOrdering)
+                .OrderBy(x => x.Fifo)
                 .ThenBy(x => x.Unitload.CurrentLocation.Cell.oByShape)
                 .ThenBy(x => x.Unitload.CurrentLocation.Cell.o1)
                 .ThenBy(x => x.Unitload.CurrentLocation.Deep)
@@ -297,7 +297,7 @@ namespace Swm.OutboundOrders
                 passed = false;
             }
 
-            if (item.Unitload.OpHintType == Cst.None && item.Unitload.OpHintInfo == Cst.None)
+            if (string.IsNullOrWhiteSpace(item.Unitload.OpHintType) && string.IsNullOrWhiteSpace(item.Unitload.OpHintInfo))
             {
                 _logger.Debug("（√）无操作提示");
             }

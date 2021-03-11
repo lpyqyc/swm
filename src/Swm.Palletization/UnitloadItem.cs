@@ -27,10 +27,9 @@ namespace Swm.Palletization
     {
         internal protected UnitloadItem()
         {
-            this.Uom = Cst.None;
         }
 
-        public virtual Int32 UnitloadItemId { get; set; }
+        public virtual int UnitloadItemId { get; set; }
 
         [Required]
         public virtual Unitload Unitload { get; internal protected set; }
@@ -60,7 +59,7 @@ namespace Swm.Palletization
 
         [MaxLength(20)]
         [Required]
-        public virtual string OutOrdering { get; set; }
+        public virtual string Fifo { get; set; }
 
         public virtual ISet<UnitloadItemAllocation> Allocations { get; protected set; } = new HashSet<UnitloadItemAllocation>();
 

@@ -35,7 +35,6 @@ namespace Swm.InboundOrders
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this._lines = new HashSet<InboundLine>();
-            this.BizOrder = Cst.None;
         }
 
         /// <summary>

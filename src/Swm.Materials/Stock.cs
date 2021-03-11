@@ -56,7 +56,7 @@ namespace Swm.Materials
 
         [MaxLength(20)]
         [Required]
-        public virtual string OutOrdering { get; set; } = default!;
+        public virtual string Fifo { get; set; } = default!;
 
         public virtual bool Stocktaking { get; set; }
 

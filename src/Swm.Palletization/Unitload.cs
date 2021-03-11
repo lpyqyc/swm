@@ -37,11 +37,8 @@ namespace Swm.Palletization
         {
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
-            this.OpHintType = Cst.None;
-            this.OpHintInfo = Cst.None;
             this.StorageInfo = new StorageInfo();
-            Items = new HashSet<UnitloadItem>();
-            //CurrentTasks = new HashSet<TransportTask>();
+            _items = new HashSet<UnitloadItem>();
         }
 
         public virtual int UnitloadId { get; internal protected set; }
@@ -90,7 +87,7 @@ namespace Swm.Palletization
         public virtual DateTime CurrentLocationTime { get; internal protected set; }
 
 
-        public virtual IUnitloadAllocationTable CurrentUat { get; protected set; }
+        public virtual IUnitloadAllocationTable? CurrentUat { get; protected set; }
 
         /// <summary>
         /// CurrentUat 的类型，用于帮助映射 <see cref="IUnitloadAllocationTable.Unitloads"/> 属性。
@@ -99,7 +96,7 @@ namespace Swm.Palletization
         /// 映射 <see cref="CurrentUat"/> 属性的 any 元素的 CurrentUatType 列，取值可能是基类名称，也有可能是子类名称，CurrentUatRootType 是为了提供固定不变的值。
         /// </remarks>
         [MaxLength(4)]
-        public virtual string CurrentUatRootType { get; protected set; }
+        public virtual string? CurrentUatRootType { get; protected set; }
 
 
         /// <summary>
@@ -148,17 +145,17 @@ namespace Swm.Palletization
         // TODO 重命名
         [MaxLength(20)]
         [Required]
-        public virtual string OpHintType { get; protected set; }
+        public virtual string? OpHintType { get; protected set; }
 
         [MaxLength(20)]
         [Required]
-        public virtual string OpHintInfo { get; protected set; }
+        public virtual string? OpHintInfo { get; protected set; }
 
-        public virtual String Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
         public virtual void SetOpHint(string opHintType, string opHintInfo)
         {
-            if (this.OpHintType != Cst.None)
+            if (string.IsNullOrWhiteSpace(this.OpHintType))
             {
                 throw new InvalidOperationException("货载上有未清除的操作提示。");
             }
@@ -170,8 +167,8 @@ namespace Swm.Palletization
 
         public virtual void ResetOpHint()
         {
-            this.OpHintType = Cst.None;
-            this.OpHintInfo = Cst.None;
+            this.OpHintType = null;
+            this.OpHintInfo = null;
         }
 
         public virtual void AddItem(UnitloadItem item)

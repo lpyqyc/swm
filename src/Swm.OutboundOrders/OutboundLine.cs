@@ -37,7 +37,6 @@ namespace Swm.OutboundOrders
 
         public OutboundLine()
         {
-            this.Uom = Cst.None;
         }
 
         /// <summary>
@@ -76,7 +75,7 @@ namespace Swm.OutboundOrders
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.UOM)]
-        public virtual string Uom { get; set; } = Cst.None;
+        public virtual string Uom { get; set; }
 
         /// <summary>
         /// 获取或设置需求数量。

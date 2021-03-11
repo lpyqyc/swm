@@ -18,7 +18,7 @@ namespace Swm.Locations
 {
     public class DefaultLocationFactory : ILocationFactory
     {
-        public Location CreateLocation(string locationCode, string locationType, Laneway laneway, int column, int level)
+        public Location CreateLocation(string locationCode, string locationType, Laneway? laneway, int column, int level)
         {
             Location obj = new Location(locationCode, locationType);
             obj.LocationCode = locationCode;

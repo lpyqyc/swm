@@ -81,7 +81,7 @@ namespace Swm.Locations
         public static async Task<Location> GetNAsync(this IQueryable<Location> q)
         {
             return await q
-                .Where(x => x.LocationCode == Cst.None)
+                .Where(x => x.LocationCode == "None")
                 .WithOptions(x => x.SetCacheable(true))
                 .SingleOrDefaultAsync()
                 .ConfigureAwait(false);

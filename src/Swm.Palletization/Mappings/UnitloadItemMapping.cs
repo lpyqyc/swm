@@ -44,7 +44,7 @@ namespace Swm.Palletization.Mappings
             });
 
             Property(cl => cl.Batch);
-            Property(cl => cl.OutOrdering);
+            Property(cl => cl.Fifo);
             Property(cl => cl.Quantity);
             Property(cl => cl.Uom);
 

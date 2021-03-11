@@ -27,9 +27,9 @@ namespace Swm.Palletization
     {
         public StorageInfo()
         {
-            this.StorageGroup = Cst.None;
-            this.OutFlag = Cst.None;
-            this.ContainerSpecification = Cst.None;
+            this.StorageGroup = default!;
+            this.OutFlag = default!;
+            this.ContainerSpecification = default!;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Swm.Palletization
             return JsonSerializer.Serialize(this);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is StorageInfo info &&
                    Weight == info.Weight &&
@@ -97,7 +97,7 @@ namespace Swm.Palletization
             return hashCode;
         }
 
-        public virtual bool Equals(StorageInfo info)
+        public virtual bool Equals(StorageInfo? info)
         {
             return info != null &&
                    Weight == info.Weight &&
@@ -107,12 +107,12 @@ namespace Swm.Palletization
                    ContainerSpecification == info.ContainerSpecification;
         }
 
-        public static bool operator ==(StorageInfo left, StorageInfo right)
+        public static bool operator ==(StorageInfo? left, StorageInfo? right)
         {
             return EqualityComparer<StorageInfo>.Default.Equals(left, right);
         }
 
-        public static bool operator !=(StorageInfo left, StorageInfo right)
+        public static bool operator !=(StorageInfo? left, StorageInfo? right)
         {
             return !(left == right);
         }

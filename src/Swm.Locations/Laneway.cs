@@ -25,7 +25,7 @@ namespace Swm.Locations
     {
         protected Laneway()
         {
-            this.LanewayCode = Cst.None;
+            this.LanewayCode = default!;
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this.Automated = true;
@@ -55,7 +55,7 @@ namespace Swm.Locations
 
         [Required]
         [MaxLength(16)]
-        public virtual string Area { get; set; } = Cst.None;
+        public virtual string Area { get; set; }
 
         public virtual string? Comment { get; set; }
 

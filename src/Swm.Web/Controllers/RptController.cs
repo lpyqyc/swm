@@ -53,7 +53,7 @@ namespace Swm.Web.Controllers
                 StockStatus = x.StockStatus,
                 Quantity = x.Quantity,
                 Uom = x.Uom,
-                OutOrdering = x.OutOrdering,
+                OutOrdering = x.Fifo,
                 AgeBaseline = x.AgeBaseline,
             });
         }
