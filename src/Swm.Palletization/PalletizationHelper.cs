@@ -29,7 +29,7 @@ namespace Swm.Palletization
         readonly ILogger _logger;
         readonly IUnitloadFactory _unitloadFactory;
         readonly IUnitloadStorageInfoProvider _storageInfoProvider;
-        readonly IOutOrderingProvider _outOrderingProvider;
+        readonly IFifoProvider _fifoProvider;
         readonly IPalletCodeValidator _palletCodeValidator;
         readonly ISession _session;
         readonly FlowHelper _flowHelper;
@@ -37,7 +37,7 @@ namespace Swm.Palletization
         public PalletizationHelper(ISession session, 
             IUnitloadFactory unitloadFactory,            
             IUnitloadStorageInfoProvider storageInfoProvider, 
-            IOutOrderingProvider outOrderingProvider, 
+            IFifoProvider outOrderingProvider, 
             IPalletCodeValidator palletCodeValidator,
             FlowHelper flowHelper,
             ILogger logger)
@@ -45,7 +45,7 @@ namespace Swm.Palletization
             _logger = logger;
             _unitloadFactory = unitloadFactory;
             _storageInfoProvider = storageInfoProvider;
-            _outOrderingProvider = outOrderingProvider;
+            _fifoProvider = outOrderingProvider;
             _palletCodeValidator = palletCodeValidator;
             _session = session;
             _flowHelper = flowHelper;
@@ -100,7 +100,7 @@ namespace Swm.Palletization
                 UnitloadItem unitloadItem = _unitloadFactory.CreateUnitloadItem();
                 unitloadItem.SetStockKey(item.StockKey);
                 unitloadItem.Quantity = item.Quantity;
-                unitloadItem.OutOrdering = _outOrderingProvider.GetOutOrdering(item.StockKey);
+                unitloadItem.OutOrdering = _fifoProvider.GetFifo(item.StockKey);
                 unitload.AddItem(unitloadItem);
 
                 await _flowHelper

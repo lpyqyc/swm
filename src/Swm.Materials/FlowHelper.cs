@@ -24,7 +24,7 @@ namespace Swm.Materials
     public class FlowHelper
     {
         readonly IStockFactory _stockFactory;
-        readonly IOutOrderingProvider _outOrderingProvider;
+        readonly IFifoProvider _fifoProvider;
         readonly ISession _session;
         readonly IFlowFactory _flowFactory;
         readonly SimpleEventBus _eventBus;
@@ -32,12 +32,12 @@ namespace Swm.Materials
         public FlowHelper(ISession session,
             IFlowFactory flowFactory,
             IStockFactory stockFactory, 
-            IOutOrderingProvider outOrderingProvider,
+            IFifoProvider fifoProvider,
             SimpleEventBus eventBus
             )
         {
             _stockFactory = stockFactory;
-            _outOrderingProvider = outOrderingProvider;
+            _fifoProvider = fifoProvider;
             _session = session;
             _flowFactory = flowFactory;
             _eventBus = eventBus;
@@ -65,7 +65,7 @@ namespace Swm.Materials
                 {
                     stock = _stockFactory.CreateStock();
                     stock.SetStockKey(key);
-                    stock.OutOrdering = _outOrderingProvider.GetOutOrdering(key);
+                    stock.OutOrdering = _fifoProvider.GetFifo(key);
 
                     // TODO 暂取记录的创建时间作为库龄基线
                     stock.AgeBaseline = DateTime.Now;
