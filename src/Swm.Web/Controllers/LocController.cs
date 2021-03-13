@@ -410,20 +410,15 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 禁止入站
         /// </summary>
-        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost("disable-inbound/[[{ids}]]")]
+        [HttpPost("disable-inbound")]
         [OperationType(OperationTypes.禁止入站)]
         [AutoTransaction]
-        public async Task<ApiData> DisableInbound(string ids, DisableLocationArgs args)
+        public async Task<ApiData> DisableInbound(DisableLocationArgs args)
         {
-            List<int> list = ids
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Select(x => int.Parse(x))
-                .ToList();
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => list.Contains(x.LocationId))
+                .Where(x => args.LocationIds.Contains(x.LocationId))
                 .ToListAsync();
 
             int affected = 0;
@@ -485,21 +480,15 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 允许入站
         /// </summary>
-        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost("enable-inbound/[[{ids}]]")]
+        [HttpPost("enable-inbound")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ApiData> EnableInbound(string ids, DisableLocationArgs args)
+        public async Task<ApiData> EnableInbound(DisableLocationArgs args)
         {
-            List<int> list = ids
-               .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-               .Select(x => int.Parse(x))
-               .ToList();
-
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => list.Contains(x.LocationId))
+                .Where(x => args.LocationIds.Contains(x.LocationId))
                 .ToListAsync();
 
             int affected = 0;
@@ -561,21 +550,15 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 禁止出站
         /// </summary>
-        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost("disable-outbound/[[{ids}]]")]
+        [HttpPost("disable-outbound")]
         [OperationType(OperationTypes.禁止出站)]
         [AutoTransaction]
-        public async Task<ApiData> DisableOutbound(string ids, DisableLocationArgs args)
+        public async Task<ApiData> DisableOutbound(DisableLocationArgs args)
         {
-            List<int> list = ids
-               .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-               .Select(x => int.Parse(x))
-               .ToList();
-
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => list.Contains(x.LocationId))
+                .Where(x => args.LocationIds.Contains(x.LocationId))
                 .ToListAsync();
             if (locs.Count == 0)
             {
@@ -640,21 +623,15 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 允许入站
         /// </summary>
-        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost("enable-outbound/[[{ids}]]")]
+        [HttpPost("enable-outbound")]
         [OperationType(OperationTypes.允许入站)]
         [AutoTransaction]
-        public async Task<ApiData> EnableOutbound(string ids, DisableLocationArgs args)
+        public async Task<ApiData> EnableOutbound(DisableLocationArgs args)
         {
-            List<int> list = ids
-               .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-               .Select(x => int.Parse(x))
-               .ToList();
-
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => list.Contains(x.LocationId))
+                .Where(x => args.LocationIds.Contains(x.LocationId))
                 .ToListAsync();
             if (locs.Count == 0)
             {
@@ -812,20 +789,15 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 设置分组
         /// </summary>
-        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost("set-storage-group/[[{ids}]]")]
+        [HttpPost("set-storage-group")]
         [OperationType(OperationTypes.设置分组)]
         [AutoTransaction]
-        public async Task<ApiData> SetStorageGroup(string ids, SetStorageGroupArgs args)
+        public async Task<ApiData> SetStorageGroup(SetStorageGroupArgs args)
         {
-            List<int> list = ids
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Select(x => int.Parse(x))
-                .ToList();
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => list.Contains(x.LocationId))
+                .Where(x => args.LocationIds.Contains(x.LocationId))
                 .ToListAsync();
 
             int affected = 0;
@@ -871,17 +843,13 @@ namespace Swm.Web.Controllers
         /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost("set-height-limit/[[{ids}]]")]
+        [HttpPost("set-height-limit")]
         [OperationType(OperationTypes.设置限高)]
         [AutoTransaction]
-        public async Task<ApiData> SetHeightLimit(string ids, SetHeightLimitArgs args)
+        public async Task<ApiData> SetHeightLimit(SetHeightLimitArgs args)
         {
-            List<int> list = ids
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Select(x => int.Parse(x))
-                .ToList();
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => list.Contains(x.LocationId))
+                .Where(x => args.LocationIds.Contains(x.LocationId))
                 .ToListAsync();
 
             int affected = 0;
@@ -927,17 +895,13 @@ namespace Swm.Web.Controllers
         /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost("set-weight-limit/[[{ids}]]")]
+        [HttpPost("set-weight-limit")]
         [OperationType(OperationTypes.设置限重)]
         [AutoTransaction]
-        public async Task<ApiData> SetWeightLimit(string ids, SetWeightLimitArgs args)
+        public async Task<ApiData> SetWeightLimit(SetWeightLimitArgs args)
         {
-            List<int> list = ids
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Select(x => int.Parse(x))
-                .ToList();
             List<Location> locs = await _session.Query<Location>()
-                .Where(x => list.Contains(x.LocationId))
+                .Where(x => args.LocationIds.Contains(x.LocationId))
                 .ToListAsync();
 
             int affected = 0;

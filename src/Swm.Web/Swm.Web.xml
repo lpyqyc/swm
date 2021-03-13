@@ -359,35 +359,31 @@
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.DisableInbound(System.String,Swm.Web.Controllers.DisableLocationArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.DisableInbound(Swm.Web.Controllers.DisableLocationArgs)">
             <summary>
             禁止入站
             </summary>
-            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.EnableInbound(System.String,Swm.Web.Controllers.DisableLocationArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.EnableInbound(Swm.Web.Controllers.DisableLocationArgs)">
             <summary>
             允许入站
             </summary>
-            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.DisableOutbound(System.String,Swm.Web.Controllers.DisableLocationArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.DisableOutbound(Swm.Web.Controllers.DisableLocationArgs)">
             <summary>
             禁止出站
             </summary>
-            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.EnableOutbound(System.String,Swm.Web.Controllers.DisableLocationArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.EnableOutbound(Swm.Web.Controllers.DisableLocationArgs)">
             <summary>
             允许入站
             </summary>
-            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -413,15 +409,14 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.SetStorageGroup(System.String,Swm.Web.Controllers.SetStorageGroupArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.SetStorageGroup(Swm.Web.Controllers.SetStorageGroupArgs)">
             <summary>
             设置分组
             </summary>
-            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.SetHeightLimit(System.String,Swm.Web.Controllers.SetHeightLimitArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.SetHeightLimit(Swm.Web.Controllers.SetHeightLimitArgs)">
             <summary>
             设置限高
             </summary>
@@ -429,7 +424,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.SetWeightLimit(System.String,Swm.Web.Controllers.SetWeightLimitArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.SetWeightLimit(Swm.Web.Controllers.SetWeightLimitArgs)">
             <summary>
             设置限重
             </summary>
@@ -1438,6 +1433,11 @@
         <member name="T:Swm.Web.Controllers.DisableLocationArgs">
             <summary>
             禁用或启用位置的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DisableLocationArgs.LocationIds">
+            <summary>
+            要禁用或启用的位置 Id 列表
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.DisableLocationArgs.Comment">
@@ -3037,6 +3037,11 @@
             设置限高的操作参数
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.SetHeightLimitArgs.LocationIds">
+            <summary>
+            要设置限高的位置 Id 列表
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.SetHeightLimitArgs.HeightLimit">
             <summary>
             限高。
@@ -3057,6 +3062,11 @@
             设置存储分组的操作参数
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.SetStorageGroupArgs.LocationIds">
+            <summary>
+            要设置分组的位置 Id 列表
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.SetStorageGroupArgs.StorageGroup">
             <summary>
             禁用或启用位置的操作备注。
@@ -3065,6 +3075,11 @@
         <member name="T:Swm.Web.Controllers.SetWeightLimitArgs">
             <summary>
             设置限重的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SetWeightLimitArgs.LocationIds">
+            <summary>
+            要设置限重的位置 Id 列表
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.SetWeightLimitArgs.WeightLimit">
