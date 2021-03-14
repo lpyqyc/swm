@@ -62,7 +62,7 @@ namespace Swm.OutboundOrders
         /// 创建人
         /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; }
+        public virtual string? cuser { get; set; }
 
         /// <summary>
         /// 修改时间
@@ -73,7 +73,7 @@ namespace Swm.OutboundOrders
         /// 修改人
         /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string muser { get; set; }
+        public virtual string? muser { get; set; }
 
         /// <summary>
         /// 业务类型
@@ -102,13 +102,13 @@ namespace Swm.OutboundOrders
         /// 由谁关闭
         /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string ClosedBy { get; set; }
+        public virtual string? ClosedBy { get; set; }
 
 
         /// <summary>
         /// 备注
         /// </summary>
-        public virtual String Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
         /// <summary>
         /// 出库单明细集合。

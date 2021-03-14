@@ -28,7 +28,7 @@ namespace Swm.Materials
         {
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
-            this.DefaultStorageGroup = "None";
+            this.DefaultStorageGroup = "普通";
         }
 
         public virtual int MaterialId { get; set; }
@@ -37,17 +37,19 @@ namespace Swm.Materials
         [MaxLength(30)]
         public virtual string MaterialCode { get; set; } = default!;
 
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; } = default!;
+        public virtual string? cuser { get; set; } = default!;
 
         public virtual DateTime mtime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string muser { get; set; } = default!;
+        public virtual string? muser { get; set; } = default!;
 
 
         [MaxLength(8)]

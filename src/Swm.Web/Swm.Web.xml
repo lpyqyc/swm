@@ -420,7 +420,6 @@
             <summary>
             设置限高
             </summary>
-            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -428,7 +427,6 @@
             <summary>
             设置限重
             </summary>
-            <param name="ids">逗号分隔的位置Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>

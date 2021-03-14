@@ -25,26 +25,11 @@ namespace Swm.Locations
     /// </summary>
     public class Location : IHasCtime, IHasMtime
     {
-        internal Location(string locationCode, string locationType)
+        internal protected Location()
         {
-            this.ctime = DateTime.Now;
-            this.mtime = DateTime.Now;
-            this.Exists = true;
-            this.LocationType = locationType;
-            this.LocationCode = locationCode;
         }
 
-        /// <summary>
-        /// 初始化位置类的新实例。
-        /// </summary>
-        protected Location()
-        {
-            this.ctime = DateTime.Now;
-            this.mtime = DateTime.Now;
-            this.Exists = true;
-            this.LocationType = default!;
-            this.LocationCode = default!;
-        }
+
 
         /// <summary>
         /// 主键
@@ -56,22 +41,23 @@ namespace Swm.Locations
         /// </summary>
         [Required]
         [MaxLength(16)]
-        public virtual string LocationCode { get; set; }
+        public virtual string LocationCode { get; set; } = default!;
 
         /// <summary>
         /// 版本号
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "NHibernate 版本属性")]
         public virtual int v { get; set; }
 
         /// <summary>
         /// 创建时间
         /// </summary>
-        public virtual DateTime ctime { get; set; }
+        public virtual DateTime ctime { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 更新时间。
         /// </summary>
-        public virtual DateTime mtime { get; set; }
+        public virtual DateTime mtime { get; set; } = DateTime.Now;
 
 
         /// <summary>
@@ -79,7 +65,7 @@ namespace Swm.Locations
         /// </summary>
         [MaxLength(4)]
         [Required]
-        public virtual string LocationType { get; internal protected set; }
+        public virtual string LocationType { get; internal protected set; } = default!;
 
 
         /// <summary>
@@ -139,7 +125,7 @@ namespace Swm.Locations
         /// <summary>
         /// 获取或设置此位置此货位是否存在。
         /// </summary>
-        public virtual bool Exists { get; set; }
+        public virtual bool Exists { get; set; } = true;
 
 
         /// <summary>
@@ -153,10 +139,11 @@ namespace Swm.Locations
         public virtual decimal HeightLimit { get; set; }
 
         /// <summary>
-        /// 指示此货位的规格（不含高度），例如【九角1200x1100】
+        /// 指示此位置的规格（不含高度），例如【九角1200x1100】
         /// </summary>
         [MaxLength(16)]
-        public virtual string? Specification { get; set; }
+        [Required]
+        public virtual string Specification { get; set; } = default!;
 
 
         /// <summary>
@@ -189,7 +176,6 @@ namespace Swm.Locations
         /// 获取或设置此货位的存储分组。
         /// </summary>
         [MaxLength(10)]
-        [Required]
         public virtual string? StorageGroup { get; set; }
 
         /// <summary>
@@ -209,6 +195,20 @@ namespace Swm.Locations
         /// </summary>
         [MaxLength(30)]
         public virtual string? Tag { get; set; }
+
+
+        /// <summary>
+        /// 备用字段
+        /// </summary>
+        [MaxLength(9999)]
+        public virtual string? ex1 { get; set; }
+
+        /// <summary>
+        /// 备用字段
+        /// </summary>
+        [MaxLength(9999)]
+        public virtual string? ex2 { get; set; }
+
 
         /// <summary>
         /// 获取或设置此位置上的请求类型，仅适用于关键点。

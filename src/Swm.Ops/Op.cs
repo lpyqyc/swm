@@ -39,6 +39,7 @@ namespace Swm.Model
         /// <summary>
         /// 创建时间
         /// </summary>
+        [Required]
         public virtual DateTime ctime { get; set; }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace Swm.Model
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; }
+        public virtual string? cuser { get; set; }
 
 
         /// <summary>
@@ -54,18 +55,19 @@ namespace Swm.Model
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.OPERATION_TYPE)]
-        public virtual string OperationType { get; set; }
+        public virtual string OperationType { get; set; } = default!;
 
         /// <summary>
         /// 产生此记录的 Url
         /// </summary>
-        public virtual string Url { get; set; }
+        [MaxLength(9999)]
+        public virtual string? Url { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        [MaxLength(2048)]
-        public virtual string Comment { get; set; }
+        [MaxLength(9999)]
+        public virtual string? Comment { get; set; }
 
     }
 

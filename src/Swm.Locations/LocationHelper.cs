@@ -22,7 +22,7 @@ namespace Swm.Locations
 {
     public class LocationHelper
     {
-        ISession _session;
+        readonly ISession _session;
         public LocationHelper(ISession session)
         {
             _session = session;

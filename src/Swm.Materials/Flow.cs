@@ -41,7 +41,7 @@ namespace Swm.Materials
         public virtual DateTime ctime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; } = default!;
+        public virtual string? cuser { get; set; }
 
         [Required]
         public virtual Material Material { get; set; } = default!;

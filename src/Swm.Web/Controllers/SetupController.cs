@@ -115,7 +115,7 @@ namespace Swm.Web.Controllers
             int columns = args.Columns;
             int levels = args.Levels;
 
-            Laneway laneway = new Laneway(args.LanewayCode, args.DoubleDeep);
+            Laneway laneway = new Laneway(args.LanewayCode, args.DoubleDeep, "默认区域");
             await _session.SaveAsync(laneway).ConfigureAwait(false);
             List<(string rackCode, RackSide side, int deep)> racks = new List<(string rack, RackSide side, int deep)>();
             if (args.DoubleDeep)
@@ -157,8 +157,8 @@ namespace Swm.Web.Controllers
                             loc.OutboundLimit = 1;
                             loc.Side = rack.side;
                             loc.Deep = rack.deep;
-                            loc.StorageGroup = "None";
-                            loc.Specification = "None";
+                            loc.StorageGroup = "普通";
+                            loc.Specification = "普通";
                             loc.Cell = cell;
                             cell.Locations.Add(loc);
                         }

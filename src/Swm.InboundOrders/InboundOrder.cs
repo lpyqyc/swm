@@ -30,11 +30,18 @@ namespace Swm.InboundOrders
         /// <summary>
         /// 初始化此类的新实例。
         /// </summary>
-        public InboundOrder()
+        public InboundOrder(string inboundOrderCode)
         {
+            this.InboundOrderCode = inboundOrderCode;
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this._lines = new HashSet<InboundLine>();
+        }
+
+        protected InboundOrder()
+            : this(default!)
+        {
+
         }
 
         /// <summary>
@@ -56,7 +63,7 @@ namespace Swm.InboundOrders
         /// 创建人。
         /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; } = default!;
+        public virtual string? cuser { get; set; } = default!;
 
         /// <summary>
         /// 更新时间。
@@ -67,14 +74,14 @@ namespace Swm.InboundOrders
         /// 更改人
         /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string muser { get; set; } = default!;
+        public virtual string? muser { get; set; } = default!;
 
         /// <summary>
         /// Wms 内部单号，自然键。
         /// </summary>
         [Required]
         [MaxLength(20)]
-        public virtual string? InboundOrderCode { get; set; }
+        public virtual string InboundOrderCode { get; set; }
 
         /// <summary>
         /// 业务类型。

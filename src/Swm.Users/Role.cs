@@ -62,7 +62,7 @@ namespace Swm.Users
         /// <summary>
         /// 是否内置角色
         /// </summary>
-        public virtual Boolean IsBuiltIn { get; set; }
+        public virtual bool IsBuiltIn { get; set; }
 
         /// <summary>
         /// 备注

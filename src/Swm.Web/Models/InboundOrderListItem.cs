@@ -30,7 +30,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 入库单编号。
         /// </summary>
-        public string InboundOrderCode { get; set; }
+        public string? InboundOrderCode { get; set; }
 
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 创建人
         /// </summary>
-        public string cuser { get; set; }
+        public string? cuser { get; set; }
 
         /// <summary>
         /// 修改时间
@@ -51,18 +51,18 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 修改人
         /// </summary>
-        public string muser { get; set; }
+        public string? muser { get; set; }
 
 
         /// <summary>
         /// 业务类型
         /// </summary>
-        public string BizType { get; set; }
+        public string? BizType { get; set; }
 
         /// <summary>
         /// 业务单据号
         /// </summary>
-        public string BizOrder { get; set; }
+        public string? BizOrder { get; set; }
 
         /// <summary>
         /// 是否已关闭
@@ -77,12 +77,12 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 由谁关闭
         /// </summary>
-        public string ClosedBy { get; set; }
+        public string? ClosedBy { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         /// <summary>
         /// 出库单明细集合。

@@ -24,10 +24,11 @@ namespace Swm.Model.Extentions
     {
         readonly ISession _session;
         readonly ILogger _logger;
-        public TaskHelper _taskHelper { get; set; }
+        readonly TaskHelper _taskHelper;
 
-        public 上架完成处理程序(ISession session, ILogger logger)
+        public 上架完成处理程序(TaskHelper taskHelper, ISession session, ILogger logger)
         {
+            _taskHelper = taskHelper;
             _session = session;
             _logger = logger;
         }

@@ -10,14 +10,14 @@ namespace Swm.Palletization.Tests
         public static Location NewS()
         {
             Location loc = _locationFactory.CreateLocation(
-                default,
+                default!,
                 LocationTypes.S,
                 For<Laneway>(),
                 default,
                 default
                 );
             loc.Cell = For<Cell>();
-            loc.Laneway.Automated.Returns(true);
+            loc.Laneway?.Automated.Returns(true);
             loc.InboundLimit = 1;
             loc.OutboundLimit = 1;
             return loc;
@@ -40,7 +40,7 @@ namespace Swm.Palletization.Tests
         public static Location NewN()
         {
             Location loc = _locationFactory.CreateLocation(
-                default,
+                default!,
                 LocationTypes.N,
                 default,
                 default,

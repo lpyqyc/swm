@@ -160,11 +160,10 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<ApiData> Create(CreateInboundOrderArgs args)
         {
-            InboundOrder inboundOrder = new InboundOrder();
-
             string prefix = $"IBO{DateTime.Now:yyMMdd}";
             int next = await _appSeqService.GetNextAsync(prefix);
-            inboundOrder.InboundOrderCode = $"{prefix}{next:00000}";
+            var inboundOrderCode = $"{prefix}{next:00000}";
+            InboundOrder inboundOrder = new InboundOrder(inboundOrderCode);
             inboundOrder.BizType = args.BizType;
             inboundOrder.BizOrder = args.BizOrder;
             inboundOrder.Comment = args.Comment;

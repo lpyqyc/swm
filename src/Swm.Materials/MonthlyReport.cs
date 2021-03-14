@@ -36,6 +36,7 @@ namespace Swm.Materials
         /// <summary>
         /// 用于标识 unsaved 状态，不用于版本控制
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         protected virtual int v { get; set; }
 
         /// <summary>

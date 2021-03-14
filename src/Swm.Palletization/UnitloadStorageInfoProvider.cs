@@ -22,7 +22,7 @@ namespace Swm.Palletization
     {
         public virtual string GetOutFlag(Unitload unitload)
         {
-            if (unitload.Items.Count() == 0)
+            if (unitload.Items.Any() == false)
             {
                 return "空容器";
             }
@@ -47,7 +47,7 @@ namespace Swm.Palletization
             var list = unitload.Items.Select(x => x.Material.DefaultStorageGroup).Distinct();
             if (list.Count() == 1)
             {
-                return list.Single();
+                return list.Single()!;
             }
             else
             {

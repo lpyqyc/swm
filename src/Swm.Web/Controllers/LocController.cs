@@ -517,7 +517,7 @@ namespace Swm.Web.Controllers
             var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
             foreach (var laneway in laneways)
             {
-                await _locHelper.RebuildLanewayStatAsync(laneway);
+                await _locHelper.RebuildLanewayStatAsync(laneway!);
             }
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许入站。", affected);
@@ -755,10 +755,7 @@ namespace Swm.Web.Controllers
         [HttpPost("create-port")]
         public async Task<ApiData> CreatePort(CreatePortArgs args)
         {
-            Port port = new Port
-            {
-                PortCode = args.PortCode
-            };
+            Port port = new Port(args.PortCode);
             if (string.IsNullOrWhiteSpace(args.KP1) == false)
             {
                 port.KP1 = await CreateKeyPointAsync(_locFactory, _session, args.KP1);
@@ -840,7 +837,6 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 设置限高
         /// </summary>
-        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost("set-height-limit")]
@@ -892,7 +888,6 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 设置限重
         /// </summary>
-        /// <param name="ids">逗号分隔的位置Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost("set-weight-limit")]

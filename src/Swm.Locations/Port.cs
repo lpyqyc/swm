@@ -22,18 +22,27 @@ namespace Swm.Locations
 
     public class Port : IHasCtime
     {
-        public Port()
+        public Port(string portCode)
         {
             this.ctime = DateTime.Now;
             this.Laneways = new HashSet<Laneway>();
+            this.PortCode = portCode;
+        }
+
+        protected Port()
+        {
+            this.Laneways = new HashSet<Laneway>();
+            this.PortCode = default!;
         }
 
         public virtual int PortId { get; internal protected set; }
 
         [Required]
         [MaxLength(20)]
-        public virtual string? PortCode { get; set; }
+        public virtual string PortCode { get; protected set; }
 
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "NHibernate 版本属性")]
         public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }
@@ -54,6 +63,20 @@ namespace Swm.Locations
         public virtual DateTime CheckedAt { get; set; } = default;
 
         public virtual string? CheckMessage { get; set; }
+
+
+        /// <summary>
+        /// 备用字段
+        /// </summary>
+        [MaxLength(9999)]
+        public virtual string? ex1 { get; set; }
+
+        /// <summary>
+        /// 备用字段
+        /// </summary>
+        [MaxLength(9999)]
+        public virtual string? ex2 { get; set; }
+
 
         // TODO 考虑引入接口，并重命名，
         public virtual void SetCurrentUat(object uat)

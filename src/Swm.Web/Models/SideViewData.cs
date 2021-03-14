@@ -33,7 +33,6 @@ namespace Swm.Web.Controllers
         public bool Offline { get; set; }
 
 
-
         /// <summary>
         /// 巷道的货位数，不包含 <see cref="Location.Exists"/> 为 false 的货位。
         /// </summary>

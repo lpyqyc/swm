@@ -85,7 +85,7 @@ namespace Swm.Palletization
 
         public virtual bool HasCountingError { get; set; }
 
-        public virtual string Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
         public virtual ISet<UnitloadItemSnapshot> Items { get; protected set; }
         
@@ -95,13 +95,6 @@ namespace Swm.Palletization
         {
             item.Unitload = this;
             this.Items.Add(item);
-        }
-
-
-        public virtual void RemoveItem(UnitloadItemSnapshot item)
-        {
-            item.Unitload = null;
-            this.Items.Remove(item);
         }
 
         #endregion

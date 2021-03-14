@@ -31,7 +31,6 @@ namespace Swm.Palletization
     public class Unitload : IHasCtime, IHasCuser, IHasMtime
     {
         private ISet<UnitloadItem> _items;
-        private StorageInfo storageInfo;
 
         internal protected Unitload()
         {
@@ -45,7 +44,7 @@ namespace Swm.Palletization
 
         [Required]
         [MaxLength(20)]
-        public virtual string PalletCode { get; set; }
+        public virtual string PalletCode { get; set; } = default!;
 
         public virtual int v { get; set; }
 
@@ -54,12 +53,9 @@ namespace Swm.Palletization
         public virtual DateTime mtime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; }
+        public virtual string? cuser { get; set; }
 
-        public virtual StorageInfo StorageInfo {
-            get => storageInfo;
-            set => storageInfo = value;
-        }
+        public virtual StorageInfo StorageInfo { get; set; }
 
         public virtual bool HasCountingError { get; set; }
 
@@ -81,7 +77,7 @@ namespace Swm.Palletization
 
 
         [Required]
-        public virtual Location CurrentLocation { get; internal protected set; }
+        public virtual Location CurrentLocation { get; internal protected set; } = default!;
 
 
         public virtual DateTime CurrentLocationTime { get; internal protected set; }
@@ -134,12 +130,11 @@ namespace Swm.Palletization
             this.CurrentUatRootType = null;
         }
 
-        // TODO 使用接口代替 object
         /// <summary>
         /// 获取托盘的当前任务。
         /// </summary>
         /// <returns></returns>
-        public virtual IUnitloadTransportTask CurrentTask { get; set; }
+        public virtual IUnitloadTransportTask? CurrentTask { get; set; }
 
 
         // TODO 重命名
@@ -195,7 +190,7 @@ namespace Swm.Palletization
                 throw new InvalidOperationException("项不在这个货载里。");
             }
 
-            item.Unitload = null;
+            item.Unitload = null!;
             _items.Remove(item);
         }
 

@@ -24,8 +24,15 @@ namespace Swm.Locations
     public class Laneway : IHasCtime, IHasMtime
     {
         protected Laneway()
+            : this(default!, default, default!)
         {
-            this.LanewayCode = default!;
+        }
+
+        public Laneway(string lanewayCode, bool doubleDeep, string area)
+        {
+            this.Area = area;
+            this.LanewayCode = lanewayCode;
+            this.DoubleDeep = doubleDeep;
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this.Automated = true;
@@ -34,19 +41,14 @@ namespace Swm.Locations
             this.Usage = new Dictionary<LanewayUsageKey, LanewayUsageData>();
         }
 
-        public Laneway(string lanewayCode, bool doubleDeep)
-            : this()
-        {
-            this.LanewayCode = lanewayCode;
-            this.DoubleDeep = doubleDeep;            
-        }
-
         public virtual int LanewayId { get; internal protected set; }
 
         [Required]
         [MaxLength(4)]
         public virtual string LanewayCode { get; internal protected set; }
 
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "NHibernate 版本属性")]
         public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }
@@ -76,7 +78,23 @@ namespace Swm.Locations
 
         public virtual int ReservedLocationCount { get; set; }
 
+        /// <summary>
+        /// 获取此巷道能够到达的出口
+        /// </summary>
         public virtual ISet<Port> Ports { get; protected set; }
+
+        /// <summary>
+        /// 备用字段
+        /// </summary>
+        [MaxLength(9999)]
+        public virtual string? ex1 { get; set; }
+
+        /// <summary>
+        /// 备用字段
+        /// </summary>
+        [MaxLength(9999)]
+        public virtual string? ex2 { get; set; }
+
 
         public override string ToString()
         {

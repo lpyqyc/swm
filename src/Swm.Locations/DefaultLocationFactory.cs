@@ -20,9 +20,12 @@ namespace Swm.Locations
     {
         public Location CreateLocation(string locationCode, string locationType, Laneway? laneway, int column, int level)
         {
-            Location obj = new Location(locationCode, locationType);
-            obj.LocationCode = locationCode;
-            obj.LocationType = locationType;
+            var obj = new Location
+            {
+                LocationCode = locationCode,
+                LocationType = locationType,
+            };
+
             obj.Laneway = laneway;
             if (laneway != null)
             {

@@ -99,22 +99,24 @@ namespace Swm.TransportTasks
         /// 获取或设置此任务是为哪个Wms单据产生的。
         /// </summary>
         [MaxLength(20)]
-        public virtual string OrderCode { get; set; }
+        public virtual string? OrderCode { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        public virtual string Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
         /// <summary>
         /// 备用字段1
         /// </summary>
-        public virtual string ex1 { get; set; }
+        [MaxLength(9999)]
+        public virtual string? ex1 { get; set; }
 
         /// <summary>
         /// 备用字段2
         /// </summary>
-        public virtual string ex2 { get; set; }
+        [MaxLength(9999)]
+        public virtual string? ex2 { get; set; }
 
         public override string ToString()
         {

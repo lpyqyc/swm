@@ -31,6 +31,7 @@ namespace Swm.Materials
 
         public virtual int StockId { get; protected set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }

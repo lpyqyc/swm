@@ -36,7 +36,7 @@ namespace Swm.Locations
         public virtual DateTime ctime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; } = default!;
+        public virtual string? cuser { get; set; } = default!;
 
         [MaxLength(9999)]
         public virtual string? Comment { get; set; }

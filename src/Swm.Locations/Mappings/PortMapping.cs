@@ -81,6 +81,10 @@ namespace Swm.Locations.Mappings
 
             Property(cl => cl.CheckedAt);
             Property(cl => cl.CheckMessage);
+
+            Property(cl => cl.ex1);
+            Property(cl => cl.ex2);
+
         }
     }
 }

@@ -77,6 +77,10 @@ namespace Swm.Locations.Mappings
 
             Property(cl => cl.Tag);
             Property(cl => cl.RequestType);
+
+            Property(cl => cl.ex1);
+            Property(cl => cl.ex2);
+
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Swm.Palletization
         /// <summary>
         /// 备注
         /// </summary>
-        public virtual string Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
     }
 
