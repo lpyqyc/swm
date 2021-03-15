@@ -20,17 +20,24 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 编辑入库单操作的参数
     /// </summary>
-    public class EditInboundOrderArgs
+    public class UpdateInboundOrderArgs
     {
+        /// <summary>
+        /// 业务单号
+        /// </summary>
+        public string? BizOrder { get; set; }
+
         /// <summary>
         /// 备注
         /// </summary>
-        [Required]
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
-
-        public List<EditInboundLineInfo> Lines { get; set; }
+        /// <summary>
+        /// 入库明细
+        /// </summary>
+        public List<EditInboundLineInfo>? Lines { get; set; }
     }
+
 
 }
 

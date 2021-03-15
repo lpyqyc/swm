@@ -12,23 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 储位详情
+    /// 无单据组盘的操作参数。
     /// </summary>
-    public class StorageLocationDetail : StorageLocationInfo
+    public class IboPalletizeArgs
     {
         /// <summary>
-        /// 在此货位上的货载，包含出站任务未完成的货载
+        /// 托盘号
         /// </summary>
-        public UnitloadDetail[]? Unitloads { get; set; }
-
+        [Required]
+        public string PalletCode { get; set; } = default!;
 
         /// <summary>
-        /// 货位是否存在
+        /// 入库明细
         /// </summary>
-        public bool Exists { get; set; }
+        public int InboundLineId { get; set; }
+
+        /// <summary>
+        /// 数量
+        /// </summary>
+        public decimal Quantity { get; set; }
 
     }
+
+
 }
+

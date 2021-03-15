@@ -43,7 +43,7 @@ namespace Swm.Web.Controllers
         /// 物料代码
         /// </summary>
         [Required]
-        public string MaterialCode { get; set; }
+        public string MaterialCode { get; set; } = default!;
 
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Swm.Web.Controllers
         /// 计量单位。
         /// </summary>
         [Required]
-        public string Uom { get; set; }
+        public string Uom { get; set; } = default!;
 
         /// <summary>
         /// 需求数量。

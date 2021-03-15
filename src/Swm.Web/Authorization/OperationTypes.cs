@@ -48,20 +48,21 @@ namespace Swm.Web
         public const string 删除角色 = "系统.删除角色";
         public const string 编辑角色 = "系统.编辑角色";
 
-        public const string 查看出库单 = "出入.查看出库单";
-        public const string 创建出库单 = "出入.创建出库单";
-        public const string 编辑出库单 = "出入.编辑出库单";
-        public const string 删除出库单 = "出入.删除出库单";
-        public const string 出库单下架 = "出入.出库单下架";
-        public const string 关闭出库单 = "出入.关闭出库单";
-        public const string 分配库存 = "出入.分配库存";
-        public const string 拣货 = "出入.拣货";
+        public const string 查看出库单 = "出库单.查看出库单";
+        public const string 创建出库单 = "出库单.创建出库单";
+        public const string 编辑出库单 = "出库单.编辑出库单";
+        public const string 删除出库单 = "出库单.删除出库单";
+        public const string 出库单下架 = "出库单.出库单下架";
+        public const string 关闭出库单 = "出库单.关闭出库单";
+        public const string 分配库存 = "出库单.分配库存";
+        public const string 拣货 = "出库单.拣货";
 
-        public const string 查看入库单 = "出入.查看入库单";
-        public const string 创建入库单 = "出入.创建入库单";
-        public const string 编辑入库单 = "出入.编辑入库单";
-        public const string 删除入库单 = "出入.删除入库单";
-        public const string 关闭入库单 = "出入.关闭入库单";
+        public const string 查看入库单 = "入库单.查看入库单";
+        public const string 创建入库单 = "入库单.创建入库单";
+        public const string 编辑入库单 = "入库单.编辑入库单";
+        public const string 删除入库单 = "入库单.删除入库单";
+        public const string 关闭入库单 = "入库单.关闭入库单";
+        public const string 入库单组盘 = "入库单.入库单组盘";
 
 
 

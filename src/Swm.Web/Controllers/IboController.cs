@@ -24,7 +24,9 @@ using Swm.InboundOrders;
 using Swm.Locations;
 using Swm.Materials;
 using Swm.Model;
+using Swm.Palletization;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,14 +36,15 @@ namespace Swm.Web.Controllers
     /// 操作入库单。
     /// </summary>
     [ApiController]
-    [Route("api/inbound-orders")]
-    public class InboundOrdersController : ControllerBase
+    [Route("api/ibo")]
+    public class IboController : ControllerBase
     {
         readonly ISession _session;
         readonly ILogger _logger;
         readonly OpHelper _opHelper;
         readonly IAppSeqService _appSeqService;
         readonly SimpleEventBus _simpleEventBus;
+        readonly PalletizationHelper _palletizationHelper;
 
         /// <summary>
         /// 初始化新实例。
@@ -51,13 +54,14 @@ namespace Swm.Web.Controllers
         /// <param name="opHelper"></param>
         /// <param name="simpleEventBus"></param>
         /// <param name="logger"></param>
-        public InboundOrdersController(ISession session, IAppSeqService appSeqService, OpHelper opHelper, SimpleEventBus simpleEventBus, ILogger logger)
+        public IboController(ISession session, IAppSeqService appSeqService, PalletizationHelper palletizationHelper, OpHelper opHelper, SimpleEventBus simpleEventBus, ILogger logger)
         {
             _session = session;
             _appSeqService = appSeqService;
             _opHelper = opHelper;
             _simpleEventBus = simpleEventBus;
             _logger = logger;
+            _palletizationHelper = palletizationHelper;
         }
 
         /// <summary>
@@ -69,10 +73,10 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看入库单)]
-        public async Task<ListData<InboundOrderListItem>> List([FromQuery] InboundOrderListArgs args)
+        public async Task<ListData<InboundOrderInfo>> List([FromQuery] InboundOrderListArgs args)
         {
             var pagedList = await _session.Query<InboundOrder>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new InboundOrderListItem
+            return this.ListData(pagedList, x => new InboundOrderInfo
             {
                 InboundOrderId = x.InboundOrderId,
                 InboundOrderCode = x.InboundOrderCode,
@@ -110,14 +114,14 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="id">入库单Id</param>
         /// <returns></returns>
-        [HttpGet("get-detail/{id}")]
+        [HttpGet("get-inbound-order-detail/{id}")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看入库单)]
-        public async Task<InboundOrderListItem> Detail(int id)
+        public async Task<ApiData<InboundOrderInfo>> Detail(int id)
         {
             var inboundOrder = await _session.GetAsync<InboundOrder>(id);
-            return new InboundOrderListItem
+            return this.Success(new InboundOrderInfo
             {
                 InboundOrderId = inboundOrder.InboundOrderId,
                 InboundOrderCode = inboundOrder.InboundOrderCode,
@@ -146,7 +150,7 @@ namespace Swm.Web.Controllers
                     QuantityReceived = i.QuantityReceived,
                     Comment = i.Comment,
                 }).ToList(),          
-            };
+            });
         }
 
 
@@ -155,10 +159,10 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("create-inbound-order")]
         [OperationType(OperationTypes.创建入库单)]
         [AutoTransaction]
-        public async Task<ApiData> Create(CreateInboundOrderArgs args)
+        public async Task<ApiData> CreateInboundOrder(CreateInboundOrderArgs args)
         {
             string prefix = $"IBO{DateTime.Now:yyMMdd}";
             int next = await _appSeqService.GetNextAsync(prefix);
@@ -206,11 +210,12 @@ namespace Swm.Web.Controllers
         /// 编辑入库单
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="args">操作参数</param>
         /// <returns></returns>
-        [HttpPost("edit/{id}")]
+        [HttpPost("update-outbound-order/{id}")]
         [OperationType(OperationTypes.编辑入库单)]
         [AutoTransaction]
-        public async Task<ApiData> Edit(int id, EditInboundOrderArgs args)
+        public async Task<ApiData> UpdateInboundOrder(int id, UpdateInboundOrderArgs args)
         {
             InboundOrder inboundOrder = _session.Get<InboundOrder>(id);
             if (inboundOrder == null)
@@ -225,13 +230,7 @@ namespace Swm.Web.Controllers
                 throw new InvalidOperationException(errMsg);
             }
 
-            var movingDown = await _session.Query<Port>().AnyAsync(x => x.CurrentUat == inboundOrder);
-            if (movingDown)
-            {
-                String errMsg = String.Format("入库单正在下架，不能编辑。单号：{0}。", inboundOrder.InboundOrderCode);
-                throw new InvalidOperationException(errMsg);
-            }
-
+            inboundOrder.BizOrder = args.BizOrder;
             inboundOrder.Comment = args.Comment;
 
             if (args.Lines == null || args.Lines.Count == 0)
@@ -248,7 +247,7 @@ namespace Swm.Web.Controllers
                             var line = inboundOrder.Lines.Single(x => x.InboundLineId == lineInfo.InboundLineId);
                             if (line.Dirty)
                             {
-                                string errMsg = String.Format("已发生过入库操作的明细不能删除。入库行#{0}。", line.InboundLineId);
+                                string errMsg = string.Format("已发生过入库操作的明细不能删除。入库行#{0}。", line.InboundLineId);
                                 throw new InvalidOperationException(errMsg);
                             }
                             inboundOrder.RemoveLine(line);
@@ -305,9 +304,9 @@ namespace Swm.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost("delete/{id}")]
+        [HttpPost("delete-inbound-order/{id}")]
         [OperationType(OperationTypes.删除入库单)]
-        public async Task<ApiData> Delete(int id)
+        public async Task<ApiData> DeleteInboundOrder(int id)
         {
             InboundOrder  inboundOrder = await _session.GetAsync<InboundOrder>(id);
             if (inboundOrder.Lines.Any(x => x.Dirty))
@@ -328,7 +327,7 @@ namespace Swm.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost("close/{id}")]
+        [HttpPost("close-inbound-order/{id}")]
         [OperationType(OperationTypes.关闭入库单)]
         public async Task<ApiData> Close(int id)
         {
@@ -360,7 +359,48 @@ namespace Swm.Web.Controllers
         }
 
 
-    }
 
+        /// <summary>
+        /// 入库单组盘
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpPost("palletize")]
+        [OperationType(OperationTypes.入库单组盘)]
+        public async Task<ApiData> Palletize(IboPalletizeArgs args)
+        {
+            List<PalletizationItemInfo<DefaultStockKey>> items = new List<PalletizationItemInfo<DefaultStockKey>>();
+
+            InboundLine inboundLine = await _session.GetAsync<InboundLine>(args.InboundLineId);
+            if (inboundLine == null)
+            {
+                throw new InvalidOperationException($"入库单明细不存在：【{args.InboundLineId}】");
+            }
+            InboundOrder inboundOrder = inboundLine.InboundOrder;
+            if (inboundOrder.Closed)
+            {
+                throw new InvalidOperationException($"入库单已关闭：【{inboundOrder.InboundOrderCode}】");
+            }
+
+            DefaultStockKey stockKey = inboundLine.GetStockKey<DefaultStockKey>();
+            items.Add(new PalletizationItemInfo<DefaultStockKey> { StockKey = stockKey, Quantity = args.Quantity });
+
+            var op = await _opHelper.SaveOpAsync($"托盘号：{args.PalletCode}");
+
+            await _palletizationHelper.PalletizeAsync(args.PalletCode,
+                                                      items,
+                                                      op.OperationType,
+                                                      inboundOrder.BizType,
+                                                      inboundOrder.InboundOrderCode,
+                                                      inboundOrder.BizOrder
+                                                      );
+
+            inboundLine.QuantityReceived += args.Quantity;
+            await _session.LockAsync(inboundOrder, LockMode.Upgrade);
+
+            return this.Success();
+        }
+    }
 }
 

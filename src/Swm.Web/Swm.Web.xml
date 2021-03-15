@@ -220,12 +220,12 @@
             <param name="unitload"></param>
             <returns></returns>
         </member>
-        <member name="T:Swm.Web.Controllers.InboundOrdersController">
+        <member name="T:Swm.Web.Controllers.IboController">
             <summary>
             操作入库单。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.InboundOrdersController.#ctor(NHibernate.ISession,Arctic.AppSeqs.IAppSeqService,Swm.Web.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.IboController.#ctor(NHibernate.ISession,Arctic.AppSeqs.IAppSeqService,Swm.Palletization.PalletizationHelper,Swm.Web.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
             <summary>
             初始化新实例。
             </summary>
@@ -235,46 +235,54 @@
             <param name="simpleEventBus"></param>
             <param name="logger"></param>
         </member>
-        <member name="M:Swm.Web.Controllers.InboundOrdersController.List(Swm.Web.Controllers.InboundOrderListArgs)">
+        <member name="M:Swm.Web.Controllers.IboController.List(Swm.Web.Controllers.InboundOrderListArgs)">
             <summary>
             入库单列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.InboundOrdersController.Detail(System.Int32)">
+        <member name="M:Swm.Web.Controllers.IboController.Detail(System.Int32)">
             <summary>
             入库单详细
             </summary>
             <param name="id">入库单Id</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.InboundOrdersController.Create(Swm.Web.Controllers.CreateInboundOrderArgs)">
+        <member name="M:Swm.Web.Controllers.IboController.CreateInboundOrder(Swm.Web.Controllers.CreateInboundOrderArgs)">
             <summary>
             创建入库单
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.InboundOrdersController.Edit(System.Int32,Swm.Web.Controllers.EditInboundOrderArgs)">
+        <member name="M:Swm.Web.Controllers.IboController.UpdateInboundOrder(System.Int32,Swm.Web.Controllers.UpdateInboundOrderArgs)">
             <summary>
             编辑入库单
             </summary>
             <param name="id"></param>
+            <param name="args">操作参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.InboundOrdersController.Delete(System.Int32)">
+        <member name="M:Swm.Web.Controllers.IboController.DeleteInboundOrder(System.Int32)">
             <summary>
             删除入库单
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.InboundOrdersController.Close(System.Int32)">
+        <member name="M:Swm.Web.Controllers.IboController.Close(System.Int32)">
             <summary>
             关闭入库单
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.IboController.Palletize(Swm.Web.Controllers.IboPalletizeArgs)">
+            <summary>
+            入库单组盘
+            </summary>
+            <param name="args"></param>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.LocController">
@@ -1318,6 +1326,11 @@
             备注
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.CreateInboundOrderArgs.Lines">
+            <summary>
+            入库行信息
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.CreateOutboundOrderArgs">
             <summary>
             创建出库单操作的参数
@@ -1487,16 +1500,6 @@
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.EditInboundLineInfo.Comment">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.EditInboundOrderArgs">
-            <summary>
-            编辑入库单操作的参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.EditInboundOrderArgs.Comment">
             <summary>
             备注
             </summary>
@@ -1749,6 +1752,26 @@
             出库单号
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.IboPalletizeArgs">
+            <summary>
+            无单据组盘的操作参数。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.IboPalletizeArgs.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.IboPalletizeArgs.InboundLineId">
+            <summary>
+            入库明细
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.IboPalletizeArgs.Quantity">
+            <summary>
+            数量
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.InboundLineInfo">
             <summary>
             入库单明细
@@ -1814,6 +1837,76 @@
             备注
             </summary>
         </member>
+        <member name="T:Swm.Web.Controllers.InboundOrderInfo">
+            <summary>
+            出库单列表页的数据项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.InboundOrderId">
+            <summary>
+            入库单Id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.InboundOrderCode">
+            <summary>
+            入库单编号。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.ctime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.cuser">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.mtime">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.muser">
+            <summary>
+            修改人
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.BizOrder">
+            <summary>
+            业务单据号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.Closed">
+            <summary>
+            是否已关闭
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.ClosedAt">
+            <summary>
+            关闭时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.ClosedBy">
+            <summary>
+            由谁关闭
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.InboundOrderInfo.Lines">
+            <summary>
+            出库单明细集合。
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.InboundOrderListArgs">
             <summary>
             列表查询参数
@@ -1854,76 +1947,6 @@
         <member name="P:Swm.Web.Controllers.InboundOrderListArgs.PageSize">
             <summary>
             每页大小，默认值为 10。
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.InboundOrderListItem">
-            <summary>
-            出库单列表页的数据项
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.InboundOrderId">
-            <summary>
-            入库单Id
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.InboundOrderCode">
-            <summary>
-            入库单编号。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.ctime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.cuser">
-            <summary>
-            创建人
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.mtime">
-            <summary>
-            修改时间
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.muser">
-            <summary>
-            修改人
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.BizType">
-            <summary>
-            业务类型
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.BizOrder">
-            <summary>
-            业务单据号
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.Closed">
-            <summary>
-            是否已关闭
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.ClosedAt">
-            <summary>
-            关闭时间
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.ClosedBy">
-            <summary>
-            由谁关闭
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.Comment">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListItem.Lines">
-            <summary>
-            出库单明细集合。
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.InventoryReportArgs">
@@ -2089,6 +2112,11 @@
         <member name="P:Swm.Web.Controllers.KeyPointListArgs.LocationType">
             <summary>
             货位类型，始终是 <see cref="F:Swm.Locations.LocationTypes.K"/>
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyPointListArgs.Exists">
+            <summary>
+            货位是否存在，始终是 true
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.KeyPointListArgs.LocationCode">
@@ -3265,6 +3293,11 @@
             在此货位上的货载，包含出站任务未完成的货载
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationDetail.Exists">
+            <summary>
+            货位是否存在
+            </summary>
+        </member>
         <member name="T:Swm.Web.Controllers.StorageLocationInfo">
             <summary>
             储位信息。
@@ -3348,6 +3381,11 @@
         <member name="P:Swm.Web.Controllers.StorageLocationListArgs.LocationType">
             <summary>
             货位类型，始终是 <see cref="F:Swm.Locations.LocationTypes.S"/>
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.Exists">
+            <summary>
+            货位是否存在，始终是 true
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.StorageLocationListArgs.LocationCode">
@@ -3848,6 +3886,26 @@
         <member name="P:Swm.Web.Controllers.UpdateAppSettingArgs.SettingValue">
             <summary>
             参数值
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.UpdateInboundOrderArgs">
+            <summary>
+            编辑入库单操作的参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateInboundOrderArgs.BizOrder">
+            <summary>
+            业务单号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateInboundOrderArgs.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UpdateInboundOrderArgs.Lines">
+            <summary>
+            入库明细
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.UpdateOutboundOrderArgs">

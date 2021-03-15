@@ -20,7 +20,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 出库单列表页的数据项
     /// </summary>
-    public class InboundOrderListItem
+    public class InboundOrderInfo
     {
         /// <summary>
         /// 入库单Id
@@ -87,7 +87,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 出库单明细集合。
         /// </summary>
-        public List<InboundLineInfo> Lines { get; set; }
+        public List<InboundLineInfo>? Lines { get; set; }
 
 
     }

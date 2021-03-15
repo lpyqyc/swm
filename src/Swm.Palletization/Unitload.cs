@@ -139,11 +139,9 @@ namespace Swm.Palletization
 
         // TODO 重命名
         [MaxLength(20)]
-        [Required]
         public virtual string? OpHintType { get; protected set; }
 
         [MaxLength(20)]
-        [Required]
         public virtual string? OpHintInfo { get; protected set; }
 
         public virtual string? Comment { get; set; }

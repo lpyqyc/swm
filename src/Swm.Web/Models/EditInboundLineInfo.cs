@@ -43,27 +43,27 @@ namespace Swm.Web.Controllers
         /// 物料代码
         /// </summary>
         [Required]
-        public string MaterialCode { get; set; }
+        public string MaterialCode { get; set; } = default!;
 
 
         /// <summary>
         /// 要入库的批号，不可以为空
         /// </summary>
         [Required]
-        public string Batch { get; set; }
+        public string Batch { get; set; } = default!;
 
 
         /// <summary>
         /// 要入库的库存状态。
         /// </summary>
         [Required]
-        public string StockStatus { get; set; }
+        public string StockStatus { get; set; } = default!;
 
         /// <summary>
         /// 计量单位。
         /// </summary>
         [Required]
-        public string Uom { get; set; }
+        public string Uom { get; set; } = default!;
 
         /// <summary>
         /// 应入数量

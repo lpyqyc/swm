@@ -36,39 +36,39 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 物料编码
         /// </summary>
-        public string MaterialCode { get; set; } = default!;
+        public string? MaterialCode { get; set; } = default!;
 
         /// <summary>
         /// 物料类型
         /// </summary>
-        public string MaterialType { get; set; } = default!;
+        public string? MaterialType { get; set; } = default!;
 
         /// <summary>
         /// 物料描述
         /// </summary>
-        public string Description { get; set; } = default!;
+        public string? Description { get; set; } = default!;
 
         /// <summary>
         /// 物料规格
         /// </summary>
-        public string Specification { get; set; } = default!;
+        public string? Specification { get; set; } = default!;
 
 
         /// <summary>
         /// 要出库的批号，不为空
         /// </summary>
-        public string Batch { get; set; }
+        public string? Batch { get; set; }
 
 
         /// <summary>
         /// 要出库的库存状态。
         /// </summary>
-        public string StockStatus { get; set; }
+        public string? StockStatus { get; set; }
 
         /// <summary>
         /// 计量单位。
         /// </summary>
-        public string Uom { get; set; }
+        public string? Uom { get; set; }
 
         /// <summary>
         /// 应入数量。
@@ -83,7 +83,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 备注
         /// </summary>
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
     }
 
 }

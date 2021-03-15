@@ -120,7 +120,7 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="id">出库单Id</param>
         /// <returns></returns>
-        [HttpGet("get-outbound-order-details/{id}")]
+        [HttpGet("get-outbound-order-detail/{id}")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出库单)]
@@ -604,7 +604,7 @@ namespace Swm.Web.Controllers
             string? outboundOrderCode = args?.OutboundOrderCode?.Trim();
 
             var q = _session.Query<UnitloadItem>()
-                .Where(x => string.IsNullOrWhiteSpace(x.Unitload.OpHintType)
+                .Where(x => x.Unitload.OpHintType == null
                     && x.Unitload.HasCountingError == false
                     && x.Unitload.BeingMoved == false
                 );

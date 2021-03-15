@@ -127,7 +127,7 @@ namespace Swm.Web.Controllers
         [HttpPost("take-offline/{id}")]
         [OperationType(OperationTypes.脱机巷道)]
         [AutoTransaction]
-        public async Task<ApiData> TakeOffline(int id, [FromBody]TakeOfflineArgs args)
+        public async Task<ApiData> TakeOffline(int id, [FromBody] TakeOfflineArgs args)
         {
             Laneway laneway = await _session.GetAsync<Laneway>(id);
             if (laneway == null)
@@ -361,7 +361,7 @@ namespace Swm.Web.Controllers
             {
                 LocationId = x.LocationId,
                 LocationCode = x.LocationCode,
-                LanewayId = x.Laneway.LanewayId,
+                LanewayId = x.Laneway!.LanewayId,
                 LanewayCode = x.Laneway.LanewayCode,
                 WeightLimit = x.WeightLimit,
                 HeightLimit = x.HeightLimit,
@@ -948,7 +948,9 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<ApiData<StorageLocationDetail>> GetStorageLocationDetail(string locationCode)
         {
-            var loc = await _session.Query<Location>().Where(x => x.LocationCode == locationCode).SingleOrDefaultAsync();
+            var loc = await _session.Query<Location>()
+                .Where(x => x.LocationType == LocationTypes.S && x.LocationCode == locationCode)
+                .SingleOrDefaultAsync();
             if (loc == null)
             {
                 throw new InvalidOperationException("位置不存在");
@@ -962,7 +964,8 @@ namespace Swm.Web.Controllers
             {
                 LocationId = loc.LocationId,
                 LocationCode = loc.LocationCode,
-                LanewayId = loc.Laneway.LanewayId,
+                Exists = loc.Exists,
+                LanewayId = loc.Laneway!.LanewayId,
                 LanewayCode = loc.Laneway.LanewayCode,
                 WeightLimit = loc.WeightLimit,
                 HeightLimit = loc.HeightLimit,
