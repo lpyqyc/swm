@@ -34,12 +34,12 @@ namespace Swm.OutboundOrders
         /// <summary>
         /// 指示包含哪些托盘，这些托盘优先参与分配
         /// </summary>
-        public string[] IncludePallets { get; set; }
+        public string[]? IncludePallets { get; set; }
 
         /// <summary>
         /// 指示排除哪些托盘，这些托盘不会参与分配，即使出现在 <see cref="IncludePallets"/> 中，也不参与分配
         /// </summary>
-        public string[] ExcludePallets{ get; set; }
+        public string[]? ExcludePallets{ get; set; }
 
         ///// <summary>
         ///// 指示是否跳过已禁止出站的货位。已禁止出站的货位上的托盘无法下架，但跳过会打破先入先出规则。默认为 false
@@ -73,7 +73,7 @@ namespace Swm.OutboundOrders
                 this.ChunkSize = 10;
             }
 
-            static string[] HandleArray(string[] arr)
+            static string[] HandleArray(string[]? arr)
             {
                 if (arr == null)
                 {
