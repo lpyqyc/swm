@@ -212,7 +212,7 @@ namespace Swm.Web.Controllers
         /// <param name="id"></param>
         /// <param name="args">操作参数</param>
         /// <returns></returns>
-        [HttpPost("update-outbound-order/{id}")]
+        [HttpPost("update-inbound-order/{id}")]
         [OperationType(OperationTypes.编辑入库单)]
         [AutoTransaction]
         public async Task<ApiData> UpdateInboundOrder(int id, UpdateInboundOrderArgs args)

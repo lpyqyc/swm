@@ -1922,17 +1922,10 @@
             业务类型
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.InboundOrderListArgs.ShowClosed">
+        <member name="P:Swm.Web.Controllers.InboundOrderListArgs.Closed">
             <summary>
-            是否显示已关闭的出库单
+            是否显示已关闭的入库单
             </summary>
-        </member>
-        <member name="M:Swm.Web.Controllers.InboundOrderListArgs.Filter(System.Linq.IQueryable{Swm.InboundOrders.InboundOrder})">
-            <summary>
-            
-            </summary>
-            <param name="q"></param>
-            <returns></returns>
         </member>
         <member name="P:Swm.Web.Controllers.InboundOrderListArgs.Sort">
             <summary>
