@@ -1762,14 +1762,34 @@
             托盘号
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.IboPalletizeArgs.InboundLineId">
+        <member name="P:Swm.Web.Controllers.IboPalletizeArgs.InboundOrderCode">
             <summary>
-            入库明细
+            入库单号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.IboPalletizeArgs.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.IboPalletizeArgs.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.IboPalletizeArgs.StockStatus">
+            <summary>
+            库存状态
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.IboPalletizeArgs.Quantity">
             <summary>
             数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.IboPalletizeArgs.Uom">
+            <summary>
+            计量单位
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.InboundLineInfo">

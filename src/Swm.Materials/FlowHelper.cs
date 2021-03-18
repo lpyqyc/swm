@@ -49,7 +49,7 @@ namespace Swm.Materials
         /// <param name="flow">要保存的流水。</param>
         /// <param name="updateStock">指示是否更新库存数据。</param>
         /// <returns></returns>
-        async Task SaveAsync<TStockKey>(Flow flow, bool updateStock) where TStockKey : StockKeyBase
+        async Task SaveAsync<TStockKey>(Flow flow) where TStockKey : StockKeyBase
         {
             if (flow.FlowId != 0)
             {
@@ -57,30 +57,6 @@ namespace Swm.Materials
             }
             await _session.SaveAsync(flow);
             await _eventBus.FireEventAsync(MaterialsEventTypes.FlowSaved, flow);
-            if (updateStock)
-            {
-                var key = flow.GetStockKey<TStockKey>();
-                Stock stock = await _session.Query<Stock>().OfStockKey(key).SingleOrDefaultAsync().ConfigureAwait(false);
-                if (stock == null)
-                {
-                    stock = _stockFactory.CreateStock();
-                    stock.SetStockKey(key);
-                    stock.Fifo = _fifoProvider.GetFifo(key);
-
-                    // TODO 暂取记录的创建时间作为库龄基线
-                    stock.AgeBaseline = DateTime.Now;
-                    stock.Quantity = (flow.Quantity * (int)flow.Direction);
-                    await _session.SaveAsync(stock).ConfigureAwait(false);
-                }
-                else
-                {
-                    stock.Quantity += (flow.Quantity * (int)flow.Direction);
-                    await _session.UpdateAsync(stock).ConfigureAwait(false);
-                }
-
-                flow.Balance = stock.Quantity;
-
-            }
         }
 
         /// <summary>
@@ -155,13 +131,13 @@ namespace Swm.Materials
                                                               string palletCode,
                                                               string? orderCode = null,
                                                               string? bizOrder = null,
-                                                              string? txNo = null,
-                                                              bool updateStock = true)
+                                                              string? txNo = null
+                                                              )
             where TStockKey : StockKeyBase
         {
             var flow = _flowFactory.CreateFlow();
             Populate(flow, stockKey, quantity, dir, bizType, opType, palletCode, orderCode, bizOrder, txNo);
-            await SaveAsync<TStockKey>(flow, updateStock).ConfigureAwait(false);
+            await SaveAsync<TStockKey>(flow).ConfigureAwait(false);
             return flow;
         }
     }

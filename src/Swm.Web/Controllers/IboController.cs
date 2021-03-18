@@ -149,7 +149,7 @@ namespace Swm.Web.Controllers
                     QuantityExpected = i.QuantityExpected,
                     QuantityReceived = i.QuantityReceived,
                     Comment = i.Comment,
-                }).ToList(),          
+                }).ToList(),
             });
         }
 
@@ -264,7 +264,7 @@ namespace Swm.Web.Controllers
                             }
                         }
                         break;
-                    case "added":
+                    case "add":
                         {
                             InboundLine line = new InboundLine();
                             var material = await _session.Query<Material>()
@@ -308,7 +308,7 @@ namespace Swm.Web.Controllers
         [OperationType(OperationTypes.删除入库单)]
         public async Task<ApiData> DeleteInboundOrder(int id)
         {
-            InboundOrder  inboundOrder = await _session.GetAsync<InboundOrder>(id);
+            InboundOrder inboundOrder = await _session.GetAsync<InboundOrder>(id);
             if (inboundOrder.Lines.Any(x => x.Dirty))
             {
                 throw new InvalidOperationException("入库单已发生过操作。");
@@ -368,22 +368,45 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("palletize")]
         [OperationType(OperationTypes.入库单组盘)]
+        [DebugShowArgs]
         public async Task<ApiData> Palletize(IboPalletizeArgs args)
         {
             List<PalletizationItemInfo<DefaultStockKey>> items = new List<PalletizationItemInfo<DefaultStockKey>>();
 
-            InboundLine inboundLine = await _session.GetAsync<InboundLine>(args.InboundLineId);
-            if (inboundLine == null)
+            InboundOrder inboundOrder = await _session.Query<InboundOrder>().Where(x => x.InboundOrderCode == args.InboundOrderCode).SingleOrDefaultAsync();
+            if (inboundOrder == null)
             {
-                throw new InvalidOperationException($"入库单明细不存在：【{args.InboundLineId}】");
+                throw new InvalidOperationException($"入库单不存在：【{args.InboundOrderCode}】");
             }
-            InboundOrder inboundOrder = inboundLine.InboundOrder;
+
             if (inboundOrder.Closed)
             {
                 throw new InvalidOperationException($"入库单已关闭：【{inboundOrder.InboundOrderCode}】");
             }
+            Material material = await _session.Query<Material>().GetMaterialAsync(args.MaterialCode);
+            if (material == null)
+            {
+                throw new InvalidOperationException($"物料主数据不存在：【{args.MaterialCode}】");
+            }
 
-            DefaultStockKey stockKey = inboundLine.GetStockKey<DefaultStockKey>();
+            var lines = inboundOrder.Lines.Where(x =>
+                    string.Equals(x.Material.MaterialCode, args.MaterialCode, StringComparison.InvariantCultureIgnoreCase)
+                    && string.Equals(x.Batch, args.Batch, StringComparison.InvariantCultureIgnoreCase)
+                    && string.Equals(x.StockStatus, args.StockStatus, StringComparison.InvariantCultureIgnoreCase)
+                    && string.Equals(x.Uom, args.Uom, StringComparison.InvariantCultureIgnoreCase))
+                .ToArray();
+            if (lines.Length == 0)
+            {
+                throw new InvalidOperationException("无法找到匹配的入库单明细");
+            }
+
+            _logger.Debug("找到 {count} 个匹配的入库单明细", lines.Length);
+            foreach (var line in lines)
+            {
+                _logger.Debug("InboundLineId: {inboundLineId}", line.InboundLineId);
+            }
+
+            DefaultStockKey stockKey = lines[0].GetStockKey<DefaultStockKey>();
             items.Add(new PalletizationItemInfo<DefaultStockKey> { StockKey = stockKey, Quantity = args.Quantity });
 
             var op = await _opHelper.SaveOpAsync($"托盘号：{args.PalletCode}");
@@ -396,7 +419,30 @@ namespace Swm.Web.Controllers
                                                       inboundOrder.BizOrder
                                                       );
 
-            inboundLine.QuantityReceived += args.Quantity;
+            decimal qty = args.Quantity;
+            _logger.Debug("注册数量：{qty}", qty);
+            foreach (var line in lines)
+            {
+                decimal shortage = Math.Max(line.QuantityExpected - line.QuantityReceived, 0);
+                _logger.Debug("入库单明细 {inboundLineId} 欠数 {shortage}", line.InboundLineId, shortage);
+                decimal inc = Math.Min(shortage, qty);
+                _logger.Debug("分配给 {inboundLineId} 的收货数量：{qty}", line.InboundLineId, inc);
+                line.QuantityReceived += inc;
+                qty -= inc;
+
+                if (qty == 0)
+                {
+                    break;
+                }
+            }
+
+            if (qty > 0)
+            {
+                var line = lines.Last();
+                line.QuantityReceived += qty;
+                _logger.Debug("超收数量 {qty} 分配给最后一个入库单明细 {inboundLineId}", qty, line.InboundLineId);
+            }
+
             await _session.LockAsync(inboundOrder, LockMode.Upgrade);
 
             return this.Success();

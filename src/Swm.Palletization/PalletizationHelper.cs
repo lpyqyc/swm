@@ -57,8 +57,7 @@ namespace Swm.Palletization
                                                    string opType,
                                                    string bizType,
                                                    string? orderCode = null,
-                                                   string? bizOrder = null,
-                                                   bool updateStock = true)
+                                                   string? bizOrder = null)
             where TStockKey : StockKeyBase
         {
             if (palletCode == null)
@@ -104,7 +103,7 @@ namespace Swm.Palletization
                 unitload.AddItem(unitloadItem);
 
                 await _flowHelper
-                    .CreateAndSaveAsync(item.StockKey, item.Quantity, FlowDirection.Inbound, bizType, opType, palletCode, orderCode, bizOrder, null, updateStock)
+                    .CreateAndSaveAsync(item.StockKey, item.Quantity, FlowDirection.Inbound, bizType, opType, palletCode, orderCode, bizOrder, null)
                     .ConfigureAwait(false);
             }
 
@@ -131,13 +130,13 @@ namespace Swm.Palletization
                                                    string opType,
                                                    string bizType,
                                                    string? orderCode = null,
-                                                   string? bizOrder = null,
-                                                   bool updateStock = true)
+                                                   string? bizOrder = null
+                                                   )
             where TStockKey : StockKeyBase
         {
             var item = new PalletizationItemInfo<TStockKey> { StockKey = stockKey, Quantity = quantity };
             var items = new[] { item };
-            return await PalletizeAsync(palletCode, items, opType, bizType, orderCode, bizOrder, updateStock)
+            return await PalletizeAsync(palletCode, items, opType, bizType, orderCode, bizOrder)
                 .ConfigureAwait(false);
         }
 

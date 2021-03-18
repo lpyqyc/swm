@@ -188,8 +188,8 @@ namespace Swm.OutboundOrders
                     operationType, 
                     unitload.PalletCode, 
                     outboundOrder.OutboundOrderCode, 
-                    outboundOrder.BizOrder, 
-                    updateStock: true)
+                    outboundOrder.BizOrder
+                    )
                     .ConfigureAwait(false);
 
                 flows.Add(flow);
