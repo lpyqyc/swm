@@ -75,7 +75,7 @@ namespace Swm.Model.Extentions
             unitload.StorageInfo.Weight = requestInfo.Weight;
 
             // 3 分配货位
-            SResult s = SResult.Failure;
+            Location? target = null;
             var laneways = _session.Query<Laneway>().Take(5).ToArray();
             foreach (var laneway in laneways)
             {
@@ -86,11 +86,11 @@ namespace Swm.Model.Extentions
                     continue;
                 }
 
-                s = await _sallocHelper.AllocateAsync(laneway, unitload.StorageInfo).ConfigureAwait(false);
+                target = await _sallocHelper.AllocateAsync(laneway, unitload.StorageInfo).ConfigureAwait(false);
 
-                if (s.Success)
+                if (target != null)
                 {
-                    _logger.Information("在 {lanewayCode} 分配到货位 {locationCode}", laneway.LanewayCode, s.Target.LocationCode);
+                    _logger.Information("在 {lanewayCode} 分配到货位 {locationCode}", laneway.LanewayCode, target.LocationCode);
                     break;
                 }
                 else
@@ -99,7 +99,7 @@ namespace Swm.Model.Extentions
                     continue;
                 }
             }
-            if (s.Success == false)
+            if (target == null)
             {
                 // 分配货位失败
                 throw new Exception("未分配到货位。");
@@ -108,7 +108,7 @@ namespace Swm.Model.Extentions
             // 4 生成任务
             var task = new TransportTask();
             string taskType = "上架";
-            await _taskHelper.BuildAsync(task, taskType, entrance, s.Target, unitload);
+            await _taskHelper.BuildAsync(task, taskType, entrance, target, unitload);
 
             // 5 下发任务
             _taskSender.SendTask(task);

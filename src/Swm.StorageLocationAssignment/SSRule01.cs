@@ -60,12 +60,12 @@ namespace Swm.StorageLocationAssignment
         {
             if (laneway == null)
             {
-                throw new ArgumentNullException("laneway");
+                throw new ArgumentNullException(nameof(laneway));
             }
 
             if (storageInfo == null)
             {
-                throw new ArgumentNullException("storageInfo");
+                throw new ArgumentNullException(nameof(storageInfo));
             }
 
             if (string.IsNullOrWhiteSpace(orderBy))
@@ -116,9 +116,11 @@ ORDER BY loc.WeightLimit, loc.HeightLimit, c.$orderBy
                 .SetParameter("height", storageInfo.Height)
                 .SetParameter("storageGroup", storageInfo.StorageGroup)
                 .SetParameter("locSpec", storageInfo.ContainerSpecification)
+#pragma warning disable CA1507 // 使用 nameof 表达符号名称
                 .EmptySafeSetParameterList("excludedIdList", excludedIdList)
                 .EmptySafeSetParameterList("excludedColumnList", excludedColumnList)
                 .EmptySafeSetParameterList("excludedLevelList", excludedLevelList)
+#pragma warning restore CA1507 // 使用 nameof 表达符号名称
                 .SetMaxResults(1);
 
             int? id = await q.UniqueResultAsync<int?>().ConfigureAwait(false);

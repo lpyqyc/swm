@@ -53,7 +53,7 @@ namespace Swm.StorageLocationAssignment
         /// <returns>
         /// 从不返回 null。
         /// </returns>
-        public async Task<SResult> AllocateAsync(
+        public async Task<Location?> AllocateAsync(
             Laneway laneway,
             StorageInfo storageInfo,
             int[]? excludedIdList = null,
@@ -74,7 +74,7 @@ namespace Swm.StorageLocationAssignment
             _logger.Debug("巷道 {lanewayCode}", laneway.LanewayCode);
 
             var rules = _rules.Where(x => x.DoubleDeep == laneway.DoubleDeep).OrderBy(x => x.Order);
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new();
             foreach (var rule in rules)
             {
                 _logger.Debug("正在测试 {ruleName}", rule.Name);
@@ -95,7 +95,7 @@ namespace Swm.StorageLocationAssignment
                 if (loc != null)
                 {
                     _logger.Debug("{ruleName} 成功分配到货位 {locationCode}", rule.Name, loc.LocationCode);
-                    return SResult.MakeSuccess(loc);
+                    return loc;
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace Swm.StorageLocationAssignment
                 }
             }
 
-            return SResult.Failure;
+            return null;
         }
     }
 
