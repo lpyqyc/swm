@@ -43,14 +43,14 @@ namespace Swm.TransportTasks
         /// </summary>
         [Required]
         [MaxLength(20)]
-        public virtual string TaskCode { get; internal protected set; }
+        public virtual string? TaskCode { get; internal protected set; }
 
         /// <summary>
         /// 获取或设置移动类型，当移动完成时，使用此属性来决定分配给哪个处理程序。
         /// </summary>
         [Required]
         [MaxLength(20)]
-        public virtual string TaskType { get; set; }
+        public virtual string? TaskType { get; set; }
 
         /// <summary>
         /// 创建时间。
@@ -62,21 +62,21 @@ namespace Swm.TransportTasks
         /// 获取或设置此任务搬运的货载。
         /// </summary>
         [Required]
-        public virtual Unitload Unitload { get; internal protected set; }
+        public virtual Unitload? Unitload { get; internal protected set; }
 
 
         /// <summary>
         /// 获取或设置此任务的起点位置。
         /// </summary>
         [Required]
-        public virtual Location Start { get; internal protected set; }
+        public virtual Location? Start { get; internal protected set; }
 
 
         /// <summary>
         /// 获取或设置此任务的终点位置。
         /// </summary>
         [Required]
-        public virtual Location End { get; internal protected set; }
+        public virtual Location? End { get; internal protected set; }
 
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Swm.TransportTasks
         [MaxLength(9999)]
         public virtual string? ex2 { get; set; }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return $"{this.TaskType} {this.TaskCode}";
         }

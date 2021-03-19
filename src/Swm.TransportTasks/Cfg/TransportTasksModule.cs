@@ -29,9 +29,9 @@ namespace Swm.TransportTasks
     {
         static ILogger _logger = Log.ForContext<TransportTasksModule>();
 
-        public RequestHandler[] RequestHandlers { get; set; }
+        public RequestHandler[]? RequestHandlers { get; set; }
 
-        public CompletedTaskHandler[] CompletedTaskHandlers { get; set; }
+        public CompletedTaskHandler[]? CompletedTaskHandlers { get; set; }
 
 
         protected override void Load(ContainerBuilder builder)
@@ -62,6 +62,12 @@ namespace Swm.TransportTasks
         {
             _logger.Information("正在配置请求处理程序");
 
+            if (RequestHandlers == null)
+            {
+                _logger.Warning("未配置任何请求处理程序");
+                return;
+            }
+
             foreach (var handlerConfig in RequestHandlers)
             {
                 _logger.Information("请求类型 {requestType} --> 处理程序 {handlerType}", handlerConfig.RequestType, handlerConfig.HandlerType);
@@ -78,7 +84,7 @@ namespace Swm.TransportTasks
                     throw new ApplicationException($"配置错误，类型【{handlerType}】未实现【{typeof(IRequestHandler)}】接口。");
                 }
 
-                string requestType = handlerConfig.RequestType?.Trim();
+                string? requestType = handlerConfig.RequestType?.Trim();
                 if (string.IsNullOrEmpty(requestType))
                 {
                     throw new ApplicationException("配置错误，请求类型不能为空。");
@@ -99,6 +105,12 @@ namespace Swm.TransportTasks
         {
             _logger.Information("正在配置完成处理程序");
 
+            if (CompletedTaskHandlers == null)
+            {
+                _logger.Warning("未配置任何完成处理程序");
+                return;
+            }
+
             foreach (var handlerConfig in CompletedTaskHandlers)
             {
                 _logger.Information("任务类型 {taskType} --> 处理程序 {handlerType}", handlerConfig.TaskType, handlerConfig.HandlerType);
@@ -115,7 +127,7 @@ namespace Swm.TransportTasks
                     throw new ApplicationException($"配置错误，类型【{handlerType}】未实现【{typeof(ICompletedTaskHandler)}】接口。");
                 }
 
-                string taskType = handlerConfig.TaskType?.Trim();
+                string? taskType = handlerConfig.TaskType?.Trim();
                 if (string.IsNullOrEmpty(taskType))
                 {
                     throw new ApplicationException("配置错误，任务类型不能为空。");

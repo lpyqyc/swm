@@ -32,9 +32,9 @@ namespace Swm.TransportTasks
             _logger = logger;
         }
 
-        public async Task ProcessAsync(string eventType, object eventData)
+        public async Task ProcessAsync(string eventType, object? eventData)
         {
-            await ProcessRequest((RequestInfo)eventData);
+            await ProcessRequest((RequestInfo)(eventData ?? throw new Exception("未提供请求信息")));
         }
 
         private async Task ProcessRequest(RequestInfo requestInfo)
@@ -61,7 +61,7 @@ namespace Swm.TransportTasks
         /// </summary>
         /// <param name="requestType"></param>
         /// <returns></returns>
-        private IRequestHandler GetRequestHandler(string requestType)
+        private IRequestHandler? GetRequestHandler(string requestType)
         {
             var lazy = _requestHandlers
                 .Where(x => string.Equals(x.Metadata.RequestType, requestType, StringComparison.OrdinalIgnoreCase))

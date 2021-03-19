@@ -35,24 +35,24 @@ namespace Swm.Web.Controllers
         /// <returns></returns>
         public static UnitloadItemInfo ToUnitloadItemInfo(UnitloadItem unitloadItem)
         {
-            OutboundOrder? obo = unitloadItem.Unitload.CurrentUat as OutboundOrder;
+            OutboundOrder? obo = unitloadItem.Unitload?.CurrentUat as OutboundOrder;
 
             return new UnitloadItemInfo
             {
                 UnitloadItemId = unitloadItem.UnitloadItemId,
-                MaterialId = unitloadItem.Material.MaterialId,
-                MaterialCode = unitloadItem.Material.MaterialCode,
-                MaterialType = unitloadItem.Material.MaterialType,
-                Description = unitloadItem.Material.Description,
-                Specification = unitloadItem.Material.Specification,
+                MaterialId = unitloadItem.Material?.MaterialId ?? 0,
+                MaterialCode = unitloadItem.Material?.MaterialCode,
+                MaterialType = unitloadItem.Material?.MaterialType,
+                Description = unitloadItem.Material?.Description,
+                Specification = unitloadItem.Material?.Specification,
                 Batch = unitloadItem.Batch,
                 StockStatus = unitloadItem.StockStatus,
                 Quantity = unitloadItem.Quantity,
                 AllocationsToOutboundOrder = unitloadItem.Allocations
-                    .Where(x => x.OutboundDemand is OutboundLine)
+                    .Where(x => x.OutboundDemand != null && x.OutboundDemand is OutboundLine)
                     .Select(x => new UnitloadItemInfo.AllocationInfoToOutboundOrder
                     {
-                        OutboundLineId = ((OutboundLine)x.OutboundDemand).OutboundLineId,
+                        OutboundLineId = ((OutboundLine)x.OutboundDemand!).OutboundLineId,
                         QuantityAllocated = x.QuantityAllocated,
                     })
                     .ToArray(),
@@ -72,11 +72,11 @@ namespace Swm.Web.Controllers
             return new UnitloadItemInfo
             {
                 UnitloadItemId = unitloadItem.UnitloadItemId,
-                MaterialId = unitloadItem.Material.MaterialId,
-                MaterialCode = unitloadItem.Material.MaterialCode,
-                MaterialType = unitloadItem.Material.MaterialType,
-                Description = unitloadItem.Material.Description,
-                Specification = unitloadItem.Material.Specification,
+                MaterialId = unitloadItem.Material?.MaterialId ?? 0,
+                MaterialCode = unitloadItem.Material?.MaterialCode,
+                MaterialType = unitloadItem.Material?.MaterialType,
+                Description = unitloadItem.Material?.Description,
+                Specification = unitloadItem.Material?.Specification,
                 Batch = unitloadItem.Batch,
                 StockStatus = unitloadItem.StockStatus,
                 Quantity = unitloadItem.Quantity,
@@ -99,7 +99,7 @@ namespace Swm.Web.Controllers
                 UnitloadId = unitload.UnitloadId,
                 PalletCode = unitload.PalletCode,
                 ctime = unitload.ctime,
-                LocationCode = unitload.CurrentLocation.LocationCode,
+                LocationCode = unitload.CurrentLocation?.LocationCode,
                 LocationTime = unitload.CurrentLocationTime,
                 LanewayCode = unitload.CurrentLocation?.Laneway?.LanewayCode,
                 BeingMoved = unitload.BeingMoved,
@@ -131,7 +131,7 @@ namespace Swm.Web.Controllers
                 PalletCode = unitload.PalletCode,
                 ctime = unitload.ctime,
                 mtime = unitload.mtime,
-                LocationCode = unitload.CurrentLocation.LocationCode,
+                LocationCode = unitload.CurrentLocation?.LocationCode,
                 LanewayCode = unitload.CurrentLocation?.Laneway?.LanewayCode,
                 BeingMoved = unitload.BeingMoved,
                 Items = unitload.Items.Select(i => ToUnitloadItemInfo(i)).ToList(),

@@ -17,6 +17,11 @@ namespace Arctic.Web.Controllers
     public class ErrorController : ControllerBase
     {
         readonly ILogger _logger;
+
+        /// <summary>
+        /// 初始化新实例
+        /// </summary>
+        /// <param name="logger"></param>
         public ErrorController(ILogger logger)
         {
             _logger = logger;

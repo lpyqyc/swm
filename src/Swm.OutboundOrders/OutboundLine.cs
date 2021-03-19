@@ -163,10 +163,10 @@ namespace Swm.OutboundOrders
             }
 
             this.Allocations.Remove(allocation);
-            allocation.UnitloadItem.Allocations.Remove(allocation);
+            allocation.UnitloadItem?.Allocations.Remove(allocation);
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return $"{this.OutboundOrder?.OutboundOrderCode}#{this.OutboundLineId}";
         }

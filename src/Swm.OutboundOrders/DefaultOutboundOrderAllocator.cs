@@ -103,10 +103,10 @@ namespace Swm.OutboundOrders
 
             // 显式包含的货载项
             List<UnitloadItem> included = new List<UnitloadItem>();
-            if (options.IncludePallets.Length > 0)
+            if (options.IncludePallets != null && options.IncludePallets.Length > 0)
             {
                 included = await _session.Query<UnitloadItem>()
-                    .Where(x => options.IncludePallets.Contains(x.Unitload.PalletCode)
+                    .Where(x => options.IncludePallets.Contains(x.Unitload!.PalletCode)
                         && x.Material == line.Material)
                     .ToListAsync()
                     .ConfigureAwait(false);
@@ -118,9 +118,9 @@ namespace Swm.OutboundOrders
                     included.Contains(x) == false   // 显式包含的货载项已在上面处理过，这里需排除
                     && x.Material == line.Material)
                 .OrderBy(x => x.Fifo)
-                .ThenBy(x => x.Unitload.CurrentLocation.Cell.oByShape)
-                .ThenBy(x => x.Unitload.CurrentLocation.Cell.o1)
-                .ThenBy(x => x.Unitload.CurrentLocation.Deep)
+                .ThenBy(x => x.Unitload!.CurrentLocation!.Cell!.oByShape)
+                .ThenBy(x => x.Unitload!.CurrentLocation!.Cell!.o1)
+                .ThenBy(x => x.Unitload!.CurrentLocation!.Deep)
                 .LoadInChunksAsync(options.ChunkSize);
             await foreach (var item in Union(included, candidateItems))
             {
@@ -164,6 +164,15 @@ namespace Swm.OutboundOrders
         /// <returns>从货载项中分配的数量</returns>
         async Task<decimal> AllocateItemAsync(OutboundLine line, UnitloadItem item, AllocateStockOptions options)
         {
+            if (line.OutboundOrder == null)
+            {
+                throw new Exception("出库单明细不属于任何出库单");
+            }
+            if (item.Unitload == null)
+            {
+                throw new Exception("货载明细不属于任何货载");
+            }
+
             if (!TestUnitloadItem(line, item, options))
             {
                 return 0m;
@@ -212,6 +221,10 @@ namespace Swm.OutboundOrders
         /// <returns></returns>
         public bool TestUnitloadItem(OutboundLine line, UnitloadItem item, AllocateStockOptions options)
         {
+            if (item.Unitload == null)
+            {
+                throw new Exception("货载明细不属于任何货载");
+            }
             bool passed = true;
             _logger.Debug("检查出库单明细 {outboundLine} 与货载项 {unitloadItem} 是否匹配", line, item);
 
@@ -287,7 +300,7 @@ namespace Swm.OutboundOrders
 
             // TODO 提取常数
             string[] taskTypes = new[] { "让路", "整理" };
-            if (item.Unitload.BeingMoved == false || taskTypes.Contains(item.Unitload.CurrentTask.TaskType))
+            if (item.Unitload.BeingMoved == false || item.Unitload.CurrentTask != null && taskTypes.Contains(item.Unitload.CurrentTask.TaskType))
             {
                 _logger.Debug("（√）无任务");
             }
@@ -307,7 +320,8 @@ namespace Swm.OutboundOrders
                 passed = false;
             }
 
-            if (InAreas(item.Unitload.CurrentLocation.Laneway?.Area, options.Areas) || options.IncludePallets.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase))
+            if (InAreas(item.Unitload.CurrentLocation?.Laneway?.Area, options?.Areas) 
+                || options?.IncludePallets?.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase) == true)
             {
                 _logger.Debug("（√）在指定区域、或显式包含");
             }
@@ -317,7 +331,9 @@ namespace Swm.OutboundOrders
                 passed = false;
             }
 
-            if (item.Unitload.CurrentLocation.Laneway?.Offline == false || options.SkipOfflineLaneways == false || options.IncludePallets.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase))
+            if (item.Unitload.CurrentLocation?.Laneway?.Offline == false 
+                || options?.SkipOfflineLaneways != true
+                || options?.IncludePallets?.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase) == true)
             {
                 _logger.Debug("（√）巷道未脱机、或允许从脱机巷道分配、或显式包含");
             }
@@ -337,9 +353,10 @@ namespace Swm.OutboundOrders
             }
             return passed;
 
-            static bool InAreas(string? area, string[] areas)
+            static bool InAreas(string? area, string[]? areas)
             {
-                return areas == null 
+                return areas == null
+                    || areas == null
                     || areas.Length == 0 
                     || areas.Where(x => x != null).Any(x => string.Equals(x, area, StringComparison.OrdinalIgnoreCase));
             }
@@ -410,7 +427,7 @@ namespace Swm.OutboundOrders
 
             foreach (var line in outboundOrder.Lines)
             {
-                foreach (var alloc in line.Allocations.Where(x => x.UnitloadItem.Unitload == unitload).ToArray())
+                foreach (var alloc in line.Allocations.Where(x => x.UnitloadItem?.Unitload == unitload).ToArray())
                 {
                     line.Deallocate(alloc);
                 }

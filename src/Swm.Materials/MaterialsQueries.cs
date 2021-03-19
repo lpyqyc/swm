@@ -37,8 +37,8 @@ namespace Swm.Materials
             if (string.IsNullOrEmpty(keyword) == false)
             {
                 q = q.Where(x =>
-                    x.MaterialCode.Contains(keyword)
-                    || x.Description.Contains(keyword)
+                    x.MaterialCode!.Contains(keyword)
+                    || x.Description!.Contains(keyword)
                     || (x.MnemonicCode != null && x.MnemonicCode.Contains(keyword))
                 );
             }

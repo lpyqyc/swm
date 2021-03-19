@@ -33,17 +33,17 @@ namespace Swm.TransportTasks
         /// <summary>
         /// 请求类型，依项目而变化。
         /// </summary>
-        public string RequestType { get; set; }
+        public string? RequestType { get; set; }
 
         /// <summary>
         /// 请求发出的位置。
         /// </summary>
-        public string LocationCode { get; set; }
+        public string? LocationCode { get; set; }
 
         /// <summary>
         /// 容器编码。
         /// </summary>
-        public string PalletCode { get; set; }
+        public string? PalletCode { get; set; }
 
         /// <summary>
         /// 重量。
@@ -58,13 +58,13 @@ namespace Swm.TransportTasks
         /// <summary>
         /// 附加信息。
         /// </summary>
-        public Dictionary<string, string> AdditionalInfo { get; set; }
+        public Dictionary<string, string>? AdditionalInfo { get; set; }
 
         /// <summary>
         /// 返回表示此实例的字符串。
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true } );
         }

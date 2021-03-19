@@ -27,16 +27,16 @@ namespace Swm.Locations
         public virtual int LocationOpId { get; internal protected set; }
 
         [Required]
-        public virtual Location Location { get; set; } = default!;
+        public virtual Location? Location { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.OPERATION_TYPE)]
-        public virtual string OpType { get; set; } = default!;
+        public virtual string? OpType { get; set; }
 
         public virtual DateTime ctime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string? cuser { get; set; } = default!;
+        public virtual string? cuser { get; set; }
 
         [MaxLength(9999)]
         public virtual string? Comment { get; set; }

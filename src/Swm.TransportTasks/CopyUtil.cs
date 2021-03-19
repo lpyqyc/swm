@@ -29,7 +29,7 @@ namespace Swm.TransportTasks
         /// <param name="src"></param>
         /// <param name="dest"></param>
         /// <param name="excluded">目标类型中要排除的属性名称</param>
-        public static void CopyProperties(object src, object dest, string[] excluded = null)
+        public static void CopyProperties(object src, object dest, string[]? excluded = null)
         {
             if (src == null)
             {
@@ -65,7 +65,7 @@ namespace Swm.TransportTasks
                 }
                 else
                 {
-                    object val = srcProp.GetValue(src);
+                    object? val = srcProp.GetValue(src);
                     destProp.SetValue(dest, val);
                     logger.Debug("已复制属性 {propName}", destProp.Name);
                 }

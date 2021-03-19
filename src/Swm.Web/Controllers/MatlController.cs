@@ -388,20 +388,20 @@ namespace Swm.Web.Controllers
             return this.ListData(pagedList, x => new ChangeStockStatusUnitloadItemInfo
             {
                 UnitloadItemId = x.UnitloadItemId,
-                PalletCode = x.Unitload.PalletCode,
-                LocationCode = x.Unitload.CurrentLocation.LocationCode,
-                LanewayCode = x.Unitload.CurrentLocation.Laneway?.LanewayCode,
-                BeingMoved = x.Unitload.BeingMoved,
-                MaterialId = x.Material.MaterialId,
-                MaterialCode = x.Material.MaterialCode,
-                MaterialType = x.Material.MaterialType,
-                Description = x.Material.Description,
-                Specification = x.Material.Specification,
+                PalletCode = x.Unitload?.PalletCode,
+                LocationCode = x.Unitload?.CurrentLocation?.LocationCode,
+                LanewayCode = x.Unitload?.CurrentLocation?.Laneway?.LanewayCode,
+                BeingMoved = x.Unitload?.BeingMoved ?? default,
+                MaterialId = x.Material?.MaterialId ?? default,
+                MaterialCode = x.Material?.MaterialCode,
+                MaterialType = x.Material?.MaterialType,
+                Description = x.Material?.Description,
+                Specification = x.Material?.Specification,
                 Batch = x.Batch,
                 StockStatus = x.StockStatus,
                 Quantity = x.Quantity,
                 Uom = x.Uom,
-                Allocated = (x.Unitload.CurrentUat != null),
+                Allocated = (x.Unitload?.CurrentUat != null),
                 CanChangeStockStatus = CanChangeStockStatus(x).ok,
                 ReasonWhyStockStatusCannotBeChanged = CanChangeStockStatus(x).reason,
             });
@@ -545,6 +545,11 @@ namespace Swm.Web.Controllers
 
         internal static (bool ok, string reason) CanChangeStockStatus(UnitloadItem item)
         {
+            if (item.Unitload == null)
+            {
+                throw new Exception("货载明细不属于任何货载");
+            }
+
             List<string> list = new List<string>();
 
             if (item.Unitload.CurrentUat != null)

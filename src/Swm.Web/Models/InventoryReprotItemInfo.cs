@@ -22,12 +22,12 @@ namespace Swm.Web.Controllers
         /// 物料代码
         /// </summary>
         [Required]
-        public string MaterialCode { get; set; } = default!;
+        public string? MaterialCode { get; set; }
 
         /// <summary>
         /// 物料描述
         /// </summary>
-        public string Description { get; set; } = default!;
+        public string? Description { get; set; }
 
         /// <summary>
         /// 批号

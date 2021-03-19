@@ -26,7 +26,7 @@ namespace Swm.Palletization.Tests
         public static Location NewK()
         {
             Location loc = _locationFactory.CreateLocation(
-                default,
+                "K",
                 LocationTypes.K,
                 default,
                 default,

@@ -71,7 +71,7 @@ namespace Swm.Palletization
         public virtual string ContainerSpecification { get; set; }
 
 
-        public override string ToString()
+        public override string? ToString()
         {
             return JsonSerializer.Serialize(this);
         }

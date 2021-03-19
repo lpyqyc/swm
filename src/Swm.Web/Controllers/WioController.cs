@@ -604,14 +604,14 @@ namespace Swm.Web.Controllers
             string? outboundOrderCode = args?.OutboundOrderCode?.Trim();
 
             var q = _session.Query<UnitloadItem>()
-                .Where(x => x.Unitload.OpHintType == null
+                .Where(x => x.Unitload!.OpHintType == null
                     && x.Unitload.HasCountingError == false
                     && x.Unitload.BeingMoved == false
                 );
 
             if (material != null)
             {
-                q = q.Where(x => x.Material.MaterialCode == material);
+                q = q.Where(x => x.Material!.MaterialCode == material);
             }
 
             if (stockStatus != null)
@@ -626,18 +626,18 @@ namespace Swm.Web.Controllers
 
             if (outboundOrderCode == null)
             {
-                q = q.Where(x => x.Unitload.CurrentUat == null);
+                q = q.Where(x => x.Unitload!.CurrentUat == null);
             }
             else
             {
                 OutboundOrder o = await _session.Query<OutboundOrder>().Where(x => x.OutboundOrderCode == outboundOrderCode).SingleOrDefaultAsync();
                 if (o == null)
                 {
-                    q = q.Where(x => x.Unitload.CurrentUat == null);
+                    q = q.Where(x => x.Unitload!.CurrentUat == null);
                 }
                 else
                 {
-                    q = q.Where(x => x.Unitload.CurrentUat == null || x.Unitload.CurrentUat == o);
+                    q = q.Where(x => x.Unitload!.CurrentUat == null || x.Unitload.CurrentUat == o);
                 }
             }
 

@@ -191,19 +191,18 @@ namespace Swm.TransportTasks
                 throw new FailToBuildTaskException(FailtoBuildTaskReason.OutboundLimitReached);
             }
 
-            if (start?.Laneway?.Automated == false)
-            {
-                throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayNotAutomated);
-            }
 
-            if (start.LocationType == LocationTypes.S)
+            if (start.LocationType == LocationTypes.S && start?.Laneway != null)
             {
+                if (start.Laneway.Automated == false)
+                {
+                    throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayNotAutomated);
+                }
 
                 if (start.Laneway.Offline)
                 {
                     throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayOffline);
                 }
-
 
                 if (start.Deep == 2)
                 {
@@ -227,7 +226,7 @@ namespace Swm.TransportTasks
             }
             else if (unitload.CurrentLocation.LocationType == LocationTypes.N)
             {
-                if (start.LocationType != LocationTypes.K)
+                if (start?.LocationType != LocationTypes.K)
                 {
                     throw new FailToBuildTaskException(FailtoBuildTaskReason.InvalidStart);
                 }
@@ -261,13 +260,14 @@ namespace Swm.TransportTasks
                 throw new FailToBuildTaskException(FailtoBuildTaskReason.InboundLimitReached);
             }
 
-            if (end?.Laneway?.Automated == false)
-            {
-                throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayNotAutomated);
-            }
 
-            if (end.LocationType == LocationTypes.S)
+            if (end.LocationType == LocationTypes.S && end.Laneway != null)
             {
+                if (end.Laneway.Automated == false)
+                {
+                    throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayNotAutomated);
+                }
+
                 if (end.Laneway.Offline)
                 {
                     throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayOffline);
@@ -329,8 +329,8 @@ namespace Swm.TransportTasks
             transTask.Unitload.BeingMoved = false;
             transTask.Unitload.CurrentTask = null;
             var archived = await ArchiveAsync(transTask, false, actualEnd);
-            transTask.Start.OutboundCount--;
-            transTask.End.InboundCount--;
+            transTask.Start!.OutboundCount--;
+            transTask.End!.InboundCount--;
 
             _logger.Information("任务已完成 {taskCode}", transTask.TaskCode);
 
@@ -365,7 +365,7 @@ namespace Swm.TransportTasks
                 // 当托盘在 N 位置上时，当前位置和起点不同
                 if (transTask.Unitload.CurrentLocation == transTask.Start)
                 {
-                    if (transTask.Start.UnitloadCount - transTask.Start.OutboundCount > 0)
+                    if (transTask.Start!.UnitloadCount - transTask.Start.OutboundCount > 0)
                     {
                         string errMsg = string.Format("不能取消任务，起点上有其他货载。");
                         throw new InvalidOperationException(errMsg);
@@ -375,9 +375,9 @@ namespace Swm.TransportTasks
 
             transTask.Unitload.BeingMoved = false;
             transTask.Unitload.CurrentTask = null;
-            var archived = await ArchiveAsync(transTask, true, transTask.Start);
-            transTask.Start.OutboundCount--;
-            transTask.End.InboundCount--;
+            var archived = await ArchiveAsync(transTask, true, transTask.Start!);
+            transTask.Start!.OutboundCount--;
+            transTask.End!.InboundCount--;
 
             _logger.Information("已取消任务 {taskCode}", transTask.TaskCode);
 
@@ -421,7 +421,7 @@ namespace Swm.TransportTasks
                 }
             }
 
-            Location orig = unitload.CurrentLocation;
+            Location? orig = unitload.CurrentLocation;
             if (orig == null)
             {
                 orig = await _session.Query<Location>().GetNAsync().ConfigureAwait(false);

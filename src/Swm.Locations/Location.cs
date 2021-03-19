@@ -201,12 +201,14 @@ namespace Swm.Locations
         /// 备用字段
         /// </summary>
         [MaxLength(9999)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual string? ex1 { get; set; }
 
         /// <summary>
         /// 备用字段
         /// </summary>
         [MaxLength(9999)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual string? ex2 { get; set; }
 
 
@@ -376,7 +378,7 @@ namespace Swm.Locations
 
 
 
-        public override string ToString()
+        public override string? ToString()
         {
             return this.LocationCode;
         }

@@ -82,7 +82,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 存储分组
         /// </summary>
-        public string StorageGroup { get; set; } = default!;
+        public string? StorageGroup { get; set; }
 
         /// <summary>
         /// 货载数

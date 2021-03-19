@@ -53,7 +53,7 @@ namespace Swm.Model.Extentions
             CheckRequest(requestInfo);
 
             // 1 入口
-            string entranceLocationCode = requestInfo.LocationCode;
+            string entranceLocationCode = requestInfo.LocationCode ?? throw new InvalidOperationException("未提供请求位置");
             var entrance = await _session.Query<Location>().GetAsync(entranceLocationCode).ConfigureAwait(false);
             if (entrance == null)
             {
@@ -62,7 +62,7 @@ namespace Swm.Model.Extentions
             }
 
             // 2 托盘
-            string containerCode = requestInfo.PalletCode;
+            string containerCode = requestInfo.PalletCode ?? throw new InvalidOperationException("未提供托盘号"); ;
             var unitload = await _session.Query<Unitload>().GetAsync(containerCode).ConfigureAwait(false);
             if (unitload == null)
             {

@@ -21,8 +21,16 @@ using System.Linq.Expressions;
 
 namespace Swm.Web
 {
+    /// <summary>
+    /// 用于生成 <see cref="ApiData"/> 的扩展属性。
+    /// </summary>
     public static class ApiDataExtensions
     {
+        /// <summary>
+        /// 生成表示操作成功的 <see cref="ApiData"/> 对象。
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <returns></returns>
         public static ApiData Success(this ControllerBase controller)
         {
             return new ApiData
@@ -34,6 +42,13 @@ namespace Swm.Web
             };
         }
 
+        /// <summary>
+        /// 生成表示操作成功的 <see cref="ApiData{TData}"/> 对象。
+        /// </summary>
+        /// <typeparam name="TData"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static ApiData<TData> Success<TData>(this ControllerBase controller, TData? data)
         {
             return new ApiData<TData>
@@ -46,6 +61,12 @@ namespace Swm.Web
             };
         }
 
+        /// <summary>
+        /// 生成表示操作失败的 <see cref="ApiData"/> 对象。
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
         public static ApiData Failure(this ControllerBase controller, string? errorMessage)
         {
             return new ApiData
@@ -57,11 +78,27 @@ namespace Swm.Web
             };
         }
 
+        /// <summary>
+        /// 生成表示分页数据列表的对象。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="pagedList"></param>
+        /// <returns></returns>
         public static ListData<T> ListData<T>(this ControllerBase controller, PagedList<T> pagedList)
         {
             return controller.ListData(pagedList, x => x);
         }
 
+        /// <summary>
+        /// 生成表示分页数据列表的对象。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="pagedList"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
         public static ListData<U> ListData<T, U>(this ControllerBase controller, PagedList<T> pagedList, Func<T, U> selector)
         {
             return new ListData<U>
@@ -77,6 +114,13 @@ namespace Swm.Web
             };
         }
 
+        /// <summary>
+        /// 生成选择列表数据对象。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="items"></param>
+        /// <returns></returns>
         public static OptionsData<T> OptionsData<T>(this ControllerBase controller, List<T> items)
         {
             return new Web.OptionsData<T>
@@ -89,6 +133,12 @@ namespace Swm.Web
             };
         }
 
+        /// <summary>
+        /// 生成表示错误的 <see cref="ApiData"/> 对象。
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
         public static ApiData Error(this ControllerBase controller, string? errorMessage)
         {
             return new ApiData

@@ -37,32 +37,32 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 物料编码
         /// </summary>
-        public string MaterialCode { get; set; } = default!;
+        public string? MaterialCode { get; set; }
 
         /// <summary>
         /// 物料类型
         /// </summary>
-        public string MaterialType { get; set; } = default!;
+        public string? MaterialType { get; set; }
 
         /// <summary>
         /// 物料描述
         /// </summary>
-        public string Description { get; set; } = default!;
+        public string? Description { get; set; }
 
         /// <summary>
         /// 物料规格
         /// </summary>
-        public string Specification { get; set; } = default!;
+        public string? Specification { get; set; }
 
         /// <summary>
         /// 批号
         /// </summary>
-        public string Batch { get; set; } = default!;
+        public string? Batch { get; set; }
 
         /// <summary>
         /// 库存状态
         /// </summary>
-        public string StockStatus { get; set; } = default!;
+        public string? StockStatus { get; set; }
 
         /// <summary>
         /// 数量
@@ -90,7 +90,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 计量单位
         /// </summary>
-        public string Uom { get; set; } = default!;
+        public string? Uom { get; set; }
 
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; set; } = default!;
+        public string? UserName { get; set; }
 
         /// <summary>
         /// 是否内置用户，内置用户不能删除

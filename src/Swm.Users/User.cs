@@ -42,7 +42,7 @@ namespace Swm.Users
         /// <summary>
         /// Id
         /// </summary>
-        public virtual Int32 UserId { get; protected set; }
+        public virtual int UserId { get; protected set; }
 
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Swm.Users
         /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
         [Required]
-        public virtual string UserName { get; set; }
+        public virtual string? UserName { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -171,7 +171,7 @@ namespace Swm.Users
         /// 返回表示此 User 的字符串。
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return this.UserName;
         }

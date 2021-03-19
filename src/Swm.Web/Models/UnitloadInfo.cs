@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
@@ -30,7 +31,8 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 托盘号
         /// </summary>
-        public string PalletCode { get; set; } = default!;
+        [Required]
+        public string? PalletCode { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -45,7 +47,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 所在货位编码
         /// </summary>
-        public string LocationCode { get; set; } = default!;
+        public string? LocationCode { get; set; }
 
 
         /// <summary>

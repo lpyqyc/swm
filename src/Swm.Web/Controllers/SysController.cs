@@ -28,6 +28,13 @@ namespace Swm.Web.Controllers
         readonly OpHelper _opHelper;
         readonly IAppSettingService _appSettingService;
 
+        /// <summary>
+        /// 初始化新实例。
+        /// </summary>
+        /// <param name="appSettingService"></param>
+        /// <param name="session"></param>
+        /// <param name="opHelper"></param>
+        /// <param name="logger"></param>
         public SysController(IAppSettingService appSettingService, ISession session, OpHelper opHelper, ILogger logger)
         {
             _appSettingService = appSettingService;

@@ -30,22 +30,22 @@ namespace Swm.Web.Controllers
         /// 物料编码
         /// </summary>
         [Required]
-        public string MaterialCode { get; set; } = default!;
+        public string? MaterialCode { get; set; }
 
         /// <summary>
         /// 物料类型
         /// </summary>
-        public string MaterialType { get; set; } = default!;
+        public string? MaterialType { get; set; } 
 
         /// <summary>
         /// 物料描述
         /// </summary>
-        public string Description { get; set; } = default!;
+        public string? Description { get; set; }
 
         /// <summary>
         /// 物料规格
         /// </summary>
-        public string Specification { get; set; } = default!;
+        public string? Specification { get; set; }
 
         /// <summary>
         /// 是否启用批次管理
@@ -75,7 +75,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 计量单位
         /// </summary>
-        public string Uom { get; set; } = default!;
+        public string? Uom { get; set; }
 
         /// <summary>
         /// 库存下边界
@@ -96,7 +96,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 默认存储分组
         /// </summary>
-        public string DefaultStorageGroup { get; set; } = default!;
+        public string? DefaultStorageGroup { get; set; } = default!;
 
         /// <summary>
         /// 备注

@@ -34,14 +34,14 @@ namespace Swm.TransportTasks
             _session = session;
             _logger = logger;
         }
-        public async Task ProcessAsync(string eventType, object eventData)
+        public async Task ProcessAsync(string eventType, object? eventData)
         {
-            await ProcessCompletedTaskAsync((CompletedTaskInfo)eventData);
+            await ProcessCompletedTaskAsync((CompletedTaskInfo)(eventData ?? throw new Exception("未提供任务信息")));
         }
 
         private async Task ProcessCompletedTaskAsync(CompletedTaskInfo taskInfo)
-        {
-            string taskCode = taskInfo.TaskCode;
+        {            
+            string taskCode = taskInfo.TaskCode ?? throw new Exception("任务号不能为 null");
 
             _logger.Information("正在引发任务完成事件，任务类型 {taskType}，任务号 {taskCode}", taskInfo.TaskType, taskCode);
 
@@ -51,7 +51,7 @@ namespace Swm.TransportTasks
                 throw new ApplicationException(msg);
             }
 
-            ICompletedTaskHandler handler = GetCompletedTaskHandler(taskInfo.TaskType);
+            ICompletedTaskHandler? handler = GetCompletedTaskHandler(taskInfo.TaskType);
             if (handler == null)
             {
                 throw new ApplicationException($"没有找到可用的完成处理程序。任务类型：{taskInfo.TaskType}。");
@@ -76,7 +76,7 @@ namespace Swm.TransportTasks
         /// </summary>
         /// <param name="taskType"></param>
         /// <returns></returns>
-        private ICompletedTaskHandler GetCompletedTaskHandler(string taskType)
+        private ICompletedTaskHandler? GetCompletedTaskHandler(string taskType)
         {
             var lazy = _completedTaskHandlers
                 .Where(x => string.Equals(x.Metadata.TaskType, taskType, StringComparison.InvariantCultureIgnoreCase))

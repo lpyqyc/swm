@@ -42,6 +42,15 @@ namespace Swm.Web.Controllers
         readonly ILogger _logger;
         readonly SimpleEventBus _eventBus;
 
+        /// <summary>
+        /// 初始化新实例。
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="locHelper"></param>
+        /// <param name="locFactory"></param>
+        /// <param name="opHelper"></param>
+        /// <param name="eventBus"></param>
+        /// <param name="logger"></param>
         public LocController(ISession session, LocationHelper locHelper, ILocationFactory locFactory, OpHelper opHelper, SimpleEventBus eventBus, ILogger logger)
         {
             _session = session;
@@ -266,12 +275,12 @@ namespace Swm.Web.Controllers
                     WeightLimit = loc.WeightLimit,
                     HeightLimit = loc.HeightLimit,
                     Exists = loc.Exists,
-                    i1 = loc.Cell.i1,
-                    o1 = loc.Cell.o1,
-                    i2 = loc.Cell.i2,
-                    o2 = loc.Cell.o2,
-                    i3 = loc.Cell.i3,
-                    o3 = loc.Cell.o3,
+                    i1 = loc.Cell?.i1 ?? default,
+                    o1 = loc.Cell?.o1 ?? default,
+                    i2 = loc.Cell?.i2 ?? default,
+                    o2 = loc.Cell?.o2 ?? default,
+                    i3 = loc.Cell?.i3 ?? default,
+                    o3 = loc.Cell?.o3 ?? default,
                 }).ToList()
             };
 
@@ -312,7 +321,7 @@ namespace Swm.Web.Controllers
                 PortId = x.PortId,
                 PortCode = x.PortCode,
                 CurrentUat = x.CurrentUat?.ToString(),
-                KP1 = x.KP1.LocationCode,
+                KP1 = x.KP1?.LocationCode,
                 KP2 = x.KP2?.LocationCode,
                 Laneways = x.Laneways.Select(x => x.LanewayCode).ToArray(),
                 CheckedAt = x.CheckedAt,
@@ -444,10 +453,16 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
+            var laneways = locs
+                .Where(x => x.Laneway != null)
+                .Select(x => x.Laneway)
+                .Distinct();
             foreach (var laneway in laneways)
             {
-                await _locHelper.RebuildLanewayStatAsync(laneway);
+                if (laneway != null)
+                {
+                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                }
             }
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止入站", affected);
 
@@ -590,7 +605,10 @@ namespace Swm.Web.Controllers
             var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
             foreach (var laneway in laneways)
             {
-                await _locHelper.RebuildLanewayStatAsync(laneway);
+                if (laneway != null)
+                {
+                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                }
             }
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止出站。", affected);
@@ -664,7 +682,10 @@ namespace Swm.Web.Controllers
             var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
             foreach (var laneway in laneways)
             {
-                await _locHelper.RebuildLanewayStatAsync(laneway);
+                if (laneway != null)
+                {
+                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                }
             }
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许出站", affected);

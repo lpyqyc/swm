@@ -64,7 +64,7 @@ namespace Swm.OutboundOrders
                 throw new ArgumentOutOfRangeException(nameof(pickInfos), "拣货数量不能小于 0。");
             }
 
-            if (unitload.CurrentLocation.LocationType == LocationTypes.S)
+            if (unitload.CurrentLocation?.LocationType == LocationTypes.S)
             {
                 string msg = string.Format("拣货失败。当货载在储位上时，不允许拣货。容器编码：{0}。", unitload.PalletCode);
                 throw new InvalidOperationException(msg);
@@ -101,7 +101,7 @@ namespace Swm.OutboundOrders
                 }
 
                 // 检查分配的一致性
-                OutboundLine outboundLine = (OutboundLine)allocInfo.OutboundDemand;
+                OutboundLine outboundLine = (OutboundLine)allocInfo.OutboundDemand!;
                 if (outboundOrder.Lines.Contains(outboundLine) == false)
                 {
                     string msg = string.Format("库存项分配到的出库明细不在货载分配到的出库单中。分配信息#{0}。", pickInfo.AllocId);
@@ -140,8 +140,8 @@ namespace Swm.OutboundOrders
                 var allocInfo = unitloadItemAllocations.Single(x => x.UnitloadItemAllocationId == pickInfo.AllocId);
                 _logger.Debug("{allocInfo}", allocInfo);
 
-                UnitloadItem item = allocInfo.UnitloadItem;
-                OutboundLine outboundLine = (OutboundLine)allocInfo.OutboundDemand;
+                UnitloadItem item = allocInfo.UnitloadItem!;
+                OutboundLine outboundLine = (OutboundLine)allocInfo.OutboundDemand!;
 
                 if (pickInfo.QuantityPicked == 0)
                 {

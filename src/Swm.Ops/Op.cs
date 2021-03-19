@@ -55,7 +55,7 @@ namespace Swm.Model
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.OPERATION_TYPE)]
-        public virtual string OperationType { get; set; } = default!;
+        public virtual string? OperationType { get; set; }
 
         /// <summary>
         /// 产生此记录的 Url

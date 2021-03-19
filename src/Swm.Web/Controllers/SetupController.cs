@@ -18,12 +18,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using NHibernate;
 using NHibernate.Cfg;
-using NHibernate.Linq;
 using NHibernate.Tool.hbm2ddl;
 using Serilog;
-using Swm.Constants;
 using Swm.Locations;
-using Swm.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +29,7 @@ using System.Threading.Tasks;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 向数据库导出表结构的工具。
+    /// 安装工具。
     /// </summary>
     [ApiController]
     [Route("api/setup")]
@@ -45,6 +42,15 @@ namespace Swm.Web.Controllers
         readonly ILocationFactory _locationFactory;
         readonly LocationHelper _locationHelper;
 
+        /// <summary>
+        /// 初始化新实例
+        /// </summary>
+        /// <param name="locationFactory"></param>
+        /// <param name="locationHelper"></param>
+        /// <param name="session"></param>
+        /// <param name="nhConfiguration"></param>
+        /// <param name="env"></param>
+        /// <param name="logger"></param>
         public SetupController(ILocationFactory locationFactory, LocationHelper locationHelper, ISession session, Configuration nhConfiguration, IWebHostEnvironment env, ILogger logger)
         {
             _locationFactory = locationFactory;
@@ -82,6 +88,10 @@ namespace Swm.Web.Controllers
             return this.Success();
         }
 
+        /// <summary>
+        /// 生成测试数据，包含一个5列2层单深巷道，和一个5列2层双深巷道。
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("generate-test-data")]
         [AutoTransaction]
         public async Task<ApiData> GenerateTestData()

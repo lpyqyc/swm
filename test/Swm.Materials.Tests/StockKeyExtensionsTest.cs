@@ -27,7 +27,7 @@ namespace Swm.Materials.Tests
         [Fact]
         public void GetStockKey_可从IHasStockKey对象读取库存键()
         {
-            Foo foo = new Foo
+            Foo foo = new()
             {
                 Material = new Material(),
                 Batch = "1513",
@@ -51,9 +51,9 @@ namespace Swm.Materials.Tests
         [Fact]
         public void SetStockKey_可向IHasStockKey对象设置库存键()
         {
-            FooStockKey stockKey = new FooStockKey(new Material(), "1513", "合格", "PCS", "X");
+            FooStockKey stockKey = new(new Material(), "1513", "合格", "PCS", "X");
 
-            Foo foo = new Foo();
+            Foo foo = new();
             foo.SetStockKey(stockKey);
 
             Assert.Same(stockKey.Material, foo.Material);
@@ -69,9 +69,9 @@ namespace Swm.Materials.Tests
         [Fact]
         public void OfStockKey_能够得到正确的筛选结果()
         {
-            Foo foo1 = new Foo { Material = new Material(), Batch = "1513", StockStatus = "合格", Uom = "PCS", ExtraKeyProp = "X", NormalProp = "300" };
-            Foo foo2 = new Foo { Material = new Material(), Batch = "1514", StockStatus = "合格", Uom = "PCS", ExtraKeyProp = "X", NormalProp = "300" };
-            Foo foo3 = new Foo { Material = new Material(), Batch = "1515", StockStatus = "合格", Uom = "PCS", ExtraKeyProp = "X", NormalProp = "300" };
+            Foo foo1 = new() { Material = new Material(), Batch = "1513", StockStatus = "合格", Uom = "PCS", ExtraKeyProp = "X", NormalProp = "300" };
+            Foo foo2 = new() { Material = new Material(), Batch = "1514", StockStatus = "合格", Uom = "PCS", ExtraKeyProp = "X", NormalProp = "300" };
+            Foo foo3 = new() { Material = new Material(), Batch = "1515", StockStatus = "合格", Uom = "PCS", ExtraKeyProp = "X", NormalProp = "300" };
 
             IQueryable<Foo> q = new List<Foo> { foo1, foo2, foo3 }.AsQueryable();
             FooStockKey stockKey = foo2.GetStockKey<FooStockKey>();

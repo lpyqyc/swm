@@ -108,7 +108,7 @@ namespace Swm.Web.Controllers
                 {
                     return (x => x.Unitload.Items
                         .Select(c => c.Material)
-                        .Any(m => m.MaterialType.Like(this.MaterialType))
+                        .Any(m => m.MaterialType!.Like(this.MaterialType))
                         );
                 }
                 else

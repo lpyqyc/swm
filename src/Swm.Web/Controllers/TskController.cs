@@ -41,6 +41,13 @@ namespace Swm.Web.Controllers
         readonly TaskHelper _taskHelper;
         readonly OpHelper _opHelper;
 
+        /// <summary>
+        /// 初始化新实例
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="taskHelper"></param>
+        /// <param name="opHelper"></param>
+        /// <param name="logger"></param>
         public TskController(ISession session, TaskHelper taskHelper, OpHelper opHelper, ILogger logger)
         {
             _logger = logger;

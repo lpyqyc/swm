@@ -29,7 +29,7 @@ namespace Swm.Web.Controllers
         /// 操作类型
         /// </summary>
         [Required]
-        public string OperationType { get; set; } = default!;
+        public string? OperationType { get; set; }
 
         /// <summary>
         /// 产生此记录的 Url

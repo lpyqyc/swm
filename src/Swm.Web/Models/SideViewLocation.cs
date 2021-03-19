@@ -110,7 +110,7 @@ namespace Swm.Web.Controllers
         /// 存储分组
         /// </summary>
         [Required]
-        public string StorageGroup { get; set; } = default!;
+        public string? StorageGroup { get; set; }
 
         /// <summary>
         /// 限重

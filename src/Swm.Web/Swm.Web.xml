@@ -71,6 +71,72 @@
             </summary>
             <typeparam name="TElement"></typeparam>
         </member>
+        <member name="T:Swm.Web.ApiDataExtensions">
+            <summary>
+            用于生成 <see cref="T:Swm.Web.ApiData"/> 的扩展属性。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.ApiDataExtensions.Success(Microsoft.AspNetCore.Mvc.ControllerBase)">
+            <summary>
+            生成表示操作成功的 <see cref="T:Swm.Web.ApiData"/> 对象。
+            </summary>
+            <param name="controller"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.ApiDataExtensions.Success``1(Microsoft.AspNetCore.Mvc.ControllerBase,``0)">
+            <summary>
+            生成表示操作成功的 <see cref="T:Swm.Web.ApiData`1"/> 对象。
+            </summary>
+            <typeparam name="TData"></typeparam>
+            <param name="controller"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.ApiDataExtensions.Failure(Microsoft.AspNetCore.Mvc.ControllerBase,System.String)">
+            <summary>
+            生成表示操作失败的 <see cref="T:Swm.Web.ApiData"/> 对象。
+            </summary>
+            <param name="controller"></param>
+            <param name="errorMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.ApiDataExtensions.ListData``1(Microsoft.AspNetCore.Mvc.ControllerBase,Arctic.NHibernateExtensions.PagedList{``0})">
+            <summary>
+            生成表示分页数据列表的对象。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="controller"></param>
+            <param name="pagedList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.ApiDataExtensions.ListData``2(Microsoft.AspNetCore.Mvc.ControllerBase,Arctic.NHibernateExtensions.PagedList{``0},System.Func{``0,``1})">
+            <summary>
+            生成表示分页数据列表的对象。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+            <param name="controller"></param>
+            <param name="pagedList"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.ApiDataExtensions.OptionsData``1(Microsoft.AspNetCore.Mvc.ControllerBase,System.Collections.Generic.List{``0})">
+            <summary>
+            生成选择列表数据对象。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="controller"></param>
+            <param name="items"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.ApiDataExtensions.Error(Microsoft.AspNetCore.Mvc.ControllerBase,System.String)">
+            <summary>
+            生成表示错误的 <see cref="T:Swm.Web.ApiData"/> 对象。
+            </summary>
+            <param name="controller"></param>
+            <param name="errorMessage"></param>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.DefaultOperaionTypeAuthoriztion">
             <summary>
             <see cref="T:Swm.Web.IOperaionTypeAuthoriztion"/> 接口的默认实现
@@ -289,6 +355,17 @@
             <summary>
             提供位置 api
             </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocController.#ctor(NHibernate.ISession,Swm.Locations.LocationHelper,Swm.Locations.ILocationFactory,Swm.Web.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="session"></param>
+            <param name="locHelper"></param>
+            <param name="locFactory"></param>
+            <param name="opHelper"></param>
+            <param name="eventBus"></param>
+            <param name="logger"></param>
         </member>
         <member name="M:Swm.Web.Controllers.LocController.GetLanewayList(Swm.Web.Controllers.LanewayListArgs)">
             <summary>
@@ -563,6 +640,13 @@
             提供报表 api
             </summary>
         </member>
+        <member name="M:Swm.Web.Controllers.RptController.#ctor(NHibernate.ISession,Serilog.ILogger)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="session"></param>
+            <param name="logger"></param>
+        </member>
         <member name="M:Swm.Web.Controllers.RptController.GetInventoryReport(Swm.Web.Controllers.InventoryReportArgs)">
             <summary>
             实时库存
@@ -591,13 +675,30 @@
         </member>
         <member name="T:Swm.Web.Controllers.SetupController">
             <summary>
-            向数据库导出表结构的工具。
+            安装工具。
             </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.SetupController.#ctor(Swm.Locations.ILocationFactory,Swm.Locations.LocationHelper,NHibernate.ISession,NHibernate.Cfg.Configuration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Serilog.ILogger)">
+            <summary>
+            初始化新实例
+            </summary>
+            <param name="locationFactory"></param>
+            <param name="locationHelper"></param>
+            <param name="session"></param>
+            <param name="nhConfiguration"></param>
+            <param name="env"></param>
+            <param name="logger"></param>
         </member>
         <member name="M:Swm.Web.Controllers.SetupController.ExportSchema">
             <summary>
             根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
             </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.SetupController.GenerateTestData">
+            <summary>
+            生成测试数据，包含一个5列2层单深巷道，和一个5列2层双深巷道。
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.SetupController.GenerateLaneway(Swm.Web.Controllers.GenerateLanewayArgs)">
             <summary>
@@ -610,6 +711,15 @@
             <summary>
             提供系统 api
             </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.#ctor(Arctic.AppSettings.IAppSettingService,NHibernate.ISession,Swm.Web.OpHelper,Serilog.ILogger)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="appSettingService"></param>
+            <param name="session"></param>
+            <param name="opHelper"></param>
+            <param name="logger"></param>
         </member>
         <member name="M:Swm.Web.Controllers.SysController.GetAppSettingList(Swm.Web.Controllers.AppSettingListArgs)">
             <summary>
@@ -723,6 +833,15 @@
             <summary>
             提供任务 api
             </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.TskController.#ctor(NHibernate.ISession,Swm.TransportTasks.TaskHelper,Swm.Web.OpHelper,Serilog.ILogger)">
+            <summary>
+            初始化新实例
+            </summary>
+            <param name="session"></param>
+            <param name="taskHelper"></param>
+            <param name="opHelper"></param>
+            <param name="logger"></param>
         </member>
         <member name="M:Swm.Web.Controllers.TskController.GetTaskList(Swm.Web.Controllers.TaskListArgs)">
             <summary>
@@ -3143,7 +3262,7 @@
         </member>
         <member name="P:Swm.Web.Controllers.SideViewData.LocationCount">
             <summary>
-            巷道的货位数，不包含 <see cref="!:Location.Exists"/> 为 false 的货位。
+            巷道的货位数，不包含 <see cref="P:Swm.Locations.Location.Exists"/> 为 false 的货位。
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.SideViewData.AvailableCount">
@@ -3153,7 +3272,7 @@
         </member>
         <member name="P:Swm.Web.Controllers.SideViewData.Locations">
             <summary>
-            巷道的货位，包含 <see cref="!:Location.Exists"/> 为 false 的货位。
+            巷道的货位，包含 <see cref="P:Swm.Locations.Location.Exists"/> 为 false 的货位。
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.SideViewData.OfflineComment">
@@ -4068,6 +4187,17 @@
             <param name="sheet"></param>
             <returns></returns>
         </member>
+        <member name="T:Swm.Web.LogDbContext">
+            <summary>
+            表示技术日志数据库。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.LogDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{Swm.Web.LogDbContext})">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="options"></param>
+        </member>
         <member name="T:Swm.Web.LogEntry">
             <summary>
             表示一条日志记录。
@@ -4142,6 +4272,12 @@
             <summary>
             错误处理程序
             </summary>
+        </member>
+        <member name="M:Arctic.Web.Controllers.ErrorController.#ctor(Serilog.ILogger)">
+            <summary>
+            初始化新实例
+            </summary>
+            <param name="logger"></param>
         </member>
         <member name="M:Arctic.Web.Controllers.ErrorController.Error">
             <summary>

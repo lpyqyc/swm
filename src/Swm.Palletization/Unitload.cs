@@ -44,8 +44,9 @@ namespace Swm.Palletization
 
         [Required]
         [MaxLength(20)]
-        public virtual string PalletCode { get; set; } = default!;
+        public virtual string? PalletCode { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }
@@ -196,7 +197,7 @@ namespace Swm.Palletization
             return this.CurrentLocation?.LocationType == LocationTypes.S;
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return this.PalletCode;
         }

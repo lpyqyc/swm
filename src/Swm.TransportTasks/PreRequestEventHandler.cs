@@ -35,10 +35,10 @@ namespace Swm.TransportTasks
             _logger = logger;
         }
 
-        static Dictionary<string, string> _cachedRequestTypes;
+        static Dictionary<string, string?>? _cachedRequestTypes;
 
 
-        private Dictionary<string, string> GetCachedRequestTypes()
+        private Dictionary<string, string?> GetCachedRequestTypes()
         {
             lock (typeof(PreRequestEventHandler))
             {
@@ -53,12 +53,12 @@ namespace Swm.TransportTasks
         }
 
 
-        public async Task ProcessAsync(string eventType, object eventData)
+        public async Task ProcessAsync(string eventType, object? eventData)
         {
             switch (eventType)
             {
                 case TranportTasksEventTypes.PreRequest:
-                    OnPreRequest((RequestInfo)eventData);
+                    OnPreRequest((RequestInfo)(eventData ?? throw new Exception("未提供请求信息")));
                     break;
                 case LocationsEventTypes.KeyPointChanged:
                     OnKeyPointChanged();
@@ -119,7 +119,7 @@ namespace Swm.TransportTasks
                 return;
             }
 
-            Dictionary<String, string> cachedRequestTypes = GetCachedRequestTypes();
+            Dictionary<string, string?> cachedRequestTypes = GetCachedRequestTypes();
             _logger.Information("请求位置是 {locationCode}", requestInfo.LocationCode);
             if (cachedRequestTypes.ContainsKey(requestInfo.LocationCode) == false)
             {
@@ -127,7 +127,7 @@ namespace Swm.TransportTasks
                 return;
             }
 
-            string requestType = cachedRequestTypes[requestInfo.LocationCode];
+            string? requestType = cachedRequestTypes[requestInfo.LocationCode];
             if (string.IsNullOrWhiteSpace(requestType))
             {
                 _logger.Information("请求位置上未设置请求类型，按位置解析失败");

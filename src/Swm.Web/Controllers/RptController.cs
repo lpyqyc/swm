@@ -25,6 +25,11 @@ namespace Swm.Web.Controllers
         readonly ISession _session;
         readonly ILogger _logger;
 
+        /// <summary>
+        /// 初始化新实例。
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="logger"></param>
         public RptController(ISession session, ILogger logger)
         {
             _session = session;
@@ -83,8 +88,8 @@ namespace Swm.Web.Controllers
                        monthlyReport.Items.Select(x => new MonthlyReportItemInfo
                        {
                            Month = monthlyReport.Month,
-                           MaterialCode = x.Material.MaterialCode,
-                           Description = x.Material.Description,
+                           MaterialCode = x.Material?.MaterialCode,
+                           Description = x.Material?.Description,
                            Batch = x.Batch,
                            StockStatus = x.StockStatus,
                            Uom = x.Uom,

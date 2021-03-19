@@ -67,13 +67,13 @@ namespace Swm.Users
         /// <summary>
         /// 备注
         /// </summary>
-        public virtual string Comment { get; set; }
+        public virtual string? Comment { get; set; }
 
         /// <summary>
         /// 返回表示此实例的字符串。
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return this.RoleName;
         }

@@ -17,8 +17,8 @@ namespace Swm.Palletization
     public interface IUnitloadTransportTask
     {
 
-        string TaskCode { get; }
-        string TaskType { get; }
-        Unitload Unitload { get; }
+        string? TaskCode { get; }
+        string? TaskType { get; }
+        Unitload? Unitload { get; }
     }
 }

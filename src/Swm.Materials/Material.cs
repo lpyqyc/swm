@@ -35,7 +35,7 @@ namespace Swm.Materials
 
         [Required]
         [MaxLength(30)]
-        public virtual string MaterialCode { get; set; } = default!;
+        public virtual string? MaterialCode { get; set; }
 
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
@@ -49,21 +49,21 @@ namespace Swm.Materials
         public virtual DateTime mtime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string? muser { get; set; } = default!;
+        public virtual string? muser { get; set; }
 
 
         [MaxLength(8)]
-        public virtual string MaterialType { get; set; } = default!;
+        public virtual string? MaterialType { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public virtual string Description { get; set; } = default!;
+        public virtual string? Description { get; set; }
 
         [MaxLength(30)]
-        public virtual string SpareCode { get; set; } = default!;
+        public virtual string? SpareCode { get; set; }
 
         [MaxLength(64)]
-        public virtual string Specification { get; set; } = default!;
+        public virtual string? Specification { get; set; }
 
         [MaxLength(20)]
         public virtual string? MnemonicCode { get; set; }

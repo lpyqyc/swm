@@ -21,11 +21,13 @@ namespace Swm.Palletization.Tests
         [Fact]
         public void GetSnapshot_可以复制属性()
         {
-            Unitload unitload = new Unitload();
-            unitload.UnitloadId = 1;
-            unitload.PalletCode = "PalletCode";
-            unitload.Comment = "Comment";
-            unitload.HasCountingError = true;
+            Unitload unitload = new()
+            {
+                UnitloadId = 1,
+                PalletCode = "PalletCode",
+                Comment = "Comment",
+                HasCountingError = true
+            };
             unitload.AddItem(new UnitloadItem
             {
                 UnitloadItemId = 1,
@@ -48,7 +50,7 @@ namespace Swm.Palletization.Tests
             });
 
 
-            UnitloadSnapshopHelper unitloadSnapshopHelper = new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), For<ILogger>());
+            UnitloadSnapshopHelper unitloadSnapshopHelper = new(new DefaultUnitloadSnapshotFactory(), For<ILogger>());
 
             UnitloadSnapshot snapshot = unitloadSnapshopHelper.GetSnapshot(unitload);
             UnitloadItem item1 = unitload.Items.Single(x => x.UnitloadItemId == 1);

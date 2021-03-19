@@ -33,27 +33,27 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 任务号
         /// </summary>
-        public string TaskCode { get; set; } = default!;
+        public string? TaskCode { get; set; }
 
         /// <summary>
         /// 任务类型
         /// </summary>
-        public string TaskType { get; set; } = default!;
+        public string? TaskType { get; set; }
 
         /// <summary>
         /// 托盘号
         /// </summary>
-        public string PalletCode { get; set; } = default!;
+        public string? PalletCode { get; set; }
 
         /// <summary>
         /// 起点
         /// </summary>
-        public string StartLocationCode { get; set; } = default!;
+        public string? StartLocationCode { get; set; }
 
         /// <summary>
         /// 终点
         /// </summary>
-        public string EndLocationCode { get; set; } = default!;
+        public string? EndLocationCode { get; set; }
 
         /// <summary>
         /// 任务下发给Wcs的时间
@@ -68,12 +68,12 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 单号
         /// </summary>
-        public string OrderCode { get; set; } = default!;
+        public string? OrderCode { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        public string Comment { get; set; } = default!;
+        public string? Comment { get; set; }
 
 
     }

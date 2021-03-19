@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
@@ -29,13 +30,15 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 出口编码
         /// </summary>
-        public string PortCode { get; init; } = default!;
+        [Required]
+        public string? PortCode { get; init; }
 
 
         /// <summary>
         /// 出口的关键点1，不为 null
         /// </summary>
-        public string KP1 { get; init; } = default!;
+        [Required]
+        public string? KP1 { get; init; }
 
         /// <summary>
         /// 出口的关键点2，可能为 null

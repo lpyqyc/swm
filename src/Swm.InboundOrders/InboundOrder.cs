@@ -52,6 +52,7 @@ namespace Swm.InboundOrders
         /// <summary>
         /// 版本号
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual int v { get; set; }
 
         /// <summary>

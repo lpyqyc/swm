@@ -70,14 +70,20 @@ namespace Swm.Palletization
         /// <summary>
         /// 源货载的创建时间。此属性不是 <see cref="IHasCtime.ctime"/> 的实现。
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual DateTime ctime { get; set; }
 
         /// <summary>
         /// 源货载的修改时间。此属性不是 <see cref="IHasMtime.mtime"/> 的实现。
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual DateTime mtime { get; set; }
 
+        /// <summary>
+        /// 源货载的创建人。此属性不是 <see cref="IHasCuser.cuser"/> 的实现。
+        /// </summary>
         [MaxLength(FIELD_LENGTH.USERNAME)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual string? cuser { get; set; }
 
 
