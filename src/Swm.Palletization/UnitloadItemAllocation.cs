@@ -31,19 +31,21 @@ namespace Swm.Palletization
         /// <summary>
         /// 此分配属于哪个货载明细
         /// </summary>
-        public virtual UnitloadItem UnitloadItem { get; set; }
+        [Required]
+        public virtual UnitloadItem? UnitloadItem { get; set; }
 
         /// <summary>
         /// 此分配属于哪个出库需求
         /// </summary>
-        public virtual IOutboundDemand OutboundDemand { get; set; }
+        [Required]
+        public virtual IOutboundDemand? OutboundDemand { get; set; }
 
         /// <summary>
         /// 获取或设置出库需求的根类型
         /// </summary>
         [Required]
         [MaxLength(30)]
-        public virtual string OutboundDemandRootType { get; set; }
+        public virtual string? OutboundDemandRootType { get; set; }
 
         /// <summary>
         /// 获取或设置本次分配的数量。

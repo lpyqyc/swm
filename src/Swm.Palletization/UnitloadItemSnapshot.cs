@@ -37,25 +37,25 @@ namespace Swm.Palletization
 
 
         [Required]
-        public virtual UnitloadSnapshot Unitload { get; internal protected set; }
+        public virtual UnitloadSnapshot? Unitload { get; internal protected set; }
 
         [Required]
-        public virtual Material Material { get; set; }
+        public virtual Material? Material { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.BATCH)]
-        public virtual string Batch { get; set; }
+        public virtual string? Batch { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.APP_CODE)]
-        public virtual string StockStatus { get; set; }
+        public virtual string? StockStatus { get; set; }
 
 
         public virtual decimal Quantity { get; set; }
 
         [MaxLength(FIELD_LENGTH.UOM)]
         [Required]
-        public virtual string Uom { get; set; }
+        public virtual string? Uom { get; set; }
 
 
         public virtual DateTime ProductionTime { get; set; }

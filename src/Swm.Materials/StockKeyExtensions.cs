@@ -49,7 +49,7 @@ namespace Swm.Materials
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .ToArray();
 
-            List<object?> values = new List<object?>();
+            List<object?> values = new();
             foreach (var keyParam in stockKeyType.GetConstructors()[0].GetParameters())
             {
                 var entityProp = entityProps.SingleOrDefault(x => x.Name == keyParam.Name);

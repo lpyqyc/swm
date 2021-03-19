@@ -56,7 +56,7 @@ namespace Swm.StorageLocationAssignment
         /// <param name="storageInfo">入库货物信息。</param>
         /// <param name="orderBy">排序依据。这是 LocationUnit 类的属性名。</param>
         /// <returns></returns>
-        public async Task<Location> SelectAsync(Laneway laneway, StorageInfo storageInfo, int[] excludedIdList, int[] excludedColumnList, int[] excludedLevelList, string orderBy)
+        public async Task<Location?> SelectAsync(Laneway laneway, StorageInfo storageInfo, int[]? excludedIdList, int[]? excludedColumnList, int[]? excludedLevelList, string orderBy)
         {
             if (laneway == null)
             {

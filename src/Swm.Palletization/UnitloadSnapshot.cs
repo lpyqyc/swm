@@ -65,7 +65,7 @@ namespace Swm.Palletization
 
         [Required]
         [MaxLength(20)]
-        public virtual string PalletCode { get; set; }
+        public virtual string? PalletCode { get; set; }
 
         /// <summary>
         /// 源货载的创建时间。此属性不是 <see cref="IHasCtime.ctime"/> 的实现。
@@ -78,10 +78,10 @@ namespace Swm.Palletization
         public virtual DateTime mtime { get; set; }
 
         [MaxLength(FIELD_LENGTH.USERNAME)]
-        public virtual string cuser { get; set; }
+        public virtual string? cuser { get; set; }
 
 
-        public virtual StorageInfo StorageInfo { get; set; }
+        public virtual StorageInfo? StorageInfo { get; set; }
 
         public virtual bool HasCountingError { get; set; }
 

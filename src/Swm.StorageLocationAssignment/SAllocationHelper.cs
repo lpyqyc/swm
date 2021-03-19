@@ -56,9 +56,9 @@ namespace Swm.StorageLocationAssignment
         public async Task<SResult> AllocateAsync(
             Laneway laneway,
             StorageInfo storageInfo,
-            int[] excludedIdList = null,
-            int[] excludedColumnList = null,
-            int[] excludedLevelList = null,
+            int[]? excludedIdList = null,
+            int[]? excludedColumnList = null,
+            int[]? excludedLevelList = null,
             string orderBy = "i1")
         {
             if (laneway == null)

@@ -18,7 +18,7 @@ namespace Swm.Palletization
 {
     public class PalletizationItemInfo<TStockKey> where TStockKey : StockKeyBase
     {
-        public TStockKey StockKey { get; set; }
+        public TStockKey? StockKey { get; set; }
 
         public decimal Quantity { get; set; }
     }

@@ -96,6 +96,10 @@ namespace Swm.Palletization
             unitload.PalletCode = palletCode;
             foreach (var item in items)
             {
+                if (item.StockKey == null)
+                {
+                    throw new InvalidOperationException("item.StockKey 未赋值");
+                }
                 UnitloadItem unitloadItem = _unitloadFactory.CreateUnitloadItem();
                 unitloadItem.SetStockKey(item.StockKey);
                 unitloadItem.Quantity = item.Quantity;

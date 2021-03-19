@@ -26,12 +26,12 @@ namespace Swm.Palletization
     /// </summary>
     public class PalletizationModule : Autofac.Module
     {
-        static ILogger _logger = Log.ForContext<PalletizationModule>();
+        static readonly ILogger _logger = Log.ForContext<PalletizationModule>();
 
         /// <summary>
         /// 为 <see cref="RegexPalletCodeValidator"/> 配置正则表达式。
         /// </summary>
-        public string PalletCodePattern { get; set; }
+        public string? PalletCodePattern { get; set; }
 
         protected override void Load(ContainerBuilder builder)
         {
@@ -41,6 +41,11 @@ namespace Swm.Palletization
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
             RegisterBySuffix("Service");
+
+            if (PalletCodePattern == null)
+            {
+                throw new InvalidOperationException("未设置 PalletCodePattern");
+            }
 
             builder.RegisterInstance(new RegexPalletCodeValidator(PalletCodePattern))
                 .AsImplementedInterfaces()

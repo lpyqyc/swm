@@ -32,38 +32,38 @@ namespace Swm.Palletization
         public virtual int UnitloadItemId { get; set; }
 
         [Required]
-        public virtual Unitload Unitload { get; internal protected set; }
+        public virtual Unitload? Unitload { get; internal protected set; }
 
 
         [Required]
-        public virtual Material Material { get; set; }
+        public virtual Material? Material { get; set; }
 
         /// <summary>
         /// TODO 重命名为 Batch 或者 Lot，前端需一同更新
         /// </summary>
         [Required]
         [MaxLength(FIELD_LENGTH.BATCH)]
-        public virtual string Batch { get; set; }
+        public virtual string? Batch { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
-        public virtual string StockStatus { get; set; }
+        public virtual string? StockStatus { get; set; }
 
         public virtual decimal Quantity { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.UOM)]
-        public virtual string Uom { get; set; }
+        public virtual string? Uom { get; set; }
 
         public virtual DateTime ProductionTime { get; set; }
 
         [MaxLength(20)]
         [Required]
-        public virtual string Fifo { get; set; }
+        public virtual string? Fifo { get; set; }
 
         public virtual ISet<UnitloadItemAllocation> Allocations { get; protected set; } = new HashSet<UnitloadItemAllocation>();
 
-        public override string ToString()
+        public override string? ToString()
         {
             return $"{this.Unitload?.PalletCode}#{this.UnitloadItemId}";
         }

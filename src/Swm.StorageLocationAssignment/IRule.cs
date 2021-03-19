@@ -45,12 +45,12 @@ namespace Swm.StorageLocationAssignment
         /// <param name="excludedLevelList"></param>
         /// <param name="orderBy"></param>
         /// <returns>返回 Location，表示分配到的目标货位。若分配失败，返回 null。</returns>
-        Task<Location> SelectAsync(
+        Task<Location?> SelectAsync(
             Laneway laneway,
             StorageInfo storageInfo,
-            int[] excludedIdList,
-            int[] excludedColumnList,
-            int[] excludedLevelList,
+            int[]? excludedIdList,
+            int[]? excludedColumnList,
+            int[]? excludedLevelList,
             string orderBy
             );
     }

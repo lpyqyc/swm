@@ -42,7 +42,7 @@ namespace Swm.Locations
         public virtual string PortCode { get; protected set; }
 
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "NHibernate 版本属性")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
         public virtual int v { get; set; }
 
         public virtual DateTime ctime { get; set; }

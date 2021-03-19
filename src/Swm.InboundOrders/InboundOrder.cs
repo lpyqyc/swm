@@ -151,7 +151,7 @@ namespace Swm.InboundOrders
 
         public virtual void RemoveLine(InboundLine line)
         {
-            line.InboundOrder = null;
+            line.InboundOrder = null!;
             this._lines.Remove(line);
         }
 

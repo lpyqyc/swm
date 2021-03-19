@@ -24,13 +24,13 @@ namespace Swm.Palletization
         {
             if (unitload.Items.Any() == false)
             {
-                return "空容器";
+                return "空托盘";
             }
             var list = unitload.Items
                 .Select(x => new
                 {
                     x.Batch,
-                    x.Material.MaterialCode
+                    x.Material?.MaterialCode
                 })
                 .Distinct()
                 .ToList();
@@ -44,7 +44,7 @@ namespace Swm.Palletization
 
         public virtual string GetStorageGroup(Unitload unitload)
         {
-            var list = unitload.Items.Select(x => x.Material.DefaultStorageGroup).Distinct();
+            var list = unitload.Items.Select(x => x.Material?.DefaultStorageGroup).Distinct();
             if (list.Count() == 1)
             {
                 return list.Single()!;

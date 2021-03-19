@@ -77,7 +77,7 @@ namespace Swm.Palletization
 
 
         [Required]
-        public virtual Location CurrentLocation { get; internal protected set; } = default!;
+        public virtual Location? CurrentLocation { get; internal protected set; }
 
 
         public virtual DateTime CurrentLocationTime { get; internal protected set; }
@@ -107,18 +107,13 @@ namespace Swm.Palletization
                 throw new ArgumentNullException(nameof(uat));
             }
 
-            if (uatRootType == null)
-            {
-                throw new ArgumentNullException(nameof(uatRootType));
-            }
-
             if (this.CurrentUat != null && this.CurrentUat != uat)
             {
                 throw new InvalidOperationException("已分配给其他单据");
             }
 
             this.CurrentUat = uat;
-            this.CurrentUatRootType = uatRootType;
+            this.CurrentUatRootType = uatRootType ?? throw new ArgumentNullException(nameof(uatRootType));
         }
 
         /// <summary>
@@ -198,7 +193,7 @@ namespace Swm.Palletization
         /// <returns></returns>
         public virtual bool InRack()
         {
-            return this.CurrentLocation.LocationType == LocationTypes.S;
+            return this.CurrentLocation?.LocationType == LocationTypes.S;
         }
 
         public override string ToString()
@@ -250,7 +245,7 @@ namespace Swm.Palletization
         }
 
 
-        private void SetCurrentLocation(Location location)
+        private void SetCurrentLocation(Location? location)
         {
             if (this.CurrentLocation != location)
             {

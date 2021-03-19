@@ -41,7 +41,7 @@ namespace Swm.InboundOrders
         /// 获取或设置此行所属的入库单。
         /// </summary>
         [Required]
-        public virtual InboundOrder InboundOrder { get; internal protected set; }
+        public virtual InboundOrder InboundOrder { get; internal protected set; } = default!;
 
         /// <summary>
         /// 收货物料。

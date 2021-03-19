@@ -28,7 +28,7 @@ namespace Swm.StorageLocationAssignment
         /// <param name="q">被扩展的查询对象。</param>
         /// <param name="paramName">参数名。</param>
         /// <param name="values">用作实参的数组。</param>
-        public static IQuery EmptySafeSetParameterList(this IQuery q, string paramName, Array values)
+        public static IQuery EmptySafeSetParameterList(this IQuery q, string paramName, Array? values)
         {
             if (q == null)
             {
@@ -54,7 +54,7 @@ namespace Swm.StorageLocationAssignment
         /// <param name="clause">子句字符串。</param>
         /// <param name="values">将用作 in 子句的实参数组。</param>
         /// <returns>返回一个字符串。若 values 数组为 null 或长度为 0，则返回 string.Empty，否则，将原字符串原样返回。</returns>
-        public static string If(this string clause, Array values)
+        public static string If(this string clause, Array? values)
         {
             if (values == null || values.Length == 0)
             {

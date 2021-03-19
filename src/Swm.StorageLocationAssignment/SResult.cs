@@ -23,7 +23,7 @@ namespace Swm.StorageLocationAssignment
     public sealed class SResult
     {
         public static readonly SResult Failure = new SResult(false, null);
-        private SResult(bool success, Location target)
+        private SResult(bool success, Location? target)
         {
             this.Success = success;
             this.Target = target;
@@ -36,7 +36,7 @@ namespace Swm.StorageLocationAssignment
         /// <summary>
         /// 若分配成功，包含分配到的货位。
         /// </summary>
-        public Location Target { get; private set; }
+        public Location? Target { get; private set; }
 
         public static SResult MakeSuccess(Location first)
         {
