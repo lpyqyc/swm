@@ -49,6 +49,10 @@ namespace Swm.Web.Controllers
         /// </summary>
         public string? LocationCode { get; set; }
 
+        /// <summary>
+        /// 所在货位类型
+        /// </summary>
+        public string? LocationType { get; set; }
 
         /// <summary>
         /// 所在巷道编码

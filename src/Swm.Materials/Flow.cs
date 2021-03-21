@@ -44,33 +44,33 @@ namespace Swm.Materials
         public virtual string? cuser { get; set; }
 
         [Required]
-        public virtual Material Material { get; set; } = default!;
+        public virtual Material? Material { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.BATCH)]
-        public virtual string Batch { get; set; } = default!;
+        public virtual string? Batch { get; set; }
 
         [MaxLength(FIELD_LENGTH.STOCK_STATUS)]
         [Required]
-        public virtual string StockStatus { get; set; } = default!;
+        public virtual string? StockStatus { get; set; }
 
         public virtual decimal Quantity { get; set; }
 
         [Required]
         [MaxLength(FIELD_LENGTH.UOM)]
-        public virtual string Uom { get; set; } = default!;
+        public virtual string? Uom { get; set; }
 
 
         [Required]
         [MaxLength(FIELD_LENGTH.APP_CODE)]
-        public virtual string BizType { get; set; } = default!;
+        public virtual string? BizType { get; set; }
 
         public virtual FlowDirection Direction { get; set; }
 
         // TODO 重命名
         [Required]
         [MaxLength(FIELD_LENGTH.OPERATION_TYPE)]
-        public virtual string OpType { get; set; } = default!;
+        public virtual string? OpType { get; set; }
 
 
         [MaxLength(20)]

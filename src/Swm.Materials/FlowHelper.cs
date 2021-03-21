@@ -67,7 +67,7 @@ namespace Swm.Materials
         /// <param name="bizType">业务类型</param>
         /// <param name="dir">流水方向</param>
         /// <param name="txNo">事务号，一个事务有多条流水时，用事务号将这些流水串起来。目前仅用于库存转换类业务，非转换类业务使用 <see cref="Cst.None"/>，参考 <see cref="Flow.TxNo"/></param>
-        /// <param name="opType">操作类型</param>
+        /// <param name="operationType">操作类型</param>
         /// <param name="orderCode">导致此流水产生的WMS单据号。</param>
         /// <param name="bizOrder">WMS单据号对应的业务单号，不需要时使用<see cref="Cst.None"/></param>
         /// <param name="palletCode">库存发生变动的托盘号</param>
@@ -75,9 +75,9 @@ namespace Swm.Materials
                                  TStockKey stockKey,
                                  decimal quantity,
                                  FlowDirection dir,
-                                 string bizType,
-                                 string opType,
-                                 string palletCode,
+                                 string? bizType,
+                                 string? operationType,
+                                 string? palletCode,
                                  string? orderCode = null,
                                  string? bizOrder = null,
                                  string? txNo = null)
@@ -102,7 +102,7 @@ namespace Swm.Materials
             flow.Quantity = quantity;
             flow.Direction = dir;
             flow.BizType = bizType;
-            flow.OpType = opType;
+            flow.OpType = operationType;
             flow.PalletCode = palletCode;
             flow.OrderCode = orderCode;
             flow.BizOrder = bizOrder;
@@ -116,7 +116,7 @@ namespace Swm.Materials
         /// <param name="quantity">数量</param>
         /// <param name="dir">流水方向</param>
         /// <param name="bizType">业务类型</param>
-        /// <param name="opType">操作类型</param>
+        /// <param name="operationType">操作类型</param>
         /// <param name="palletCode">库存发生变动的托盘号</param>
         /// <param name="orderCode">导致此流水产生的WMS单据号</param>
         /// <param name="bizOrder">WMS单据号对应的业务单号，不需要时使用<see cref="Cst.None"/></param>
@@ -126,9 +126,9 @@ namespace Swm.Materials
         public async Task<Flow> CreateAndSaveAsync<TStockKey>(TStockKey stockKey,
                                                               decimal quantity,
                                                               FlowDirection dir,
-                                                              string bizType,
-                                                              string opType,
-                                                              string palletCode,
+                                                              string? bizType,
+                                                              string? operationType,
+                                                              string? palletCode,
                                                               string? orderCode = null,
                                                               string? bizOrder = null,
                                                               string? txNo = null
@@ -136,7 +136,7 @@ namespace Swm.Materials
             where TStockKey : StockKeyBase
         {
             var flow = _flowFactory.CreateFlow();
-            Populate(flow, stockKey, quantity, dir, bizType, opType, palletCode, orderCode, bizOrder, txNo);
+            Populate(flow, stockKey, quantity, dir, bizType, operationType, palletCode, orderCode, bizOrder, txNo);
             await SaveAsync<TStockKey>(flow).ConfigureAwait(false);
             return flow;
         }

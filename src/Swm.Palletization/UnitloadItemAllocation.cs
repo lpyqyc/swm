@@ -57,6 +57,9 @@ namespace Swm.Palletization
         /// </summary>
         public virtual string? Comment { get; set; }
 
+        public override string? ToString()
+        {
+            return $"UnitloadItemAllocation#{UnitloadItemAllocationId}, {UnitloadItem}({QuantityAllocated:0.####})--->{OutboundDemand}";
+        }
     }
-
 }

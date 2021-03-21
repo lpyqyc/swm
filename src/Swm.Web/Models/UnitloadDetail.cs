@@ -13,46 +13,19 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
     /// 货载详情
     /// </summary>
-    public class UnitloadDetail
+    public class UnitloadDetail : UnitloadInfo
     {
-        /// <summary>
-        /// 货载Id
-        /// </summary>
-        public int UnitloadId { get; set; }
-
-        /// <summary>
-        /// 托盘号
-        /// </summary>
-        [Required]
-        public string? PalletCode { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime ctime { get; set; }
-
-        /// <summary>
-        /// 所在货位编码
-        /// </summary>
-        public string? LocationCode { get; set; }
-
         /// <summary>
         /// 货载到达当前位置的时间
         /// </summary>
         public DateTime LocationTime { get; set; }
 
-        /// <summary>
-        /// 所在巷道编码
-        /// </summary>
-        public string? LanewayCode { get; set; }
 
         /// <summary>
         /// 操作提示类型
@@ -64,26 +37,12 @@ namespace Swm.Web.Controllers
         /// </summary>
         public string? OpHintInfo { get; set; }
 
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public string? Comment { get; set; }
 
-        /// <summary>
-        /// 是否有任务
-        /// </summary>
-        public bool BeingMoved { get; set; }
 
         /// <summary>
         /// 当前分配到的单据
         /// </summary>
         public string? CurrentUat { get; set; }
-
-        /// <summary>
-        /// 货载明细列表
-        /// </summary>
-        public List<UnitloadItemInfo> Items { get; set; } = new List<UnitloadItemInfo>();
-
 
         /// <summary>
         /// 当前任务号

@@ -656,10 +656,17 @@ namespace Swm.Web.Controllers
         [HttpPost("pick/{palletCode}")]
         [OperationType(OperationTypes.拣货)]
         public async Task<ApiData> Pick(string palletCode, [FromBody] OutboundOrderPickInfo[] pickInfos)
-        {            
+        {
+            if (palletCode == null)
+            {
+                throw new ArgumentNullException(nameof(palletCode));
+            }
             Unitload? unitload = await _session.Query<Unitload>().SingleOrDefaultAsync(x => x.PalletCode == palletCode);
-            var op = await _opHelper.SaveOpAsync("{0}: {1}", unitload.PalletCode, pickInfos);
-            await _outboundOrderPickHelper.PickAsync<DefaultStockKey>(unitload, pickInfos, op.OperationType);
+            var op = await _opHelper.SaveOpAsync("{0}: {1}", palletCode, pickInfos);
+            foreach (var pickInfo in pickInfos)
+            {
+                var flow = await _outboundOrderPickHelper.PickAsync<DefaultStockKey>(unitload, pickInfo, op.OperationType);
+            }
             return this.Success();
         }
 
