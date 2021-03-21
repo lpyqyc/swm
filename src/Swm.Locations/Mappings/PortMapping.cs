@@ -74,7 +74,7 @@ namespace Swm.Locations.Mappings
                 }, x =>
                 {
                     x.Name("CurrentUatType");
-                    x.Length(30);
+                    x.Length(50);
                 });
             });
 

@@ -52,6 +52,9 @@ namespace Swm.Materials
         public virtual string? muser { get; set; }
 
 
+        /// <summary>
+        /// 获取物料类型。
+        /// </summary>
         [MaxLength(8)]
         public virtual string? MaterialType { get; set; }
 

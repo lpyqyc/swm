@@ -42,7 +42,7 @@ namespace Swm.Palletization.Mappings
                 }, x =>
                 {
                     x.Name("OutboundDemandType");
-                    x.Length(30);
+                    x.Length(50);
                 });
             });
             Property(cl => cl.OutboundDemandRootType);

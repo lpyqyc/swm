@@ -124,7 +124,7 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看出库单)]
-        public async Task<ApiData<OutboundOrderInfo>> GetOutboundOrderDetails(int id)
+        public async Task<ApiData<OutboundOrderInfo>> GetOutboundOrderDetail(int id)
         {
             var outboundOrder = await _session.GetAsync<OutboundOrder>(id);
             return this.Success(new OutboundOrderInfo

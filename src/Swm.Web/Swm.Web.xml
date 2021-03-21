@@ -888,7 +888,7 @@
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.WioController.GetOutboundOrderDetails(System.Int32)">
+        <member name="M:Swm.Web.Controllers.WioController.GetOutboundOrderDetail(System.Int32)">
             <summary>
             出库单详细
             </summary>

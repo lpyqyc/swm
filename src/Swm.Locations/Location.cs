@@ -61,11 +61,11 @@ namespace Swm.Locations
 
 
         /// <summary>
-        /// 指示此位置是否是货架货位。
+        /// 获取此位置的类型。
         /// </summary>
         [MaxLength(4)]
         [Required]
-        public virtual string LocationType { get; internal protected set; } = default!;
+        public virtual string? LocationType { get; internal protected set; }
 
 
         /// <summary>
@@ -142,8 +142,7 @@ namespace Swm.Locations
         /// 指示此位置的规格（不含高度），例如【九角1200x1100】
         /// </summary>
         [MaxLength(16)]
-        [Required]
-        public virtual string Specification { get; set; } = default!;
+        public virtual string? Specification { get; set; }
 
 
         /// <summary>

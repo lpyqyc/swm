@@ -44,7 +44,7 @@ namespace Swm.Palletization
         /// 获取或设置出库需求的根类型
         /// </summary>
         [Required]
-        [MaxLength(30)]
+        [MaxLength(50)]
         public virtual string? OutboundDemandRootType { get; set; }
 
         /// <summary>

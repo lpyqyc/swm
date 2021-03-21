@@ -92,7 +92,7 @@ namespace Swm.Palletization
         /// <remarks>
         /// 映射 <see cref="CurrentUat"/> 属性的 any 元素的 CurrentUatType 列，取值可能是基类名称，也有可能是子类名称，CurrentUatRootType 是为了提供固定不变的值。
         /// </remarks>
-        [MaxLength(4)]
+        [MaxLength(50)]
         public virtual string? CurrentUatRootType { get; protected set; }
 
 

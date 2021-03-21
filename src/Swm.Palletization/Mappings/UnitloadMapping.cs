@@ -75,7 +75,7 @@ namespace Swm.Palletization.Mappings
                 }, x =>
                 {
                     x.Name("CurrentUatType");
-                    x.Length(30);
+                    x.Length(50);
                 });
             });
 
@@ -89,7 +89,7 @@ namespace Swm.Palletization.Mappings
                 }, x =>
                 {
                     x.Name("CurrentTaskType");
-                    x.Length(30);
+                    x.Length(50);
                 });
             });
 
