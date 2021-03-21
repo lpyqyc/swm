@@ -122,7 +122,7 @@ namespace Swm.OutboundOrders
                 .ThenBy(x => x.Unitload!.CurrentLocation!.Cell!.o1)
                 .ThenBy(x => x.Unitload!.CurrentLocation!.Deep)
                 .LoadInChunksAsync(options.ChunkSize);
-            await foreach (var item in Union(included, candidateItems))
+            await foreach (var item in Concat(included, candidateItems))
             {
                 if (item.Quantity == 0)
                 {
@@ -142,7 +142,7 @@ namespace Swm.OutboundOrders
             
             _logger.Information("出库单明细 {outboundLine} 分配库存完成", line);
             
-            static async IAsyncEnumerable<UnitloadItem> Union(List<UnitloadItem> include, IAsyncEnumerable<UnitloadItem> candidateItems)
+            static async IAsyncEnumerable<UnitloadItem> Concat(List<UnitloadItem> include, IAsyncEnumerable<UnitloadItem> candidateItems)
             {
                 foreach (var item in include)
                 {
