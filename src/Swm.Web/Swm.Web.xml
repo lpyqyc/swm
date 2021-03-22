@@ -3895,6 +3895,11 @@
             分配信息
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.UnitloadItemInfo.AllocationInfoToOutboundOrder.UnitloadItemAllocationId">
+            <summary>
+            分配信息Id
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.UnitloadItemInfo.AllocationInfoToOutboundOrder.OutboundLineId">
             <summary>
             出库单明细Id

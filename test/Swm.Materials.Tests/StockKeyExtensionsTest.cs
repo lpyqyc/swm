@@ -21,7 +21,7 @@ namespace Swm.Materials.Tests
             public string? NormalProp { get; set; }
         }
 
-        private record FooStockKey(Material Material, string Batch, string StockStatus, string Uom, string OtherKeyProp) : StockKeyBase;
+        private record FooStockKey(Material Material, string Batch, string StockStatus, string Uom, string ExtraKeyProp) : StockKeyBase;
 
 
         [Fact]
@@ -43,7 +43,7 @@ namespace Swm.Materials.Tests
             Assert.Equal(foo.Batch, stockKey.Batch);
             Assert.Equal(foo.StockStatus, stockKey.StockStatus);
             Assert.Equal(foo.Uom, stockKey.Uom);
-            Assert.Equal(foo.ExtraKeyProp, stockKey.OtherKeyProp);
+            Assert.Equal(foo.ExtraKeyProp, stockKey.ExtraKeyProp);
             Assert.Equal(new FooStockKey(foo.Material, foo.Batch, foo.StockStatus, foo.Uom, foo.ExtraKeyProp), stockKey);
         }
 
@@ -60,7 +60,7 @@ namespace Swm.Materials.Tests
             Assert.Equal(stockKey.Batch, foo.Batch);
             Assert.Equal(stockKey.StockStatus, foo.StockStatus);
             Assert.Equal(stockKey.Uom, foo.Uom);
-            Assert.Equal(stockKey.OtherKeyProp, foo.ExtraKeyProp);
+            Assert.Equal(stockKey.ExtraKeyProp, foo.ExtraKeyProp);
 
             Assert.Null(foo.NormalProp);
         }

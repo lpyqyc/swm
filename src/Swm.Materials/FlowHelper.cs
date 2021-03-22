@@ -23,21 +23,15 @@ namespace Swm.Materials
 {
     public class FlowHelper
     {
-        readonly IStockFactory _stockFactory;
-        readonly IFifoProvider _fifoProvider;
         readonly ISession _session;
         readonly IFlowFactory _flowFactory;
         readonly SimpleEventBus _eventBus;
 
         public FlowHelper(ISession session,
             IFlowFactory flowFactory,
-            IStockFactory stockFactory, 
-            IFifoProvider fifoProvider,
             SimpleEventBus eventBus
             )
         {
-            _stockFactory = stockFactory;
-            _fifoProvider = fifoProvider;
             _session = session;
             _flowFactory = flowFactory;
             _eventBus = eventBus;

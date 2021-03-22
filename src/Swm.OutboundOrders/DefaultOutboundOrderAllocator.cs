@@ -16,7 +16,6 @@ using Arctic.NHibernateExtensions;
 using NHibernate;
 using NHibernate.Linq;
 using Serilog;
-using Swm.Constants;
 using Swm.Palletization;
 using System;
 using System.Collections.Generic;
@@ -50,7 +49,7 @@ namespace Swm.OutboundOrders
         /// </remarks>
         /// <param name="outboundOrder">要分配库存的出库单</param>
         /// <param name="options">分配选项</param>
-        public async Task AllocateAsync(OutboundOrder outboundOrder, AllocateStockOptions options)
+        public async Task AllocateAsync(OutboundOrder outboundOrder, AllocateStockOptions? options)
         {
             if (outboundOrder == null)
             {
@@ -70,8 +69,8 @@ namespace Swm.OutboundOrders
             _logger.Information("区域：{areas}", options.Areas == null ? "" : string.Join(", ", options.Areas));
             //_logger.Information("跳过脱机的巷道：{skipOfflineLaneways}", options.SkipOfflineLaneways);
             //_logger.Information("排除的巷道：{excludeLanewasys}", string.Join(", ", options.ExcludeLaneways.Select(x => x.LanewayCode)));
-            _logger.Information("包含的托盘：{includePallets}", string.Join(", ", options.IncludePallets));
-            _logger.Information("排除的托盘：{excludePallets}", string.Join(", ", options.ExcludePallets));
+            _logger.Information("包含的托盘：{includePallets}", string.Join(", ", options.IncludePallets ?? new string[0]));
+            _logger.Information("排除的托盘：{excludePallets}", string.Join(", ", options.ExcludePallets ?? new string[0]));
             //_logger.Information("跳过禁止出站的货位：{skipLocationsOutboundDisabled}", options.SkipLocationsOutboundDisabled);
 
             foreach (var line in outboundOrder.Lines)
@@ -121,7 +120,7 @@ namespace Swm.OutboundOrders
                 .ThenBy(x => x.Unitload!.CurrentLocation!.Cell!.oByShape)
                 .ThenBy(x => x.Unitload!.CurrentLocation!.Cell!.o1)
                 .ThenBy(x => x.Unitload!.CurrentLocation!.Deep)
-                .LoadInChunksAsync(options.ChunkSize);
+                .LoadInChunksAsync(options.ChunkSize);  // 和 nhQuery
             await foreach (var item in Concat(included, candidateItems))
             {
                 if (item.Quantity == 0)
@@ -162,7 +161,7 @@ namespace Swm.OutboundOrders
         /// <param name="line">出库行</param>
         /// <param name="item">要从中分配的货载项</param>
         /// <returns>从货载项中分配的数量</returns>
-        async Task<decimal> AllocateItemAsync(OutboundLine line, UnitloadItem item, AllocateStockOptions options)
+        internal async Task<decimal> AllocateItemAsync(OutboundLine line, UnitloadItem item, AllocateStockOptions? options)
         {
             if (line.OutboundOrder == null)
             {
@@ -219,7 +218,7 @@ namespace Swm.OutboundOrders
         /// <param name="unitloadItem"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public bool TestUnitloadItem(OutboundLine line, UnitloadItem item, AllocateStockOptions options)
+        public bool TestUnitloadItem(OutboundLine line, UnitloadItem item, AllocateStockOptions? options)
         {
             if (item.Unitload == null)
             {
@@ -228,14 +227,18 @@ namespace Swm.OutboundOrders
             bool passed = true;
             _logger.Debug("检查出库单明细 {outboundLine} 与货载项 {unitloadItem} 是否匹配", line, item);
 
-            if (options.ExcludePallets!= null && options.ExcludePallets.Contains(item.Unitload.PalletCode) == false)
+            if (options == null)
             {
-                _logger.Debug("（√）未显式排除");
+                options = new ();
             }
-            else
+            if (options.ExcludePallets != null && options.ExcludePallets.Contains(item.Unitload.PalletCode))
             {
                 _logger.Debug("（×）已显式排除");
                 passed = false;
+            }
+            else
+            {
+                _logger.Debug("（√）未显式排除");
             }
 
             if (line.Material == item.Material)

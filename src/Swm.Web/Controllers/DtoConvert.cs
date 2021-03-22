@@ -52,6 +52,7 @@ namespace Swm.Web.Controllers
                     .Where(x => x.OutboundDemand != null && x.OutboundDemand is OutboundLine)
                     .Select(x => new UnitloadItemInfo.AllocationInfoToOutboundOrder
                     {
+                        UnitloadItemAllocationId = x.UnitloadItemAllocationId,
                         OutboundLineId = ((OutboundLine)x.OutboundDemand!).OutboundLineId,
                         QuantityAllocated = x.QuantityAllocated,
                     })

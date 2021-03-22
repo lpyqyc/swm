@@ -99,6 +99,11 @@ namespace Swm.Web.Controllers
         public class AllocationInfoToOutboundOrder
         {
             /// <summary>
+            /// 分配信息Id
+            /// </summary>
+            public int UnitloadItemAllocationId { get; set; }
+
+            /// <summary>
             /// 出库单明细Id
             /// </summary>
             public int OutboundLineId { get; set; }

@@ -45,7 +45,6 @@ namespace Swm.OutboundOrders.Mappings
                 set.Inverse(true);
                 set.BatchSize(10);
                 set.Where($"OutboundDemandRootType = N'{OutboundLine.OutboundDemandRootType}'");
-                set.Key(key => key.Column("OutboundDemandId"));
             }, rel => rel.OneToMany());
         }
     }

@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.TransportTasks.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swm.Palletization.Tests", "test\Swm.Palletization.Tests\Swm.Palletization.Tests.csproj", "{49DB261E-D6C7-4CB5-88E5-F3D015C6C91D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swm.OutboundOrders.Tests", "test\Swm.OutboundOrders.Tests\Swm.OutboundOrders.Tests.csproj", "{5BCD489D-EE85-4A8D-9D34-0F6B1CBF9891}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{49DB261E-D6C7-4CB5-88E5-F3D015C6C91D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49DB261E-D6C7-4CB5-88E5-F3D015C6C91D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49DB261E-D6C7-4CB5-88E5-F3D015C6C91D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BCD489D-EE85-4A8D-9D34-0F6B1CBF9891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BCD489D-EE85-4A8D-9D34-0F6B1CBF9891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BCD489D-EE85-4A8D-9D34-0F6B1CBF9891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BCD489D-EE85-4A8D-9D34-0F6B1CBF9891}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +143,7 @@ Global
 		{23199AEF-7177-47E4-B988-A038B418161A} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
 		{49DCB1C6-E7DB-40FA-BC78-64B843D50044} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
 		{49DB261E-D6C7-4CB5-88E5-F3D015C6C91D} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
+		{5BCD489D-EE85-4A8D-9D34-0F6B1CBF9891} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F5F75AD-B077-4655-9340-A2B9DB7DB6F5}

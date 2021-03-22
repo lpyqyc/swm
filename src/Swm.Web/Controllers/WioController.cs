@@ -32,6 +32,7 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
+    // TODO 改名为 obo，前端一同更改
     /// <summary>
     /// 提供出入库 api。
     /// </summary>
