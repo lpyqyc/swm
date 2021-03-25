@@ -834,14 +834,16 @@
             提供任务 api
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.TskController.#ctor(NHibernate.ISession,Swm.TransportTasks.TaskHelper,Swm.Web.OpHelper,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.TskController.#ctor(NHibernate.ISession,Swm.TransportTasks.TaskHelper,Swm.TransportTasks.ITaskSender,Swm.Web.OpHelper,Serilog.ILogger,Microsoft.Extensions.Options.IOptions{Swm.TransportTasks.Cfg.TransportTasksOptions})">
             <summary>
             初始化新实例
             </summary>
             <param name="session"></param>
             <param name="taskHelper"></param>
+            <param name="taskSender"></param>
             <param name="opHelper"></param>
             <param name="logger"></param>
+            <param name="transportTasksOptions"></param>
         </member>
         <member name="M:Swm.Web.Controllers.TskController.GetTaskList(Swm.Web.Controllers.TaskListArgs)">
             <summary>
@@ -862,6 +864,19 @@
             更改货载位置
             </summary>
             <param name="palletCode">要更改位置的托盘号</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.TskController.GetTaskTypeOptions">
+            <summary>
+            获取任务类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.TskController.CreateManualTask(Swm.Web.Controllers.CreateManualTaskArgs)">
+            <summary>
+            创建手工任务
+            </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -1448,6 +1463,36 @@
         <member name="P:Swm.Web.Controllers.CreateInboundOrderArgs.Lines">
             <summary>
             入库行信息
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.CreateManualTaskArgs">
+            <summary>
+            创建手工任务的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateManualTaskArgs.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateManualTaskArgs.TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateManualTaskArgs.FromLocationCode">
+            <summary>
+            起点
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateManualTaskArgs.ToLocationCode">
+            <summary>
+            终点
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.CreateManualTaskArgs.Comment">
+            <summary>
+            备注
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.CreateOutboundOrderArgs">

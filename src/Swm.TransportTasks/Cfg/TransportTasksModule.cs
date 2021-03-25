@@ -29,10 +29,7 @@ namespace Swm.TransportTasks
     {
         static ILogger _logger = Log.ForContext<TransportTasksModule>();
 
-        public RequestHandler[]? RequestHandlers { get; set; }
-
-        public CompletedTaskHandler[]? CompletedTaskHandlers { get; set; }
-
+        public TransportTasksOptions Options { get; set; }
 
         protected override void Load(ContainerBuilder builder)
         {
@@ -62,13 +59,13 @@ namespace Swm.TransportTasks
         {
             _logger.Information("正在配置请求处理程序");
 
-            if (RequestHandlers == null)
+            if (Options.RequestHandlers == null)
             {
                 _logger.Warning("未配置任何请求处理程序");
                 return;
             }
 
-            foreach (var handlerConfig in RequestHandlers)
+            foreach (var handlerConfig in Options.RequestHandlers)
             {
                 _logger.Information("请求类型 {requestType} --> 处理程序 {handlerType}", handlerConfig.RequestType, handlerConfig.HandlerType);
 
@@ -105,13 +102,13 @@ namespace Swm.TransportTasks
         {
             _logger.Information("正在配置完成处理程序");
 
-            if (CompletedTaskHandlers == null)
+            if (Options.CompletedTaskHandlers == null)
             {
                 _logger.Warning("未配置任何完成处理程序");
                 return;
             }
 
-            foreach (var handlerConfig in CompletedTaskHandlers)
+            foreach (var handlerConfig in Options.CompletedTaskHandlers)
             {
                 _logger.Information("任务类型 {taskType} --> 处理程序 {handlerType}", handlerConfig.TaskType, handlerConfig.HandlerType);
 

@@ -15,6 +15,7 @@
 using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using NHibernate;
 using NHibernate.Linq;
 using Serilog;
@@ -23,7 +24,9 @@ using Swm.Locations;
 using Swm.Model;
 using Swm.Palletization;
 using Swm.TransportTasks;
+using Swm.TransportTasks.Cfg;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,20 +43,26 @@ namespace Swm.Web.Controllers
         readonly ISession _session;
         readonly TaskHelper _taskHelper;
         readonly OpHelper _opHelper;
+        readonly ITaskSender _taskSender;
+        readonly IOptions<TransportTasksOptions> _transportTasksOptions;
 
         /// <summary>
         /// 初始化新实例
         /// </summary>
         /// <param name="session"></param>
         /// <param name="taskHelper"></param>
+        /// <param name="taskSender"></param>
         /// <param name="opHelper"></param>
         /// <param name="logger"></param>
-        public TskController(ISession session, TaskHelper taskHelper, OpHelper opHelper, ILogger logger)
+        /// <param name="transportTasksOptions"></param>
+        public TskController(ISession session, TaskHelper taskHelper, ITaskSender taskSender, OpHelper opHelper, ILogger logger, IOptions<TransportTasksOptions> transportTasksOptions)
         {
             _logger = logger;
             _taskHelper = taskHelper;
             _opHelper = opHelper;
             _session = session;
+            _taskSender = taskSender;
+            _transportTasksOptions = transportTasksOptions;
         }
 
         /// <summary>
@@ -156,5 +165,67 @@ namespace Swm.Web.Controllers
             return this.Success();
         }
 
+
+        /// <summary>
+        /// 获取任务类型
+        /// </summary>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpGet("get-task-type-options")]
+        public async Task<OptionsData<string>> GetTaskTypeOptions()
+        {
+            List<string> list = new();
+            if (_transportTasksOptions.Value.CompletedTaskHandlers != null)
+            {
+                list.AddRange(_transportTasksOptions.Value.CompletedTaskHandlers.Select(x => x.TaskType));
+            }
+            await Task.CompletedTask;
+            return this.OptionsData(list);
+        }
+
+        /// <summary>
+        /// 创建手工任务
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [AutoTransaction]
+        [OperationType(OperationTypes.手工任务)]
+        [HttpPost("create-manual-task")]
+        public async Task<ApiData> CreateManualTask(CreateManualTaskArgs args)
+        {
+            Unitload unitload = await _session.Query<Unitload>().Where(x => x.PalletCode == args.PalletCode).SingleOrDefaultAsync();
+
+            if (unitload == null)
+            {
+                throw new InvalidOperationException("托盘号不存在。");
+            }
+
+            Location start = await _session.Query<Location>().Where(x => x.LocationCode == args.FromLocationCode).SingleOrDefaultAsync();
+            if (start == null)
+            {
+                throw new Exception("起点不存在。");
+            }
+
+            Location dest = await _session.Query<Location>().Where(x => x.LocationCode == args.ToLocationCode).SingleOrDefaultAsync();
+            if (dest == null)
+            {
+                throw new Exception("终点不存在。");
+            }
+
+            TransportTask transportTask = new TransportTask();
+            transportTask.Comment = $"手工任务：{args.Comment}，user: {this.User?.Identity?.Name ?? "-"}";
+
+            await _taskHelper.BuildAsync(
+                transportTask,
+                args.TaskType ?? throw new Exception(),
+                start,
+                dest,
+                unitload,
+                true
+                );
+            _taskSender.SendTask(transportTask);
+
+            return this.Success();
+        }
     }
 }

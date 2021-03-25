@@ -72,7 +72,6 @@ namespace Swm.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<LogDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LogDb")));
-
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -106,7 +105,6 @@ namespace Swm.Web
                 provider.GetService<IHttpContextAccessor>()?.HttpContext?.User!
                 );
 
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -118,6 +116,7 @@ namespace Swm.Web
             services.AddAuthorization(options => {
             });
 
+            services.Configure<TransportTasksOptions> (options => Configuration.GetSection("Swm:TransportTasks").Bind(options));
         }
 
         // ConfigureContainer is where you can register things directly
@@ -142,11 +141,12 @@ namespace Swm.Web
             {
                 PalletCodePattern = Configuration.GetSection("Swm:Palletization:PalletCodePattern").Value,
             });
-            builder.RegisterModule(new TransportTasksModule 
+
+            builder.RegisterModule(new TransportTasksModule
             {
-                RequestHandlers = Configuration.GetSection("Swm:TransportTasks:RequestHandlers").Get<RequestHandler[]>(),
-                CompletedTaskHandlers = Configuration.GetSection("Swm:TransportTasks:CompletedTaskHandlers").Get<CompletedTaskHandler[]>(),
+                Options = Configuration.GetSection("Swm:TransportTasks").Get<TransportTasksOptions>(),
             });
+            
             builder.RegisterModule<OutboundOrdersModule>();
             builder.RegisterModule<InboundOrdersModule>();
 

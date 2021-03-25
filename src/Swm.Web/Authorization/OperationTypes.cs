@@ -32,6 +32,7 @@ namespace Swm.Web
         public const string 查看任务 = "任务.查看任务";
         public const string 查看历史任务 = "任务.查看历史任务";
         public const string 更改货载位置 = "任务.更改货载位置";
+        public const string 手工任务 = "任务.手工任务";
 
         public const string 模拟请求 = "调试.模拟请求";
         public const string 模拟完成 = "调试.模拟完成";
