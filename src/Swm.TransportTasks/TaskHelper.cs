@@ -358,6 +358,11 @@ namespace Swm.TransportTasks
                 throw new ArgumentNullException(nameof(transTask));
             }
 
+            if(transTask.Unitload == null)
+            {
+                throw new Exception();
+            }
+
             _logger.Debug("正在取消任务 {taskCode}。", transTask.TaskCode);
 
             if (checkStart)
