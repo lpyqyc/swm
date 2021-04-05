@@ -14,6 +14,7 @@
 
 using Arctic.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using NHibernate;
@@ -41,7 +42,8 @@ namespace Swm.Web.Controllers
         readonly ISession _session;
         readonly ILocationFactory _locationFactory;
         readonly LocationHelper _locationHelper;
-
+        readonly UserManager<IdentityUser> _userManager;
+        readonly RoleManager<IdentityRole> _roleManager;
         /// <summary>
         /// 初始化新实例
         /// </summary>
@@ -51,8 +53,19 @@ namespace Swm.Web.Controllers
         /// <param name="nhConfiguration"></param>
         /// <param name="env"></param>
         /// <param name="logger"></param>
-        public SetupController(ILocationFactory locationFactory, LocationHelper locationHelper, ISession session, Configuration nhConfiguration, IWebHostEnvironment env, ILogger logger)
+        public SetupController(
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            ILocationFactory locationFactory, 
+            LocationHelper locationHelper,
+            ISession session, 
+            Configuration nhConfiguration, 
+            IWebHostEnvironment env, 
+            ILogger logger
+            )
         {
+            _userManager = userManager;
+            _roleManager = roleManager;
             _locationFactory = locationFactory;
             _session = session;
             _nhConfiguration = nhConfiguration;
@@ -107,6 +120,24 @@ namespace Swm.Web.Controllers
             await GenerateLaneway(new GenerateLanewayArgs { LanewayCode = "S2", Columns = 5, Levels = 2, DoubleDeep = true });
 
             _logger.Information("已生成测试数据");
+
+            return this.Success();
+        }
+
+        /// <summary>
+        /// 生成管理员用户和管理员角色
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("generate-admin-user")]
+        public async Task<ApiData> GenerateAdminUser()
+        {
+            IdentityUser user = new IdentityUser
+            {
+                UserName = "admin",
+            };
+            await _userManager.CreateAsync(user, "123456");
+            await _roleManager.CreateAsync(new IdentityRole { Name = "admin" });
+            await _userManager.AddToRolesAsync(user, new[] { "admin" });
 
             return this.Success();
         }

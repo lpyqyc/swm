@@ -137,64 +137,6 @@
             <param name="errorMessage"></param>
             <returns></returns>
         </member>
-        <member name="T:Swm.Web.DefaultOperaionTypeAuthoriztion">
-            <summary>
-            <see cref="T:Swm.Web.IOperaionTypeAuthoriztion"/> 接口的默认实现
-            </summary>
-        </member>
-        <member name="M:Swm.Web.DefaultOperaionTypeAuthoriztion.#ctor(NHibernate.ISessionFactory)">
-            <summary>
-            初始化新实例。
-            </summary>
-            <param name="sessionFactory"></param>
-        </member>
-        <member name="M:Swm.Web.DefaultOperaionTypeAuthoriztion.GetAllowedRoles(System.String)">
-            <summary>
-            指定操作类型，获取允许执行此操作的角色。
-            </summary>
-            <param name="opType"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Swm.Web.IOperaionTypeAuthoriztion">
-            <summary>
-            提供为操作类型获取授权的方法。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.IOperaionTypeAuthoriztion.GetAllowedRoles(System.String)">
-            <summary>
-            指定操作类型，获取允许执行此操作的角色。
-            </summary>
-            <param name="operationType"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Swm.Web.OperationTypeAttribute">
-            <summary>
-            指示 Action 的操作类型，并对用户授权。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.OperationTypeAttribute.#ctor(System.String)">
-            <summary>
-            初始化新实例
-            </summary>
-            <param name="operationType"></param>
-        </member>
-        <member name="P:Swm.Web.OperationTypeAttribute.OperationType">
-            <summary>
-            获取或设置操作类型
-            </summary>
-        </member>
-        <member name="M:Swm.Web.OperationTypeAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
-            <summary>
-            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)"/>。
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:Swm.Web.OperationTypeAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
-            <summary>
-            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)"/>。
-            </summary>
-            <param name="context"></param>
-        </member>
         <member name="T:Swm.Web.OpHelper">
             <summary>
             提供操作记录相关的方法
@@ -209,7 +151,7 @@
         </member>
         <member name="M:Swm.Web.OpHelper.SaveOpAsync(System.String,System.Object[])">
             <summary>
-            当 action 使用 <see cref="T:Swm.Web.OperationTypeAttribute"/> 标记时，根据 <see cref="P:Swm.Web.OperationTypeAttribute.OperationType"/> 的值创建一个 Op 对象并保存到数据库。
+            当 action 使用 <see cref="T:Arctic.AspNetCore.OperationTypeAttribute"/> 标记时，根据 <see cref="P:Arctic.AspNetCore.OperationTypeAttribute.OperationType"/> 的值创建一个 Op 对象并保存到数据库。
             </summary>
             <param name="format">用于填充 <see cref="P:Swm.Model.Op.Comment"/> 属性的格式化字符串。</param>
             <param name="args">用于填充 <see cref="P:Swm.Model.Op.Comment"/> 属性的格式化参数。</param>
@@ -217,13 +159,74 @@
         </member>
         <member name="M:Swm.Web.OpHelper.GetOperationType">
             <summary>
-            当 action 使用 <see cref="T:Swm.Web.OperationTypeAttribute"/> 标记时，获取 <see cref="P:Swm.Web.OperationTypeAttribute.OperationType"/> 的值。
+            当 action 使用 <see cref="T:Arctic.AspNetCore.OperationTypeAttribute"/> 标记时，获取 <see cref="P:Arctic.AspNetCore.OperationTypeAttribute.OperationType"/> 的值。
             </summary>
             <returns></returns>
         </member>
-        <member name="F:Swm.Web.POLICY_PREFIX.Value">
+        <member name="T:Swm.Web.Controllers.AccountController">
             <summary>
-            POLICY 常数
+            登录和已登录用户的相关功能
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.AccountController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.AspNetCore.Identity.SignInManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.Extensions.Options.IOptions{Swm.Web.JwtSetting},Serilog.ILogger)">
+            <summary>
+            初始化新实例
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Swm.Web.Controllers.AccountController.Login(Swm.Web.Controllers.LoginArgs)">
+            <summary>
+            用户登录
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.AccountController.ChangePassword(Swm.Web.Controllers.ChangePasswordArgs)">
+            <summary>
+            已登录用户更改自己的密码
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.AccountController.GetCurrentUser">
+            <summary>
+            或者当前登录用户信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.ChangePasswordArgs">
+            <summary>
+            已登录用户更改自己密码的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ChangePasswordArgs.OriginalPassword">
+            <summary>
+            旧密码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ChangePasswordArgs.Password">
+            <summary>
+            新密码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ChangePasswordArgs.ConfirmPassword">
+            <summary>
+            确认新密码
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.LoginArgs">
+            <summary>
+            登录的参照参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LoginArgs.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.LoginArgs.Password">
+            <summary>
+            密码
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.DebugController">
@@ -678,7 +681,7 @@
             安装工具。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.SetupController.#ctor(Swm.Locations.ILocationFactory,Swm.Locations.LocationHelper,NHibernate.ISession,NHibernate.Cfg.Configuration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.SetupController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.AspNetCore.Identity.RoleManager{Microsoft.AspNetCore.Identity.IdentityRole},Swm.Locations.ILocationFactory,Swm.Locations.LocationHelper,NHibernate.ISession,NHibernate.Cfg.Configuration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Serilog.ILogger)">
             <summary>
             初始化新实例
             </summary>
@@ -697,6 +700,12 @@
         <member name="M:Swm.Web.Controllers.SetupController.GenerateTestData">
             <summary>
             生成测试数据，包含一个5列2层单深巷道，和一个5列2层双深巷道。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SetupController.GenerateAdminUser">
+            <summary>
+            生成管理员用户和管理员角色
             </summary>
             <returns></returns>
         </member>
@@ -4281,6 +4290,26 @@
         <member name="P:Swm.Web.OpHintTypeOption.DisplayOrder">
             <summary>
             展示次序
+            </summary>
+        </member>
+        <member name="P:Swm.Web.JwtSetting.SecurityKey">
+            <summary>
+            安全密钥
+            </summary>
+        </member>
+        <member name="P:Swm.Web.JwtSetting.Issuer">
+            <summary>
+            颁发者
+            </summary>
+        </member>
+        <member name="P:Swm.Web.JwtSetting.Audience">
+            <summary>
+            接收者
+            </summary>
+        </member>
+        <member name="P:Swm.Web.JwtSetting.TokenExpiry">
+            <summary>
+            Token 的过期时间，单位为分钟
             </summary>
         </member>
         <member name="T:Arctic.Web.Controllers.ErrorController">
