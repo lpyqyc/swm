@@ -25,7 +25,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 用户Id
         /// </summary>
-        public int UserId { get; set; }
+        public string? UserId { get; set; }
 
         /// <summary>
         /// 用户名
@@ -42,25 +42,7 @@ namespace Swm.Web.Controllers
         /// </summary>
         public IEnumerable<string>? Roles { get; set; }
 
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime ctime { get; set; }
 
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public string? Comment { get; set; }
-
-        /// <summary>
-        /// 是否锁定，锁定用户不能登录
-        /// </summary>
-        public bool IsLocked { get; set; }
-
-        /// <summary>
-        /// 锁定原因
-        /// </summary>
-        public string? LockedReason { get; set; }
     }
 
 }

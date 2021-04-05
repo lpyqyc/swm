@@ -25,8 +25,8 @@ namespace Swm.Web.Controllers
     public class AccountController : ControllerBase
     {
         readonly IOptions<JwtSetting> _jwtSetting;
-        readonly UserManager<IdentityUser> _userManager;
-        readonly SignInManager<IdentityUser> _signInManager;
+        readonly UserManager<ApplicationUser> _userManager;
+        readonly SignInManager<ApplicationUser> _signInManager;
         readonly ILogger _logger;
 
         /// <summary>
@@ -34,8 +34,8 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="logger"></param>
         public AccountController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IOptions<JwtSetting> jwtSetting,
             ILogger logger)
         {
@@ -69,7 +69,7 @@ namespace Swm.Web.Controllers
             var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                IdentityUser user = await _userManager.FindByNameAsync(model.UserName);
+                ApplicationUser user = await _userManager.FindByNameAsync(model.UserName);
                 var roles = await _userManager.GetRolesAsync(user);
 
                 //创建用户身份标识，可按需要添加更多信息
@@ -130,7 +130,7 @@ namespace Swm.Web.Controllers
         [Authorize]
         public async Task<ApiData> ChangePassword(ChangePasswordArgs args)
         {
-            IdentityUser? user = await _userManager.FindByNameAsync(User?.Identity?.Name);
+            ApplicationUser? user = await _userManager.FindByNameAsync(User?.Identity?.Name);
 
             if (user == null)
             {
@@ -156,7 +156,7 @@ namespace Swm.Web.Controllers
         public async Task<AntProCurrentUserInfo> GetCurrentUser()
         {
 
-            IdentityUser? user = await _userManager.FindByNameAsync(User?.Identity?.Name);
+            ApplicationUser? user = await _userManager.FindByNameAsync(User?.Identity?.Name);
 
             AntProCurrentUserInfo userInfo = new AntProCurrentUserInfo();
             if (user != null)
@@ -173,7 +173,7 @@ namespace Swm.Web.Controllers
     }
 
 
-
+    // TODO 处理下面的代码
     public class ClaimRequirementAttribute : TypeFilterAttribute
     {
         public ClaimRequirementAttribute(string claimType, string claimValue) : base(typeof(ClaimRequirementFilter))

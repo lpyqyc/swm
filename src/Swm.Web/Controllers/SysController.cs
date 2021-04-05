@@ -1,18 +1,20 @@
 using Arctic.AppSettings;
 using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
-using NHibernate.Linq;
 using Serilog;
 using Swm.Model;
-using Swm.Users;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Swm.Web.Controllers
 {
@@ -23,6 +25,10 @@ namespace Swm.Web.Controllers
     [ApiController]
     public class SysController : ControllerBase
     {
+        readonly UserManager<ApplicationUser> _userManager;
+        readonly RoleManager<ApplicationRole> _roleManager;
+        readonly ApplicationDbContext _applicationDbContext;
+        readonly IUserStore<ApplicationUser> _userStore;
         readonly ISession _session;
         readonly ILogger _logger;
         readonly OpHelper _opHelper;
@@ -35,8 +41,19 @@ namespace Swm.Web.Controllers
         /// <param name="session"></param>
         /// <param name="opHelper"></param>
         /// <param name="logger"></param>
-        public SysController(IAppSettingService appSettingService, ISession session, OpHelper opHelper, ILogger logger)
+        public SysController(
+            ApplicationDbContext applicationDbContext,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            IAppSettingService appSettingService, 
+            ISession session, 
+            OpHelper opHelper, 
+            ILogger logger
+            )
         {
+            _applicationDbContext = applicationDbContext;
+            _userManager = userManager;
+            _roleManager = roleManager;
             _appSettingService = appSettingService;
             _session = session;
             _opHelper = opHelper;
@@ -148,6 +165,19 @@ namespace Swm.Web.Controllers
 
         #region 用户和角色
 
+        //private (ApplicationUser user, bool isBuiltIn, IList<string> roles) GetUser(string userName)
+        //{
+        //    var claims = await _userManager.GetClaimsAsync(user);
+
+        //    UserInfo userInfo = new();
+        //    userInfo.UserId = user.Id;
+        //    userInfo.UserName = user.UserName;
+        //    userInfo.IsBuiltIn = claims.Any(x => x.Type == BuiltInClaims.IsBuiltIn);
+        //    userInfo.Roles = await _userManager.GetRolesAsync(user);
+
+
+        //}
+
         /// <summary>
         /// 用户列表
         /// </summary>
@@ -158,19 +188,21 @@ namespace Swm.Web.Controllers
         [OperationType(OperationTypes.查看用户)]
         public async Task<ListData<UserInfo>> GetUserList([FromQuery] UserListArgs args)
         {
-            var pagedList = await _session.Query<User>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+            var pagedList = await SearchAsync(_applicationDbContext.Users, args.Filter, args.Sort, args.Current, args.PageSize);
 
-            return this.ListData(pagedList, x => new UserInfo
+            Dictionary<ApplicationUser, UserInfo> userInfos = new();
+            foreach (var user in pagedList.List)
             {
-                UserId = x.UserId,
-                UserName = x.UserName,
-                IsBuiltIn = x.IsBuiltIn,
-                Roles = x.Roles.Select(x => x.RoleName),
-                ctime = x.ctime,
-                Comment = x.Comment,
-                IsLocked = x.IsLocked,
-                LockedReason = x.LockedReason
-            });
+                UserInfo userInfo = new();
+                userInfo.UserId = user.Id;
+                userInfo.UserName = user.UserName;
+                userInfo.IsBuiltIn = user.IsBuiltIn;
+                userInfo.Roles = await _userManager.GetRolesAsync(user);
+
+                userInfos.Add(user, userInfo);
+            }
+
+            return this.ListData(pagedList, x => userInfos[x]);
         }
 
         /// <summary>
@@ -184,44 +216,41 @@ namespace Swm.Web.Controllers
         public async Task<ApiData> CreateUser(CreateUserArgs args)
         {
             args.UserName = args.UserName.Trim();
-            var dup = await _session.Query<User>().AnyAsync(x => x.UserName == args.UserName);
-            if (dup)
-            {
-                throw new InvalidOperationException("用户名重复。");
-            }
-            User user = new User
-            {
-                UserName = args.UserName,
-                PasswordSalt = Guid.NewGuid().ToString()
-            };
-            user.PasswordHash = HashPassword(args.Password, user.PasswordSalt);
 
-            SetRoles(user, args.Roles);
+            var user = new ApplicationUser { UserName = args.UserName };
+            var result = await _userManager.CreateAsync(user, args.Password);
+            if (result.Succeeded == false)
+            {
+                throw new InvalidOperationException(string.Join(", " , result.Errors.Select(x => x.Description)));
+            }
+            await _userManager.AddToRolesAsync(user, args.Roles);
 
             await _session.SaveAsync(user);
-            _ = await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
+            _ = await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.Id, user.UserName);
             
             return this.Success();
         }
 
+
+
         /// <summary>
         /// 删除用户
         /// </summary>
-        /// <param name="id">用户id</param>
+        /// <param name="id">用户Id</param>
         /// <returns></returns>
         [AutoTransaction]
         [HttpPost("delete-user/{id}")]
         [OperationType(OperationTypes.删除用户)]
-        public async Task<ApiData> DeleteUser(int id)
+        public async Task<ApiData> DeleteUser(string id)
         {
-            User user = await _session.GetAsync<User>(id);
+            var user = await _userManager.FindByIdAsync(id);
             if (user.IsBuiltIn)
             {
                 throw new InvalidOperationException("不能删除内置用户。");
             }
 
-            await _session.DeleteAsync(user);
-            await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
+            await _userManager.DeleteAsync(user);
+            await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.Id, user.UserName);
             return this.Success();
         }
 
@@ -234,15 +263,15 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         [HttpPost("update-user/{id}")]
         [OperationType(OperationTypes.编辑用户)]
-        public async Task<ApiData> UpdateUser(int id, UpdateUserArgs args)
+        public async Task<ApiData> UpdateUser(string id, UpdateUserArgs args)
         {
-            User user = await _session.GetAsync<User>(id);
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 throw new InvalidOperationException("用户不存在。");
             }
 
-            if (_session.Query<User>().Any(x => x.UserId != id && x.UserName == args.UserName))
+            if (_applicationDbContext.Users.Any(x => x.Id != id && x.UserName == args.UserName))
             {
                 throw new InvalidOperationException("用户名重复。");
             }
@@ -251,51 +280,37 @@ namespace Swm.Web.Controllers
 
             if (string.IsNullOrEmpty(args.Password) == false)
             {
-                user.PasswordSalt = Guid.NewGuid().ToString();
-                user.PasswordHash = HashPassword(args.Password, user.PasswordSalt);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                await _userManager.ChangePasswordAsync(user, token, args.Password);
             }
 
-            SetRoles(user, args.Roles);
+            await SetRolesAsync(user, args.Roles);
 
             await _session.SaveAsync(user);
 
-            await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.UserId, user.UserName);
+            await _opHelper.SaveOpAsync("UserId: {0}，用户名：{1}", user.Id, user.UserName);
 
             return this.Success();
         }
 
 
-        private void SetRoles(User user, string[]? roles)
+        private async Task SetRolesAsync(ApplicationUser user, string[]? roles)
         {
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
 
-            user.Roles.Clear();
+            await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
 
-            var rolelist = _session.Query<Role>().ToList();
-
-            // TODO 提取到常数类
             if (user.UserName == "admin")
             {
-                Role? adminRole = rolelist.SingleOrDefault(x => x.RoleName == "admin");
-                if (adminRole != null)
-                {
-                    user.AddToRole(adminRole);
-                }
+                await _userManager.AddToRoleAsync(user, "admin");
             }
 
             if (roles != null)
             {
-                foreach (var roleName in roles)
-                {
-                    Role? role = rolelist.SingleOrDefault(x => x.RoleName == roleName);
-                    if (role != null)
-                    {
-                        user.AddToRole(role);
-                    }
-                }
+                await _userManager.AddToRolesAsync(user, roles);
             }
         }
 
@@ -345,16 +360,20 @@ namespace Swm.Web.Controllers
         [OperationType(OperationTypes.查看角色)]
         public async Task<ListData<RoleInfo>> GetRoleList([FromQuery] RoleListArgs args)
         {
-            var pagedList = await _session.Query<Role>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new RoleInfo
+            var pagedList = await SearchAsync(_applicationDbContext.Roles, args.Filter, args.Sort, args.Current, args.PageSize);
+
+            Dictionary<ApplicationRole, RoleInfo> roleInfos = new();
+            foreach (var role in pagedList.List)
             {
-                RoleId = x.RoleId,
-                RoleName = x.RoleName,
-                IsBuiltIn = x.IsBuiltIn,
-                AllowedOpTypes = x.AllowedOpTypes,
-                ctime = x.ctime,
-                Comment = x.Comment,
-            });
+                RoleInfo roleInfo = new();
+                roleInfo.RoleId = role.Id;
+                roleInfo.RoleName = role.Name;
+                roleInfo.IsBuiltIn = role.IsBuiltIn;
+                roleInfo.AllowedOpTypes = null;  // TODO 
+                roleInfos.Add(role, roleInfo);
+            }
+
+            return this.ListData(pagedList, x => roleInfos[x]);
         }
 
         /// <summary>
@@ -365,11 +384,11 @@ namespace Swm.Web.Controllers
         [HttpGet("get-role-options")]
         public async Task<OptionsData<RoleInfo>> GetRoleOptions()
         {
-            var items = await _session.Query<Role>()
+            var items = await _applicationDbContext.Roles
                 .Select(x => new RoleInfo
                 {
-                    RoleId = x.RoleId,
-                    RoleName = x.RoleName,
+                    RoleId = x.Id,
+                    RoleName = x.Name,
                     IsBuiltIn = x.IsBuiltIn,
                 })
                 .ToListAsync();
@@ -486,6 +505,41 @@ namespace Swm.Web.Controllers
                 Url = x.Url,
                 Comment = x.Comment
             });
+        }
+
+
+
+        private static async Task<PagedList<T>> SearchAsync<T>(IQueryable<T> q, Func<IQueryable<T>, IQueryable<T>> filter, string? sort, int? current, int? pageSize)
+        {
+            if (current == null || current.Value < 1)
+            {
+                current = 1;
+            }
+            if (pageSize == null || pageSize.Value < 1)
+            {
+                pageSize = 20;
+            }
+            q = filter(q);
+
+            if (!string.IsNullOrWhiteSpace(sort))
+            {
+                q = q.OrderBy(sort);
+            }
+
+            var totalItemCount = q.Count();
+
+            if (totalItemCount == 0)
+            {
+                return new PagedList<T>(new List<T>(), 1, pageSize.Value, 0);
+            }
+
+            int start = (current.Value - 1) * pageSize.Value;
+            var list = await q.Skip(start)
+                .Take(pageSize.Value)
+                .ToListAsync()
+                .ConfigureAwait(false);
+            return new PagedList<T>(list, 1, pageSize.Value, totalItemCount);
+
         }
 
     }

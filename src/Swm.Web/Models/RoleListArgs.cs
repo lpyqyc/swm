@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using System.Linq;
 
 namespace Swm.Web.Controllers
 {
@@ -24,9 +25,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 角色名，支持模糊查询
         /// </summary>
-        [SearchArg(SearchMode.Like)]
         public string? RoleName { get; set; }
-
 
         /// <summary>
         /// 排序字段
@@ -42,6 +41,34 @@ namespace Swm.Web.Controllers
         /// 每页大小，默认值为 10。
         /// </summary>
         public int? PageSize { get; set; }
+
+
+        /// <summary>
+        /// 在查询对象上应用筛选条件
+        /// </summary>
+        /// <param name="q"></param>
+        /// <returns></returns>
+        public IQueryable<ApplicationRole> Filter(IQueryable<ApplicationRole> q)
+        {
+            RoleName = trim(RoleName);
+
+            if (RoleName != null)
+            {
+                q = q.Where(x => x.UserName.Contains(RoleName));
+            }
+
+            return q;
+
+            static string? trim(string? str)
+            {
+                str = str?.Trim();
+                if (string.IsNullOrEmpty(str))
+                {
+                    str = null;
+                }
+                return str;
+            }
+        }
 
 
     }

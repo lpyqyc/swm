@@ -25,6 +25,7 @@ using Swm.Locations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
@@ -42,8 +43,8 @@ namespace Swm.Web.Controllers
         readonly ISession _session;
         readonly ILocationFactory _locationFactory;
         readonly LocationHelper _locationHelper;
-        readonly UserManager<IdentityUser> _userManager;
-        readonly RoleManager<IdentityRole> _roleManager;
+        readonly UserManager<ApplicationUser> _userManager;
+        readonly RoleManager<ApplicationRole> _roleManager;
         /// <summary>
         /// 初始化新实例
         /// </summary>
@@ -54,8 +55,8 @@ namespace Swm.Web.Controllers
         /// <param name="env"></param>
         /// <param name="logger"></param>
         public SetupController(
-            UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
             ILocationFactory locationFactory, 
             LocationHelper locationHelper,
             ISession session, 
@@ -131,12 +132,12 @@ namespace Swm.Web.Controllers
         [HttpPost("generate-admin-user")]
         public async Task<ApiData> GenerateAdminUser()
         {
-            IdentityUser user = new IdentityUser
-            {
-                UserName = "admin",
-            };
+            var role = new ApplicationRole { Name = "admin", IsBuiltIn = true };
+            await _roleManager.CreateAsync(role);
+
+            ApplicationUser user = new ApplicationUser { UserName = "admin", IsBuiltIn = true };
             await _userManager.CreateAsync(user, "123456");
-            await _roleManager.CreateAsync(new IdentityRole { Name = "admin" });
+
             await _userManager.AddToRolesAsync(user, new[] { "admin" });
 
             return this.Success();

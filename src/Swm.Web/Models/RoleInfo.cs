@@ -26,13 +26,14 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 角色Id
         /// </summary>
-        public int RoleId { get; set; }
+        [Required]
+        public string? RoleId { get; set; }
 
         /// <summary>
         /// 角色名
         /// </summary>
         [Required]
-        public string RoleName { get; set; } = default!;
+        public string? RoleName { get; set; }
 
         /// <summary>
         /// 是否内置角色，内置角色不能删除
@@ -44,10 +45,6 @@ namespace Swm.Web.Controllers
         /// </summary>
         public IEnumerable<string>? AllowedOpTypes { get; set; }
 
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime ctime { get; set; }
 
         /// <summary>
         /// 备注

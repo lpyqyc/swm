@@ -62,7 +62,6 @@
     <ProjectReference Include="..\Swm.OutboundOrders\Swm.OutboundOrders.csproj" />
     <ProjectReference Include="..\Swm.Palletization\Swm.Palletization.csproj" />
     <ProjectReference Include="..\Swm.TransportTasks\Swm.TransportTasks.csproj" />
-    <ProjectReference Include="..\Swm.Users\Swm.Users.csproj" />
   </ItemGroup>
 
   <ItemGroup>

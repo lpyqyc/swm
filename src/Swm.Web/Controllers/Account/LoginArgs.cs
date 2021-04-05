@@ -1,6 +1,4 @@
-﻿// 参考：https://blog.csdn.net/sd7o95o/article/details/114504446
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
@@ -21,5 +19,4 @@ namespace Swm.Web.Controllers
         [Required]
         public string? Password { get; set; }
     }
-
 }

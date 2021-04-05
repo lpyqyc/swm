@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.NHibernateExtensions;
-using System;
-using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
+using System.Linq;
 
 namespace Swm.Web.Controllers
 {
@@ -27,8 +25,34 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 用户名，支持模糊查询
         /// </summary>
-        [SearchArg(SearchMode.Like)]
         public string? UserName { get; set; }
+
+        /// <summary>
+        /// 在查询对象上应用筛选条件
+        /// </summary>
+        /// <param name="q"></param>
+        /// <returns></returns>
+        public IQueryable<ApplicationUser> Filter(IQueryable<ApplicationUser> q)
+        {
+            UserName = trim(UserName);
+
+            if (UserName != null)
+            {
+                q = q.Where(x => x.UserName.Contains(UserName));
+            }
+
+            return q;
+
+            static string? trim(string? str)
+            {
+                str = str?.Trim();
+                if (string.IsNullOrEmpty(str))
+                {
+                    str = null;
+                }
+                return str;
+            }
+        }
 
 
         /// <summary>
