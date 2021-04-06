@@ -54,7 +54,7 @@ namespace Swm.Web.Controllers
 
             if (RoleName != null)
             {
-                q = q.Where(x => x.UserName.Contains(RoleName));
+                q = q.Where(x => x.Name.Contains(RoleName));
             }
 
             return q;

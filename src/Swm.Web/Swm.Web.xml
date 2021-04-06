@@ -168,7 +168,7 @@
             登录和已登录用户的相关功能
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.AccountController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.AspNetCore.Identity.SignInManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.Extensions.Options.IOptions{Swm.Web.JwtSetting},Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.AccountController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Swm.Web.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Swm.Web.ApplicationRole},Microsoft.AspNetCore.Identity.SignInManager{Swm.Web.ApplicationUser},Microsoft.Extensions.Options.IOptions{Swm.Web.JwtSetting},Serilog.ILogger)">
             <summary>
             初始化新实例
             </summary>
@@ -681,7 +681,7 @@
             安装工具。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.SetupController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.AspNetCore.Identity.RoleManager{Microsoft.AspNetCore.Identity.IdentityRole},Swm.Locations.ILocationFactory,Swm.Locations.LocationHelper,NHibernate.ISession,NHibernate.Cfg.Configuration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.SetupController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Swm.Web.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Swm.Web.ApplicationRole},Swm.Locations.ILocationFactory,Swm.Locations.LocationHelper,NHibernate.ISession,NHibernate.Cfg.Configuration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Serilog.ILogger)">
             <summary>
             初始化新实例
             </summary>
@@ -752,85 +752,6 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.SysController.GetUserList(Swm.Web.Controllers.UserListArgs)">
-            <summary>
-            用户列表
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.CreateUser(Swm.Web.Controllers.CreateUserArgs)">
-            <summary>
-            创建用户
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.DeleteUser(System.Int32)">
-            <summary>
-            删除用户
-            </summary>
-            <param name="id">用户id</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.UpdateUser(System.Int32,Swm.Web.Controllers.UpdateUserArgs)">
-            <summary>
-            编辑用户
-            </summary>
-            <param name="id">用户id</param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.HashPassword(System.String,System.String)">
-            <summary>
-            对密码进行散列。
-            </summary>
-            <param name="password">密码明文</param>
-            <param name="salt">密码盐度</param>
-            <returns>散列后的密码</returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.GetMd5Hash(System.String)">
-            <summary>
-            使用 md5 算法获取输入字符串的 hash 值
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.GetRoleList(Swm.Web.Controllers.RoleListArgs)">
-            <summary>
-            角色列表
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.GetRoleOptions">
-            <summary>
-            获取角色的选项列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.CreateRole(Swm.Web.Controllers.CreateUpdateRoleArgs)">
-            <summary>
-            创建角色
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.DeleteRole(System.Int32)">
-            <summary>
-            删除角色
-            </summary>
-            <param name="id">角色id</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.SysController.UpdateRole(System.Int32,Swm.Web.Controllers.CreateUpdateRoleArgs)">
-            <summary>
-            编辑角色
-            </summary>
-            <param name="id">角色id</param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
         <member name="M:Swm.Web.Controllers.SysController.GetOpList(Swm.Web.Controllers.OpListArgs)">
             <summary>
             操作记录列表
@@ -886,6 +807,96 @@
             <summary>
             创建手工任务
             </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.UsrController">
+            <summary>
+            提供用户和角色管理
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.#ctor(Swm.Web.ApplicationDbContext,Microsoft.AspNetCore.Identity.UserManager{Swm.Web.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Swm.Web.ApplicationRole},Serilog.ILogger)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.GetUserList(Swm.Web.Controllers.UserListArgs)">
+            <summary>
+            用户列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.CreateUser(Swm.Web.Controllers.CreateUserArgs)">
+            <summary>
+            创建用户
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.DeleteUser(System.String)">
+            <summary>
+            删除用户
+            </summary>
+            <param name="id">用户Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.UpdateUser(System.String,Swm.Web.Controllers.UpdateUserArgs)">
+            <summary>
+            编辑用户
+            </summary>
+            <param name="id">用户id</param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.HashPassword(System.String,System.String)">
+            <summary>
+            对密码进行散列。
+            </summary>
+            <param name="password">密码明文</param>
+            <param name="salt">密码盐度</param>
+            <returns>散列后的密码</returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.GetMd5Hash(System.String)">
+            <summary>
+            使用 md5 算法获取输入字符串的 hash 值
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.GetRoleList(Swm.Web.Controllers.RoleListArgs)">
+            <summary>
+            角色列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.GetRoleOptions">
+            <summary>
+            获取角色的选项列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.CreateRole(Swm.Web.Controllers.CreateUpdateRoleArgs)">
+            <summary>
+            创建角色
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.DeleteRole(System.String)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="id">角色id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.UpdateRole(System.String,Swm.Web.Controllers.CreateUpdateRoleArgs)">
+            <summary>
+            编辑角色
+            </summary>
+            <param name="id">角色id</param>
             <param name="args"></param>
             <returns></returns>
         </member>
@@ -3209,11 +3220,6 @@
             允许的操作
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.RoleInfo.ctime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
         <member name="P:Swm.Web.Controllers.RoleInfo.Comment">
             <summary>
             备注
@@ -3243,6 +3249,13 @@
             <summary>
             每页大小，默认值为 10。
             </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.RoleListArgs.Filter(System.Linq.IQueryable{Swm.Web.ApplicationRole})">
+            <summary>
+            在查询对象上应用筛选条件
+            </summary>
+            <param name="q"></param>
+            <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.SetHeightLimitArgs">
             <summary>
@@ -4129,26 +4142,6 @@
             所属角色
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UserInfo.ctime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.UserInfo.Comment">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.UserInfo.IsLocked">
-            <summary>
-            是否锁定，锁定用户不能登录
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.UserInfo.LockedReason">
-            <summary>
-            锁定原因
-            </summary>
-        </member>
         <member name="T:Swm.Web.Controllers.UserListArgs">
             <summary>
             用户列表的查询参数
@@ -4158,6 +4151,13 @@
             <summary>
             用户名，支持模糊查询
             </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.UserListArgs.Filter(System.Linq.IQueryable{Swm.Web.ApplicationUser})">
+            <summary>
+            在查询对象上应用筛选条件
+            </summary>
+            <param name="q"></param>
+            <returns></returns>
         </member>
         <member name="P:Swm.Web.Controllers.UserListArgs.Sort">
             <summary>

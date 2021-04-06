@@ -26,6 +26,7 @@ namespace Swm.Web.Controllers
     {
         readonly IOptions<JwtSetting> _jwtSetting;
         readonly UserManager<ApplicationUser> _userManager;
+        readonly RoleManager<ApplicationRole> _roleManager;
         readonly SignInManager<ApplicationUser> _signInManager;
         readonly ILogger _logger;
 
@@ -35,11 +36,13 @@ namespace Swm.Web.Controllers
         /// <param name="logger"></param>
         public AccountController(
             UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IOptions<JwtSetting> jwtSetting,
             ILogger logger)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _jwtSetting = jwtSetting;
             _logger = logger;
@@ -82,9 +85,14 @@ namespace Swm.Web.Controllers
                     new Claim("admin", admin.ToString() ,ClaimValueTypes.Boolean), // 是否是管理员
                 };
 
+                claims.AddRange(await _userManager.GetClaimsAsync(user));
+
                 foreach (var role in roles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role));
+
+                    ApplicationRole appRole = await _roleManager.FindByNameAsync(role);
+                    claims.AddRange(await _roleManager.GetClaimsAsync(appRole));
                 }
 
                 var key = Encoding.UTF8.GetBytes(_jwtSetting.Value.SecurityKey);

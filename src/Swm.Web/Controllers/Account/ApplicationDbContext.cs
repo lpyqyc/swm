@@ -16,10 +16,14 @@ namespace Swm.Web
     public class ApplicationUser : IdentityUser
     {
         public bool IsBuiltIn { get; set; }
+        public string? Comment { get; set; }
+
     }
 
     public class ApplicationRole : IdentityRole
     {
         public bool IsBuiltIn { get; set; }
+
+        public string? Comment { get; set; }
     }
 }

@@ -25,7 +25,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,7 +44,6 @@ using Swm.Palletization;
 using Swm.StorageLocationAssignment;
 using Swm.TransportTasks;
 using Swm.TransportTasks.Cfg;
-using Swm.Users;
 using System;
 using System.IO;
 using System.Net.Mime;
@@ -188,9 +186,7 @@ namespace Swm.Web
             builder.AddAppSeqs();
             builder.AddAppSettings();
 
-
             builder.RegisterModule<OpsModule>();
-            builder.RegisterModule<UsersModule>();
             builder.RegisterModule<MaterialsModule>();
             builder.RegisterModule<LocationsModule>();
             builder.RegisterModule<StorageLocationAssignmentModule>();

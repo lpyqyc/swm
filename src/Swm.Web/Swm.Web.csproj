@@ -27,7 +27,7 @@
     <PackageReference Include="Arctic.AppCodes" Version="1.0.2" />
     <PackageReference Include="Arctic.AppSeqs" Version="1.0.0-main-local" />
     <PackageReference Include="Arctic.AppSettings" Version="1.0.0" />
-    <PackageReference Include="Arctic.AspNetCore" Version="1.0.2" />
+    <PackageReference Include="Arctic.AspNetCore" Version="1.0.4" />
     <PackageReference Include="Arctic.EventBus" Version="1.0.0-main-local" />
     <PackageReference Include="Arctic.NHibernateExtensions" Version="1.0.13" />
     <PackageReference Include="Autofac" Version="6.0.0" />
