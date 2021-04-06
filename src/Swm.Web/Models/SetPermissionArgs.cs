@@ -17,19 +17,15 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 创建和编辑角色的操作参数
+    /// 设置权限的操作参数
     /// </summary>
-    public class CreateUpdateRoleArgs
+    public class SetPermissionArgs
     {
         /// <summary>
-        /// 角色名称
+        /// 允许的操作类型
         /// </summary>
         [Required]
-        public string RoleName { get; set; } = default!;
+        public string[]? AllowedOperationTypes { get; set; }
 
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public string? Comment { get; set; }
     }
 }

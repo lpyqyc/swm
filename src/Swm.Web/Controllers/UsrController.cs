@@ -1,3 +1,17 @@
+// Copyright 2020-2021 王建军
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +28,10 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
+    /* 
+     * 用户、角色和权限管理使用 Microsoft.AspNetCore.Identity 实现，
+     * 使用 EntityFrameworkCore 而不是 NHibernate 访问数据库。
+     */
     /// <summary>
     /// 提供用户和角色管理
     /// </summary>
@@ -29,6 +47,9 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 初始化新实例。
         /// </summary>
+        /// <param name="applicationDbContext"></param>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
         /// <param name="logger"></param>
         public UsrController(
             ApplicationDbContext applicationDbContext,
@@ -51,7 +72,6 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [AutoTransaction]
         [HttpGet("get-user-list")]
         [OperationType(OperationTypes.查看用户)]
         public async Task<ListData<UserInfo>> GetUserList([FromQuery] UserListArgs args)
@@ -78,7 +98,6 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [AutoTransaction]
         [HttpPost("create-user")]
         [OperationType(OperationTypes.创建用户)]
         public async Task<ApiData> CreateUser(CreateUserArgs args)
@@ -108,7 +127,6 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="id">用户Id</param>
         /// <returns></returns>
-        [AutoTransaction]
         [HttpPost("delete-user/{id}")]
         [OperationType(OperationTypes.删除用户)]
         public async Task<ApiData> DeleteUser(string id)
@@ -129,7 +147,6 @@ namespace Swm.Web.Controllers
         /// <param name="id">用户id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [AutoTransaction]
         [HttpPost("update-user/{id}")]
         [OperationType(OperationTypes.编辑用户)]
         public async Task<ApiData> UpdateUser(string id, UpdateUserArgs args)
@@ -221,7 +238,6 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [AutoTransaction]
         [HttpGet("get-role-list")]
         [OperationType(OperationTypes.查看角色)]
         public async Task<ListData<RoleInfo>> GetRoleList([FromQuery] RoleListArgs args)
@@ -246,7 +262,6 @@ namespace Swm.Web.Controllers
         /// 获取角色的选项列表
         /// </summary>
         /// <returns></returns>
-        [AutoTransaction]
         [HttpGet("get-role-options")]
         public async Task<OptionsData<RoleInfo>> GetRoleOptions()
         {
@@ -266,7 +281,6 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [AutoTransaction]
         [HttpPost("create-role")]
         [OperationType(OperationTypes.创建角色)]
         public async Task<ApiData> CreateRole(CreateUpdateRoleArgs args)
@@ -291,7 +305,6 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="id">角色id</param>
         /// <returns></returns>
-        [AutoTransaction]
         [HttpPost("delete-role/{id}")]
         [OperationType(OperationTypes.删除角色)]
         public async Task<ApiData> DeleteRole(string id)
@@ -319,7 +332,6 @@ namespace Swm.Web.Controllers
         /// <param name="id">角色id</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        [AutoTransaction]
         [HttpPost("update-role/{id}")]
         [OperationType(OperationTypes.编辑角色)]
         public async Task<ApiData> UpdateRole(string id, CreateUpdateRoleArgs args)
@@ -340,6 +352,42 @@ namespace Swm.Web.Controllers
             role.Comment = args.Comment;
 
             await _roleManager.UpdateAsync(role);
+
+            return this.Success();
+        }
+
+        /// <summary>
+        /// 设置角色的操作权限
+        /// </summary>
+        /// <param name="id">角色Id</param>
+        /// <param name="args">操作参数</param>
+        /// <returns></returns>
+        [HttpPost("set-permission/{id}")]
+        [OperationType(OperationTypes.设置权限)]
+        public async Task<ApiData> SetPermission(string id, SetPermissionArgs args)
+        {
+            ApplicationRole role = await _roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                throw new InvalidOperationException("角色不存在。");
+            }
+
+            // 清除现有操作权限
+            var claims = await _roleManager.GetClaimsAsync(role);
+            foreach (var claim in claims)
+            {
+                if (claim.Type == ClaimTypes.AllowedOperationType)
+                {
+                    await _roleManager.RemoveClaimAsync(role, claim);
+                }
+            }
+
+            // 重设权限
+            foreach (var item in args.AllowedOperationTypes ?? new string[0])
+            {
+                await _roleManager.AddClaimAsync(role, new System.Security.Claims.Claim(ClaimTypes.AllowedOperationType, item));
+            }
 
             return this.Success();
         }

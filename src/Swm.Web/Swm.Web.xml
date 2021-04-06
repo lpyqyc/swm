@@ -721,7 +721,7 @@
             提供系统 api
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.SysController.#ctor(Arctic.AppSettings.IAppSettingService,NHibernate.ISession,Swm.Web.OpHelper,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.SysController.#ctor(Arctic.AppSettings.IAppSettingService,NHibernate.ISession,Swm.Web.OpHelper,Microsoft.AspNetCore.Mvc.Infrastructure.IActionDescriptorCollectionProvider,Serilog.ILogger)">
             <summary>
             初始化新实例。
             </summary>
@@ -757,6 +757,12 @@
             操作记录列表
             </summary>
             <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.SysController.GetOperationTypeOptions">
+            <summary>
+            获取操作类型的选项列表
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.TskController">
@@ -819,6 +825,9 @@
             <summary>
             初始化新实例。
             </summary>
+            <param name="applicationDbContext"></param>
+            <param name="userManager"></param>
+            <param name="roleManager"></param>
             <param name="logger"></param>
         </member>
         <member name="M:Swm.Web.Controllers.UsrController.GetUserList(Swm.Web.Controllers.UserListArgs)">
@@ -898,6 +907,14 @@
             </summary>
             <param name="id">角色id</param>
             <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.UsrController.SetPermission(System.String,Swm.Web.Controllers.SetPermissionArgs)">
+            <summary>
+            设置角色的操作权限
+            </summary>
+            <param name="id">角色Id</param>
+            <param name="args">操作参数</param>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.WioController">
@@ -3270,6 +3287,16 @@
         <member name="P:Swm.Web.Controllers.SetHeightLimitArgs.HeightLimit">
             <summary>
             限高。
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.SetPermissionArgs">
+            <summary>
+            设置权限的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.SetPermissionArgs.AllowedOperationTypes">
+            <summary>
+            允许的操作类型
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.SetPortsArgs">

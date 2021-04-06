@@ -2,6 +2,8 @@ using Arctic.AppSettings;
 using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using NHibernate;
 using Serilog;
@@ -11,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
@@ -26,7 +29,7 @@ namespace Swm.Web.Controllers
         readonly ILogger _logger;
         readonly OpHelper _opHelper;
         readonly IAppSettingService _appSettingService;
-
+        readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
         /// <summary>
         /// 初始化新实例。
         /// </summary>
@@ -37,12 +40,14 @@ namespace Swm.Web.Controllers
         public SysController(
             IAppSettingService appSettingService, 
             ISession session, 
-            OpHelper opHelper, 
+            OpHelper opHelper,
+            IActionDescriptorCollectionProvider actionDescriptorCollectionProvider,
             ILogger logger
             )
         {
             _appSettingService = appSettingService;
             _session = session;
+            _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
             _opHelper = opHelper;
             _logger = logger;
         }
@@ -176,6 +181,21 @@ namespace Swm.Web.Controllers
                 Comment = x.Comment
             });
         }
-
+        
+        /// <summary>
+        /// 获取操作类型的选项列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-operation-type-options")]
+        public OptionsData<string> GetOperationTypeOptions()
+        {
+            var list = _actionDescriptorCollectionProvider.ActionDescriptors.Items
+                .OfType<ControllerActionDescriptor>()
+                .Select(x => x.MethodInfo.GetCustomAttribute<OperationTypeAttribute>()?.OperationType ?? "")
+                .Where(x => string.IsNullOrWhiteSpace(x) == false)
+                .Distinct()
+                .ToList();
+            return this.OptionsData(list);
+        }
     }
 }
