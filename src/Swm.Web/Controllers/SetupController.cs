@@ -130,15 +130,16 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 生成管理员用户和管理员角色
         /// </summary>
+        /// <param name="password">密码</param>
         /// <returns></returns>
         [HttpPost("generate-admin-user")]
-        public async Task<ApiData> GenerateAdminUser()
+        public async Task<ApiData> GenerateAdminUser([FromBody] string password)
         {
             var role = new ApplicationRole { Name = "admin", IsBuiltIn = true };
             await _roleManager.CreateAsync(role);
 
             ApplicationUser user = new ApplicationUser { UserName = "admin", IsBuiltIn = true };
-            await _userManager.CreateAsync(user, "123456");
+            await _userManager.CreateAsync(user, password);
 
             await _userManager.AddToRolesAsync(user, new[] { "admin" });
 
