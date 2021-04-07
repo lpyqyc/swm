@@ -19,18 +19,20 @@ namespace Swm.Palletization
 {
     public class UnitloadSnapshopHelper
     {
-        readonly IUnitloadSnapshotFactory _unitloadSnapshotFactory;
+        readonly Func<UnitloadSnapshot> _unitloadSnapshotFactory;
+        readonly Func<UnitloadItemSnapshot> _unitloadItemSnapshotFactory;
         readonly ILogger _logger;
 
-        public UnitloadSnapshopHelper(IUnitloadSnapshotFactory unitloadSnapshotFactory, ILogger logger)
+        public UnitloadSnapshopHelper(Func<UnitloadSnapshot> unitloadSnapshotFactory, Func<UnitloadItemSnapshot> unitloadItemSnapshotFactory, ILogger logger)
         {
             _unitloadSnapshotFactory = unitloadSnapshotFactory;
+            _unitloadItemSnapshotFactory = unitloadItemSnapshotFactory;
             _logger = logger;
         }
 
         public UnitloadSnapshot GetSnapshot(Unitload unitload)
         {
-            UnitloadSnapshot snapshot = _unitloadSnapshotFactory.CreateUnitloadSnapshot();
+            UnitloadSnapshot snapshot = _unitloadSnapshotFactory.Invoke();
             CopyUtil.CopyProperties(unitload, snapshot, new[]
             {
                 nameof(UnitloadSnapshot.UnitloadSnapshotId),
@@ -41,7 +43,7 @@ namespace Swm.Palletization
 
             foreach (var item in unitload.Items)
             {
-                UnitloadItemSnapshot itemSnapshot = _unitloadSnapshotFactory.CreateUnitloadItemSnapshot();
+                UnitloadItemSnapshot itemSnapshot = _unitloadItemSnapshotFactory.Invoke();
                 CopyUtil.CopyProperties(item, itemSnapshot, new[]
                 {
                     nameof(UnitloadItemSnapshot.UnitloadItemSnapshotId),

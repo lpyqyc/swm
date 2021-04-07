@@ -38,11 +38,11 @@ namespace Swm.Locations
         {
             builder.AddModelMapper<Mapper>();
 
-            RegisterFactory(_moduleBuilder._locationFactory);
-
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
             RegisterBySuffix("Service");
+
+            RegisterFactory(_moduleBuilder._locationFactory);
 
             void RegisterBySuffix(string suffix)
             {

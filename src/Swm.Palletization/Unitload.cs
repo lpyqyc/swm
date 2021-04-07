@@ -32,7 +32,7 @@ namespace Swm.Palletization
     {
         private ISet<UnitloadItem> _items;
 
-        internal protected Unitload()
+        public Unitload()
         {
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;

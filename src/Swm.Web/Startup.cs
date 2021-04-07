@@ -188,10 +188,10 @@ namespace Swm.Web
             builder.AddMaterials(module =>
             {
                 module.UseMaterial<Material>()
-                .UseFlow<Flow>()
-                .UseStock<Stock>()
-                .UseMonthlyReportItem<MonthlyReportItem>()
-                .UseStockKey<DefaultStockKey>();
+                    .UseFlow<Flow>()
+                    .UseStock<Stock>()
+                    .UseMonthlyReportItem<MonthlyReportItem>()
+                    .UseStockKey<DefaultStockKey>();
             });
 
             builder.AddLocations(m =>
@@ -199,9 +199,13 @@ namespace Swm.Web
                 m.UseLocation<Location>();
             });
             builder.RegisterModule<StorageLocationAssignmentModule>();
-            builder.RegisterModule(new PalletizationModule
+            builder.AddPalletization(module =>
             {
-                PalletCodePattern = Configuration.GetSection("Swm:Palletization:PalletCodePattern").Value,
+                module.UseUnitload<Unitload>()
+                    .UseUnitloadItem<UnitloadItem>()
+                    .UseUnitloadSnapshot<UnitloadSnapshot>()
+                    .UseUnitloadItemSnapshot<UnitloadItemSnapshot>()
+                    .UsePalletCodeValidator(new RegexPalletCodeValidator(Configuration.GetSection("Swm:Palletization:PalletCodePattern").Value));
             });
 
             builder.RegisterModule(new TransportTasksModule

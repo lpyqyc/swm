@@ -62,11 +62,10 @@ namespace Swm.OutboundOrders.Tests
             };
             outboundOrder.AddLine(line1);
 
-            DefaultUnitloadFactory factory = new DefaultUnitloadFactory();
-            var p1 = factory.CreateUnitload();
+            var p1 = new Unitload();
             p1.PalletCode = "P1";
             p1.ResetCurrentUat();
-            var i1 = factory.CreateUnitloadItem();
+            var i1 = new UnitloadItem();
             i1.Material = material;
             i1.Batch = "B";
             i1.StockStatus = "合格";
@@ -74,10 +73,10 @@ namespace Swm.OutboundOrders.Tests
             i1.Quantity = 60;
             p1.AddItem(i1);
 
-            var p2 = factory.CreateUnitload();
+            var p2 = new Unitload();
             p2.PalletCode = "P2";
             p2.ResetCurrentUat();
-            var i2 = factory.CreateUnitloadItem();
+            var i2 = new UnitloadItem();
             i2.Material = material;
             i2.Batch = "B";
             i2.StockStatus = "合格";

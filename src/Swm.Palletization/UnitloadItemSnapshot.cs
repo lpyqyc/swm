@@ -24,7 +24,7 @@ namespace Swm.Palletization
     /// </summary>
     public class UnitloadItemSnapshot
     {
-        internal protected UnitloadItemSnapshot()
+        public UnitloadItemSnapshot()
         {
         }
 

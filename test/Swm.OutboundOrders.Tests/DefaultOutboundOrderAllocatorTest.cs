@@ -40,11 +40,10 @@ namespace Swm.OutboundOrders.Tests
             };
             outboundOrder.AddLine(line1);
 
-            DefaultUnitloadFactory factory = new DefaultUnitloadFactory();
-            Unitload p1 = factory.CreateUnitload();
+            Unitload p1 = new Unitload();
             p1.PalletCode = "P1";
             p1.ResetCurrentUat();
-            UnitloadItem i1 = factory.CreateUnitloadItem();
+            UnitloadItem i1 = new UnitloadItem();
             i1.Material = material;
             i1.Batch = "B";
             i1.StockStatus = "合格";
@@ -52,10 +51,10 @@ namespace Swm.OutboundOrders.Tests
             i1.Quantity = 60;
             p1.AddItem(i1);
 
-            Unitload p2 = factory.CreateUnitload();
+            Unitload p2 = new Unitload();
             p2.PalletCode = "P2";
             p2.ResetCurrentUat();
-            UnitloadItem i2 = factory.CreateUnitloadItem();
+            UnitloadItem i2 = new UnitloadItem();
             i2.Material = material;
             i2.Batch = "B";
             i2.StockStatus = "合格";
@@ -98,11 +97,10 @@ namespace Swm.OutboundOrders.Tests
             };
             outboundOrder.AddLine(line1);
 
-            DefaultUnitloadFactory factory = new DefaultUnitloadFactory();
-            Unitload p1 = factory.CreateUnitload();
+            Unitload p1 = new Unitload();
             p1.PalletCode = "P1";
             p1.ResetCurrentUat();
-            UnitloadItem i1 = factory.CreateUnitloadItem();
+            UnitloadItem i1 = new UnitloadItem();
             i1.Material = new Material();
             i1.Batch = "B";
             i1.StockStatus = "合格";
@@ -139,11 +137,10 @@ namespace Swm.OutboundOrders.Tests
             };
             outboundOrder.AddLine(line1);
 
-            DefaultUnitloadFactory factory = new DefaultUnitloadFactory();
-            Unitload p1 = factory.CreateUnitload();
+            Unitload p1 = new Unitload();
             p1.PalletCode = "P1";
             p1.ResetCurrentUat();
-            UnitloadItem i1 = factory.CreateUnitloadItem();
+            UnitloadItem i1 = new UnitloadItem();
             i1.Material = material;
             i1.Batch = "B";
             i1.StockStatus = "不合格";
@@ -178,11 +175,10 @@ namespace Swm.OutboundOrders.Tests
             };
             outboundOrder.AddLine(line1);
 
-            DefaultUnitloadFactory factory = new DefaultUnitloadFactory();
-            Unitload p1 = factory.CreateUnitload();
+            Unitload p1 = new Unitload();
             p1.PalletCode = "P1";
             p1.ResetCurrentUat();
-            UnitloadItem i1 = factory.CreateUnitloadItem();
+            UnitloadItem i1 = new UnitloadItem();
             i1.Material = material;
             i1.Batch = "B";
             i1.StockStatus = "合格";
@@ -219,11 +215,10 @@ namespace Swm.OutboundOrders.Tests
             };
             outboundOrder.AddLine(line1);
 
-            DefaultUnitloadFactory factory = new DefaultUnitloadFactory();
-            Unitload p1 = factory.CreateUnitload();
+            Unitload p1 = new Unitload();
             p1.PalletCode = "P1";
             p1.ResetCurrentUat();
-            UnitloadItem i1 = factory.CreateUnitloadItem();
+            UnitloadItem i1 = new UnitloadItem();
             i1.Material = material;
             i1.Batch = "B";
             i1.StockStatus = "合格";
@@ -269,11 +264,10 @@ namespace Swm.OutboundOrders.Tests
             };
             outboundOrder.AddLine(line2);
 
-            DefaultUnitloadFactory factory = new DefaultUnitloadFactory();
-            Unitload p1 = factory.CreateUnitload();
+            Unitload p1 = new Unitload();
             p1.PalletCode = "P1";
             p1.ResetCurrentUat();
-            UnitloadItem i1 = factory.CreateUnitloadItem();
+            UnitloadItem i1 = new UnitloadItem();
             i1.Material = material;
             i1.Batch = "B";
             i1.StockStatus = "合格";
@@ -325,11 +319,10 @@ namespace Swm.OutboundOrders.Tests
             };
             outboundOrder2.AddLine(line2);
 
-            DefaultUnitloadFactory factory = new DefaultUnitloadFactory();
-            Unitload p1 = factory.CreateUnitload();
+            Unitload p1 = new Unitload();
             p1.PalletCode = "P1";
             p1.ResetCurrentUat();
-            UnitloadItem i1 = factory.CreateUnitloadItem();
+            UnitloadItem i1 = new UnitloadItem();
             i1.Material = material;
             i1.Batch = "B";
             i1.StockStatus = "合格";

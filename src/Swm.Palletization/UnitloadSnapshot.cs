@@ -45,7 +45,7 @@ namespace Swm.Palletization
     /// </remarks>
     public class UnitloadSnapshot
     {
-        internal protected UnitloadSnapshot()
+        public UnitloadSnapshot()
         {
             Items = new HashSet<UnitloadItemSnapshot>();
         }

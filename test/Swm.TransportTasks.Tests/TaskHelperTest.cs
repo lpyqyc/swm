@@ -32,7 +32,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             const string taskType = "T";
 
@@ -50,7 +50,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task2 = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             const string taskType = "T";
 
@@ -71,7 +71,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task2 = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             const string taskType = "T";
 
@@ -93,7 +93,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task2 = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             const string taskType = "T";
 
@@ -112,7 +112,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             const string taskType = "T";
 
@@ -130,7 +130,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             const string taskType = "T";
 
@@ -148,7 +148,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             const string taskType = "T";
 
@@ -169,7 +169,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             const string taskType = "T";
 
@@ -189,7 +189,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task2 = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             const string taskType = "T";
 
@@ -211,7 +211,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task2 = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             var ex = await Assert.ThrowsAsync<FailToBuildTaskException>(() => taskHelper.BuildAsync(task1, "T", start, end, unitload1));
@@ -228,7 +228,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task1 = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             var ex = await Assert.ThrowsAsync<FailToBuildTaskException>(() => taskHelper.BuildAsync(task1, "T", start, end, unitload1));
@@ -246,7 +246,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task1 = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             await taskHelper.BuildAsync(task1, "T", start, end, unitload1, false);
@@ -262,7 +262,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task1 = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             await taskHelper.BuildAsync(task1, "T", start, end, unitload1, false);
@@ -278,7 +278,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             await taskHelper.BuildAsync(task, "test", start, end, unitload1);
@@ -296,7 +296,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             var ex = await Assert.ThrowsAsync<FailToBuildTaskException>(() => taskHelper.BuildAsync(task, "test", start, end, unitload));
@@ -315,7 +315,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
@@ -338,7 +338,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             var ex = await Assert.ThrowsAsync<FailToBuildTaskException>(() => taskHelper.BuildAsync(task, "A", start, end, unitload));
@@ -358,7 +358,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             var ex = await Assert.ThrowsAsync<FailToBuildTaskException>(() => taskHelper.BuildAsync(task, "A", start, end, unitload));
@@ -376,7 +376,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             var ex = await Assert.ThrowsAsync<FailToBuildTaskException>(() => taskHelper.BuildAsync(task, "A", start, end, unitload));
@@ -394,7 +394,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             await taskHelper.BuildAsync(task, "A", start, end, unitload, false);
@@ -410,7 +410,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             await taskHelper.BuildAsync(task, "A", start, end, unitload, false);
@@ -426,7 +426,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
@@ -446,7 +446,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
 
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
@@ -466,7 +466,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
 
@@ -488,7 +488,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
 
@@ -508,7 +508,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
 
@@ -527,7 +527,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
 
@@ -546,7 +546,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
 
@@ -565,7 +565,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
 
@@ -586,7 +586,7 @@ namespace Swm.TransportTasks.Tests
             TransportTask task = new TransportTask();
             TaskHelper taskHelper = new TaskHelper(For<ISession>(),
                                                    For<IAppSeqService>(),
-                                                   new UnitloadSnapshopHelper(new DefaultUnitloadSnapshotFactory(), Log.Logger),
+                                                   new UnitloadSnapshopHelper(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), Log.Logger),
                                                    Log.Logger);
             await taskHelper.BuildAsync(task, "A", start, end, unitload);
 

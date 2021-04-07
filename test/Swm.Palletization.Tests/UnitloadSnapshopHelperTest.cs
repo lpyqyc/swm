@@ -50,7 +50,7 @@ namespace Swm.Palletization.Tests
             });
 
 
-            UnitloadSnapshopHelper unitloadSnapshopHelper = new(new DefaultUnitloadSnapshotFactory(), For<ILogger>());
+            UnitloadSnapshopHelper unitloadSnapshopHelper = new(() => new UnitloadSnapshot(), () => new UnitloadItemSnapshot(), For<ILogger>());
 
             UnitloadSnapshot snapshot = unitloadSnapshopHelper.GetSnapshot(unitload);
             UnitloadItem item1 = unitload.Items.Single(x => x.UnitloadItemId == 1);

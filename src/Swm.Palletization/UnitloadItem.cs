@@ -25,7 +25,7 @@ namespace Swm.Palletization
     /// </summary>
     public class UnitloadItem : IHasStockKey
     {
-        internal protected UnitloadItem()
+        public UnitloadItem()
         {
         }
 

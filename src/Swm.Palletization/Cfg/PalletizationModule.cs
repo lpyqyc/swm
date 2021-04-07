@@ -26,31 +26,30 @@ namespace Swm.Palletization
     /// </summary>
     public class PalletizationModule : Autofac.Module
     {
-        static readonly ILogger _logger = Log.ForContext<PalletizationModule>();
 
-        /// <summary>
-        /// 为 <see cref="RegexPalletCodeValidator"/> 配置正则表达式。
-        /// </summary>
-        public string? PalletCodePattern { get; set; }
+        static readonly ILogger _logger = Log.ForContext<PalletizationModule>();
+        PalletizationModuleBuilder _moduleBuilder;
+        
+        internal PalletizationModule(PalletizationModuleBuilder moduleBuilder)
+        {
+            _moduleBuilder = moduleBuilder;
+        }
 
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper<Mapper>();
 
-            RegisterBySuffix("Factory");
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
             RegisterBySuffix("Service");
 
-            if (PalletCodePattern == null)
-            {
-                throw new InvalidOperationException("未设置 PalletCodePattern");
-            }
-
-            builder.RegisterInstance(new RegexPalletCodeValidator(PalletCodePattern))
+            RegisterFactory(_moduleBuilder._unitloadFactory);
+            RegisterFactory(_moduleBuilder._unitloadItemFactory);
+            RegisterFactory(_moduleBuilder._unitloadSnapshotFactory);
+            RegisterFactory(_moduleBuilder._unitloadItemSnapshotFactory);
+            builder.RegisterInstance(_moduleBuilder.palletCodeValidator ?? throw new())
                 .AsImplementedInterfaces()
                 .SingleInstance();
-
 
             void RegisterBySuffix(string suffix)
             {
@@ -61,8 +60,15 @@ namespace Swm.Palletization
                     .AsSelf();
                 _logger.Information("已注册后缀 {suffix}", suffix);
             }
-        }
 
+            void RegisterFactory<T>(Func<T>? factory) where T : notnull
+            {
+                if (factory != null)
+                {
+                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
+                }
+            }
+        }
     }
 
 }

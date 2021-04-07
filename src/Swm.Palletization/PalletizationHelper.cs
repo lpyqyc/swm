@@ -27,15 +27,17 @@ namespace Swm.Palletization
     {
         // TODO 依赖太多
         readonly ILogger _logger;
-        readonly IUnitloadFactory _unitloadFactory;
+        readonly Func<Unitload> _unitloadFactory;
+        readonly Func<UnitloadItem> _unitloadItemFactory;
         readonly IUnitloadStorageInfoProvider _storageInfoProvider;
         readonly IFifoProvider _fifoProvider;
         readonly IPalletCodeValidator _palletCodeValidator;
         readonly ISession _session;
         readonly FlowHelper _flowHelper;
 
-        public PalletizationHelper(ISession session, 
-            IUnitloadFactory unitloadFactory,            
+        public PalletizationHelper(ISession session,
+            Func<Unitload> unitloadFactory,
+            Func<UnitloadItem> unitloadItemFactory,
             IUnitloadStorageInfoProvider storageInfoProvider, 
             IFifoProvider outOrderingProvider, 
             IPalletCodeValidator palletCodeValidator,
@@ -44,6 +46,7 @@ namespace Swm.Palletization
         {
             _logger = logger;
             _unitloadFactory = unitloadFactory;
+            _unitloadItemFactory = unitloadItemFactory;
             _storageInfoProvider = storageInfoProvider;
             _fifoProvider = outOrderingProvider;
             _palletCodeValidator = palletCodeValidator;
@@ -91,7 +94,7 @@ namespace Swm.Palletization
             }
 
             // 生成货载和流水
-            Unitload unitload = _unitloadFactory.CreateUnitload();
+            Unitload unitload = _unitloadFactory.Invoke();
 
             unitload.PalletCode = palletCode;
             foreach (var item in items)
@@ -100,7 +103,7 @@ namespace Swm.Palletization
                 {
                     throw new InvalidOperationException("item.StockKey 未赋值");
                 }
-                UnitloadItem unitloadItem = _unitloadFactory.CreateUnitloadItem();
+                UnitloadItem unitloadItem = _unitloadItemFactory.Invoke();
                 unitloadItem.SetStockKey(item.StockKey);
                 unitloadItem.Quantity = item.Quantity;
                 unitloadItem.Fifo = _fifoProvider.GetFifo(item.StockKey);
