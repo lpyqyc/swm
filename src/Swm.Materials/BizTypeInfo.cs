@@ -15,29 +15,7 @@
 namespace Swm.Materials
 {
     /// <summary>
-    /// 表示业务类型选项
+    /// 业务类型。
     /// </summary>
-    public class BizTypeInfo
-    {
-        /// <summary>
-        /// 业务类型
-        /// </summary>
-        public string BizType { get; set; } = default!;
-
-        /// <summary>
-        /// 描述
-        /// </summary>
-        public string? Description { get; set; }
-
-        /// <summary>
-        /// 适用范围
-        /// </summary>
-        public string? Scope { get; set; }
-
-        /// <summary>
-        /// 展示次序
-        /// </summary>
-        public int DisplayOrder { get; set; }
-    }
-
+    public record BizTypeInfo(string Value, string? Label, string? Scope);
 }

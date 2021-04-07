@@ -1,18 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Arctic.Auditing" Version="1.0.2" />
-    <PackageReference Include="Arctic.NHibernateExtensions" Version="1.0.13" />
-    <PackageReference Include="NHibernate" Version="5.3.5" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NHibernate" Version="5.3.5" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Swm.Constants\Swm.Constants.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Swm.Constants\Swm.Constants.csproj" />
+		<ProjectReference Include="..\Arctic.Auditing\Arctic.Auditing.csproj" />
+		<ProjectReference Include="..\Arctic.NHibernateExtensions\Arctic.NHibernateExtensions.csproj" />
+		<ProjectReference Include="..\Swm.Constants\Swm.Constants.csproj" />
+	</ItemGroup>
 
 </Project>

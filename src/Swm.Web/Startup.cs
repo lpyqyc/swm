@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.AppCodes;
 using Arctic.AppSeqs;
 using Arctic.AppSettings;
 using Arctic.AspNetCore;
@@ -182,7 +181,6 @@ namespace Swm.Web
         {
             builder.RegisterLogger();
 
-            builder.AddAppCodes();
             builder.AddAppSeqs();
             builder.AddAppSettings();
 

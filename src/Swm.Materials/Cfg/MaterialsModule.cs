@@ -27,11 +27,17 @@ namespace Swm.Materials
     public class MaterialsModule : Autofac.Module
     {
         static ILogger _logger = Log.ForContext<MaterialsModule>();
-
+        
+        internal MaterialsConfig? MaterialsConfig { get; set; }
 
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper<Mapper>();
+
+            if (MaterialsConfig != null)
+            {
+                builder.RegisterInstance(MaterialsConfig);
+            }
 
             RegisterBySuffix("Factory");
             RegisterBySuffix("Helper");
@@ -47,8 +53,6 @@ namespace Swm.Materials
                     .AsSelf();
                 _logger.Information("已注册后缀 {suffix}", suffix);
             }
-
         }
-
     }
 }

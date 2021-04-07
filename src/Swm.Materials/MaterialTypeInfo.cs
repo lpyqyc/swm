@@ -12,36 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Swm.Materials
 {
     /// <summary>
-    /// 物料类型信息
+    /// 物料类型信息。
     /// </summary>
-    public class MaterialTypeInfo
-    {
-        /// <summary>
-        /// 物料类型
-        /// </summary>
-        [Required]
-        public string MaterialType { get; set; } = default!;
-
-        /// <summary>
-        /// 物料类型说明
-        /// </summary>
-        public string? Description { get; set; }
-
-        /// <summary>
-        /// 适用范围
-        /// </summary>
-        public string? Scope { get; set; }
-
-        /// <summary>
-        /// 展示顺序
-        /// </summary>
-        public int DisplayOrder { get; set; }
-
-    }
+    public record MaterialTypeInfo(string Value, string? Label, string? Scope);
 
 }

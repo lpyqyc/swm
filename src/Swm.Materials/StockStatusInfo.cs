@@ -15,30 +15,7 @@
 namespace Swm.Materials
 {
     /// <summary>
-    /// 表示库存状态选项列表中的元素
+    /// 库存状态
     /// </summary>
-    public class StockStatusInfo
-    {
-        /// <summary>
-        /// 库存状态
-        /// </summary>
-        public string StockStatus { get; set; } = default!;
-
-        /// <summary>
-        /// 库存状态说明
-        /// </summary>
-        public string? Description { get; set; }
-
-        /// <summary>
-        /// 适用范围
-        /// </summary>
-        public string? Scope { get; set; }
-
-        /// <summary>
-        /// 展示顺序
-        /// </summary>
-        public int DisplayOrder { get; set; }
-
-    }
-
+    public record StockStatusInfo(string Value, string? Label, string? Scope);
 }

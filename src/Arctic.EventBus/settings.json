@@ -1,0 +1,12 @@
+{
+  "EventBus": {
+    "Events": [
+      {
+        "EventType": "Hello",
+        "Handlers": [
+          "Arctic.EventBus.HelloEventHandler, Arctic.EventBus"
+        ]
+      }
+    ]
+  }
+}

@@ -106,5 +106,4 @@ namespace Swm.Materials
         public virtual string? Comment { get; set; }
 
     }
-
 }

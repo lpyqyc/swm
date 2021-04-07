@@ -1,4 +1,4 @@
-﻿// Copyright 2020-2021 王建军
+// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Materials
+using Arctic.NHibernateExtensions;
+using System.Reflection;
+
+namespace Arctic.AppSettings.Mappings
 {
-    internal static class AppCodeTypes
+    internal class AppSettingsModelMapper : XModelMapper
     {
-        public const string StockStatus = "StockStatus";
-        public const string MaterialType = "MaterialType";
-        public const string BizType = "BizType";
+        public AppSettingsModelMapper()
+        {
+            // 添加映射类
+            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+        }
+
     }
+
 }
