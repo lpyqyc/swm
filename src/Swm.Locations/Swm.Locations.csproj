@@ -10,8 +10,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Swm.Constants\Swm.Constants.csproj" />
 		<ProjectReference Include="..\Arctic.Auditing\Arctic.Auditing.csproj" />
+		<ProjectReference Include="..\Swm.Constants\Swm.Constants.csproj" />
 		<ProjectReference Include="..\Arctic.NHibernateExtensions\Arctic.NHibernateExtensions.csproj" />
 		<ProjectReference Include="..\Swm.Constants\Swm.Constants.csproj" />
 	</ItemGroup>

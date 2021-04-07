@@ -53,6 +53,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.EventBus", "src\Arct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.NHibernateExtensions", "src\Arctic.NHibernateExtensions\Arctic.NHibernateExtensions.csproj", "{A71C3E2A-7442-4516-8C65-A45133AD66DA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.EventBus.Tests", "test\Arctic.EventBus.Tests\Arctic.EventBus.Tests.csproj", "{441EA6CC-F5A4-4BB3-82B2-0DBCE4BCFC98}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.NHibernateExtensions.Tests", "test\Arctic.NHibernateExtensions.Tests\Arctic.NHibernateExtensions.Tests.csproj", "{CE9DD8C3-A17C-4732-88D1-136560E516CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,6 +155,14 @@ Global
 		{A71C3E2A-7442-4516-8C65-A45133AD66DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A71C3E2A-7442-4516-8C65-A45133AD66DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A71C3E2A-7442-4516-8C65-A45133AD66DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{441EA6CC-F5A4-4BB3-82B2-0DBCE4BCFC98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{441EA6CC-F5A4-4BB3-82B2-0DBCE4BCFC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{441EA6CC-F5A4-4BB3-82B2-0DBCE4BCFC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{441EA6CC-F5A4-4BB3-82B2-0DBCE4BCFC98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE9DD8C3-A17C-4732-88D1-136560E516CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE9DD8C3-A17C-4732-88D1-136560E516CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE9DD8C3-A17C-4732-88D1-136560E516CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE9DD8C3-A17C-4732-88D1-136560E516CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +191,8 @@ Global
 		{2BA9A36E-0414-44C2-AB77-E6551172212C} = {9E748864-D1D5-408A-A410-DE9D7691EB00}
 		{B754B670-A998-48AF-9579-7EF8CBB01306} = {9E748864-D1D5-408A-A410-DE9D7691EB00}
 		{A71C3E2A-7442-4516-8C65-A45133AD66DA} = {9E748864-D1D5-408A-A410-DE9D7691EB00}
+		{441EA6CC-F5A4-4BB3-82B2-0DBCE4BCFC98} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
+		{CE9DD8C3-A17C-4732-88D1-136560E516CD} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F5F75AD-B077-4655-9340-A2B9DB7DB6F5}
