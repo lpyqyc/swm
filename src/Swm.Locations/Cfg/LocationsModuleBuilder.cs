@@ -18,27 +18,24 @@ namespace Swm.Locations
 {
     public class LocationsModuleBuilder
     {
-        internal Type? _locationType;
+        internal Func<Location>? _locationFactory;
 
         internal LocationsModuleBuilder()
         {
-        }        
+        }
 
 
-        public LocationsModuleBuilder UseEntities<TLocation>() 
-            where TLocation : Location
+        public LocationsModuleBuilder UseLocation<T>()
+            where T : Location, new()
         {
-            _locationType = typeof(TLocation);
+            _locationFactory = () => new T();
             return this;
         }
 
 
         internal LocationsModule Build()
         {
-            return new LocationsModule
-            {
-                LocationType = _locationType
-            };
+            return new LocationsModule(this);
         }
     }
 }

@@ -28,18 +28,17 @@ namespace Swm.Locations
     {
         static ILogger _logger = Log.ForContext<LocationsModule>();
 
-        internal LocationsModule()
+        LocationsModuleBuilder _moduleBuilder;
+        internal LocationsModule(LocationsModuleBuilder moduleBuilder)
         {
-
+            _moduleBuilder = moduleBuilder;
         }
-
-        public Type? LocationType { get; set; }
 
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper<Mapper>();
 
-            builder.RegisterType(LocationType ?? throw new InvalidOperationException("未提供 LocationType")).As<Location>().InstancePerDependency();
+            RegisterFactory(_moduleBuilder._locationFactory);
 
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
@@ -53,6 +52,14 @@ namespace Swm.Locations
                     .AsImplementedInterfaces()
                     .AsSelf();
                 _logger.Information("已注册后缀 {suffix}", suffix);
+            }
+
+            void RegisterFactory<T>(Func<T>? factory) where T : notnull
+            {
+                if (factory != null)
+                {
+                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
+                }
             }
 
         }

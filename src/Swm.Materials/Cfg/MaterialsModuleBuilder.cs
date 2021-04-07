@@ -21,10 +21,11 @@ namespace Swm.Materials
     public class MaterialsModuleBuilder
     {
         internal Type? _stockKeyType;
-        internal Type? _materialType;
-        internal Type? _flowType;
-        internal Type? _stockType;
-        internal Type? _monthlyReportItem;
+
+        internal Func<Material>? _materialFactory;
+        internal Func<Flow>? _flowFactory;
+        internal Func<Stock>? _stockFactory;
+        internal Func<MonthlyReportItem>? _monthlyReportItemFactory;
 
         internal MaterialsModuleBuilder()
         {
@@ -38,29 +39,38 @@ namespace Swm.Materials
         }
 
 
-        public MaterialsModuleBuilder UseEntities<TMaterial, TFlow, TStock, TMonthlyReportItem>() 
-            where TMaterial : Material
-            where TFlow : Flow
-            where TStock : Stock
-            where TMonthlyReportItem : MonthlyReportItem
+        public MaterialsModuleBuilder UseMaterial<T>() 
+            where T : Material, new()
         {
-            _materialType = typeof(TMaterial);
-            _flowType = typeof(TFlow);
-            _stockType = typeof(TStock);
-            _monthlyReportItem = typeof(TMonthlyReportItem);
+            _materialFactory = () => new T();
+            return this;
+        }
+
+        public MaterialsModuleBuilder UseFlow<T>()
+            where T : Flow, new()
+        {
+            _flowFactory = () => new T();
+            return this;
+        }
+
+        public MaterialsModuleBuilder UseStock<T>()
+            where T : Stock, new()
+        {
+            _stockFactory = () => new T();
+            return this;
+        }
+
+        public MaterialsModuleBuilder UseMonthlyReportItem<T>()
+            where T : MonthlyReportItem, new()
+        {
+            _monthlyReportItemFactory = () => new T();
             return this;
         }
 
 
         internal MaterialsModule Build()
         {
-            return new MaterialsModule
-            {
-                MaterialType = _materialType,
-                FlowType = _flowType,
-                StockType = _stockType,
-                MonthlyReportItemType = _monthlyReportItem,
-            };
+            return new MaterialsModule(this);
         }
     }
 }

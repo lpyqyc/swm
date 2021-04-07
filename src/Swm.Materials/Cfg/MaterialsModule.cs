@@ -26,26 +26,22 @@ namespace Swm.Materials
     /// </summary>
     public class MaterialsModule : Autofac.Module
     {
-        internal MaterialsModule()
+        MaterialsModuleBuilder _moduleBuilder;
+        internal MaterialsModule(MaterialsModuleBuilder moduleBuilder)
         {
+            _moduleBuilder = moduleBuilder;
         }
 
         static ILogger _logger = Log.ForContext<MaterialsModule>();
         
-        public Type? MaterialType { get; set; }
-        public Type? StockKeyType { get; set; }
-        public Type? StockType { get; set; }
-        public Type? FlowType { get; set; }
-        public Type? MonthlyReportItemType { get; set; }
-
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper<Mapper>();
 
-            builder.RegisterType(MaterialType ?? throw new InvalidOperationException("未提供 MaterialType")).As<Material>().InstancePerDependency();
-            builder.RegisterType(FlowType ?? throw new InvalidOperationException("未提供 FlowType")).As<Flow>().InstancePerDependency();
-            builder.RegisterType(StockType ?? throw new InvalidOperationException("未提供 StockType")).As<Stock>().InstancePerDependency();
-            builder.RegisterType(MonthlyReportItemType ?? throw new InvalidOperationException("未提供 MonthlyReportItemType")).As<MonthlyReportItem>().InstancePerDependency();
+            RegisterFactory(_moduleBuilder._materialFactory);
+            RegisterFactory(_moduleBuilder._flowFactory);
+            RegisterFactory(_moduleBuilder._stockFactory);
+            RegisterFactory(_moduleBuilder._monthlyReportItemFactory);
 
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
@@ -59,6 +55,14 @@ namespace Swm.Materials
                     .AsImplementedInterfaces()
                     .AsSelf();
                 _logger.Information("已注册后缀 {suffix}", suffix);
+            }
+
+            void RegisterFactory<T>(Func<T>? factory) where T : notnull
+            {
+                if (factory != null)
+                {
+                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
+                }
             }
         }
     }

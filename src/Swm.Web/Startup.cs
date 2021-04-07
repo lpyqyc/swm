@@ -185,15 +185,18 @@ namespace Swm.Web
             builder.AddAppSettings();
 
             builder.RegisterModule<OpsModule>();
-            builder.AddMaterials(m =>
+            builder.AddMaterials(module =>
             {
-                m.UseEntities<Material, Flow, Stock, MonthlyReportItem>();
-                m.UseStockKey<DefaultStockKey>();
-
+                module.UseMaterial<Material>()
+                .UseFlow<Flow>()
+                .UseStock<Stock>()
+                .UseMonthlyReportItem<MonthlyReportItem>()
+                .UseStockKey<DefaultStockKey>();
             });
+
             builder.AddLocations(m =>
             {
-                m.UseEntities<Location>();
+                m.UseLocation<Location>();
             });
             builder.RegisterModule<StorageLocationAssignmentModule>();
             builder.RegisterModule(new PalletizationModule

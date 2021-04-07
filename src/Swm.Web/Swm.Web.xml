@@ -703,10 +703,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.SetupController.GenerateAdminUser">
+        <member name="M:Swm.Web.Controllers.SetupController.GenerateAdminUser(System.String)">
             <summary>
             生成管理员用户和管理员角色
             </summary>
+            <param name="password">密码</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.SetupController.GenerateLaneway(Swm.Web.Controllers.GenerateLanewayArgs)">
