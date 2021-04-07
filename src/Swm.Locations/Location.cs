@@ -129,12 +129,12 @@ namespace Swm.Locations
 
 
         /// <summary>
-        /// 此货位的限重，以千克为单位。货物重量大于此值时不能分配此货位。<see cref="Unitload.Weight"/>。
+        /// 此货位的限重，单位千克。
         /// </summary>
         public virtual decimal WeightLimit { get; set; }
 
         /// <summary>
-        /// 此货位的限高，以米为单位。货物高度大于此值时不能分配此货位。<see cref="Unitload.Height"/>。
+        /// 此货位的限高，单位米。
         /// </summary>
         public virtual decimal HeightLimit { get; set; }
 

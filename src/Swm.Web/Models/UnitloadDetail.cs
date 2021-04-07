@@ -38,6 +38,32 @@ namespace Swm.Web.Controllers
         public string? OpHintInfo { get; set; }
 
 
+        /// <summary>
+        /// 货载的重量，单位千克。
+        /// </summary>
+        public decimal Weight { get; set; }
+
+        /// <summary>
+        /// 货载的高度，单位米。
+        /// </summary>
+        public decimal Height { get; set; }
+
+        /// <summary>
+        /// 存储分组。
+        /// </summary>
+        public string? StorageGroup { get; set; }
+
+
+        /// <summary>
+        /// 出库标记
+        /// </summary>
+        public string? OutFlag { get; set; }
+
+        /// <summary>
+        /// 容器规格。
+        /// </summary>
+        public string? ContainerSpecification { get; set; }
+
 
         /// <summary>
         /// 当前分配到的单据

@@ -33,20 +33,20 @@ namespace Swm.Palletization
         }
 
         /// <summary>
-        /// 获取货载的重量。，以千克为单位。<see cref="Location.WeightLimit" />。
+        /// 获取货载的重量，单位千克。<see cref="Location.WeightLimit" />。
         /// </summary>
         public virtual decimal Weight { get; set; }
 
         /// <summary>
-        /// 获取货载的高度。以米为单位。<see cref="Location.HeightLimit" />。
+        /// 获取货载的高度，单位米。<see cref="Location.HeightLimit" />。
         /// </summary>
         public virtual decimal Height { get; set; }
 
         /// <summary>
         /// 获取此货载的存储分组。存储分组影响上架时的货位分配。<see cref="Location.StorageGroup"/>。
         /// </summary>
-        /// 属性值由 <see cref="IUnitloadStorageInfoProvider.GetStorageGroup(Unitload)"/> 方法提供。
         /// <remarks>
+        /// 属性值由 <see cref="IUnitloadStorageInfoProvider.GetStorageGroup(Unitload)"/> 方法提供。
         /// </remarks>
         [Required]
         [MaxLength(10)]

@@ -117,6 +117,12 @@ namespace Swm.Web.Controllers
                 OpHintInfo = unitload.OpHintInfo,
                 OpHintType = unitload.OpHintType,
 
+                Weight = unitload.StorageInfo.Weight,
+                Height = unitload.StorageInfo.Height,
+                StorageGroup = unitload.StorageInfo.StorageGroup,
+                OutFlag = unitload.StorageInfo.OutFlag,
+                ContainerSpecification = unitload.StorageInfo.ContainerSpecification,
+
             };
         }
 
