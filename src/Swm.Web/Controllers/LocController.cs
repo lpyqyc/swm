@@ -40,7 +40,7 @@ namespace Swm.Web.Controllers
         readonly ISession _session;
         readonly OpHelper _opHelper;
         readonly LocationHelper _locHelper;
-        readonly ILocationFactory _locFactory;
+        readonly Func<Location> _locFactory;
         readonly ILogger _logger;
         readonly SimpleEventBus _eventBus;
 
@@ -53,7 +53,7 @@ namespace Swm.Web.Controllers
         /// <param name="opHelper"></param>
         /// <param name="eventBus"></param>
         /// <param name="logger"></param>
-        public LocController(ISession session, LocationHelper locHelper, ILocationFactory locFactory, OpHelper opHelper, SimpleEventBus eventBus, ILogger logger)
+        public LocController(ISession session, LocationHelper locHelper, Func<Location> locFactory, OpHelper opHelper, SimpleEventBus eventBus, ILogger logger)
         {
             _session = session;
             _locHelper = locHelper;
@@ -727,7 +727,9 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<ApiData> CreateKeyPoint(CreateUpdateKeyPointArgs args)
         {
-            Location loc = _locFactory.CreateLocation(args.LocationCode, LocationTypes.K, null, 0, 0);
+            Location loc = _locFactory.Invoke();
+            loc.LocationCode = args.LocationCode;
+            loc.LocationType = LocationTypes.K;
             loc.RequestType = args.RequestType;
             loc.OutboundLimit = args.OutboundLimit;
             loc.InboundLimit = args.InboundLimit;
@@ -792,9 +794,11 @@ namespace Swm.Web.Controllers
 
             return this.Success();
 
-            static async Task<Location> CreateKeyPointAsync(ILocationFactory locationFactory, ISession session, string locationCode)
+            static async Task<Location> CreateKeyPointAsync(Func<Location> locationFactory, ISession session, string locationCode)
             {
-                Location loc = locationFactory.CreateLocation(locationCode, LocationTypes.K, null, 0, 0);
+                Location loc = locationFactory.Invoke();
+                loc.LocationCode = locationCode;
+                loc.LocationType = LocationTypes.K;
                 loc.RequestType = null;
                 loc.Tag = "港口";
                 loc.InboundLimit = 999;

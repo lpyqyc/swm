@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,28 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NHibernate.Mapping;
+using Autofac;
+using System;
 
 namespace Swm.Locations
 {
-    public class DefaultLocationFactory
+    public static class LocationsContainerBuilderExtensions
     {
-        public Location CreateLocation(string locationCode, string locationType, Laneway? laneway, int column, int level)
+        public static void AddLocations(this ContainerBuilder builder, Action<LocationsModuleBuilder> configure)
         {
-            var obj = new Location
-            {
-                LocationCode = locationCode,
-                LocationType = locationType,
-            };
-
-            obj.Laneway = laneway;
-            if (laneway != null)
-            {
-                laneway.Locations.Add(obj);
-            }
-            obj.Column = column;
-            obj.Level = level;
-            return obj;
+            LocationsModuleBuilder moduleBuilder = new LocationsModuleBuilder();
+            configure?.Invoke(moduleBuilder);
+            var m = moduleBuilder.Build();
+            builder.RegisterModule(m);
         }
     }
 }

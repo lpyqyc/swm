@@ -359,7 +359,7 @@
             提供位置 api
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.#ctor(NHibernate.ISession,Swm.Locations.LocationHelper,Swm.Locations.ILocationFactory,Swm.Web.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.LocController.#ctor(NHibernate.ISession,Swm.Locations.LocationHelper,System.Func{Swm.Locations.Location},Swm.Web.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
             <summary>
             初始化新实例。
             </summary>
@@ -681,7 +681,7 @@
             安装工具。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.SetupController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Swm.Web.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Swm.Web.ApplicationRole},Swm.Locations.ILocationFactory,Swm.Locations.LocationHelper,NHibernate.ISession,NHibernate.Cfg.Configuration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.SetupController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Swm.Web.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Swm.Web.ApplicationRole},System.Func{Swm.Locations.Location},Swm.Locations.LocationHelper,NHibernate.ISession,NHibernate.Cfg.Configuration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Serilog.ILogger)">
             <summary>
             初始化新实例
             </summary>

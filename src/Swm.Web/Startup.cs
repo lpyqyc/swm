@@ -199,7 +199,10 @@ namespace Swm.Web
                 m.UseStockKey<DefaultStockKey>();
 
             });
-            builder.RegisterModule<LocationsModule>();
+            builder.AddLocations(m =>
+            {
+                m.UseEntities<Location>();
+            });
             builder.RegisterModule<StorageLocationAssignmentModule>();
             builder.RegisterModule(new PalletizationModule
             {

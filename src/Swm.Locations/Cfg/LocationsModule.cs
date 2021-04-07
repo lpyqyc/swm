@@ -28,12 +28,19 @@ namespace Swm.Locations
     {
         static ILogger _logger = Log.ForContext<LocationsModule>();
 
+        internal LocationsModule()
+        {
+
+        }
+
+        public Type? LocationType { get; set; }
 
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper<Mapper>();
 
-            RegisterBySuffix("Factory");
+            builder.RegisterType(LocationType ?? throw new InvalidOperationException("未提供 LocationType")).As<Location>().InstancePerDependency();
+
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
             RegisterBySuffix("Service");

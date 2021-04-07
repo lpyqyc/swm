@@ -21,7 +21,7 @@ namespace Swm.Locations.Mappings
     {
         public LanewayMapping()
         {
-            Table("laneways");
+            Table("Laneways");
             DynamicUpdate(true);
             BatchSize(10);
 

@@ -26,6 +26,11 @@ namespace Swm.Materials
     /// </summary>
     public class MaterialsModule : Autofac.Module
     {
+        internal MaterialsModule()
+        {
+
+        }
+
         static ILogger _logger = Log.ForContext<MaterialsModule>();
         
         public MaterialsConfig? MaterialsConfig { get; set; }
@@ -46,7 +51,6 @@ namespace Swm.Materials
             builder.RegisterType(StockType ?? throw new InvalidOperationException("未提供 StockType")).As<Stock>().InstancePerDependency();
             builder.RegisterType(MonthlyReportItemType ?? throw new InvalidOperationException("未提供 MonthlyReportItemType")).As<MonthlyReportItem>().InstancePerDependency();
 
-            RegisterBySuffix("Factory");
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
             RegisterBySuffix("Service");
