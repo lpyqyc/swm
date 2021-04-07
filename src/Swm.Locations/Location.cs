@@ -25,7 +25,7 @@ namespace Swm.Locations
     /// </summary>
     public class Location : IHasCtime, IHasMtime
     {
-        internal protected Location()
+        public Location()
         {
         }
 
@@ -65,7 +65,7 @@ namespace Swm.Locations
         /// </summary>
         [MaxLength(4)]
         [Required]
-        public virtual string? LocationType { get; internal protected set; }
+        public virtual string? LocationType { get; set; }
 
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Swm.Locations
         /// <summary>
         /// 指示货位属于哪个巷道
         /// </summary>
-        public virtual Laneway? Laneway { get; internal protected set; }
+        public virtual Laneway? Laneway { get; set; }
 
         /// <summary>
         /// 指示货位在巷道哪一侧。
@@ -164,12 +164,12 @@ namespace Swm.Locations
         /// <summary>
         /// 此位置的列。
         /// </summary>
-        public virtual int Column { get; internal protected set; }
+        public virtual int Column { get; set; }
 
         /// <summary>
         /// 此位置的层。
         /// </summary>
-        public virtual int Level { get; internal protected set; }
+        public virtual int Level { get; set; }
 
         /// <summary>
         /// 获取或设置此货位的存储分组。

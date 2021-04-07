@@ -27,7 +27,7 @@ namespace Swm.OutboundOrders.Tests
             ILogger logger = For<ILogger>();
             DefaultOutboundOrderAllocator allocator = new DefaultOutboundOrderAllocator(session, logger);
 
-            Material material = new DefaultMaterialFactory().CreateMaterial();
+            Material material = new Material();
             OutboundOrder outboundOrder = new OutboundOrder();
             OutboundLine line1 = new OutboundLine
             {
@@ -85,7 +85,7 @@ namespace Swm.OutboundOrders.Tests
             ILogger logger = For<ILogger>();
             DefaultOutboundOrderAllocator allocator = new DefaultOutboundOrderAllocator(session, logger);
 
-            Material material = new DefaultMaterialFactory().CreateMaterial();
+            Material material = new Material();
             OutboundOrder outboundOrder = new OutboundOrder();
             OutboundLine line1 = new OutboundLine
             {
@@ -103,7 +103,7 @@ namespace Swm.OutboundOrders.Tests
             p1.PalletCode = "P1";
             p1.ResetCurrentUat();
             UnitloadItem i1 = factory.CreateUnitloadItem();
-            i1.Material = new DefaultMaterialFactory().CreateMaterial();
+            i1.Material = new Material();
             i1.Batch = "B";
             i1.StockStatus = "合格";
             i1.Uom = "PCS";
@@ -126,7 +126,7 @@ namespace Swm.OutboundOrders.Tests
             ILogger logger = For<ILogger>();
             DefaultOutboundOrderAllocator allocator = new DefaultOutboundOrderAllocator(session, logger);
 
-            Material material = new DefaultMaterialFactory().CreateMaterial();
+            Material material = new Material();
             OutboundOrder outboundOrder = new OutboundOrder();
             OutboundLine line1 = new OutboundLine
             {
@@ -165,7 +165,7 @@ namespace Swm.OutboundOrders.Tests
             ILogger logger = For<ILogger>();
             DefaultOutboundOrderAllocator allocator = new DefaultOutboundOrderAllocator(session, logger);
 
-            Material material = new DefaultMaterialFactory().CreateMaterial();
+            Material material = new Material();
             OutboundOrder outboundOrder = new OutboundOrder();
             OutboundLine line1 = new OutboundLine
             {
@@ -205,7 +205,7 @@ namespace Swm.OutboundOrders.Tests
             ILogger logger = For<ILogger>();
             DefaultOutboundOrderAllocator allocator = new DefaultOutboundOrderAllocator(session, logger);
 
-            Material material = new DefaultMaterialFactory().CreateMaterial();
+            Material material = new Material();
             OutboundOrder outboundOrder = new OutboundOrder();
             OutboundLine line1 = new OutboundLine
             {
@@ -245,7 +245,7 @@ namespace Swm.OutboundOrders.Tests
             ILogger logger = For<ILogger>();
             DefaultOutboundOrderAllocator allocator = new DefaultOutboundOrderAllocator(session, logger);
 
-            Material material = new DefaultMaterialFactory().CreateMaterial();
+            Material material = new Material();
             OutboundOrder outboundOrder = new OutboundOrder();
             OutboundLine line1 = new OutboundLine
             {
@@ -300,7 +300,7 @@ namespace Swm.OutboundOrders.Tests
             ILogger logger = For<ILogger>();
             DefaultOutboundOrderAllocator allocator = new DefaultOutboundOrderAllocator(session, logger);
 
-            Material material = new DefaultMaterialFactory().CreateMaterial();
+            Material material = new Material();
             OutboundOrder outboundOrder = new OutboundOrder();
             OutboundLine line1 = new OutboundLine
             {

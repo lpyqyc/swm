@@ -12,13 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Materials
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Arctic.AspNetCore
 {
-    public class DefaultMaterialFactory : IMaterialFactory
+    public static class AuthorizationTypeServiceExtensions
     {
-        public Material CreateMaterial()
+        /// <summary>
+        /// 向容器注册 <see cref="OperationTypeAttribute"/> 需要的服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddOperationType(this IServiceCollection services)
         {
-            return new Material();
+            services.AddSingleton<IAuthorizationPolicyProvider, OperationTypeAuthorizationPolicyProvider>();
+            return services;
         }
+
     }
+
 }

@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.AppCodes;
 using Arctic.AspNetCore;
 using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Http;
@@ -42,13 +41,20 @@ namespace Swm.Web.Controllers
     {
         readonly ILogger _logger;
         readonly NHibernate.ISession _session;
-        readonly IMaterialFactory _materialFactory;
+        readonly Func<Material> _materialFactory;
         readonly OpHelper _opHelper;
         readonly FlowHelper _flowHelper;
         readonly PalletizationHelper _palletizationHelper;
-        readonly MaterialService _materialService;
+        readonly MaterialsConfig _materialsConfig;
 
-        public MatlController(NHibernate.ISession session, IMaterialFactory materialFactory, FlowHelper flowHelper, PalletizationHelper palletizationHelper, OpHelper opHelper, MaterialService materialService, ILogger logger)
+        public MatlController(
+            NHibernate.ISession session,
+            Func<Material> materialFactory, 
+            FlowHelper flowHelper, 
+            PalletizationHelper palletizationHelper, 
+            OpHelper opHelper, 
+            MaterialsConfig materialsConfig, 
+            ILogger logger)
         {
             _logger = logger;
             _materialFactory = materialFactory;
@@ -56,7 +62,7 @@ namespace Swm.Web.Controllers
             _flowHelper = flowHelper;
             _palletizationHelper = palletizationHelper;
             _session = session;
-            _materialService = materialService;
+            _materialsConfig = materialsConfig;
         }
 
         /// <summary>
@@ -164,8 +170,8 @@ namespace Swm.Web.Controllers
         [HttpGet("get-material-type-options")]
         public async Task<OptionsData<MaterialTypeInfo>> GetMaterialTypeOptions()
         {
-            var list = await _materialService.GetMaterialTypesAsync();
-            return this.OptionsData(list);
+            var result = this.OptionsData(_materialsConfig.MaterialTypes.ToList());
+            return await Task.FromResult(result);
         }
 
         /// <summary>
@@ -210,7 +216,7 @@ namespace Swm.Web.Controllers
                 }
                 else
                 {
-                    material = _materialFactory.CreateMaterial();
+                    material = _materialFactory.Invoke();
                     material.MaterialCode = Convert.ToString(row["编码"]);
                 }
 
@@ -323,8 +329,8 @@ namespace Swm.Web.Controllers
         [HttpGet("get-biz-type-options")]
         public async Task<OptionsData<BizTypeInfo>> GetBizTypeOptions()
         {
-            var list = await _materialService.GetBizTypesAsync();
-            return this.OptionsData(list);
+            var result = this.OptionsData(_materialsConfig.BizTypes.ToList());
+            return await Task.FromResult(result);
         }
 
         /// <summary>
@@ -335,15 +341,9 @@ namespace Swm.Web.Controllers
         [HttpPost("get-op-hint-type-options")]
         public async Task<OptionsData<OpHintTypeOption>> GetOpHintTypeOptions()
         {
-            var list = await _session.Query<AppCode>().GetAppCodesAsync(AppCodeTypes.OpHintType);
+            throw new NotImplementedException();
 
-            var items = list.Select(x => new OpHintTypeOption
-            {
-                OpHintType = x.AppCodeValue,
-                DisplayOrder = x.DisplayOrder,
-            }).ToList();
-
-            return this.OptionsData(items);
+            // return this.OptionsData(items);
         }
 
         /// <summary>
@@ -354,8 +354,8 @@ namespace Swm.Web.Controllers
         [HttpGet("get-stock-status-options")]
         public async Task<OptionsData<StockStatusInfo>> GetStockStatusOptions()
         {
-            var list = await _materialService.GetStockStatusAsync();
-            return this.OptionsData(list);
+            var result = this.OptionsData(_materialsConfig.StockStatus.ToList());
+            return await Task.FromResult(result);
         }
 
 

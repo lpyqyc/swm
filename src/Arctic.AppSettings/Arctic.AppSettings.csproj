@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Description>提供基于数据库的应用程序设置。</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.0.0" />
+    <PackageReference Include="NHibernate" Version="5.3.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Arctic.NHibernateExtensions\Arctic.NHibernateExtensions.csproj" />
+  </ItemGroup>
+
+</Project>

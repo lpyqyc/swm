@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Materials
-{
-    public class DefaultFlowFactory : IFlowFactory
-    {
-        public Flow CreateFlow()
-        {
-            return new Flow();
-        }
-       
-    }
-
-}
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Arctic.NHibernateExtensions.Tests")]

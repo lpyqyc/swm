@@ -32,7 +32,7 @@ namespace Swm.Palletization.Tests
             {
                 UnitloadItemId = 1,
                 Batch = "B1",
-                Material = new DefaultMaterialFactory().CreateMaterial(),
+                Material = new Material(),
                 Fifo = "111",
                 Quantity = 100,
                 StockStatus = "合格",
@@ -42,7 +42,7 @@ namespace Swm.Palletization.Tests
             {
                 UnitloadItemId = 2,
                 Batch = "B2",
-                Material = new DefaultMaterialFactory().CreateMaterial(),
+                Material = new Material(),
                 Fifo = "222",
                 Quantity = 200,
                 StockStatus = "不合格",

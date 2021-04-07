@@ -48,7 +48,7 @@ namespace Swm.OutboundOrders.Tests
         {
             ISession session = For<ISession>();
             var allocator = new DefaultOutboundOrderAllocator(session, For<ILogger>());
-            Material material = new DefaultMaterialFactory().CreateMaterial();
+            Material material = new Material();
             OutboundOrder outboundOrder = new OutboundOrder();
             outboundOrder.BizType = "³ö¿â";
             var line1 = new OutboundLine
@@ -111,7 +111,7 @@ namespace Swm.OutboundOrders.Tests
             OutboundOrderPickHelper outboundOrderPickHelper = new OutboundOrderPickHelper(
                 new FlowHelper(
                     testData.session,
-                    new DefaultFlowFactory(),
+                    () => new Flow(),
                     new SimpleEventBus(
                         new Lazy<IEventHandler, EventHandlerMeta>[0],
                         For<ILogger>()
@@ -144,7 +144,7 @@ namespace Swm.OutboundOrders.Tests
             OutboundOrderPickHelper outboundOrderPickHelper = new OutboundOrderPickHelper(
                 new FlowHelper(
                     testData.session,
-                    new DefaultFlowFactory(),
+                    () => new Flow(),
                     new SimpleEventBus(
                         new Lazy<IEventHandler, EventHandlerMeta>[0],
                         For<ILogger>()
@@ -179,7 +179,7 @@ namespace Swm.OutboundOrders.Tests
             OutboundOrderPickHelper outboundOrderPickHelper = new OutboundOrderPickHelper(
                 new FlowHelper(
                     testData.session,
-                    new DefaultFlowFactory(),
+                    () => new Flow(),
                     new SimpleEventBus(
                         new Lazy<IEventHandler, EventHandlerMeta>[0],
                         For<ILogger>()

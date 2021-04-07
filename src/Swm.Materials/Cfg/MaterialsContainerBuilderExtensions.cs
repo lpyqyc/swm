@@ -12,10 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Autofac;
+using System;
+
 namespace Swm.Materials
 {
-    public interface IMaterialFactory
+    public static class MaterialsContainerBuilderExtensions
     {
-        Material CreateMaterial();
+        public static void AddMaterials(this ContainerBuilder builder, Action<MaterialsModuleBuilder> configure)
+        {
+            MaterialsModuleBuilder materialsModuleBuilder = new MaterialsModuleBuilder();
+            configure?.Invoke(materialsModuleBuilder);
+            var m = materialsModuleBuilder.Build();
+            builder.RegisterModule(m);
+        }
     }
 }

@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.AppCodes;
 using Arctic.AppSeqs;
 using Arctic.AppSettings;
 using Arctic.AspNetCore;
@@ -182,13 +181,28 @@ namespace Swm.Web
         {
             builder.RegisterLogger();
 
-            builder.AddAppCodes();
             builder.AddAppSeqs();
             builder.AddAppSettings();
 
             builder.RegisterModule<OpsModule>();
-            builder.RegisterModule<MaterialsModule>();
-            builder.RegisterModule<LocationsModule>();
+            builder.AddMaterials(m =>
+            {
+                m.AddMaterialType(new MaterialTypeInfo("原材料"));
+                m.AddMaterialType(new MaterialTypeInfo("成品"));
+                m.AddBizType(new BizTypeInfo("独立入库"));
+                m.AddBizType(new BizTypeInfo("独立出库"));
+                m.AddStockStatus(new StockStatusInfo("待检"));
+                m.AddStockStatus(new StockStatusInfo("合格"));
+                m.AddStockStatus(new StockStatusInfo("不合格"));
+
+                m.UseEntities<Material, Flow, Stock, MonthlyReportItem>();
+                m.UseStockKey<DefaultStockKey>();
+
+            });
+            builder.AddLocations(m =>
+            {
+                m.UseEntities<Location>();
+            });
             builder.RegisterModule<StorageLocationAssignmentModule>();
             builder.RegisterModule(new PalletizationModule
             {

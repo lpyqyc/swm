@@ -12,13 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Materials
+using NHibernate.Mapping.ByCode;
+using NHibernate.Mapping.ByCode.Conformist;
+
+namespace Arctic.AppSeqs.Mappings
 {
-    public class DefaultStockFactory : IStockFactory
+    internal class AppSeqMapping : ClassMapping<AppSeq>
     {
-        public Stock CreateStock()
+        public AppSeqMapping()
         {
-            return new Stock();
+            Table("AppSeqs");
+            Id(cl => cl.SeqName, id =>
+            {
+                id.Generator(Generators.Assigned);
+                id.Length(128);
+            });
+            Property(cl => cl.NextVal);
         }
     }
+
 }

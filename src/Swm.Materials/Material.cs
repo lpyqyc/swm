@@ -24,7 +24,7 @@ namespace Swm.Materials
     /// </summary>
     public class Material : IHasCtime, IHasCuser, IHasMtime, IHasMuser
     {
-        internal protected Material()
+        public Material()
         {
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
@@ -106,5 +106,4 @@ namespace Swm.Materials
         public virtual string? Comment { get; set; }
 
     }
-
 }

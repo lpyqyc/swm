@@ -16,7 +16,7 @@ using NHibernate.Mapping;
 
 namespace Swm.Locations
 {
-    public class DefaultLocationFactory : ILocationFactory
+    public class DefaultLocationFactory
     {
         public Location CreateLocation(string locationCode, string locationType, Laneway? laneway, int column, int level)
         {

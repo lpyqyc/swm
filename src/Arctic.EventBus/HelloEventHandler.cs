@@ -12,10 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Materials
+using Serilog;
+using System.Threading.Tasks;
+
+namespace Arctic.EventBus
 {
-    public interface IStockFactory
+    /// <summary>
+    /// 示例事件处理程序。
+    /// </summary>
+    public class HelloEventHandler : IEventHandler
     {
-        Stock CreateStock();
+        readonly ILogger _logger;
+        public HelloEventHandler(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        public Task ProcessAsync(string eventType, object? eventData)
+        {
+            _logger.Information($"HelloEventHandler 哈希 {this.GetHashCode()}: Hello, {eventData}");
+            return Task.CompletedTask;
+        }
     }
 }

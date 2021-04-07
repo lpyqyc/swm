@@ -41,7 +41,7 @@ namespace Swm.Web.Controllers
         readonly IWebHostEnvironment _env;
         readonly ILogger _logger;
         readonly ISession _session;
-        readonly ILocationFactory _locationFactory;
+        readonly Func<Location> _locationFactory;
         readonly LocationHelper _locationHelper;
         readonly UserManager<ApplicationUser> _userManager;
         readonly RoleManager<ApplicationRole> _roleManager;
@@ -57,7 +57,7 @@ namespace Swm.Web.Controllers
         public SetupController(
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
-            ILocationFactory locationFactory, 
+            Func<Location> locationFactory, 
             LocationHelper locationHelper,
             ISession session, 
             Configuration nhConfiguration, 
@@ -93,7 +93,9 @@ namespace Swm.Web.Controllers
             _logger.Information("已导出数据库架构");
 
             _logger.Information("正在创建 N 位置");
-            Location loc = _locationFactory.CreateLocation(LocationCodes.N, LocationTypes.N, null, 0, 0);
+            Location loc = _locationFactory.Invoke();
+            loc.LocationCode = LocationCodes.N;
+            loc.LocationType = LocationTypes.N;
             loc.InboundLimit = 999;
             loc.OutboundLimit = 999;
             await _session.SaveAsync(loc).ConfigureAwait(false);
@@ -194,7 +196,12 @@ namespace Swm.Web.Controllers
                         foreach (var rack in side)
                         {
                             string locCode = string.Format("{0}-{1:000}-{2:000}", rack.rackCode, col, lv);
-                            Location loc = _locationFactory.CreateLocation(locCode, LocationTypes.S, laneway, col, lv);
+                            Location loc = _locationFactory.Invoke();
+                            loc.LocationCode = locCode;
+                            loc.LocationType = LocationTypes.S;
+                            loc.Laneway = laneway;
+                            loc.Column = col;
+                            loc.Level = lv;
                             loc.InboundLimit = 1;
                             loc.OutboundLimit = 1;
                             loc.Side = rack.side;

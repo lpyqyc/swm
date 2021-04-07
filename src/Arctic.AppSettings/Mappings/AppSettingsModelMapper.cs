@@ -12,10 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.Materials
+using Arctic.NHibernateExtensions;
+using System.Reflection;
+
+namespace Arctic.AppSettings.Mappings
 {
-    public interface IFlowFactory
+    internal class AppSettingsModelMapper : XModelMapper
     {
-        Flow CreateFlow();
+        public AppSettingsModelMapper()
+        {
+            // 添加映射类
+            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+        }
+
     }
+
 }
