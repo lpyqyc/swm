@@ -57,7 +57,7 @@ namespace Swm.Palletization
 
         public virtual string GetContainerSpecification(Unitload unitload)
         {
-            return "None";
+            return "普通";
         }
     }
 

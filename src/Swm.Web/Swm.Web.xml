@@ -3834,6 +3834,31 @@
             操作提示信息
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.Weight">
+            <summary>
+            货载的重量，单位千克。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.Height">
+            <summary>
+            货载的高度，单位米。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.StorageGroup">
+            <summary>
+            存储分组。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.OutFlag">
+            <summary>
+            出库标记
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.UnitloadDetail.ContainerSpecification">
+            <summary>
+            容器规格。
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.UnitloadDetail.CurrentUat">
             <summary>
             当前分配到的单据
