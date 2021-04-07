@@ -92,8 +92,6 @@ namespace Swm.Locations.Mappings
             
             Property(cl => cl.ex1);
             Property(cl => cl.ex2);
-
-
         }
     }
 }

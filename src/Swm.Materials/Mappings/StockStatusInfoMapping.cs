@@ -12,15 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
+using NHibernate.Mapping.ByCode;
+using NHibernate.Mapping.ByCode.Conformist;
 
-namespace Swm.Materials
+namespace Swm.Materials.Mappings
 {
-    public record MaterialsConfig(
-        IReadOnlyList<MaterialTypeInfo> MaterialTypes, 
-        IReadOnlyList<StockStatusInfo> StockStatus, 
-        Type? StockKeyType,
-        IReadOnlyList<BizTypeInfo> BizTypes
-        );
+    internal class StockStatusInfoMapping : ClassMapping<StockStatusInfo>
+    {
+        public StockStatusInfoMapping()
+        {
+            Table("StockStatusInfos");
+            BatchSize(10);
+            Lazy(false);
+
+            Id(cl => cl.StockStatus, id => id.Generator(Generators.Assigned));
+
+            Property(cl => cl.DisplayName);
+            Property(cl => cl.Visible);
+            Property(cl => cl.DisplayOrder);
+            Property(cl => cl.Scope);
+        }
+    }
+
 }

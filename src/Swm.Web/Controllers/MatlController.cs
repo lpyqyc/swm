@@ -45,7 +45,6 @@ namespace Swm.Web.Controllers
         readonly OpHelper _opHelper;
         readonly FlowHelper _flowHelper;
         readonly PalletizationHelper _palletizationHelper;
-        readonly MaterialsConfig _materialsConfig;
 
         public MatlController(
             NHibernate.ISession session,
@@ -53,7 +52,6 @@ namespace Swm.Web.Controllers
             FlowHelper flowHelper, 
             PalletizationHelper palletizationHelper, 
             OpHelper opHelper, 
-            MaterialsConfig materialsConfig, 
             ILogger logger)
         {
             _logger = logger;
@@ -62,7 +60,6 @@ namespace Swm.Web.Controllers
             _flowHelper = flowHelper;
             _palletizationHelper = palletizationHelper;
             _session = session;
-            _materialsConfig = materialsConfig;
         }
 
         /// <summary>
@@ -170,8 +167,9 @@ namespace Swm.Web.Controllers
         [HttpGet("get-material-type-options")]
         public async Task<OptionsData<MaterialTypeInfo>> GetMaterialTypeOptions()
         {
-            var result = this.OptionsData(_materialsConfig.MaterialTypes.ToList());
-            return await Task.FromResult(result);
+            var list = await _session.Query<MaterialTypeInfo>().ToListAsync();
+            var result = this.OptionsData(list);
+            return result;
         }
 
         /// <summary>
@@ -329,8 +327,9 @@ namespace Swm.Web.Controllers
         [HttpGet("get-biz-type-options")]
         public async Task<OptionsData<BizTypeInfo>> GetBizTypeOptions()
         {
-            var result = this.OptionsData(_materialsConfig.BizTypes.ToList());
-            return await Task.FromResult(result);
+            var list = await _session.Query<BizTypeInfo>().ToListAsync();
+            var result = this.OptionsData(list);
+            return result;
         }
 
         /// <summary>
@@ -354,8 +353,9 @@ namespace Swm.Web.Controllers
         [HttpGet("get-stock-status-options")]
         public async Task<OptionsData<StockStatusInfo>> GetStockStatusOptions()
         {
-            var result = this.OptionsData(_materialsConfig.StockStatus.ToList());
-            return await Task.FromResult(result);
+            var list = await _session.Query<StockStatusInfo>().ToListAsync();
+            var result = this.OptionsData(list);
+            return result;
         }
 
 

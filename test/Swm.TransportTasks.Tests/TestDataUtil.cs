@@ -4,18 +4,14 @@ using static NSubstitute.Substitute;
 
 namespace Swm.TransportTasks.Tests
 {
+
     public static class TestDataUtil
     {
-        static readonly DefaultLocationFactory _locationFactory = new DefaultLocationFactory();
         public static Location NewS()
         {
-            Location loc = _locationFactory.CreateLocation(
-                default!, 
-                LocationTypes.S,
-                For<Laneway>(), 
-                default, 
-                default
-                );
+            Location loc = new Location();
+            loc.LocationType = LocationTypes.S;
+            loc.Laneway = For<Laneway>();
             loc.Cell = For<Cell>();
             loc.Laneway?.Automated.Returns(true);
             loc.InboundLimit = 1;
@@ -25,13 +21,8 @@ namespace Swm.TransportTasks.Tests
 
         public static Location NewK()
         {
-            Location loc = _locationFactory.CreateLocation(
-                default!,
-                LocationTypes.K,
-                default,
-                default,
-                default
-                );
+            Location loc = new Location();
+            loc.LocationType = LocationTypes.K;
             loc.InboundLimit = 999;
             loc.OutboundLimit = 999;
             return loc;
@@ -39,13 +30,8 @@ namespace Swm.TransportTasks.Tests
 
         public static Location NewN()
         {
-            Location loc = _locationFactory.CreateLocation(
-                default!,
-                LocationTypes.N,
-                default,
-                default,
-                default
-                );
+            Location loc = new Location();
+            loc.LocationType = LocationTypes.N;
             return loc;
         }
     }

@@ -28,13 +28,10 @@ namespace Swm.Materials
     {
         internal MaterialsModule()
         {
-
         }
 
         static ILogger _logger = Log.ForContext<MaterialsModule>();
         
-        public MaterialsConfig? MaterialsConfig { get; set; }
-
         public Type? MaterialType { get; set; }
         public Type? StockKeyType { get; set; }
         public Type? StockType { get; set; }
@@ -45,7 +42,6 @@ namespace Swm.Materials
         {
             builder.AddModelMapper<Mapper>();
 
-            builder.RegisterInstance(MaterialsConfig ?? throw new InvalidOperationException("未提供 MaterialsConfig"));
             builder.RegisterType(MaterialType ?? throw new InvalidOperationException("未提供 MaterialType")).As<Material>().InstancePerDependency();
             builder.RegisterType(FlowType ?? throw new InvalidOperationException("未提供 FlowType")).As<Flow>().InstancePerDependency();
             builder.RegisterType(StockType ?? throw new InvalidOperationException("未提供 StockType")).As<Stock>().InstancePerDependency();

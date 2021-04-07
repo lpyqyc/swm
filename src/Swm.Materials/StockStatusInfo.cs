@@ -15,7 +15,36 @@
 namespace Swm.Materials
 {
     /// <summary>
-    /// 库存状态
+    /// 库存状态信息。
     /// </summary>
-    public record StockStatusInfo(string Value, string? Label = null, string? Scope = null);
+    public class StockStatusInfo
+    {
+        /// <summary>
+        /// 库存状态
+        /// </summary>
+        public virtual string StockStatus { get; set; } = default!;
+
+        /// <summary>
+        /// 展示名称
+        /// </summary>
+        public virtual string? DisplayName { get; set; }
+
+        /// <summary>
+        /// 展示次序
+        /// </summary>
+        public virtual int DisplayOrder { get; set; }
+
+
+        /// <summary>
+        /// 使用范围
+        /// </summary>
+        public virtual string? Scope { get; set; }
+
+        /// <summary>
+        /// 是否可见
+        /// </summary>
+        public bool Visible { get; set; } = true;
+
+    }
+
 }

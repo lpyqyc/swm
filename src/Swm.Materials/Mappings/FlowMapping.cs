@@ -58,4 +58,5 @@ namespace Swm.Materials.Mappings
             Property(cl => cl.Comment);
         }
     }
+
 }

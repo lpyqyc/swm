@@ -17,6 +17,33 @@ namespace Swm.Materials
     /// <summary>
     /// 物料类型信息。
     /// </summary>
-    public record MaterialTypeInfo(string Value, string? Label = null, string? Scope = null);
+    public class MaterialTypeInfo
+    {
+        /// <summary>
+        /// 物料类型
+        /// </summary>
+        public virtual string MaterialType { get; set; } = default!;
+
+        /// <summary>
+        /// 展示名称
+        /// </summary>
+        public virtual string? DisplayName { get; set; }
+
+        /// <summary>
+        /// 展示次序
+        /// </summary>
+        public virtual int DisplayOrder { get; set; }
+
+        /// <summary>
+        /// 使用范围
+        /// </summary>
+        public virtual string? Scope { get; set; }
+
+        /// <summary>
+        /// 是否可见
+        /// </summary>
+        public bool Visible { get; set; } = true;
+
+    }
 
 }

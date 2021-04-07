@@ -20,9 +20,6 @@ namespace Swm.Materials
 {
     public class MaterialsModuleBuilder
     {
-        internal List<MaterialTypeInfo> _materialTypes = new List<MaterialTypeInfo>();
-        internal List<BizTypeInfo> _bizTypes = new List<BizTypeInfo>();
-        internal List<StockStatusInfo> _stockStatus = new List<StockStatusInfo>();
         internal Type? _stockKeyType;
         internal Type? _materialType;
         internal Type? _flowType;
@@ -31,25 +28,8 @@ namespace Swm.Materials
 
         internal MaterialsModuleBuilder()
         {
-        }        
-
-        public MaterialsModuleBuilder AddMaterialType(MaterialTypeInfo materialType)
-        {
-            _materialTypes.Add(materialType);
-            return this;
         }
 
-        public MaterialsModuleBuilder AddBizType(BizTypeInfo bizType)
-        {
-            _bizTypes.Add(bizType);
-            return this;
-        }
-
-        public MaterialsModuleBuilder AddStockStatus(StockStatusInfo stockStatus)
-        {
-            _stockStatus.Add(stockStatus);
-            return this;
-        }
 
         public MaterialsModuleBuilder UseStockKey<TStockKey>() where TStockKey : StockKeyBase
         {
@@ -76,7 +56,6 @@ namespace Swm.Materials
         {
             return new MaterialsModule
             {
-                MaterialsConfig = new MaterialsConfig(_materialTypes, _stockStatus, _stockKeyType, _bizTypes),
                 MaterialType = _materialType,
                 FlowType = _flowType,
                 StockType = _stockType,
