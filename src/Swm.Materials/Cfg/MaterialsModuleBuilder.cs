@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Swm.Materials
 {
@@ -23,20 +24,28 @@ namespace Swm.Materials
         internal List<BizTypeInfo> _bizTypes = new List<BizTypeInfo>();
         internal List<StockStatusInfo> _stockStatus = new List<StockStatusInfo>();
         internal Type? _stockKeyType;
+        internal Type? _materialType;
+        internal Type? _flowType;
+        internal Type? _stockType;
+        internal Type? _monthlyReportItem;
 
-        public MaterialsModuleBuilder UseMaterialType(MaterialTypeInfo materialType)
+        internal MaterialsModuleBuilder()
+        {
+        }        
+
+        public MaterialsModuleBuilder AddMaterialType(MaterialTypeInfo materialType)
         {
             _materialTypes.Add(materialType);
             return this;
         }
 
-        public MaterialsModuleBuilder UseBizType(BizTypeInfo bizType)
+        public MaterialsModuleBuilder AddBizType(BizTypeInfo bizType)
         {
             _bizTypes.Add(bizType);
             return this;
         }
 
-        public MaterialsModuleBuilder UseStockStatus(StockStatusInfo stockStatus)
+        public MaterialsModuleBuilder AddStockStatus(StockStatusInfo stockStatus)
         {
             _stockStatus.Add(stockStatus);
             return this;
@@ -48,11 +57,30 @@ namespace Swm.Materials
             return this;
         }
 
-        public MaterialsModule Build()
+
+        public MaterialsModuleBuilder UseEntities<TMaterial, TFlow, TStock, TMonthlyReportItem>() 
+            where TMaterial : Material
+            where TFlow : Flow
+            where TStock : Stock
+            where TMonthlyReportItem : MonthlyReportItem
+        {
+            _materialType = typeof(TMaterial);
+            _flowType = typeof(TFlow);
+            _stockType = typeof(TStock);
+            _monthlyReportItem = typeof(TMonthlyReportItem);
+            return this;
+        }
+
+
+        internal MaterialsModule Build()
         {
             return new MaterialsModule
             {
-                MaterialsConfig = new MaterialsConfig(_materialTypes, _stockStatus, _stockKeyType, _bizTypes)
+                MaterialsConfig = new MaterialsConfig(_materialTypes, _stockStatus, _stockKeyType, _bizTypes),
+                MaterialType = _materialType,
+                FlowType = _flowType,
+                StockType = _stockType,
+                MonthlyReportItemType = _monthlyReportItem,
             };
         }
     }

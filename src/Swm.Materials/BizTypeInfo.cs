@@ -17,5 +17,5 @@ namespace Swm.Materials
     /// <summary>
     /// 业务类型。
     /// </summary>
-    public record BizTypeInfo(string Value, string? Label, string? Scope);
+    public record BizTypeInfo(string Value, string? Label = null, string? Scope = null);
 }

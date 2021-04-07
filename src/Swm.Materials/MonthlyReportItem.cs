@@ -24,6 +24,11 @@ namespace Swm.Materials
     /// </summary>
     public class MonthlyReportItem : IEquatable<MonthlyReportItem>, IHasStockKey
     {
+        public MonthlyReportItem()
+        {
+
+        }
+
         /// <summary>
         /// 用于标识 unsaved 状态，不用于版本控制。
         /// </summary>

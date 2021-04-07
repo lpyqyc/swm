@@ -24,7 +24,7 @@ namespace Swm.Materials
     /// </summary>
     public class Stock : IHasCtime, IHasMtime, IHasStockKey
     {
-        internal protected Stock()
+        public Stock()
         {
 
         }

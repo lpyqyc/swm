@@ -31,7 +31,7 @@ namespace Swm.Materials
         /// <summary>
         /// 初始化 Flow 类的新实例。
         /// </summary>
-        internal protected Flow()
+        public Flow()
         {
             this.ctime = DateTime.Now;
         }

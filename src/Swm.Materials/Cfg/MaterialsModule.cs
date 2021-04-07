@@ -28,16 +28,23 @@ namespace Swm.Materials
     {
         static ILogger _logger = Log.ForContext<MaterialsModule>();
         
-        internal MaterialsConfig? MaterialsConfig { get; set; }
+        public MaterialsConfig? MaterialsConfig { get; set; }
+
+        public Type? MaterialType { get; set; }
+        public Type? StockKeyType { get; set; }
+        public Type? StockType { get; set; }
+        public Type? FlowType { get; set; }
+        public Type? MonthlyReportItemType { get; set; }
 
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper<Mapper>();
 
-            if (MaterialsConfig != null)
-            {
-                builder.RegisterInstance(MaterialsConfig);
-            }
+            builder.RegisterInstance(MaterialsConfig ?? throw new InvalidOperationException("未提供 MaterialsConfig"));
+            builder.RegisterType(MaterialType ?? throw new InvalidOperationException("未提供 MaterialType")).As<Material>().InstancePerDependency();
+            builder.RegisterType(FlowType ?? throw new InvalidOperationException("未提供 FlowType")).As<Flow>().InstancePerDependency();
+            builder.RegisterType(StockType ?? throw new InvalidOperationException("未提供 StockType")).As<Stock>().InstancePerDependency();
+            builder.RegisterType(MonthlyReportItemType ?? throw new InvalidOperationException("未提供 MonthlyReportItemType")).As<MonthlyReportItem>().InstancePerDependency();
 
             RegisterBySuffix("Factory");
             RegisterBySuffix("Helper");

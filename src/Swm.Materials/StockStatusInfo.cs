@@ -17,5 +17,5 @@ namespace Swm.Materials
     /// <summary>
     /// 库存状态
     /// </summary>
-    public record StockStatusInfo(string Value, string? Label, string? Scope);
+    public record StockStatusInfo(string Value, string? Label = null, string? Scope = null);
 }

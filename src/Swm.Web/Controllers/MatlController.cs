@@ -41,15 +41,15 @@ namespace Swm.Web.Controllers
     {
         readonly ILogger _logger;
         readonly NHibernate.ISession _session;
-        readonly IMaterialFactory _materialFactory;
+        readonly Func<Material> _materialFactory;
         readonly OpHelper _opHelper;
         readonly FlowHelper _flowHelper;
         readonly PalletizationHelper _palletizationHelper;
         readonly MaterialsConfig _materialsConfig;
 
         public MatlController(
-            NHibernate.ISession session, 
-            IMaterialFactory materialFactory, 
+            NHibernate.ISession session,
+            Func<Material> materialFactory, 
             FlowHelper flowHelper, 
             PalletizationHelper palletizationHelper, 
             OpHelper opHelper, 
@@ -216,7 +216,7 @@ namespace Swm.Web.Controllers
                 }
                 else
                 {
-                    material = _materialFactory.CreateMaterial();
+                    material = _materialFactory.Invoke();
                     material.MaterialCode = Convert.ToString(row["编码"]);
                 }
 

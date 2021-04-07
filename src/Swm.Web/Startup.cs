@@ -185,7 +185,20 @@ namespace Swm.Web
             builder.AddAppSettings();
 
             builder.RegisterModule<OpsModule>();
-            builder.RegisterModule<MaterialsModule>();
+            builder.AddMaterials(m =>
+            {
+                m.AddMaterialType(new MaterialTypeInfo("原材料"));
+                m.AddMaterialType(new MaterialTypeInfo("成品"));
+                m.AddBizType(new BizTypeInfo("独立入库"));
+                m.AddBizType(new BizTypeInfo("独立出库"));
+                m.AddStockStatus(new StockStatusInfo("待检"));
+                m.AddStockStatus(new StockStatusInfo("合格"));
+                m.AddStockStatus(new StockStatusInfo("不合格"));
+
+                m.UseEntities<Material, Flow, Stock, MonthlyReportItem>();
+                m.UseStockKey<DefaultStockKey>();
+
+            });
             builder.RegisterModule<LocationsModule>();
             builder.RegisterModule<StorageLocationAssignmentModule>();
             builder.RegisterModule(new PalletizationModule

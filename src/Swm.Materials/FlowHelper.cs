@@ -24,11 +24,11 @@ namespace Swm.Materials
     public class FlowHelper
     {
         readonly ISession _session;
-        readonly IFlowFactory _flowFactory;
+        readonly Func<Flow> _flowFactory;
         readonly SimpleEventBus _eventBus;
 
         public FlowHelper(ISession session,
-            IFlowFactory flowFactory,
+            Func<Flow> flowFactory,
             SimpleEventBus eventBus
             )
         {
@@ -129,7 +129,7 @@ namespace Swm.Materials
                                                               )
             where TStockKey : StockKeyBase
         {
-            var flow = _flowFactory.CreateFlow();
+            var flow = _flowFactory?.Invoke();
             Populate(flow, stockKey, quantity, dir, bizType, operationType, palletCode, orderCode, bizOrder, txNo);
             await SaveAsync<TStockKey>(flow).ConfigureAwait(false);
             return flow;

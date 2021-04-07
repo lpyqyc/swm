@@ -17,6 +17,6 @@ namespace Swm.Materials
     /// <summary>
     /// 物料类型信息。
     /// </summary>
-    public record MaterialTypeInfo(string Value, string? Label, string? Scope);
+    public record MaterialTypeInfo(string Value, string? Label = null, string? Scope = null);
 
 }

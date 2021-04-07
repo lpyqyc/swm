@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Autofac;
+using System;
+
 namespace Swm.Materials
 {
-    public interface IFlowFactory
+    public static class MaterialsContainerBuilderExtensions
     {
-        Flow CreateFlow();
+        public static void AddMaterials(this ContainerBuilder builder, Action<MaterialsModuleBuilder> configure)
+        {
+            MaterialsModuleBuilder materialsModuleBuilder = new MaterialsModuleBuilder();
+            configure?.Invoke(materialsModuleBuilder);
+            var m = materialsModuleBuilder.Build();
+            builder.RegisterModule(m);
+        }
     }
 }
