@@ -15,41 +15,38 @@
 using Arctic.NHibernateExtensions;
 using Autofac;
 using Serilog;
-using Swm.TransportTasks.Cfg;
 using Swm.TransportTasks.Mappings;
 using System;
-using System.Reflection;
+using System.Collections.Generic;
 
 namespace Swm.TransportTasks
 {
+    public sealed class TaskTypesProvider
+    {
+        public IReadOnlyCollection<string> TaskTypes { get; init; }
+    }
+
+
     /// <summary>
     /// 
     /// </summary>
-    public class TransportTasksModule : Autofac.Module
+    public class TransportTasksModule : Module
     {
         static ILogger _logger = Log.ForContext<TransportTasksModule>();
 
-        public TransportTasksOptions Options { get; set; }
+        TransportTasksModuleBuilder _moduleBuilder;
+
+        internal TransportTasksModule(TransportTasksModuleBuilder moduleBuilder)
+        {
+            _moduleBuilder = moduleBuilder;
+        }
+
 
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper<Mapper>();
-
-            RegisterBySuffix("Factory");
-            RegisterBySuffix("Helper");
-            RegisterBySuffix("Provider");
-            RegisterBySuffix("Service");
-
-            void RegisterBySuffix(string suffix)
-            {
-                var asm = Assembly.GetExecutingAssembly();
-                builder.RegisterAssemblyTypes(asm)
-                    .Where(t => t.IsAbstract == false && t.Name.EndsWith(suffix, StringComparison.Ordinal))
-                    .AsImplementedInterfaces()
-                    .AsSelf();
-                _logger.Information("已注册后缀 {suffix}", suffix);
-            }
-
+            builder.RegisterType(_moduleBuilder._taskSenderType).AsImplementedInterfaces();
+            builder.RegisterType<TaskHelper>();
 
             ConfigureRequestHandlers(builder);
             ConfigureCompletedTaskHandlers(builder);
@@ -59,39 +56,26 @@ namespace Swm.TransportTasks
         {
             _logger.Information("正在配置请求处理程序");
 
-            if (Options.RequestHandlers == null)
+
+            foreach (var (requestType, handlerType) in _moduleBuilder._requestHandlerTypes)
             {
-                _logger.Warning("未配置任何请求处理程序");
-                return;
-            }
+                _logger.Debug("正在配置请求处理程序：请求类型 {requestType} --> 处理程序类型 {handlerType}", requestType, handlerType);
 
-            foreach (var handlerConfig in Options.RequestHandlers)
-            {
-                _logger.Information("请求类型 {requestType} --> 处理程序 {handlerType}", handlerConfig.RequestType, handlerConfig.HandlerType);
-
-                var handlerType = Type.GetType(handlerConfig.HandlerType);
-
-                if (handlerType == null)
-                {
-                    string msg = string.Format("配置错误，请求处理程序类型 {0} 不存在。", handlerConfig.HandlerType);
-                    throw new ApplicationException(msg);
-                }
-                if (typeof(IRequestHandler).IsAssignableFrom(handlerType) == false)
-                {
-                    throw new ApplicationException($"配置错误，类型【{handlerType}】未实现【{typeof(IRequestHandler)}】接口。");
-                }
-
-                string? requestType = handlerConfig.RequestType?.Trim();
                 if (string.IsNullOrEmpty(requestType))
                 {
                     throw new ApplicationException("配置错误，请求类型不能为空。");
                 }
 
+                if (handlerType == null)
+                {
+                    throw new ApplicationException("配置错误，处理程序类型不能为空。");
+                }
+
                 builder.RegisterType(handlerType)
-                    .As<IRequestHandler>()
-                    .PropertiesAutowired()
-                    .WithMetadata<RequestHandlerMeta>(cfg =>
-                        cfg.For(meta => meta.RequestType, handlerConfig.RequestType));
+                    .Keyed<IRequestHandler>(requestType);
+
+                _logger.Information("已配置请求处理程序：请求类型 {requestType} --> 处理程序类型 {handlerType}", requestType, handlerType);
+
             }
 
             _logger.Information("已配置请求处理程序。");
@@ -102,39 +86,33 @@ namespace Swm.TransportTasks
         {
             _logger.Information("正在配置完成处理程序");
 
-            if (Options.CompletedTaskHandlers == null)
+            foreach (var (taskType, handlerType) in _moduleBuilder._completedTaskHandlerTypes)
             {
-                _logger.Warning("未配置任何完成处理程序");
-                return;
-            }
+                _logger.Debug("正在配置完成处理程序：任务类型 {taskType} --> 处理程序类型 {handlerType}", taskType, handlerType);
 
-            foreach (var handlerConfig in Options.CompletedTaskHandlers)
-            {
-                _logger.Information("任务类型 {taskType} --> 处理程序 {handlerType}", handlerConfig.TaskType, handlerConfig.HandlerType);
-
-                var handlerType = Type.GetType(handlerConfig.HandlerType);
-
-                if (handlerType == null)
-                {
-                    string msg = string.Format("配置错误，完成处理程序类型 {0} 不存在。", handlerConfig.HandlerType);
-                    throw new ApplicationException(msg);
-                }
-                if (typeof(ICompletedTaskHandler).IsAssignableFrom(handlerType) == false)
-                {
-                    throw new ApplicationException($"配置错误，类型【{handlerType}】未实现【{typeof(ICompletedTaskHandler)}】接口。");
-                }
-
-                string? taskType = handlerConfig.TaskType?.Trim();
                 if (string.IsNullOrEmpty(taskType))
                 {
                     throw new ApplicationException("配置错误，任务类型不能为空。");
                 }
+
+                if (handlerType == null)
+                {
+                    throw new ApplicationException("配置错误，处理程序类型不能为空。");
+                }
+
+
+
                 builder.RegisterType(handlerType)
-                    .As<ICompletedTaskHandler>()
-                    .PropertiesAutowired()
-                    .WithMetadata<CompletedTaskHandlerMeta>(cfg =>
-                        cfg.For(meta => meta.TaskType, handlerConfig.TaskType));
+                    .Keyed<ICompletedTaskHandler>(taskType);
+
+                _logger.Information("已配置完成处理程序：任务类型 {taskType} --> 处理程序类型 {handlerType}", taskType, handlerType);
+
             }
+
+            builder.RegisterInstance(new TaskTypesProvider
+            {
+                TaskTypes = _moduleBuilder._completedTaskHandlerTypes.Keys,
+            }).SingleInstance();
 
             _logger.Information("已配置完成处理程序");
         }

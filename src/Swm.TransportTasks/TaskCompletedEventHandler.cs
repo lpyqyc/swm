@@ -13,22 +13,21 @@
 // limitations under the License.
 
 using Arctic.EventBus;
+using Autofac.Features.Indexed;
 using NHibernate;
 using Serilog;
-using Swm.TransportTasks.Cfg;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Swm.TransportTasks
 {
     public class TaskCompletedEventHandler : IEventHandler
     {
-        readonly IEnumerable<Lazy<ICompletedTaskHandler, CompletedTaskHandlerMeta>> _completedTaskHandlers;
+        readonly IIndex<string, ICompletedTaskHandler> _completedTaskHandlers;
+
         readonly ILogger _logger;
         readonly ISession _session;
-        public TaskCompletedEventHandler(IEnumerable<Lazy<ICompletedTaskHandler, CompletedTaskHandlerMeta>> completedTaskHandlers, ISession session, ILogger logger)
+        public TaskCompletedEventHandler(IIndex<string, ICompletedTaskHandler> completedTaskHandlers, ISession session, ILogger logger)
         {
             _completedTaskHandlers = completedTaskHandlers;
             _session = session;
@@ -78,14 +77,12 @@ namespace Swm.TransportTasks
         /// <returns></returns>
         private ICompletedTaskHandler? GetCompletedTaskHandler(string taskType)
         {
-            var lazy = _completedTaskHandlers
-                .Where(x => string.Equals(x.Metadata.TaskType, taskType, StringComparison.InvariantCultureIgnoreCase))
-                .LastOrDefault();
-            if (lazy == null)
+            bool b = _completedTaskHandlers.TryGetValue(taskType, out var handler);
+            if (b)
             {
-                return null;
+                return handler;
             }
-            return lazy.Value;
+            return null;
         }
 
     }

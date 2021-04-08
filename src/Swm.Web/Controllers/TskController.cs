@@ -19,13 +19,10 @@ using Microsoft.Extensions.Options;
 using NHibernate;
 using NHibernate.Linq;
 using Serilog;
-using Swm.Constants;
 using Swm.Locations;
-using Swm.Model;
 using Swm.Ops;
 using Swm.Palletization;
 using Swm.TransportTasks;
-using Swm.TransportTasks.Cfg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,8 +42,7 @@ namespace Swm.Web.Controllers
         readonly TaskHelper _taskHelper;
         readonly OpHelper _opHelper;
         readonly ITaskSender _taskSender;
-        readonly IOptions<TransportTasksOptions> _transportTasksOptions;
-
+        readonly TaskTypesProvider _taskTypesProvider;
         /// <summary>
         /// 初始化新实例
         /// </summary>
@@ -55,15 +51,15 @@ namespace Swm.Web.Controllers
         /// <param name="taskSender"></param>
         /// <param name="opHelper"></param>
         /// <param name="logger"></param>
-        /// <param name="transportTasksOptions"></param>
-        public TskController(ISession session, TaskHelper taskHelper, ITaskSender taskSender, OpHelper opHelper, ILogger logger, IOptions<TransportTasksOptions> transportTasksOptions)
+        /// <param name="taskTypesProvider"></param>
+        public TskController(ISession session, TaskHelper taskHelper, ITaskSender taskSender, OpHelper opHelper, TaskTypesProvider taskTypesProvider, ILogger logger)
         {
             _logger = logger;
             _taskHelper = taskHelper;
             _opHelper = opHelper;
             _session = session;
             _taskSender = taskSender;
-            _transportTasksOptions = transportTasksOptions;
+            _taskTypesProvider = taskTypesProvider;
         }
 
         /// <summary>
@@ -175,13 +171,7 @@ namespace Swm.Web.Controllers
         [HttpGet("get-task-type-options")]
         public async Task<OptionsData<string>> GetTaskTypeOptions()
         {
-            List<string> list = new();
-            if (_transportTasksOptions.Value.CompletedTaskHandlers != null)
-            {
-                list.AddRange(_transportTasksOptions.Value.CompletedTaskHandlers.Select(x => x.TaskType));
-            }
-            await Task.CompletedTask;
-            return this.OptionsData(list);
+            return await Task.FromResult(this.OptionsData(_taskTypesProvider.TaskTypes.ToList()));
         }
 
         /// <summary>

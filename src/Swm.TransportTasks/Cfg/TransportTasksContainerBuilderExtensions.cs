@@ -12,13 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Swm.TransportTasks.Cfg
+using Autofac;
+using System;
+
+namespace Swm.TransportTasks
 {
-    public class TransportTasksOptions
+    public static class TransportTasksContainerBuilderExtensions
     {
-        public RequestHandler[]? RequestHandlers { get; set; }
-
-        public CompletedTaskHandler[]? CompletedTaskHandlers { get; set; }
-
+        public static void AddTransportTasks(this ContainerBuilder builder, Action<TransportTasksModuleBuilder> configure)
+        {
+            TransportTasksModuleBuilder moduleBuilder = new TransportTasksModuleBuilder();
+            configure?.Invoke(moduleBuilder);
+            var m = moduleBuilder.Build();
+            builder.RegisterModule(m);
+        }
     }
 }

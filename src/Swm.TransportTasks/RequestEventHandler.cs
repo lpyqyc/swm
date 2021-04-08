@@ -13,20 +13,18 @@
 // limitations under the License.
 
 using Arctic.EventBus;
+using Autofac.Features.Indexed;
 using Serilog;
-using Swm.TransportTasks.Cfg;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Swm.TransportTasks
 {
     public class RequestEventHandler : IEventHandler
     {
-        readonly IEnumerable<Lazy<IRequestHandler, RequestHandlerMeta>> _requestHandlers;
+        readonly IIndex<string, IRequestHandler> _requestHandlers;
         readonly ILogger _logger;
-        public RequestEventHandler(IEnumerable<Lazy<IRequestHandler, RequestHandlerMeta>> requestHandlers, ILogger logger)
+        public RequestEventHandler(IIndex<string, IRequestHandler> requestHandlers, ILogger logger)
         {
             _requestHandlers = requestHandlers;
             _logger = logger;
@@ -63,14 +61,12 @@ namespace Swm.TransportTasks
         /// <returns></returns>
         private IRequestHandler? GetRequestHandler(string requestType)
         {
-            var lazy = _requestHandlers
-                .Where(x => string.Equals(x.Metadata.RequestType, requestType, StringComparison.OrdinalIgnoreCase))
-                .LastOrDefault();
-            if (lazy == null)
+            bool b = _requestHandlers.TryGetValue(requestType, out var handler);
+            if (b)
             {
-                return null;
+                return handler;
             }
-            return lazy.Value;
+            return null;
         }
     }
 

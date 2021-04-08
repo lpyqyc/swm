@@ -42,7 +42,6 @@ using Swm.OutboundOrders;
 using Swm.Palletization;
 using Swm.StorageLocationAssignment;
 using Swm.TransportTasks;
-using Swm.TransportTasks.Cfg;
 using System;
 using System.IO;
 using System.Net.Mime;
@@ -165,8 +164,6 @@ namespace Swm.Web
             {
             });
 
-            services.Configure<TransportTasksOptions>(options => Configuration.GetSection("Swm:TransportTasks").Bind(options));
-
             services.Configure<JwtSetting>(options =>
             {
                 Configuration.GetSection("JwtSetting").Bind(options);
@@ -205,7 +202,7 @@ namespace Swm.Web
                     .UseUnitloadItem<UnitloadItem>()
                     .UseUnitloadSnapshot<UnitloadSnapshot>()
                     .UseUnitloadItemSnapshot<UnitloadItemSnapshot>()
-                    .UsePalletCodeValidator(new RegexPalletCodeValidator(Configuration.GetSection("Swm:Palletization:PalletCodePattern").Value));
+                    .UsePalletCodeValidator(new RegexPalletCodeValidator(@"^P\d{2,3}$"));
             });
 
             builder.AddStorageLocationAssignment(module =>
@@ -213,9 +210,13 @@ namespace Swm.Web
                 module.UseRule<SSRule01>();
             });
 
-            builder.RegisterModule(new TransportTasksModule
+            builder.AddTransportTasks(module =>
             {
-                Options = Configuration.GetSection("Swm:TransportTasks").Get<TransportTasksOptions>(),
+                module.UseRequestHandler<TestRequestHandler>("Test")
+                    .UseRequestHandler<上架请求处理程序>("上架")
+                    .UseTaskSender<FakeTaskSender>()
+                    .UseCompletedTaskHandler<TestCompletedTaskHandler>("Test")
+                    .UseCompletedTaskHandler<上架完成处理程序>("上架");
             });
             
             builder.RegisterModule<OutboundOrdersModule>();

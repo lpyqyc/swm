@@ -745,7 +745,7 @@
             提供任务 api
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.TskController.#ctor(NHibernate.ISession,Swm.TransportTasks.TaskHelper,Swm.TransportTasks.ITaskSender,Swm.Ops.OpHelper,Serilog.ILogger,Microsoft.Extensions.Options.IOptions{Swm.TransportTasks.Cfg.TransportTasksOptions})">
+        <member name="M:Swm.Web.Controllers.TskController.#ctor(NHibernate.ISession,Swm.TransportTasks.TaskHelper,Swm.TransportTasks.ITaskSender,Swm.Ops.OpHelper,Swm.TransportTasks.TaskTypesProvider,Serilog.ILogger)">
             <summary>
             初始化新实例
             </summary>
@@ -754,7 +754,7 @@
             <param name="taskSender"></param>
             <param name="opHelper"></param>
             <param name="logger"></param>
-            <param name="transportTasksOptions"></param>
+            <param name="taskTypesProvider"></param>
         </member>
         <member name="M:Swm.Web.Controllers.TskController.GetTaskList(Swm.Web.Controllers.TaskListArgs)">
             <summary>
