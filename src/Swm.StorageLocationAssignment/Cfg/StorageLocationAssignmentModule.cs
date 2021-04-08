@@ -39,7 +39,7 @@ namespace Swm.StorageLocationAssignment
             builder.RegisterType<SAllocationHelper>().AsSelf();
             foreach (var ruleType in _moduleBuilder._ruleTypes)
             {
-                builder.RegisterType(ruleType);
+                builder.RegisterType(ruleType).AsImplementedInterfaces();
                 _logger.Information("已注册分配货位规则：{ruleType}", ruleType);
             }
         }
