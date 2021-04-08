@@ -21,7 +21,7 @@ namespace Swm.Materials.Mappings
     {
         public StockMapping()
         {
-            Table("stocks");
+            Table("Stocks");
             DynamicUpdate(true);
             BatchSize(10);
             Lazy(false);

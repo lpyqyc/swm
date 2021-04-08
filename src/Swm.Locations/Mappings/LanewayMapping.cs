@@ -76,7 +76,7 @@ namespace Swm.Locations.Mappings
                 cl => cl.Usage, 
                 map =>
                 {
-                    map.Table("laneway_usage");
+                    map.Table("LanewayUsage");
                     map.BatchSize(100);
                     map.Cascade(Cascade.All | Cascade.DeleteOrphans);
                     map.Key(key =>

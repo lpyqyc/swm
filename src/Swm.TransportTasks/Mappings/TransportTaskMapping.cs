@@ -21,7 +21,7 @@ namespace Swm.TransportTasks.Mappings
     {
         public TransportTaskMapping()
         {
-            Table("transport_tasks");
+            Table("TransportTasks");
             DynamicUpdate(true);
             BatchSize(10);
 

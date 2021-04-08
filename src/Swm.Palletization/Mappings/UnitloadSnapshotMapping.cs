@@ -21,7 +21,7 @@ namespace Swm.Palletization.Mappings
     {
         public UnitloadSnapshotMapping()
         {
-            Table("unitload_snapshots");
+            Table("UnitloadSnapshots");
             BatchSize(10);
             Lazy(false);
             DiscriminatorValue(1);

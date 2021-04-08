@@ -21,7 +21,7 @@ namespace Swm.Locations.Mappings
     {
         public CellMapping()
         {
-            Table("cells");
+            Table("Cells");
             DynamicUpdate(true);
             BatchSize(100);
 

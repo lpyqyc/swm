@@ -22,7 +22,7 @@ namespace Swm.Palletization.Mappings
     {
         public UnitloadItemMapping()
         {
-            Table("unitload_items");
+            Table("UnitloadItems");
             BatchSize(10);
             DynamicUpdate(true);
             Lazy(false);

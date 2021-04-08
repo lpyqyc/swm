@@ -21,7 +21,7 @@ namespace Swm.Materials.Mappings
     {
         public FlowMapping()
         {
-            Table("flows");
+            Table("Flows");
             BatchSize(10);
             Lazy(false);
             DiscriminatorValue(1);

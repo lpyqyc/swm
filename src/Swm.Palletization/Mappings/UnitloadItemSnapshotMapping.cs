@@ -22,7 +22,7 @@ namespace Swm.Palletization.Mappings
     {
         public UnitloadItemSnapshotMapping()
         {
-            Table("unitload_item_snapshots");
+            Table("UnitloadItemSnapshots");
             BatchSize(10);
             Lazy(false);
             DiscriminatorValue(1);

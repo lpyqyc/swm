@@ -21,7 +21,7 @@ namespace Swm.TransportTasks.Mappings
     {
         public ArchivedTransportTaskMapping()
         {
-            Table("archived_transport_tasks");
+            Table("ArchivedTransportTasks");
             DynamicUpdate(true);
             BatchSize(10);
             Id(cl => cl.TaskId, id => id.Generator(Generators.Identity));

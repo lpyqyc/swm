@@ -21,7 +21,7 @@ namespace Swm.Locations.Mappings
     {
         public LocationOpMapping()
         {
-            Table("location_ops");
+            Table("LocationOps");
             Mutable(false);
             BatchSize(10);
 

@@ -21,7 +21,7 @@ namespace Swm.Palletization.Mappings
     {
         public UnitloadItemAllocationMapping()
         {
-            Table("unitload_item_allocations");
+            Table("UnitloadItemAllocations");
             BatchSize(10);
             DynamicUpdate(true);
             Lazy(false);

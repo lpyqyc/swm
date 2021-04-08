@@ -21,7 +21,7 @@ namespace Swm.Locations.Mappings
     {
         public PortMapping()
         {
-            Table("ports");
+            Table("Ports");
             DynamicUpdate(true);
             BatchSize(10);
             Cache(cache => cache.Usage(CacheUsage.ReadWrite));

@@ -21,7 +21,7 @@ namespace Swm.Locations.Mappings
     {
         public LocationMapping()
         {
-            Table("locations");
+            Table("Locations");
             DynamicUpdate(true);
             BatchSize(10);
             Lazy(false);
