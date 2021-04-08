@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using NHibernate;
 using Serilog;
 using Swm.Model;
+using Swm.Ops;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

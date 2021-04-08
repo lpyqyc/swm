@@ -12,28 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NHibernate.Mapping.ByCode;
-using NHibernate.Mapping.ByCode.Conformist;
+using Autofac;
+using System;
 
-namespace Swm.Ops.Mappings
+namespace Swm.Ops
 {
-    internal class OpMapping : ClassMapping<Op>
+    public static class OpsContainerBuilderExtensions
     {
-        public OpMapping()
+        public static void AddOps(this ContainerBuilder builder)
         {
-            Table("Ops");
-            DynamicUpdate(true);
-            BatchSize(10);
-            Mutable(false);
-
-            Id(cl => cl.OpId, id => id.Generator(Generators.Identity));
-
-            Property(cl => cl.ctime, prop => prop.Update(false));
-            Property(cl => cl.cuser, prop => prop.Update(false));
-            Property(cl => cl.OperationType);
-            Property(cl => cl.Url);
-
-            Property(cl => cl.Comment);
+            builder.RegisterModule<OpsModule>();
         }
     }
 }

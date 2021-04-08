@@ -22,6 +22,7 @@ using NHibernate;
 using NHibernate.Linq;
 using Serilog;
 using Swm.Locations;
+using Swm.Ops;
 using Swm.Palletization;
 using System;
 using System.Collections.Generic;

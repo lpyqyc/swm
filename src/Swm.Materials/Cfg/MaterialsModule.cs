@@ -24,7 +24,7 @@ namespace Swm.Materials
     /// <summary>
     /// 
     /// </summary>
-    public class MaterialsModule : Autofac.Module
+    internal class MaterialsModule : Autofac.Module
     {
         MaterialsModuleBuilder _moduleBuilder;
         internal MaterialsModule(MaterialsModuleBuilder moduleBuilder)

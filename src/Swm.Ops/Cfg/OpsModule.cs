@@ -16,38 +16,18 @@ using Arctic.NHibernateExtensions;
 using Autofac;
 using Serilog;
 using Swm.Model.Mappings;
-using System;
-using System.Reflection;
 
-namespace Swm.Model
+namespace Swm.Ops
 {
     /// <summary>
     /// 
     /// </summary>
-    public class OpsModule : Autofac.Module
+    internal class OpsModule : Autofac.Module
     {
-        static ILogger _logger = Log.ForContext<OpsModule>();
-
-
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper<Mapper>();
-
-            RegisterBySuffix("Factory");
-            RegisterBySuffix("Helper");
-            RegisterBySuffix("Provider");
-            RegisterBySuffix("Service");
-
-            void RegisterBySuffix(string suffix)
-            {
-                var asm = Assembly.GetExecutingAssembly();
-                builder.RegisterAssemblyTypes(asm)
-                    .Where(t => t.IsAbstract == false && t.Name.EndsWith(suffix, StringComparison.Ordinal))
-                    .AsImplementedInterfaces()
-                    .AsSelf();
-                _logger.Information("已注册后缀 {suffix}", suffix);
-            }
-
+            builder.RegisterType<OpHelper>().AsSelf();
         }
 
     }

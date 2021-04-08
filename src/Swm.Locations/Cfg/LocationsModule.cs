@@ -24,7 +24,7 @@ namespace Swm.Locations
     /// <summary>
     /// 
     /// </summary>
-    public class LocationsModule : Autofac.Module
+    internal class LocationsModule : Autofac.Module
     {
         static ILogger _logger = Log.ForContext<LocationsModule>();
 

@@ -38,6 +38,7 @@ using Swm.Locations;
 using Swm.Materials;
 using Swm.Model;
 using Swm.Model.Extentions;
+using Swm.Ops;
 using Swm.OutboundOrders;
 using Swm.Palletization;
 using Swm.StorageLocationAssignment;
@@ -184,7 +185,7 @@ namespace Swm.Web
             builder.AddAppSeqs();
             builder.AddAppSettings();
 
-            builder.RegisterModule<OpsModule>();
+            builder.AddOps();
             builder.AddMaterials(module =>
             {
                 module.UseMaterial<Material>()
@@ -198,7 +199,7 @@ namespace Swm.Web
             {
                 m.UseLocation<Location>();
             });
-            builder.RegisterModule<StorageLocationAssignmentModule>();
+
             builder.AddPalletization(module =>
             {
                 module.UseUnitload<Unitload>()
@@ -208,6 +209,7 @@ namespace Swm.Web
                     .UsePalletCodeValidator(new RegexPalletCodeValidator(Configuration.GetSection("Swm:Palletization:PalletCodePattern").Value));
             });
 
+            builder.RegisterModule<StorageLocationAssignmentModule>();
             builder.RegisterModule(new TransportTasksModule
             {
                 Options = Configuration.GetSection("Swm:TransportTasks").Get<TransportTasksOptions>(),

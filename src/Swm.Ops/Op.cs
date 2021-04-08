@@ -17,7 +17,7 @@ using Swm.Constants;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Swm.Model
+namespace Swm.Ops
 {
     /// <summary>
     /// 表示操作记录。

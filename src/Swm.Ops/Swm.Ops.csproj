@@ -6,6 +6,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Arctic.AspNetCore\Arctic.AspNetCore.csproj" />
 		<ProjectReference Include="..\Swm.Constants\Swm.Constants.csproj" />
 		<ProjectReference Include="..\Arctic.Auditing\Arctic.Auditing.csproj" />
 		<ProjectReference Include="..\Arctic.NHibernateExtensions\Arctic.NHibernateExtensions.csproj" />

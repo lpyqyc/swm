@@ -22,6 +22,7 @@ using NHibernate.Linq;
 using Serilog;
 using Swm.Locations;
 using Swm.Materials;
+using Swm.Ops;
 using Swm.OutboundOrders;
 using Swm.Palletization;
 using System;
