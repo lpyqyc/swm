@@ -455,7 +455,7 @@ namespace Swm.Web.Controllers
             await _palletizationHelper.PalletizeAsync(args.PalletCode,
                                                       items,
                                                       op.OperationType,
-                                                      "独立组盘" // TODO 这里有硬编码文本
+                                                      "独立入库" // TODO 这里有硬编码文本
                                                       );
 
             return this.Success();
