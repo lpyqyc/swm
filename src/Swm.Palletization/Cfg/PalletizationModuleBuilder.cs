@@ -25,6 +25,7 @@ namespace Swm.Palletization
         internal Func<UnitloadItemSnapshot>? _unitloadItemSnapshotFactory;
         internal IPalletCodeValidator?  palletCodeValidator;
         internal XModelMapper? _extensionModelMapper;
+        internal Type? _unitloadStorageInfoProviderType;
 
         internal PalletizationModuleBuilder()
         {
@@ -65,6 +66,12 @@ namespace Swm.Palletization
             return this;
         }
 
+        public PalletizationModuleBuilder UseUnitloadStorageInfoProvider<T>()
+            where T : IUnitloadStorageInfoProvider
+        {
+            this._unitloadStorageInfoProviderType = typeof(T);
+            return this;
+        }
         /// <summary>
         /// 如果使用子类扩展了实体模型，则使用此方法添加扩展部分的模型映射类，将实体添加到 NHibernate 中。
         /// </summary>

@@ -39,8 +39,12 @@ namespace Swm.TransportTasks
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper(new Mapper());
-            builder.RegisterType(_moduleBuilder._taskSenderType).AsImplementedInterfaces();
             builder.RegisterType<TaskHelper>();
+            
+            if (_moduleBuilder._taskSenderType != null)
+            {
+                builder.RegisterType(_moduleBuilder._taskSenderType).AsImplementedInterfaces();
+            }
 
             ConfigureRequestHandlers(builder);
             ConfigureCompletedTaskHandlers(builder);
@@ -53,23 +57,10 @@ namespace Swm.TransportTasks
 
             foreach (var (requestType, handlerType) in _moduleBuilder._requestHandlerTypes)
             {
-                _logger.Debug("正在配置请求处理程序：请求类型 {requestType} --> 处理程序类型 {handlerType}", requestType, handlerType);
+                builder.RegisterType(handlerType ?? throw new())
+                    .Keyed<IRequestHandler>(requestType ?? throw new());
 
-                if (string.IsNullOrEmpty(requestType))
-                {
-                    throw new ApplicationException("配置错误，请求类型不能为空。");
-                }
-
-                if (handlerType == null)
-                {
-                    throw new ApplicationException("配置错误，处理程序类型不能为空。");
-                }
-
-                builder.RegisterType(handlerType)
-                    .Keyed<IRequestHandler>(requestType);
-
-                _logger.Information("已配置请求处理程序：请求类型 {requestType} --> 处理程序类型 {handlerType}", requestType, handlerType);
-
+                _logger.Information("  请求类型 {requestType} --> 处理程序类型 {handlerType}", requestType, handlerType);
             }
 
             _logger.Information("已配置请求处理程序。");
@@ -82,25 +73,10 @@ namespace Swm.TransportTasks
 
             foreach (var (taskType, handlerType) in _moduleBuilder._completedTaskHandlerTypes)
             {
-                _logger.Debug("正在配置完成处理程序：任务类型 {taskType} --> 处理程序类型 {handlerType}", taskType, handlerType);
+                builder.RegisterType(handlerType ?? throw new())
+                    .Keyed<ICompletedTaskHandler>(taskType ?? throw new());
 
-                if (string.IsNullOrEmpty(taskType))
-                {
-                    throw new ApplicationException("配置错误，任务类型不能为空。");
-                }
-
-                if (handlerType == null)
-                {
-                    throw new ApplicationException("配置错误，处理程序类型不能为空。");
-                }
-
-
-
-                builder.RegisterType(handlerType)
-                    .Keyed<ICompletedTaskHandler>(taskType);
-
-                _logger.Information("已配置完成处理程序：任务类型 {taskType} --> 处理程序类型 {handlerType}", taskType, handlerType);
-
+                _logger.Information("  任务类型 {taskType} --> 处理程序类型 {handlerType}", taskType, handlerType);
             }
 
             builder.RegisterInstance(new TaskTypesProvider

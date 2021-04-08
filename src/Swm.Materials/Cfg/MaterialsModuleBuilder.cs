@@ -26,6 +26,7 @@ namespace Swm.Materials
         internal Func<Stock>? _stockFactory;
         internal Func<MonthlyReportItem>? _monthlyReportItemFactory;
         internal XModelMapper? _extensionModelMapper;
+        internal Type? _fifoProviderType;
 
         internal MaterialsModuleBuilder()
         {
@@ -64,6 +65,13 @@ namespace Swm.Materials
             where T : MonthlyReportItem, new()
         {
             _monthlyReportItemFactory = () => new T();
+            return this;
+        }
+
+        public MaterialsModuleBuilder UseFifoProvider<T>()
+            where T : IFifoProvider
+        {
+            _fifoProviderType = typeof(T);
             return this;
         }
 

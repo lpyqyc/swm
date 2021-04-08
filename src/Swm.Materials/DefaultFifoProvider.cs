@@ -14,7 +14,7 @@
 
 using Swm.Materials;
 
-namespace Swm.Palletization
+namespace Swm.Materials
 {
     public class DefaultFifoProvider : IFifoProvider
     {

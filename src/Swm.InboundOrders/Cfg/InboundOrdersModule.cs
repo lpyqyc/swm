@@ -17,14 +17,13 @@ using Autofac;
 using Serilog;
 using Swm.InboundOrders.Mappings;
 using System;
-using System.Reflection;
 
 namespace Swm.InboundOrders
 {
     /// <summary>
     /// 
     /// </summary>
-    public class InboundOrdersModule : Autofac.Module
+    public class InboundOrdersModule : Module
     {
         static ILogger _logger = Log.ForContext<InboundOrdersModule>();
         InboundOrdersModuleBuilder _moduleBuilder;
@@ -38,27 +37,14 @@ namespace Swm.InboundOrders
         {
             builder.AddModelMapper(new Mapper());
 
+
             if (_moduleBuilder._extensionModelMapper != null)
             {
                 builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
             }
-
             RegisterFactory(_moduleBuilder._inboundOrderFactory);
             RegisterFactory(_moduleBuilder._inboundLineFactory);
 
-            RegisterBySuffix("Helper");
-            RegisterBySuffix("Provider");
-            RegisterBySuffix("Service");
-
-            void RegisterBySuffix(string suffix)
-            {
-                var asm = Assembly.GetExecutingAssembly();
-                builder.RegisterAssemblyTypes(asm)
-                    .Where(t => t.IsAbstract == false && t.Name.EndsWith(suffix, StringComparison.Ordinal))
-                    .AsImplementedInterfaces()
-                    .AsSelf();
-                _logger.Information("已注册后缀 {suffix}", suffix);
-            }
 
             void RegisterFactory<T>(Func<T>? factory) where T : notnull
             {

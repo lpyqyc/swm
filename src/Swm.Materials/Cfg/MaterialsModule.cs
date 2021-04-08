@@ -17,14 +17,13 @@ using Autofac;
 using Serilog;
 using Swm.Materials.Mappings;
 using System;
-using System.Reflection;
 
 namespace Swm.Materials
 {
     /// <summary>
     /// 
     /// </summary>
-    internal class MaterialsModule : Autofac.Module
+    internal class MaterialsModule : Module
     {
         MaterialsModuleBuilder _moduleBuilder;
         internal MaterialsModule(MaterialsModuleBuilder moduleBuilder)
@@ -37,29 +36,22 @@ namespace Swm.Materials
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper(new Mapper());
+            builder.RegisterType<FlowHelper>();
+            builder.RegisterType<DefaultFifoProvider>().AsImplementedInterfaces();
+
             if (_moduleBuilder._extensionModelMapper != null)
             {
                 builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
             }
-
             RegisterFactory(_moduleBuilder._materialFactory);
             RegisterFactory(_moduleBuilder._flowFactory);
             RegisterFactory(_moduleBuilder._stockFactory);
             RegisterFactory(_moduleBuilder._monthlyReportItemFactory);
-
-            RegisterBySuffix("Helper");
-            RegisterBySuffix("Provider");
-            RegisterBySuffix("Service");
-
-            void RegisterBySuffix(string suffix)
+            if(_moduleBuilder._fifoProviderType != null)
             {
-                var asm = Assembly.GetExecutingAssembly();
-                builder.RegisterAssemblyTypes(asm)
-                    .Where(t => t.IsAbstract == false && t.Name.EndsWith(suffix, StringComparison.Ordinal))
-                    .AsImplementedInterfaces()
-                    .AsSelf();
-                _logger.Information("已注册后缀 {suffix}", suffix);
+                builder.RegisterType(_moduleBuilder._fifoProviderType).AsImplementedInterfaces();
             }
+
 
             void RegisterFactory<T>(Func<T>? factory) where T : notnull
             {

@@ -44,8 +44,9 @@ namespace Swm.Palletization
                 builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
             }
 
-            RegisterBySuffix("Helper");
-            RegisterBySuffix("Provider");
+            builder.RegisterType<PalletizationHelper>();
+            builder.RegisterType<UnitloadSnapshopHelper>();
+            builder.RegisterType<UnitloadStorageInfoProvider>().AsImplementedInterfaces();
 
             RegisterFactory(_moduleBuilder._unitloadFactory);
             RegisterFactory(_moduleBuilder._unitloadItemFactory);
@@ -54,16 +55,12 @@ namespace Swm.Palletization
             builder.RegisterInstance(_moduleBuilder.palletCodeValidator ?? throw new())
                 .AsImplementedInterfaces()
                 .SingleInstance();
-
-            void RegisterBySuffix(string suffix)
+            if (_moduleBuilder._unitloadStorageInfoProviderType != null)
             {
-                var asm = Assembly.GetExecutingAssembly();
-                builder.RegisterAssemblyTypes(asm)
-                    .Where(t => t.IsAbstract == false && t.Name.EndsWith(suffix, StringComparison.Ordinal))
-                    .AsImplementedInterfaces()
-                    .AsSelf();
-                _logger.Information("已注册后缀 {suffix}", suffix);
+                builder.RegisterType(_moduleBuilder._unitloadStorageInfoProviderType).AsImplementedInterfaces();
             }
+
+
 
             void RegisterFactory<T>(Func<T>? factory) where T : notnull
             {

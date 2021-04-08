@@ -36,6 +36,8 @@ namespace Swm.OutboundOrders
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper(new Mapper());
+            builder.RegisterType<OutboundOrderPickHelper>();
+            builder.RegisterType<DefaultOutboundOrderAllocator>().AsImplementedInterfaces();
 
             if (_moduleBuilder._extensionModelMapper != null)
             {
@@ -45,11 +47,9 @@ namespace Swm.OutboundOrders
             RegisterFactory(_moduleBuilder._outboundOrderFactory);
             RegisterFactory(_moduleBuilder._outboundLineFactory);
 
-            builder.RegisterType<OutboundOrderPickHelper>();
-            builder.RegisterType<DefaultOutboundOrderAllocator>().AsImplementedInterfaces();
             if (_moduleBuilder._outboundOrderAllocatorType != null)
             {
-                builder.RegisterType(_moduleBuilder._outboundOrderAllocatorType);
+                builder.RegisterType(_moduleBuilder._outboundOrderAllocatorType).AsImplementedInterfaces();
             }
 
             void RegisterFactory<T>(Func<T>? factory) where T : notnull

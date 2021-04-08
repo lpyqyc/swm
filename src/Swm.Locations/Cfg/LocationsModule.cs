@@ -38,26 +38,15 @@ namespace Swm.Locations
         {
             builder.AddModelMapper(new Mapper());
 
+
+            builder.RegisterType<LocationHelper>();
+
             if (_moduleBuilder._extensionModelMapper != null)
             {
                 builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
             }
-
-            RegisterBySuffix("Helper");
-            RegisterBySuffix("Provider");
-            RegisterBySuffix("Service");
-
             RegisterFactory(_moduleBuilder._locationFactory);
 
-            void RegisterBySuffix(string suffix)
-            {
-                var asm = Assembly.GetExecutingAssembly();
-                builder.RegisterAssemblyTypes(asm)
-                    .Where(t => t.IsAbstract == false && t.Name.EndsWith(suffix, StringComparison.Ordinal))
-                    .AsImplementedInterfaces()
-                    .AsSelf();
-                _logger.Information("已注册后缀 {suffix}", suffix);
-            }
 
             void RegisterFactory<T>(Func<T>? factory) where T : notnull
             {
