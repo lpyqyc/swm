@@ -26,7 +26,7 @@ namespace Swm.StorageLocationAssignment
     /// <summary>
     /// 单叉巷道分配货位帮助类。
     /// </summary>
-    public sealed partial class SAllocationHelper
+    public sealed class SAllocationHelper
     {
         readonly IEnumerable<IRule> _rules;
         readonly ILogger _logger;

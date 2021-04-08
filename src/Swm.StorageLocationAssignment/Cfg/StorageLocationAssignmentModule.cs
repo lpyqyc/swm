@@ -20,39 +20,28 @@ using System.Reflection;
 namespace Swm.StorageLocationAssignment
 {
     /// <summary>
-    /// 用于向容器注册类型的扩展方法。在 Startup.ConfigureContainer 方法中调用。
+    /// 向容器注册货位分配的服务。
     /// </summary>
-    public class StorageLocationAssignmentModule : Autofac.Module
+    internal class StorageLocationAssignmentModule : Autofac.Module
     {
         static ILogger _logger = Log.ForContext<StorageLocationAssignmentModule>();
 
-        protected override void Load(ContainerBuilder builder)
+        StorageLocationAssignmentModuleBuilder _moduleBuilder;
+
+        internal StorageLocationAssignmentModule(StorageLocationAssignmentModuleBuilder moduleBuilder)
         {
-            RegisterBySuffix("Helper");
-            RegisterByPrefix("SSRule");
-
-            void RegisterBySuffix(string suffix)
-            {
-                var asm = Assembly.GetExecutingAssembly();
-                builder.RegisterAssemblyTypes(asm)
-                    .Where(t => t.IsAbstract == false && t.Name.EndsWith(suffix, StringComparison.Ordinal))
-                    .AsImplementedInterfaces()
-                    .AsSelf();
-                _logger.Information("已注册后缀 {suffix}", suffix);
-            }
-
-
-            void RegisterByPrefix(string prefix)
-            {
-                var asm = Assembly.GetExecutingAssembly();
-                builder.RegisterAssemblyTypes(asm)
-                    .Where(t => t.IsAbstract == false && t.Name.StartsWith(prefix, StringComparison.Ordinal))
-                    .AsImplementedInterfaces()
-                    .AsSelf();
-                _logger.Information("已注册前缀 {suffix}", prefix);
-            }
+            _moduleBuilder = moduleBuilder;
         }
 
-    }
 
+        protected override void Load(ContainerBuilder builder)
+        {
+            builder.RegisterType<SAllocationHelper>().AsSelf();
+            foreach (var ruleType in _moduleBuilder._ruleTypes)
+            {
+                builder.RegisterType(ruleType);
+                _logger.Information("已注册分配货位规则：{ruleType}", ruleType);
+            }
+        }
+    }
 }

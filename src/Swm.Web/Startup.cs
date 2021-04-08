@@ -36,7 +36,6 @@ using Serilog.Context;
 using Swm.InboundOrders;
 using Swm.Locations;
 using Swm.Materials;
-using Swm.Model;
 using Swm.Model.Extentions;
 using Swm.Ops;
 using Swm.OutboundOrders;
@@ -209,7 +208,11 @@ namespace Swm.Web
                     .UsePalletCodeValidator(new RegexPalletCodeValidator(Configuration.GetSection("Swm:Palletization:PalletCodePattern").Value));
             });
 
-            builder.RegisterModule<StorageLocationAssignmentModule>();
+            builder.AddStorageLocationAssignment(module =>
+            {
+                module.UseRule<SSRule01>();
+            });
+
             builder.RegisterModule(new TransportTasksModule
             {
                 Options = Configuration.GetSection("Swm:TransportTasks").Get<TransportTasksOptions>(),
