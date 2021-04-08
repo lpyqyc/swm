@@ -220,14 +220,18 @@ namespace Swm.Web
                     .AddCompletedTaskHandler<上架完成处理程序>("上架");
             });
             
-            builder.RegisterModule<OutboundOrdersModule>();
+            builder.AddOutboundOrders(module =>
+            {
+                module.UseOutboundOrder<OutboundOrder>()
+                    .UseOutboundLine<OutboundLine>()
+                    .UseOutboundOrderAllocator<DefaultOutboundOrderAllocator>();
+
+            });
             builder.AddInboundOrders(module => 
             {
                 module.UseInboundOrder<InboundOrder>()
                     .UseInboundLine<InboundLine>();
             });
-
-            builder.AddEx();
 
             builder.AddEventBus(Configuration.GetSection("EventBus").Get<SimpleEventBusOptions>());
             builder.AddNHibernate();

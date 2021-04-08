@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.NHibernateExtensions;
 using System;
 
 namespace Swm.Palletization
@@ -23,6 +24,7 @@ namespace Swm.Palletization
         internal Func<UnitloadSnapshot>? _unitloadSnapshotFactory;
         internal Func<UnitloadItemSnapshot>? _unitloadItemSnapshotFactory;
         internal IPalletCodeValidator?  palletCodeValidator;
+        internal XModelMapper? _extensionModelMapper;
 
         internal PalletizationModuleBuilder()
         {
@@ -63,6 +65,17 @@ namespace Swm.Palletization
             return this;
         }
 
+        /// <summary>
+        /// 如果使用子类扩展了实体模型，则使用此方法添加扩展部分的模型映射类，将实体添加到 NHibernate 中。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="extensionModelMapper"></param>
+        /// <returns></returns>
+        public PalletizationModuleBuilder AddExtensionModelMapper<T>(XModelMapper extensionModelMapper)
+        {
+            _extensionModelMapper = extensionModelMapper;
+            return this;
+        }
         internal PalletizationModule Build()
         {
             return new PalletizationModule(this);

@@ -17,38 +17,48 @@ using Autofac;
 using Serilog;
 using Swm.OutboundOrders.Mappings;
 using System;
-using System.Reflection;
 
 namespace Swm.OutboundOrders
 {
     /// <summary>
     /// 
     /// </summary>
-    public class OutboundOrdersModule : Autofac.Module
+    public class OutboundOrdersModule : Module
     {
         static ILogger _logger = Log.ForContext<OutboundOrdersModule>();
+        OutboundOrdersModuleBuilder _moduleBuilder;
+        internal OutboundOrdersModule(OutboundOrdersModuleBuilder moduleBuilder)
+        {
+            _moduleBuilder = moduleBuilder;
+        }
 
 
         protected override void Load(ContainerBuilder builder)
         {
             builder.AddModelMapper(new Mapper());
 
-            RegisterBySuffix("Helper");
-            RegisterBySuffix("Provider");
-            RegisterBySuffix("Service");
-            RegisterBySuffix("Allocator");
-
-            void RegisterBySuffix(string suffix)
+            if (_moduleBuilder._extensionModelMapper != null)
             {
-                var asm = Assembly.GetExecutingAssembly();
-                builder.RegisterAssemblyTypes(asm)
-                    .Where(t => t.IsAbstract == false && t.Name.EndsWith(suffix, StringComparison.Ordinal))
-                    .AsImplementedInterfaces()
-                    .AsSelf();
-                _logger.Information("已注册后缀 {suffix}", suffix);
+                builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
             }
 
-        }
+            RegisterFactory(_moduleBuilder._outboundOrderFactory);
+            RegisterFactory(_moduleBuilder._outboundLineFactory);
 
+            builder.RegisterType<OutboundOrderPickHelper>();
+            builder.RegisterType<DefaultOutboundOrderAllocator>().AsImplementedInterfaces();
+            if (_moduleBuilder._outboundOrderAllocatorType != null)
+            {
+                builder.RegisterType(_moduleBuilder._outboundOrderAllocatorType);
+            }
+
+            void RegisterFactory<T>(Func<T>? factory) where T : notnull
+            {
+                if (factory != null)
+                {
+                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
+                }
+            }
+        }
     }
 }

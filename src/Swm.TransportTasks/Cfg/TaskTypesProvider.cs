@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Autofac;
-using Serilog;
-using Swm.TransportTasks;
+using System.Collections.Generic;
 
-namespace Swm.Model.Extentions
+namespace Swm.TransportTasks
 {
-    /// <summary>
-    /// 用于向容器注册类型的扩展方法。在 Startup.ConfigureContainer 方法中调用。
-    /// </summary>
-    public static class ExContainerBuilderExtensions
+    public sealed class TaskTypesProvider
     {
-        static ILogger _logger = Log.ForContext(typeof(ExContainerBuilderExtensions));
-
-        public static void AddEx(this ContainerBuilder builder)
-        {
-            builder.RegisterType<TaskSender>().As<ITaskSender>();
-        }
+        public IReadOnlyCollection<string> TaskTypes { get; init; }
     }
 }

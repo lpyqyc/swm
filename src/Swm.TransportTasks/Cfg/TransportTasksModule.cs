@@ -21,12 +21,6 @@ using System.Collections.Generic;
 
 namespace Swm.TransportTasks
 {
-    public sealed class TaskTypesProvider
-    {
-        public IReadOnlyCollection<string> TaskTypes { get; init; }
-    }
-
-
     /// <summary>
     /// 
     /// </summary>

@@ -15,30 +15,37 @@
 using Arctic.NHibernateExtensions;
 using System;
 
-namespace Swm.InboundOrders
+namespace Swm.OutboundOrders
 {
-    public class InboundOrdersModuleBuilder
+    public class OutboundOrdersModuleBuilder
     {
-        internal Func<InboundOrder>? _inboundOrderFactory;
-        internal Func<InboundLine>? _inboundLineFactory;
+        internal Func<OutboundOrder>? _outboundOrderFactory;
+        internal Func<OutboundLine>? _outboundLineFactory;
         internal XModelMapper? _extensionModelMapper;
+        internal Type? _outboundOrderAllocatorType;
 
-
-        internal InboundOrdersModuleBuilder()
+        internal OutboundOrdersModuleBuilder()
         {
         }
 
-        public InboundOrdersModuleBuilder UseInboundOrder<T>()
-            where T : InboundOrder, new()
+        public OutboundOrdersModuleBuilder UseOutboundOrder<T>()
+            where T : OutboundOrder, new()
         {
-            _inboundOrderFactory = () => new T();
+            _outboundOrderFactory = () => new T();
             return this;
         }
 
-        public InboundOrdersModuleBuilder UseInboundLine<T>()
-            where T : InboundLine, new()
+        public OutboundOrdersModuleBuilder UseOutboundLine<T>()
+            where T : OutboundLine, new()
         {
-            _inboundLineFactory = () => new T();
+            _outboundLineFactory = () => new T();
+            return this;
+        }
+
+        public OutboundOrdersModuleBuilder UseOutboundOrderAllocator<T>()
+            where T : IOutboundOrderAllocator
+        {
+            _outboundOrderAllocatorType = typeof(T);
             return this;
         }
 
@@ -48,15 +55,17 @@ namespace Swm.InboundOrders
         /// <typeparam name="T"></typeparam>
         /// <param name="extensionModelMapper"></param>
         /// <returns></returns>
-        public InboundOrdersModuleBuilder AddExtensionModelMapper<T>(XModelMapper extensionModelMapper)
+        public OutboundOrdersModuleBuilder AddExtensionModelMapper<T>(XModelMapper extensionModelMapper)
         {
             _extensionModelMapper = extensionModelMapper;
             return this;
         }
 
-        internal InboundOrdersModule Build()
+        internal OutboundOrdersModule Build()
         {
-            return new InboundOrdersModule(this);
+            return new OutboundOrdersModule(this);
         }
     }
+
+
 }

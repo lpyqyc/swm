@@ -12,24 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NHibernate;
-using Swm.TransportTasks;
+using Autofac;
 using System;
 
-namespace Swm.Model.Extentions
+namespace Swm.OutboundOrders
 {
-    public class TaskSender : ITaskSender
+    public static class OutboundOrdersContainerBuilderExtensions
     {
-        ISession _session;
-        public TaskSender(ISession session)
+        public static void AddOutboundOrders(this ContainerBuilder builder, Action<OutboundOrdersModuleBuilder> configure)
         {
-            _session = session;
-        }
-        public void SendTask(TransportTask task)
-        {
-            task.WasSentToWcs = true;
-            task.SendTime = DateTime.Now;
-            _session.Save(task);
+            OutboundOrdersModuleBuilder moduleBuilder = new OutboundOrdersModuleBuilder();
+            configure?.Invoke(moduleBuilder);
+            var m = moduleBuilder.Build();
+            builder.RegisterModule(m);
         }
     }
 

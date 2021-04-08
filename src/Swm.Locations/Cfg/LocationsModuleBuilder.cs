@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.NHibernateExtensions;
 using System;
 
 namespace Swm.Locations
@@ -19,6 +20,7 @@ namespace Swm.Locations
     public class LocationsModuleBuilder
     {
         internal Func<Location>? _locationFactory;
+        internal XModelMapper? _extensionModelMapper;
 
         internal LocationsModuleBuilder()
         {
@@ -29,6 +31,18 @@ namespace Swm.Locations
             where T : Location, new()
         {
             _locationFactory = () => new T();
+            return this;
+        }
+
+        /// <summary>
+        /// 如果使用子类扩展了实体模型，则使用此方法添加扩展部分的模型映射类，将实体添加到 NHibernate 中。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="extensionModelMapper"></param>
+        /// <returns></returns>
+        public LocationsModuleBuilder AddExtensionModelMapper<T>(XModelMapper extensionModelMapper)
+        {
+            _extensionModelMapper = extensionModelMapper;
             return this;
         }
 

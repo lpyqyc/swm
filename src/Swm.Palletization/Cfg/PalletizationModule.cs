@@ -39,6 +39,11 @@ namespace Swm.Palletization
         {
             builder.AddModelMapper(new Mapper());
 
+            if (_moduleBuilder._extensionModelMapper != null)
+            {
+                builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
+            }
+
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
 
