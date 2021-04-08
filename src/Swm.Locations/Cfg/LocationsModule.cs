@@ -36,7 +36,7 @@ namespace Swm.Locations
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper<Mapper>();
+            builder.AddModelMapper(new Mapper());
 
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");

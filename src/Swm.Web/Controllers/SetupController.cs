@@ -25,8 +25,9 @@ using Swm.Locations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
+
+// TODO 重要：安装工具不应作为程序的一部分，应拆分为独立的工具
 
 namespace Swm.Web.Controllers
 {

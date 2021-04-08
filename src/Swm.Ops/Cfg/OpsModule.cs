@@ -14,19 +14,18 @@
 
 using Arctic.NHibernateExtensions;
 using Autofac;
-using Serilog;
-using Swm.Model.Mappings;
+using Swm.Ops.Mappings;
 
 namespace Swm.Ops
 {
     /// <summary>
     /// 
     /// </summary>
-    internal class OpsModule : Autofac.Module
+    internal class OpsModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper<Mapper>();
+            builder.AddModelMapper(new Mapper());
             builder.RegisterType<OpHelper>().AsSelf();
         }
 

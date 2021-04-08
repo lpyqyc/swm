@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
-using System.Reflection;
 
 namespace Swm.Palletization.Mappings
 {
@@ -30,7 +29,11 @@ namespace Swm.Palletization.Mappings
             });
 
             // 添加映射类
-            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+            this.AddMapping<UnitloadItemAllocationMapping>();
+            this.AddMapping<UnitloadItemMapping>();
+            this.AddMapping<UnitloadItemSnapshotMapping>();
+            this.AddMapping<UnitloadMapping>();
+            this.AddMapping<UnitloadSnapshotMapping>();
         }
     }
 }

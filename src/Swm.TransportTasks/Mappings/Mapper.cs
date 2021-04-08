@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
-using System.Reflection;
 
 namespace Swm.TransportTasks.Mappings
 {
@@ -22,7 +21,8 @@ namespace Swm.TransportTasks.Mappings
         public Mapper()
         {
             // 添加映射类
-            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+            this.AddMapping<TransportTaskMapping>();
+            this.AddMapping<ArchivedTransportTaskMapping>();
         }
     }
 }

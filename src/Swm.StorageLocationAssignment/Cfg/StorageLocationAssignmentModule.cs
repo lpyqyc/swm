@@ -14,15 +14,13 @@
 
 using Autofac;
 using Serilog;
-using System;
-using System.Reflection;
 
 namespace Swm.StorageLocationAssignment
 {
     /// <summary>
     /// 向容器注册货位分配的服务。
     /// </summary>
-    internal class StorageLocationAssignmentModule : Autofac.Module
+    internal class StorageLocationAssignmentModule : Module
     {
         static ILogger _logger = Log.ForContext<StorageLocationAssignmentModule>();
 

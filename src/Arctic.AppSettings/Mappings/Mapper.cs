@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.AppSeqs.Mappings;
 using Arctic.NHibernateExtensions;
-using Autofac;
 
-namespace Arctic.AppSeqs
+namespace Arctic.AppSettings.Mappings
 {
-    public static class AppSeqsContainerBuilderExtensions
+    internal class Mapper : XModelMapper
     {
-        public static void AddAppSeqs(this ContainerBuilder builder)
+        public Mapper()
         {
-            builder.AddModelMapper(new Mapper());
-            builder.RegisterType<AppSeqService>().As<IAppSeqService>().InstancePerLifetimeScope();
+            // 添加映射类
+            this.AddMapping<AppSettingMapping>();
         }
+
     }
+
 }

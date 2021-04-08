@@ -207,20 +207,25 @@ namespace Swm.Web
 
             builder.AddStorageLocationAssignment(module =>
             {
-                module.UseRule<SSRule01>();
+                module.AddRule<SSRule01>();
             });
 
             builder.AddTransportTasks(module =>
             {
-                module.UseRequestHandler<TestRequestHandler>("Test")
-                    .UseRequestHandler<上架请求处理程序>("上架")
+                module
                     .UseTaskSender<FakeTaskSender>()
-                    .UseCompletedTaskHandler<TestCompletedTaskHandler>("Test")
-                    .UseCompletedTaskHandler<上架完成处理程序>("上架");
+                    .AddRequestHandler<TestRequestHandler>("Test")
+                    .AddRequestHandler<上架请求处理程序>("上架")
+                    .AddCompletedTaskHandler<TestCompletedTaskHandler>("Test")
+                    .AddCompletedTaskHandler<上架完成处理程序>("上架");
             });
             
             builder.RegisterModule<OutboundOrdersModule>();
-            builder.RegisterModule<InboundOrdersModule>();
+            builder.AddInboundOrders(module => 
+            {
+                module.UseInboundOrder<InboundOrder>()
+                    .UseInboundLine<InboundLine>();
+            });
 
             builder.AddEx();
 
@@ -261,29 +266,8 @@ namespace Swm.Web
             });
 
             app.UseSerilogRequestLogging();
-
             app.UseRouting();
-
             app.UseAuthentication();
-
-//            if (env.IsDevelopment())
-//            {
-//#warning 仅用于调试期间
-//                app.Use(async (context, next) =>
-//                {
-//                    var claims = new List<Claim>
-//                    {
-//                        new Claim(ClaimTypes.Name, "admin"),
-//                        new Claim(ClaimTypes.Role, "admin"),
-//                        new Claim(ClaimTypes.Role, "dev"),
-//                    };
-
-//                    ClaimsIdentity identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
-//                    ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-//                    context.User = principal;
-//                    await next();
-//                });
-//            }
 
             app.Use(async (context, next) =>
             {

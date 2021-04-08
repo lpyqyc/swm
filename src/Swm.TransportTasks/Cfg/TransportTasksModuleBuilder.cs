@@ -27,7 +27,7 @@ namespace Swm.TransportTasks
         {
         }
 
-        public TransportTasksModuleBuilder UseRequestHandler<T>(string requestType)
+        public TransportTasksModuleBuilder AddRequestHandler<T>(string requestType)
             where T : IRequestHandler
         {
             if (string.IsNullOrWhiteSpace(requestType))
@@ -38,7 +38,7 @@ namespace Swm.TransportTasks
             return this;
         }
 
-        public TransportTasksModuleBuilder UseCompletedTaskHandler<T>(string taskType)
+        public TransportTasksModuleBuilder AddCompletedTaskHandler<T>(string taskType)
             where T : ICompletedTaskHandler
         {
             if (string.IsNullOrWhiteSpace(taskType))

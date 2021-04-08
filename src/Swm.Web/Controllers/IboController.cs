@@ -168,7 +168,8 @@ namespace Swm.Web.Controllers
             string prefix = $"IBO{DateTime.Now:yyMMdd}";
             int next = await _appSeqService.GetNextAsync(prefix);
             var inboundOrderCode = $"{prefix}{next:00000}";
-            InboundOrder inboundOrder = new InboundOrder(inboundOrderCode);
+            InboundOrder inboundOrder = new InboundOrder();
+            inboundOrder.InboundOrderCode = inboundOrderCode;
             inboundOrder.BizType = args.BizType;
             inboundOrder.BizOrder = args.BizOrder;
             inboundOrder.Comment = args.Comment;

@@ -13,16 +13,15 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
-using System.Reflection;
 
-namespace Swm.Model.Mappings
+namespace Swm.Ops.Mappings
 {
     internal class Mapper : XModelMapper
     {
         public Mapper()
         {
             // 添加映射类
-            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+            this.AddMapping<OpMapping>();
         }
     }
 }

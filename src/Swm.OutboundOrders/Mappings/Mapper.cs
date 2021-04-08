@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
-using System.Reflection;
 
 namespace Swm.OutboundOrders.Mappings
 {
@@ -22,7 +21,8 @@ namespace Swm.OutboundOrders.Mappings
         public Mapper()
         {
             // 添加映射类
-            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+            this.AddMapping<OutboundLineMapping>();
+            this.AddMapping<OutboundOrderMapping>();
         }
     }
 }

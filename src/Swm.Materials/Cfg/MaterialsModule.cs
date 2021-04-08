@@ -36,7 +36,7 @@ namespace Swm.Materials
         
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper<Mapper>();
+            builder.AddModelMapper(new Mapper());
 
             RegisterFactory(_moduleBuilder._materialFactory);
             RegisterFactory(_moduleBuilder._flowFactory);

@@ -37,11 +37,10 @@ namespace Swm.Palletization
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper<Mapper>();
+            builder.AddModelMapper(new Mapper());
 
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
-            RegisterBySuffix("Service");
 
             RegisterFactory(_moduleBuilder._unitloadFactory);
             RegisterFactory(_moduleBuilder._unitloadItemFactory);

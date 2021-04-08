@@ -31,9 +31,8 @@ namespace Swm.OutboundOrders
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper<Mapper>();
+            builder.AddModelMapper(new Mapper());
 
-            RegisterBySuffix("Factory");
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
             RegisterBySuffix("Service");

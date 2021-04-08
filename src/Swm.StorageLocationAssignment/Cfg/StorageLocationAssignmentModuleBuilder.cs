@@ -26,7 +26,7 @@ namespace Swm.StorageLocationAssignment
         {
         }
 
-        public StorageLocationAssignmentModuleBuilder UseRule<T>()
+        public StorageLocationAssignmentModuleBuilder AddRule<T>()
             where T : IRule
         {
             _ruleTypes.Add(typeof(T));

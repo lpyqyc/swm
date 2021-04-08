@@ -30,19 +30,13 @@ namespace Swm.InboundOrders
         /// <summary>
         /// 初始化此类的新实例。
         /// </summary>
-        public InboundOrder(string inboundOrderCode)
+        public InboundOrder()
         {
-            this.InboundOrderCode = inboundOrderCode;
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this._lines = new HashSet<InboundLine>();
         }
 
-        protected InboundOrder()
-            : this(default!)
-        {
-
-        }
 
         /// <summary>
         /// Id
@@ -82,7 +76,7 @@ namespace Swm.InboundOrders
         /// </summary>
         [Required]
         [MaxLength(20)]
-        public virtual string InboundOrderCode { get; set; }
+        public virtual string? InboundOrderCode { get; set; }
 
         /// <summary>
         /// 业务类型。

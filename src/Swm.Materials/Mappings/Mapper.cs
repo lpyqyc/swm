@@ -13,16 +13,22 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
-using System.Reflection;
 
 namespace Swm.Materials.Mappings
 {
-    internal class Mapper : XModelMapper
+    public class Mapper : XModelMapper
     {
         public Mapper()
         {
             // 添加映射类
-            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+            this.AddMapping<BizTypeInfoMapping>();
+            this.AddMapping<FlowMapping>();
+            this.AddMapping<MaterialMapping>();
+            this.AddMapping<MaterialTypeInfoMapping>();
+            this.AddMapping<MonthlyReportMapping>();
+            this.AddMapping<MonthlyReportItemMapping>();
+            this.AddMapping<StockMapping>();
+            this.AddMapping<StockStatusInfoMapping>();
         }
     }
 }

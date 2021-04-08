@@ -44,7 +44,7 @@ namespace Swm.TransportTasks
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper<Mapper>();
+            builder.AddModelMapper(new Mapper());
             builder.RegisterType(_moduleBuilder._taskSenderType).AsImplementedInterfaces();
             builder.RegisterType<TaskHelper>();
 

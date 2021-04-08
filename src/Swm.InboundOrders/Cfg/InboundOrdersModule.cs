@@ -27,13 +27,25 @@ namespace Swm.InboundOrders
     public class InboundOrdersModule : Autofac.Module
     {
         static ILogger _logger = Log.ForContext<InboundOrdersModule>();
+        InboundOrdersModuleBuilder _moduleBuilder;
+        internal InboundOrdersModule(InboundOrdersModuleBuilder moduleBuilder)
+        {
+            _moduleBuilder = moduleBuilder;
+        }
 
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper<Mapper>();
+            builder.AddModelMapper(new Mapper());
 
-            RegisterBySuffix("Factory");
+            if (_moduleBuilder._extensionModelMapper != null)
+            {
+                builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
+            }
+
+            RegisterFactory(_moduleBuilder._inboundOrderFactory);
+            RegisterFactory(_moduleBuilder._inboundLineFactory);
+
             RegisterBySuffix("Helper");
             RegisterBySuffix("Provider");
             RegisterBySuffix("Service");
@@ -48,6 +60,13 @@ namespace Swm.InboundOrders
                 _logger.Information("已注册后缀 {suffix}", suffix);
             }
 
+            void RegisterFactory<T>(Func<T>? factory) where T : notnull
+            {
+                if (factory != null)
+                {
+                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
+                }
+            }
         }
 
     }

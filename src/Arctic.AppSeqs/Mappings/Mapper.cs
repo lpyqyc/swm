@@ -13,16 +13,15 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
-using System.Reflection;
 
 namespace Arctic.AppSeqs.Mappings
 {
-    internal class AppSeqsModelMapper : XModelMapper
+    internal class Mapper : XModelMapper
     {
-        public AppSeqsModelMapper()
+        public Mapper()
         {
             // 添加映射类
-            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+            this.AddMapping<AppSeqMapping>();
         }
 
     }

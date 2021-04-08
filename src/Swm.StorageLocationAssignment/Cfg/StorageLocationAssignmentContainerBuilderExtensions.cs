@@ -21,9 +21,9 @@ namespace Swm.StorageLocationAssignment
     {
         public static void AddStorageLocationAssignment(this ContainerBuilder builder, Action<StorageLocationAssignmentModuleBuilder> configure)
         {
-            StorageLocationAssignmentModuleBuilder storageLocationAssignmentModuleBuilder = new StorageLocationAssignmentModuleBuilder();
-            configure?.Invoke(storageLocationAssignmentModuleBuilder);
-            var m = storageLocationAssignmentModuleBuilder.Build();
+            StorageLocationAssignmentModuleBuilder moduleBuilder = new StorageLocationAssignmentModuleBuilder();
+            configure?.Invoke(moduleBuilder);
+            var m = moduleBuilder.Build();
             builder.RegisterModule(m);
         }
     }

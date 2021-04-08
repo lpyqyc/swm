@@ -101,10 +101,10 @@ namespace Arctic.NHibernateExtensions
         }
 
 
-        public static void AddModelMapper<T>(this ContainerBuilder builder) where T : XModelMapper, new()
+        public static void AddModelMapper(this ContainerBuilder builder, XModelMapper modelMapper)
         {
-            builder.Register(c => new T()).As<XModelMapper>().SingleInstance();
-            _logger.Information("向容器注册了 ModelMapper {modelMapperType}", typeof(T));
+            builder.RegisterInstance(modelMapper).As<XModelMapper>().SingleInstance();
+            _logger.Information("向容器注册了 ModelMapper {modelMapperType}", modelMapper.GetType());
         }
     }
 }

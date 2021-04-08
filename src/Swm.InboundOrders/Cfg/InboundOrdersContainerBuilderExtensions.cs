@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.NHibernateExtensions;
-using System.Reflection;
+using Autofac;
+using System;
 
-namespace Arctic.AppSettings.Mappings
+namespace Swm.InboundOrders
 {
-    internal class AppSettingsModelMapper : XModelMapper
+    public static class InboundOrdersContainerBuilderExtensions
     {
-        public AppSettingsModelMapper()
+        public static void AddInboundOrders(this ContainerBuilder builder, Action<InboundOrdersModuleBuilder> configure)
         {
-            // 添加映射类
-            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+            InboundOrdersModuleBuilder moduleBuilder = new InboundOrdersModuleBuilder();
+            configure?.Invoke(moduleBuilder);
+            var m = moduleBuilder.Build();
+            builder.RegisterModule(m);
         }
-
     }
-
 }

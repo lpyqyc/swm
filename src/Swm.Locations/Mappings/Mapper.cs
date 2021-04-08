@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
-using System.Reflection;
 
 namespace Swm.Locations.Mappings
 {
@@ -40,7 +39,11 @@ namespace Swm.Locations.Mappings
 
 
             // 添加映射类
-            this.AddMappings(Assembly.GetExecutingAssembly().GetTypes());
+            this.AddMapping<CellMapping>();
+            this.AddMapping<LanewayMapping>();
+            this.AddMapping<LocationMapping>();
+            this.AddMapping<LocationOpMapping>();
+            this.AddMapping<PortMapping>();
         }
     }
 }
