@@ -58,8 +58,8 @@ namespace Swm.Locations.Mappings
             Property(cl => cl.HeightLimit);
             Property(cl => cl.Specification);
 
-            ManyToOne(cl => cl.Laneway, m => {
-                m.Column("LanewayId");
+            ManyToOne(cl => cl.Streetlet, m => {
+                m.Column("StreetletId");
                 m.Update(false);
             });
             Property(cl => cl.Side);

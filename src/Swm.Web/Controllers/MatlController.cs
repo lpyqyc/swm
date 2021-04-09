@@ -391,7 +391,7 @@ namespace Swm.Web.Controllers
                 UnitloadItemId = x.UnitloadItemId,
                 PalletCode = x.Unitload?.PalletCode,
                 LocationCode = x.Unitload?.CurrentLocation?.LocationCode,
-                LanewayCode = x.Unitload?.CurrentLocation?.Laneway?.LanewayCode,
+                StreetletCode = x.Unitload?.CurrentLocation?.Streetlet?.StreetletCode,
                 BeingMoved = x.Unitload?.BeingMoved ?? default,
                 MaterialId = x.Material?.MaterialId ?? default,
                 MaterialCode = x.Material?.MaterialCode,

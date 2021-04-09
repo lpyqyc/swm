@@ -148,7 +148,7 @@ namespace Swm.Locations
         /// <summary>
         /// 指示货位属于哪个巷道
         /// </summary>
-        public virtual Laneway? Laneway { get; set; }
+        public virtual Streetlet? Streetlet { get; set; }
 
         /// <summary>
         /// 指示货位在巷道哪一侧。
@@ -219,12 +219,12 @@ namespace Swm.Locations
 
         public virtual Location GetDeep1()
         {
-            if (this.LocationType != LocationTypes.S || this.Laneway == null || this.Cell == null)
+            if (this.LocationType != LocationTypes.S || this.Streetlet == null || this.Cell == null)
             {
                 throw new InvalidOperationException();
             }
 
-            if (this.Laneway.DoubleDeep == false)
+            if (this.Streetlet.DoubleDeep == false)
             {
                 throw new InvalidOperationException();
             }
@@ -241,12 +241,12 @@ namespace Swm.Locations
 
         public virtual Location GetDeep2()
         {
-            if (this.LocationType != LocationTypes.S || this.Laneway == null || this.Cell == null)
+            if (this.LocationType != LocationTypes.S || this.Streetlet == null || this.Cell == null)
             {
                 throw new InvalidOperationException();
             }
 
-            if (this.Laneway.DoubleDeep == false)
+            if (this.Streetlet.DoubleDeep == false)
             {
                 throw new InvalidOperationException();
             }
@@ -298,14 +298,14 @@ namespace Swm.Locations
                 Cell?.UpdateState();
 
                 // 更新巷道使用数据
-                var key = new LanewayUsageKey
+                var key = new StreetletUsageKey
                 {
                     StorageGroup = StorageGroup!,
                     Specification = Specification,
                     WeightLimit = WeightLimit,
                     HeightLimit = HeightLimit,
                 };
-                var usage = Laneway?.Usage;
+                var usage = Streetlet?.Usage;
                 if (usage != null && usage.ContainsKey(key))
                 {
                     var loaded = Loaded();
@@ -347,7 +347,7 @@ namespace Swm.Locations
             {
                 Cell?.UpdateState();
 
-                var key = new LanewayUsageKey
+                var key = new StreetletUsageKey
                 {
                     StorageGroup = StorageGroup!,
                     Specification = Specification,
@@ -355,7 +355,7 @@ namespace Swm.Locations
                     HeightLimit = HeightLimit,
                 };
 
-                var usage = Laneway?.Usage;
+                var usage = Streetlet?.Usage;
                 if (usage != null && usage.ContainsKey(key))
                 {
                     var loaded = Loaded();

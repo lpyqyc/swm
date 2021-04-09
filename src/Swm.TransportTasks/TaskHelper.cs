@@ -192,16 +192,16 @@ namespace Swm.TransportTasks
             }
 
 
-            if (start.LocationType == LocationTypes.S && start?.Laneway != null)
+            if (start.LocationType == LocationTypes.S && start?.Streetlet != null)
             {
-                if (start.Laneway.Automated == false)
+                if (start.Streetlet.Automated == false)
                 {
-                    throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayNotAutomated);
+                    throw new FailToBuildTaskException(FailtoBuildTaskReason.StreetletNotAutomated);
                 }
 
-                if (start.Laneway.Offline)
+                if (start.Streetlet.Offline)
                 {
-                    throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayOffline);
+                    throw new FailToBuildTaskException(FailtoBuildTaskReason.StreetletOffline);
                 }
 
                 if (start.Deep == 2)
@@ -261,16 +261,16 @@ namespace Swm.TransportTasks
             }
 
 
-            if (end.LocationType == LocationTypes.S && end.Laneway != null)
+            if (end.LocationType == LocationTypes.S && end.Streetlet != null)
             {
-                if (end.Laneway.Automated == false)
+                if (end.Streetlet.Automated == false)
                 {
-                    throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayNotAutomated);
+                    throw new FailToBuildTaskException(FailtoBuildTaskReason.StreetletNotAutomated);
                 }
 
-                if (end.Laneway.Offline)
+                if (end.Streetlet.Offline)
                 {
-                    throw new FailToBuildTaskException(FailtoBuildTaskReason.LanewayOffline);
+                    throw new FailToBuildTaskException(FailtoBuildTaskReason.StreetletOffline);
                 }
 
                 if (end.Deep == 2)

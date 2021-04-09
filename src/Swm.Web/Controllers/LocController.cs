@@ -69,17 +69,17 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet("get-laneway-list")]
+        [HttpGet("get-streetlet-list")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看巷道)]
-        public async Task<ListData<LanewayInfo>> GetLanewayList([FromQuery] LanewayListArgs args)
+        public async Task<ListData<StreetletInfo>> GetStreetletList([FromQuery] StreetletListArgs args)
         {
-            var pagedList = await _session.Query<Laneway>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return this.ListData(pagedList, x => new LanewayInfo
+            var pagedList = await _session.Query<Streetlet>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+            return this.ListData(pagedList, x => new StreetletInfo
             {
-                LanewayId = x.LanewayId,
-                LanewayCode = x.LanewayCode,
+                StreetletId = x.StreetletId,
+                StreetletCode = x.StreetletCode,
                 Automated = x.Automated,
                 DoubleDeep = x.DoubleDeep,
                 Offline = x.Offline,
@@ -88,7 +88,7 @@ namespace Swm.Web.Controllers
                 AvailableLocationCount = x.GetAvailableLocationCount(),
                 ReservedLocationCount = x.ReservedLocationCount,
                 UsageRate = (x.GetTotalLocationCount() - x.GetAvailableLocationCount()) / (double)x.GetTotalLocationCount(),
-                UsageInfos = x.Usage.Select(x => new LanewayUsageInfo
+                UsageInfos = x.Usage.Select(x => new StreetletUsageInfo
                 {
                     StorageGroup = x.Key.StorageGroup,
                     WeightLimit = x.Key.WeightLimit,
@@ -115,15 +115,15 @@ namespace Swm.Web.Controllers
         /// 获取巷道的选项列表
         /// </summary>
         /// <returns></returns>
-        [HttpGet("get-laneway-options")]
+        [HttpGet("get-streetlet-options")]
         [AutoTransaction]
-        public async Task<OptionsData<LanewayInfo>> GetLanewayOptions()
+        public async Task<OptionsData<StreetletInfo>> GetStreetletOptions()
         {
-            var items = await _session.Query<Laneway>()
-                .Select(x => new LanewayInfo
+            var items = await _session.Query<Streetlet>()
+                .Select(x => new StreetletInfo
                 {
-                    LanewayId = x.LanewayId,
-                    LanewayCode = x.LanewayCode,
+                    StreetletId = x.StreetletId,
+                    StreetletCode = x.StreetletCode,
                     Offline = x.Offline,
                 })
                 .ToListAsync();
@@ -141,23 +141,23 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<ApiData> TakeOffline(int id, [FromBody] TakeOfflineArgs args)
         {
-            Laneway laneway = await _session.GetAsync<Laneway>(id);
-            if (laneway == null)
+            Streetlet streetlet = await _session.GetAsync<Streetlet>(id);
+            if (streetlet == null)
             {
                 throw new InvalidOperationException("巷道不存在。");
             }
 
-            if (laneway.Offline == true)
+            if (streetlet.Offline == true)
             {
-                throw new InvalidOperationException($"巷道已处于脱机状态。【{laneway.LanewayCode}】");
+                throw new InvalidOperationException($"巷道已处于脱机状态。【{streetlet.StreetletCode}】");
             }
 
-            laneway.Offline = true;
-            laneway.TakeOfflineTime = DateTime.Now;
-            laneway.OfflineComment = args.Comment;
-            await _session.UpdateAsync(laneway);
-            _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】，备注【{args.Comment}】");
-            _logger.Information("已将巷道 {lanewayCode} 脱机", laneway.LanewayCode);
+            streetlet.Offline = true;
+            streetlet.TakeOfflineTime = DateTime.Now;
+            streetlet.OfflineComment = args.Comment;
+            await _session.UpdateAsync(streetlet);
+            _ = await _opHelper.SaveOpAsync($"巷道【{streetlet.StreetletCode}】，备注【{args.Comment}】");
+            _logger.Information("已将巷道 {streetletCode} 脱机", streetlet.StreetletCode);
 
             return this.Success();
         }
@@ -174,23 +174,23 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<ApiData> TakeOnline(int id, TakeOfflineArgs args)
         {
-            Laneway laneway = await _session.GetAsync<Laneway>(id);
-            if (laneway == null)
+            Streetlet streetlet = await _session.GetAsync<Streetlet>(id);
+            if (streetlet == null)
             {
                 throw new InvalidOperationException("巷道不存在");
             }
 
-            if (laneway.Offline == false)
+            if (streetlet.Offline == false)
             {
-                throw new InvalidOperationException($"巷道已处于联机状态。【{laneway.LanewayCode}】");
+                throw new InvalidOperationException($"巷道已处于联机状态。【{streetlet.StreetletCode}】");
             }
 
-            laneway.Offline = false;
-            laneway.TotalOfflineHours += DateTime.Now.Subtract(laneway.TakeOfflineTime).TotalHours;
-            laneway.OfflineComment = args.Comment;
-            await _session.UpdateAsync(laneway);
-            _ = await _opHelper.SaveOpAsync($"巷道【{laneway.LanewayCode}】");
-            _logger.Information("已将巷道 {lanewayCode} 联机", laneway.LanewayCode);
+            streetlet.Offline = false;
+            streetlet.TotalOfflineHours += DateTime.Now.Subtract(streetlet.TakeOfflineTime).TotalHours;
+            streetlet.OfflineComment = args.Comment;
+            await _session.UpdateAsync(streetlet);
+            _ = await _opHelper.SaveOpAsync($"巷道【{streetlet.StreetletCode}】");
+            _logger.Information("已将巷道 {streetletCode} 联机", streetlet.StreetletCode);
 
             return this.Success();
         }
@@ -206,21 +206,21 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<ApiData> SetPorts(int id, SetPortsArgs args)
         {
-            Laneway laneway = await _session.GetAsync<Laneway>(id);
-            if (laneway == null)
+            Streetlet streetlet = await _session.GetAsync<Streetlet>(id);
+            if (streetlet == null)
             {
                 throw new InvalidOperationException("巷道不存在");
             }
 
-            laneway.Ports.Clear();
+            streetlet.Ports.Clear();
             foreach (var portId in args.PortIdList)
             {
                 Port port = await _session.GetAsync<Port>(portId);
-                laneway.Ports.Add(port);
+                streetlet.Ports.Add(port);
             }
 
-            var op = await _opHelper.SaveOpAsync("巷道【{0}】，{1} 个出货口", laneway.LanewayCode, laneway.Ports.Count);
-            _logger.Information("设置出货口成功，{lanewayCode} --> {ports}", laneway.LanewayCode, string.Join(",", laneway.Ports.Select(x => x.PortCode)));
+            var op = await _opHelper.SaveOpAsync("巷道【{0}】，{1} 个出货口", streetlet.StreetletCode, streetlet.Ports.Count);
+            _logger.Information("设置出货口成功，{streetletCode} --> {ports}", streetlet.StreetletCode, string.Join(",", streetlet.Ports.Select(x => x.PortCode)));
 
             return this.Success();
         }
@@ -228,35 +228,35 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 巷道侧视图
         /// </summary>
-        /// <param name="lanewayCode">巷道编号</param>
+        /// <param name="streetletCode">巷道编号</param>
         /// <returns></returns>
-        [HttpGet("get-side-view/{lanewayCode}")]
+        [HttpGet("get-side-view/{streetletCode}")]
         [OperationType(OperationTypes.侧视图)]
         [AutoTransaction]
-        public async Task<ApiData<SideViewData>> GetSideViewData(string lanewayCode)
+        public async Task<ApiData<SideViewData>> GetSideViewData(string streetletCode)
         {
-            Laneway? laneway = await _session.Query<Laneway>().SingleOrDefaultAsync(x => x.LanewayCode == lanewayCode);
-            if (laneway == null)
+            Streetlet? streetlet = await _session.Query<Streetlet>().SingleOrDefaultAsync(x => x.StreetletCode == streetletCode);
+            if (streetlet == null)
             {
                 throw new InvalidOperationException("巷道不存在");
             }
 
             var sideViewData = new SideViewData
             {
-                LanewayCode = laneway.LanewayCode,
-                Offline = laneway.Offline,
-                OfflineComment = laneway.OfflineComment,
-                AvailableCount = laneway.Locations
+                StreetletCode = streetlet.StreetletCode,
+                Offline = streetlet.Offline,
+                OfflineComment = streetlet.OfflineComment,
+                AvailableCount = streetlet.Locations
                         .Where(x =>
                             x.Exists
                             && x.UnitloadCount == 0
                             && x.InboundCount == 0
                             && x.InboundDisabled == false)
                         .Count(),
-                LocationCount = laneway.Locations
+                LocationCount = streetlet.Locations
                         .Where(x => x.Exists)
                         .Count(),
-                Locations = laneway.Locations.Select(loc => new SideViewLocation
+                Locations = streetlet.Locations.Select(loc => new SideViewLocation
                 {
                     LocationId = loc.LocationId,
                     LocationCode = loc.LocationCode,
@@ -297,12 +297,12 @@ namespace Swm.Web.Controllers
         [HttpPost("rebuild-stats")]
         [OperationType(OperationTypes.重建巷道统计信息)]
         [AutoTransaction]
-        public async Task<ApiData> RebuildLanewaysStat()
+        public async Task<ApiData> RebuildStreetletsStat()
         {
-            var laneways = await _session.Query<Laneway>().ToListAsync();
-            foreach (var laneway in laneways)
+            var streetlets = await _session.Query<Streetlet>().ToListAsync();
+            foreach (var streetlet in streetlets)
             {
-                await _locHelper.RebuildLanewayStatAsync(laneway);
+                await _locHelper.RebuildStreetletStatAsync(streetlet);
             }
             return this.Success();
         }
@@ -326,7 +326,7 @@ namespace Swm.Web.Controllers
                 CurrentUat = x.CurrentUat?.ToString(),
                 KP1 = x.KP1?.LocationCode,
                 KP2 = x.KP2?.LocationCode,
-                Laneways = x.Laneways.Select(x => x.LanewayCode).ToArray(),
+                Streetlets = x.Streetlets.Select(x => x.StreetletCode).ToArray(),
                 CheckedAt = x.CheckedAt,
                 CheckMessage = x.CheckMessage,
             });
@@ -349,7 +349,7 @@ namespace Swm.Web.Controllers
                     CurrentUat = x.CurrentUat?.ToString(),
                     KP1 = x.KP1.LocationCode,
                     KP2 = x.KP2?.LocationCode,
-                    Laneways = x.Laneways.Select(x => x.LanewayCode).ToArray(),
+                    Streetlets = x.Streetlets.Select(x => x.StreetletCode).ToArray(),
                     CheckedAt = x.CheckedAt,
                     CheckMessage = x.CheckMessage,
                 })
@@ -373,8 +373,8 @@ namespace Swm.Web.Controllers
             {
                 LocationId = x.LocationId,
                 LocationCode = x.LocationCode,
-                LanewayId = x.Laneway!.LanewayId,
-                LanewayCode = x.Laneway.LanewayCode,
+                StreetletId = x.Streetlet!.StreetletId,
+                StreetletCode = x.Streetlet.StreetletCode,
                 WeightLimit = x.WeightLimit,
                 HeightLimit = x.HeightLimit,
                 InboundCount = x.InboundCount,
@@ -456,15 +456,15 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            var laneways = locs
-                .Where(x => x.Laneway != null)
-                .Select(x => x.Laneway)
+            var streetlets = locs
+                .Where(x => x.Streetlet != null)
+                .Select(x => x.Streetlet)
                 .Distinct();
-            foreach (var laneway in laneways)
+            foreach (var streetlet in streetlets)
             {
-                if (laneway != null)
+                if (streetlet != null)
                 {
-                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                    await _locHelper.RebuildStreetletStatAsync(streetlet);
                 }
             }
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为禁止入站", affected);
@@ -532,10 +532,10 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
-            foreach (var laneway in laneways)
+            var streetlets = locs.Where(x => x.Streetlet != null).Select(x => x.Streetlet).Distinct();
+            foreach (var streetlet in streetlets)
             {
-                await _locHelper.RebuildLanewayStatAsync(laneway!);
+                await _locHelper.RebuildStreetletStatAsync(streetlet!);
             }
 
             _ = await _opHelper.SaveOpAsync("将 {0} 个位置设为允许入站。", affected);
@@ -605,12 +605,12 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
-            foreach (var laneway in laneways)
+            var streetlets = locs.Where(x => x.Streetlet != null).Select(x => x.Streetlet).Distinct();
+            foreach (var streetlet in streetlets)
             {
-                if (laneway != null)
+                if (streetlet != null)
                 {
-                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                    await _locHelper.RebuildStreetletStatAsync(streetlet);
                 }
             }
 
@@ -682,12 +682,12 @@ namespace Swm.Web.Controllers
                 }
             }
 
-            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
-            foreach (var laneway in laneways)
+            var streetlets = locs.Where(x => x.Streetlet != null).Select(x => x.Streetlet).Distinct();
+            foreach (var streetlet in streetlets)
             {
-                if (laneway != null)
+                if (streetlet != null)
                 {
-                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                    await _locHelper.RebuildStreetletStatAsync(streetlet);
                 }
             }
 
@@ -847,12 +847,12 @@ namespace Swm.Web.Controllers
                 await _session.UpdateAsync(loc);
             }
 
-            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
-            foreach (var laneway in laneways)
+            var streetlets = locs.Where(x => x.Streetlet != null).Select(x => x.Streetlet).Distinct();
+            foreach (var streetlet in streetlets)
             {
-                if (laneway != null)
+                if (streetlet != null)
                 {
-                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                    await _locHelper.RebuildStreetletStatAsync(streetlet);
                 }
             }
             _ = await _opHelper.SaveOpAsync($"将 {affected} 个位置的存储分组设为 {args.StorageGroup}");
@@ -898,12 +898,12 @@ namespace Swm.Web.Controllers
                 await _session.UpdateAsync(loc);
             }
 
-            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
-            foreach (var laneway in laneways)
+            var streetlets = locs.Where(x => x.Streetlet != null).Select(x => x.Streetlet).Distinct();
+            foreach (var streetlet in streetlets)
             {
-                if (laneway != null)
+                if (streetlet != null)
                 {
-                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                    await _locHelper.RebuildStreetletStatAsync(streetlet);
                 }
             }
             _ = await _opHelper.SaveOpAsync($"将 {affected} 个位置的存储分组设为 {args.HeightLimit}");
@@ -949,12 +949,12 @@ namespace Swm.Web.Controllers
                 await _session.UpdateAsync(loc);
             }
 
-            var laneways = locs.Where(x => x.Laneway != null).Select(x => x.Laneway).Distinct();
-            foreach (var laneway in laneways)
+            var streetlets = locs.Where(x => x.Streetlet != null).Select(x => x.Streetlet).Distinct();
+            foreach (var streetlet in streetlets)
             {
-                if (laneway != null)
+                if (streetlet != null)
                 {
-                    await _locHelper.RebuildLanewayStatAsync(laneway);
+                    await _locHelper.RebuildStreetletStatAsync(streetlet);
                 }
             }
             _ = await _opHelper.SaveOpAsync($"将 {affected} 个位置的存储分组设为 {args.WeightLimit}");
@@ -993,8 +993,8 @@ namespace Swm.Web.Controllers
                 LocationId = loc.LocationId,
                 LocationCode = loc.LocationCode,
                 Exists = loc.Exists,
-                LanewayId = loc.Laneway!.LanewayId,
-                LanewayCode = loc.Laneway.LanewayCode,
+                StreetletId = loc.Streetlet!.StreetletId,
+                StreetletCode = loc.Streetlet.StreetletCode,
                 WeightLimit = loc.WeightLimit,
                 HeightLimit = loc.HeightLimit,
                 InboundCount = loc.InboundCount,

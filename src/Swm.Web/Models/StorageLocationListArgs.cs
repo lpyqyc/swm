@@ -48,19 +48,19 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 货位所在巷道
         /// </summary>
-        [SourceProperty("Rack.Laneway.LanewayId")]
+        [SourceProperty("Rack.Streetlet.StreetletId")]
         [SearchArg(SearchMode.Expression)]
-        public int[]? LanewayIdList { get; set; }
+        public int[]? StreetletIdList { get; set; }
 
-        internal Expression<Func<Location, bool>>? LanewayIdListExpr
+        internal Expression<Func<Location, bool>>? StreetletIdListExpr
         {
             get
             {
-                if (LanewayIdList == null || LanewayIdList.Length == 0)
+                if (StreetletIdList == null || StreetletIdList.Length == 0)
                 {
                     return null;
                 }
-                return x => LanewayIdList.Contains(x.Laneway.LanewayId);
+                return x => StreetletIdList.Contains(x.Streetlet.StreetletId);
             }
         }
 

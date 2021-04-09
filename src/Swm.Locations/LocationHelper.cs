@@ -31,17 +31,17 @@ namespace Swm.Locations
         /// <summary>
         /// 重建巷道的统计信息。原有统计信息将被清除。此操作占用资源较多。
         /// </summary>
-        public async Task RebuildLanewayStatAsync(Laneway laneway)
+        public async Task RebuildStreetletStatAsync(Streetlet streetlet)
         {
-            if (laneway == null)
+            if (streetlet == null)
             {
-                throw new ArgumentNullException(nameof(laneway));
+                throw new ArgumentNullException(nameof(streetlet));
             }
 
-            laneway.Usage.Clear();
+            streetlet.Usage.Clear();
 
-            var keys = _session.Query<Laneway>()
-                .Where(x => x == laneway)
+            var keys = _session.Query<Streetlet>()
+                .Where(x => x == streetlet)
                 .SelectMany(x => x.Locations)
                 .Where(x => x.Exists)
                 .GroupBy(x => new
@@ -51,7 +51,7 @@ namespace Swm.Locations
                     x.WeightLimit,
                     x.HeightLimit
                 })
-                .Select(x => new LanewayUsageKey
+                .Select(x => new StreetletUsageKey
                 {
                     StorageGroup = x.Key.StorageGroup!,
                     Specification = x.Key.Specification,
@@ -61,13 +61,13 @@ namespace Swm.Locations
 
             foreach (var key in keys)
             {
-                await UpdateUsageAsync(laneway, key);
+                await UpdateUsageAsync(streetlet, key);
             }
 
-            async Task UpdateUsageAsync(Laneway laneway, LanewayUsageKey key)
+            async Task UpdateUsageAsync(Streetlet streetlet, StreetletUsageKey key)
             {
-                var q = _session.Query<Laneway>()
-                    .Where(x => x == laneway)
+                var q = _session.Query<Streetlet>()
+                    .Where(x => x == streetlet)
                     .SelectMany(x => x.Locations)
                     .Where(x => x.Exists
                         && x.StorageGroup == key.StorageGroup
@@ -97,7 +97,7 @@ namespace Swm.Locations
                     .Where(x => x.OutboundDisabled == true)
                     .ToFutureValue(fq => fq.Count());
 
-                laneway.Usage[key] = new LanewayUsageData
+                streetlet.Usage[key] = new StreetletUsageData
                 {
                     mtime = DateTime.Now,
                     Total = await total.GetValueAsync(),

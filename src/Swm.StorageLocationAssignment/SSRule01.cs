@@ -49,18 +49,18 @@ namespace Swm.StorageLocationAssignment
         /// <summary>
         /// 在指定的巷道和分组中分配一个货位以供入库。
         /// </summary>
-        /// <param name="laneway">要在其中分配货位的巷道。</param>
+        /// <param name="streetlet">要在其中分配货位的巷道。</param>
         /// <param name="excludedIdList">要排除的货位。</param>
         /// <param name="excludedColumnList">要排除的列。</param>
         /// <param name="excludedLevelList">要排除的层。</param>
         /// <param name="storageInfo">入库货物信息。</param>
         /// <param name="orderBy">排序依据。这是 LocationUnit 类的属性名。</param>
         /// <returns></returns>
-        public async Task<Location?> SelectAsync(Laneway laneway, StorageInfo storageInfo, int[]? excludedIdList, int[]? excludedColumnList, int[]? excludedLevelList, string orderBy)
+        public async Task<Location?> SelectAsync(Streetlet streetlet, StorageInfo storageInfo, int[]? excludedIdList, int[]? excludedColumnList, int[]? excludedLevelList, string orderBy)
         {
-            if (laneway == null)
+            if (streetlet == null)
             {
-                throw new ArgumentNullException(nameof(laneway));
+                throw new ArgumentNullException(nameof(streetlet));
             }
 
             if (storageInfo == null)
@@ -73,15 +73,15 @@ namespace Swm.StorageLocationAssignment
                 throw new ArgumentException("参数 orderBy 不能为 null 或空字符串。");
             }
 
-            if (laneway.DoubleDeep != this.DoubleDeep)
+            if (streetlet.DoubleDeep != this.DoubleDeep)
             {
-                string msg = $"巷道类型不匹配，此规则适用于单深巷道，但传入的巷道是双深。【{laneway.LanewayCode}】。";
+                string msg = $"巷道类型不匹配，此规则适用于单深巷道，但传入的巷道是双深。【{streetlet.StreetletCode}】。";
                 throw new InvalidOperationException(msg);
             }
 
-            if (laneway.Offline)
+            if (streetlet.Offline)
             {
-                _logger.Warning("巷道 {lanewayCode} 已离线", laneway.LanewayCode);
+                _logger.Warning("巷道 {streetletCode} 已离线", streetlet.StreetletCode);
                 return null;
             }
 
@@ -89,7 +89,7 @@ namespace Swm.StorageLocationAssignment
 SELECT loc.LocationId
 FROM Location loc
 JOIN loc.Cell c
-WHERE loc.Laneway = :laneway
+WHERE loc.Streetlet = :streetlet
 
 AND loc.Exists = true
 AND loc.UnitloadCount = 0
@@ -111,7 +111,7 @@ ORDER BY loc.WeightLimit, loc.HeightLimit, c.$orderBy
 
             IQuery q = _session
                 .CreateQuery(queryString)
-                .SetParameter("laneway", laneway)
+                .SetParameter("streetlet", streetlet)
                 .SetParameter("weight", storageInfo.Weight)
                 .SetParameter("height", storageInfo.Height)
                 .SetParameter("storageGroup", storageInfo.StorageGroup)

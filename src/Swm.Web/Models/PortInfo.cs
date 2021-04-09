@@ -48,7 +48,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 可到达此出口的巷道
         /// </summary>
-        public string[]? Laneways { get; init; }
+        public string[]? Streetlets { get; init; }
 
         // TODO 重命名
         /// <summary>

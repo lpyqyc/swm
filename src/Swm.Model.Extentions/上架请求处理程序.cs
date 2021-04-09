@@ -77,26 +77,26 @@ namespace Swm.Model.Extentions
 
             // 3 分配货位
             Location? target = null;
-            var laneways = _session.Query<Laneway>().Take(5).ToArray();
-            foreach (var laneway in laneways)
+            var streetlets = _session.Query<Streetlet>().Take(5).ToArray();
+            foreach (var streetlet in streetlets)
             {
-                _logger.Debug("正在检查巷道 {lanewayCode}", laneway.LanewayCode);
-                if (laneway.Offline)
+                _logger.Debug("正在检查巷道 {streetletCode}", streetlet.StreetletCode);
+                if (streetlet.Offline)
                 {
-                    _logger.Warning("跳过脱机的巷道 {lanewayCode}", laneway.LanewayCode);
+                    _logger.Warning("跳过脱机的巷道 {streetletCode}", streetlet.StreetletCode);
                     continue;
                 }
 
-                target = await _sallocHelper.AllocateAsync(laneway, unitload.StorageInfo).ConfigureAwait(false);
+                target = await _sallocHelper.AllocateAsync(streetlet, unitload.StorageInfo).ConfigureAwait(false);
 
                 if (target != null)
                 {
-                    _logger.Information("在 {lanewayCode} 分配到货位 {locationCode}", laneway.LanewayCode, target.LocationCode);
+                    _logger.Information("在 {streetletCode} 分配到货位 {locationCode}", streetlet.StreetletCode, target.LocationCode);
                     break;
                 }
                 else
                 {
-                    _logger.Information("在 {lanewayCode} 未分配到货位。", laneway.LanewayCode);
+                    _logger.Information("在 {streetletCode} 未分配到货位。", streetlet.StreetletCode);
                     continue;
                 }
             }

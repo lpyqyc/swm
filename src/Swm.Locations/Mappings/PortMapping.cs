@@ -49,7 +49,7 @@ namespace Swm.Locations.Mappings
             Property(cl => cl.Comment);
 
 
-            Set(cl => cl.Laneways, set => {
+            Set(cl => cl.Streetlets, set => {
                 set.Table("LANEWAY_PORT");
                 set.Cache(cache => cache.Usage(CacheUsage.ReadWrite));
                 set.BatchSize(10);
@@ -60,7 +60,7 @@ namespace Swm.Locations.Mappings
             }, rel => {
                 rel.ManyToMany(m2m =>
                 {
-                    m2m.Column("LanewayId");
+                    m2m.Column("StreetletId");
                 });
             });
 

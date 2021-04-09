@@ -21,31 +21,31 @@ using System.Linq;
 
 namespace Swm.Locations
 {
-    public class Laneway : IHasCtime, IHasMtime
+    public class Streetlet : IHasCtime, IHasMtime
     {
-        protected Laneway()
+        protected Streetlet()
             : this(default!, default, default!)
         {
         }
 
-        public Laneway(string lanewayCode, bool doubleDeep, string area)
+        public Streetlet(string streetletCode, bool doubleDeep, string area)
         {
             this.Area = area;
-            this.LanewayCode = lanewayCode;
+            this.StreetletCode = streetletCode;
             this.DoubleDeep = doubleDeep;
             this.ctime = DateTime.Now;
             this.mtime = DateTime.Now;
             this.Automated = true;
             this.Locations = new HashSet<Location>();
             this.Ports = new HashSet<Port>();
-            this.Usage = new Dictionary<LanewayUsageKey, LanewayUsageData>();
+            this.Usage = new Dictionary<StreetletUsageKey, StreetletUsageData>();
         }
 
-        public virtual int LanewayId { get; internal protected set; }
+        public virtual int StreetletId { get; internal protected set; }
 
         [Required]
         [MaxLength(4)]
-        public virtual string LanewayCode { get; internal protected set; }
+        public virtual string StreetletCode { get; internal protected set; }
 
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
@@ -100,10 +100,10 @@ namespace Swm.Locations
 
         public override string? ToString()
         {
-            return LanewayCode;
+            return StreetletCode;
         }
 
-        public virtual IDictionary<LanewayUsageKey, LanewayUsageData> Usage { get; protected set; }
+        public virtual IDictionary<StreetletUsageKey, StreetletUsageData> Usage { get; protected set; }
 
         public virtual int GetTotalLocationCount()
         {

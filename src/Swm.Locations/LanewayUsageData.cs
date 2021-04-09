@@ -19,9 +19,9 @@ namespace Swm.Locations
     /// <summary>
     /// 巷道使用数据。
     /// </summary>
-    public class LanewayUsageData : ICloneable
+    public class StreetletUsageData : ICloneable
     {
-        public LanewayUsageData()
+        public StreetletUsageData()
         {
         }
 
@@ -58,9 +58,9 @@ namespace Swm.Locations
         public virtual int InboundDisabled { get; set; }
 
 
-        public LanewayUsageData Clone()
+        public StreetletUsageData Clone()
         {
-            return (LanewayUsageData)this.MemberwiseClone();
+            return (StreetletUsageData)this.MemberwiseClone();
         }
 
         object ICloneable.Clone()

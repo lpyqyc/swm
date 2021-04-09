@@ -42,9 +42,9 @@ namespace Swm.TransportTasks
                         return "托盘有任务";
                     case FailtoBuildTaskReason.StartAndEndArdTheSame:
                         return "起点和终点相同";
-                    case FailtoBuildTaskReason.LanewayNotAutomated:
+                    case FailtoBuildTaskReason.StreetletNotAutomated:
                         return "不是自动化巷道";
-                    case FailtoBuildTaskReason.LanewayOffline:
+                    case FailtoBuildTaskReason.StreetletOffline:
                         return "巷道脱机";
                     case FailtoBuildTaskReason.LocationNotExists:
                         return "货位不存在";

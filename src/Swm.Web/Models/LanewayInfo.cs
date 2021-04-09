@@ -17,17 +17,17 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 巷道信息
     /// </summary>
-    public class LanewayInfo
+    public class StreetletInfo
     {
         /// <summary>
         /// 巷道Id
         /// </summary>
-        public int LanewayId { get; init; }
+        public int StreetletId { get; init; }
 
         /// <summary>
         /// 巷道编码
         /// </summary>
-        public string LanewayCode { get; init; } = default!;
+        public string StreetletCode { get; init; } = default!;
 
         /// <summary>
         /// 是否自动化巷道
@@ -72,7 +72,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 货位使用数据
         /// </summary>
-        public LanewayUsageInfo[]? UsageInfos { get; init; }
+        public StreetletUsageInfo[]? UsageInfos { get; init; }
 
         /// <summary>
         /// 可到达的出口

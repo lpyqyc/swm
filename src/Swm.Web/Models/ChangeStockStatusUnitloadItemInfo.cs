@@ -38,7 +38,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 所在巷道编码
         /// </summary>
-        public string? LanewayCode { get; set; }
+        public string? StreetletCode { get; set; }
 
         /// <summary>
         /// 托盘是否已分配

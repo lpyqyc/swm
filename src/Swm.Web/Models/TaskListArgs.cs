@@ -168,20 +168,20 @@ namespace Swm.Web.Controllers
         /// 巷道Id列表
         /// </summary>
         [SearchArg(SearchMode.Expression)]
-        public int[]? LanewayIdList { get; set; }
+        public int[]? StreetletIdList { get; set; }
 
         /// <summary>
-        /// LanewayIdList 的查询条件
+        /// StreetletIdList 的查询条件
         /// </summary>
-        internal Expression<Func<TransportTask, bool>>? LanewayIdListExpr
+        internal Expression<Func<TransportTask, bool>>? StreetletIdListExpr
         {
             get
             {
-                if (LanewayIdList != null && LanewayIdList.Length > 0)
+                if (StreetletIdList != null && StreetletIdList.Length > 0)
                 {
                     return (x =>
-                        this.LanewayIdList.Contains(x.Start.Laneway.LanewayId)
-                        || this.LanewayIdList.Contains(x.End.Laneway.LanewayId)
+                        this.StreetletIdList.Contains(x.Start.Streetlet.StreetletId)
+                        || this.StreetletIdList.Contains(x.End.Streetlet.StreetletId)
                         );
                 }
                 else

@@ -32,12 +32,12 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 巷道 Id
         /// </summary>
-        public int LanewayId { get; set; }
+        public int StreetletId { get; set; }
 
         /// <summary>
         /// 巷道编码
         /// </summary>
-        public string LanewayCode { get; set; } = default!;
+        public string StreetletCode { get; set; } = default!;
 
         /// <summary>
         /// 限重

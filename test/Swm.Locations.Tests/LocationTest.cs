@@ -24,7 +24,7 @@ namespace Swm.Locations.Tests
                 LocationType = LocationTypes.S,
                 Specification = "",
                 Cell = Substitute.For<Cell>(),
-                Laneway = Substitute.For<Laneway>(),
+                Streetlet = Substitute.For<Streetlet>(),
             };
 
             Assert.False(loc.Loaded());
@@ -48,7 +48,7 @@ namespace Swm.Locations.Tests
                 LocationCode = "",
                 LocationType = LocationTypes.K,
                 Cell = Substitute.For<Cell>(),
-                Laneway = Substitute.For<Laneway>(),
+                Streetlet = Substitute.For<Streetlet>(),
             };
 
             Assert.False(loc.Loaded());
@@ -87,7 +87,7 @@ namespace Swm.Locations.Tests
                 LocationCode = "",
                 LocationType = LocationTypes.K,
                 Cell = Substitute.For<Cell>(),
-                Laneway = Substitute.For<Laneway>(),
+                Streetlet = Substitute.For<Streetlet>(),
                 UnitloadCount = 2,
             };
 
@@ -114,7 +114,7 @@ namespace Swm.Locations.Tests
                 LocationType = LocationTypes.S,
                 Specification = "",
                 Cell = Substitute.For<Cell>(),
-                Laneway = Substitute.For<Laneway>(),
+                Streetlet = Substitute.For<Streetlet>(),
                 UnitloadCount = 2,
             };
 
@@ -141,7 +141,7 @@ namespace Swm.Locations.Tests
                 LocationCode = "",
                 LocationType = LocationTypes.S,
                 Cell = Substitute.For<Cell>(),
-                Laneway = Substitute.For<Laneway>(),
+                Streetlet = Substitute.For<Streetlet>(),
                 UnitloadCount = 1,
             };
 

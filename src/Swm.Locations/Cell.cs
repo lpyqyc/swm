@@ -29,14 +29,14 @@ namespace Swm.Locations
         protected Cell()
         {
             this.Locations = new HashSet<Location>();
-            this.Laneway = default!;
+            this.Streetlet = default!;
         }
         /// <summary>
         /// 初始化新实例
         /// </summary>
-        public Cell(Laneway laneway)
+        public Cell(Streetlet streetlet)
         {
-            this.Laneway = laneway;
+            this.Streetlet = streetlet;
             this.Locations = new HashSet<Location>();
         }
 
@@ -49,7 +49,7 @@ namespace Swm.Locations
         /// 此货位单元所属的巷道。
         /// </summary>
         [Required]
-        public virtual Laneway Laneway { get; protected set; }
+        public virtual Streetlet Streetlet { get; protected set; }
 
         /// <summary>
         /// 此货位单元在巷道的哪一侧。
@@ -134,7 +134,7 @@ namespace Swm.Locations
         /// </summary>
         public virtual void UpdateState()
         {
-            if (this.Laneway.DoubleDeep)
+            if (this.Streetlet.DoubleDeep)
             {
                 this.UpdateSD();
             }

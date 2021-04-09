@@ -17,7 +17,7 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 巷道使用数据
     /// </summary>
-    public class LanewayUsageInfo
+    public class StreetletUsageInfo
     {
         /// <summary>
         /// 货位存储分组

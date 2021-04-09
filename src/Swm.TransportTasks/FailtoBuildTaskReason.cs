@@ -29,12 +29,12 @@ namespace Swm.TransportTasks
         /// <summary>
         /// 生成任务失败，因为巷道不是自动化的。
         /// </summary>
-        LanewayNotAutomated,
+        StreetletNotAutomated,
 
         /// <summary>
         /// 生成任务失败，因为巷道已脱机。
         /// </summary>
-        LanewayOffline,
+        StreetletOffline,
 
         /// <summary>
         /// 生成任务失败，因为起点或终点被标记为不存在。

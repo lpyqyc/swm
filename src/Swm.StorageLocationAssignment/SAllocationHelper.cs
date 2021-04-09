@@ -44,7 +44,7 @@ namespace Swm.StorageLocationAssignment
         /// <summary>
         /// 在指定的巷道和分组中分配一个货位以供入库。
         /// </summary>
-        /// <param name="laneway">要在其中分配货位的巷道。</param>
+        /// <param name="streetlet">要在其中分配货位的巷道。</param>
         /// <param name="excludedIdList">要排除的货位。</param>
         /// <param name="excludedColumnList">要排除的列。</param>
         /// <param name="excludedLevelList">要排除的层。</param>
@@ -54,16 +54,16 @@ namespace Swm.StorageLocationAssignment
         /// 从不返回 null。
         /// </returns>
         public async Task<Location?> AllocateAsync(
-            Laneway laneway,
+            Streetlet streetlet,
             StorageInfo storageInfo,
             int[]? excludedIdList = null,
             int[]? excludedColumnList = null,
             int[]? excludedLevelList = null,
             string orderBy = "i1")
         {
-            if (laneway == null)
+            if (streetlet == null)
             {
-                throw new ArgumentNullException(nameof(laneway));
+                throw new ArgumentNullException(nameof(streetlet));
             }
 
             if (string.IsNullOrWhiteSpace(orderBy))
@@ -71,15 +71,15 @@ namespace Swm.StorageLocationAssignment
                 throw new ArgumentException("参数 orderBy 不能为 null 或空字符串。");
             }
 
-            _logger.Debug("巷道 {lanewayCode}", laneway.LanewayCode);
+            _logger.Debug("巷道 {streetletCode}", streetlet.StreetletCode);
 
-            var rules = _rules.Where(x => x.DoubleDeep == laneway.DoubleDeep).OrderBy(x => x.Order);
+            var rules = _rules.Where(x => x.DoubleDeep == streetlet.DoubleDeep).OrderBy(x => x.Order);
             Stopwatch sw = new();
             foreach (var rule in rules)
             {
                 _logger.Debug("正在测试 {ruleName}", rule.Name);
                 sw.Restart();
-                var loc = await rule.SelectAsync(laneway, storageInfo, excludedIdList, excludedColumnList, excludedLevelList, orderBy).ConfigureAwait(false);
+                var loc = await rule.SelectAsync(streetlet, storageInfo, excludedIdList, excludedColumnList, excludedLevelList, orderBy).ConfigureAwait(false);
                 sw.Stop();
 
                 //// TODO 涉及巷道过多时，会打开很多session，需优化

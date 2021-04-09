@@ -22,7 +22,7 @@ namespace Swm.Locations
     {
         public void ConfigureModelMapper(ModelMapper modelMapper)
         {
-            modelMapper.Component<LanewayUsageKey>(comp =>
+            modelMapper.Component<StreetletUsageKey>(comp =>
             {
                 comp.Property(cl => cl.StorageGroup);
                 comp.Property(cl => cl.Specification);
@@ -30,7 +30,7 @@ namespace Swm.Locations
                 comp.Property(cl => cl.HeightLimit);
             });
 
-            modelMapper.Component<LanewayUsageData>(comp =>
+            modelMapper.Component<StreetletUsageData>(comp =>
             {
                 comp.Property(cl => cl.mtime);
                 comp.Property(cl => cl.Total);
@@ -42,7 +42,7 @@ namespace Swm.Locations
 
             // 添加映射类
             modelMapper.AddMapping<CellMapping>();
-            modelMapper.AddMapping<LanewayMapping>();
+            modelMapper.AddMapping<StreetletMapping>();
             modelMapper.AddMapping<LocationMapping>();
             modelMapper.AddMapping<LocationOpMapping>();
             modelMapper.AddMapping<PortMapping>();

@@ -26,7 +26,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 巷道编码
         /// </summary>
-        public string LanewayCode { get; set; } = default!;
+        public string StreetletCode { get; set; } = default!;
 
         /// <summary>
         /// 巷道是否离线

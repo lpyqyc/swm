@@ -67,8 +67,8 @@ namespace Swm.OutboundOrders
 
             _logger.Information("正在为出库单 {outboundOrderCode} 分配库存", outboundOrder.OutboundOrderCode);
             _logger.Information("区域：{areas}", options.Areas == null ? "" : string.Join(", ", options.Areas));
-            //_logger.Information("跳过脱机的巷道：{skipOfflineLaneways}", options.SkipOfflineLaneways);
-            //_logger.Information("排除的巷道：{excludeLanewasys}", string.Join(", ", options.ExcludeLaneways.Select(x => x.LanewayCode)));
+            //_logger.Information("跳过脱机的巷道：{skipOfflineStreetlets}", options.SkipOfflineStreetlets);
+            //_logger.Information("排除的巷道：{excludeLanewasys}", string.Join(", ", options.ExcludeStreetlets.Select(x => x.StreetletCode)));
             _logger.Information("包含的托盘：{includePallets}", string.Join(", ", options.IncludePallets ?? new string[0]));
             _logger.Information("排除的托盘：{excludePallets}", string.Join(", ", options.ExcludePallets ?? new string[0]));
             //_logger.Information("跳过禁止出站的货位：{skipLocationsOutboundDisabled}", options.SkipLocationsOutboundDisabled);
@@ -83,7 +83,7 @@ namespace Swm.OutboundOrders
         /// 处理单个出库行
         /// </summary>
         /// <param name="line">出库行</param>
-        /// <param name="laneways">用于分配的货载所在的巷道</param>
+        /// <param name="streetlets">用于分配的货载所在的巷道</param>
         /// <param name="includeUnitloads">要在分配中包含的货载，这些货载优先参与分配。</param>
         /// <param name="excludeUnitloads">要在分配中排除的货载，这些货载不会参与分配，即使出现在 includeUnitloads 中，也不参与分配。</param>
         async Task ProcessLineAsync(OutboundLine line, AllocateStockOptions options)
@@ -323,7 +323,7 @@ namespace Swm.OutboundOrders
                 passed = false;
             }
 
-            if (InAreas(item.Unitload.CurrentLocation?.Laneway?.Area, options?.Areas) 
+            if (InAreas(item.Unitload.CurrentLocation?.Streetlet?.Area, options?.Areas) 
                 || options?.IncludePallets?.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase) == true)
             {
                 _logger.Debug("（√）在指定区域、或显式包含");
@@ -334,8 +334,8 @@ namespace Swm.OutboundOrders
                 passed = false;
             }
 
-            if (item.Unitload.CurrentLocation?.Laneway?.Offline == false 
-                || options?.SkipOfflineLaneways != true
+            if (item.Unitload.CurrentLocation?.Streetlet?.Offline == false 
+                || options?.SkipOfflineStreetlets != true
                 || options?.IncludePallets?.Contains(item.Unitload.PalletCode, StringComparer.OrdinalIgnoreCase) == true)
             {
                 _logger.Debug("（√）巷道未脱机、或允许从脱机巷道分配、或显式包含");

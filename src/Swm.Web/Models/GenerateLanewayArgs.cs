@@ -19,13 +19,13 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 生成巷道的操作参数
     /// </summary>
-    public class GenerateLanewayArgs
+    public class GenerateStreetletArgs
     {
         /// <summary>
         /// 巷道编码
         /// </summary>
         [Required]
-        public string LanewayCode { get; set; } = default!;
+        public string StreetletCode { get; set; } = default!;
 
         /// <summary>
         /// 是否双深

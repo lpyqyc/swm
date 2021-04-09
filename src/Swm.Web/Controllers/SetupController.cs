@@ -133,8 +133,8 @@ namespace Swm.Web.Controllers
             _logger.Information("正在生成测试数据");
             _logger.Information("当前是开发环境");
 
-            await GenerateLaneway(new GenerateLanewayArgs { LanewayCode = "S1", Columns = 5, Levels = 2, DoubleDeep = false });
-            await GenerateLaneway(new GenerateLanewayArgs { LanewayCode = "S2", Columns = 5, Levels = 2, DoubleDeep = true });
+            await GenerateStreetlet(new GenerateStreetletArgs { StreetletCode = "S1", Columns = 5, Levels = 2, DoubleDeep = false });
+            await GenerateStreetlet(new GenerateStreetletArgs { StreetletCode = "S2", Columns = 5, Levels = 2, DoubleDeep = true });
 
             _logger.Information("已生成测试数据");
 
@@ -167,29 +167,29 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost("generate-laneway")]
+        [HttpPost("generate-streetlet")]
         [AutoTransaction]
-        public async Task<ApiData> GenerateLaneway(GenerateLanewayArgs args)
+        public async Task<ApiData> GenerateStreetlet(GenerateStreetletArgs args)
         {
-            string lanewayCode = args.LanewayCode;
+            string streetletCode = args.StreetletCode;
             bool doubleDeep = args.DoubleDeep;
             int columns = args.Columns;
             int levels = args.Levels;
 
-            Laneway laneway = new Laneway(args.LanewayCode, args.DoubleDeep, "默认区域");
-            await _session.SaveAsync(laneway).ConfigureAwait(false);
+            Streetlet streetlet = new Streetlet(args.StreetletCode, args.DoubleDeep, "默认区域");
+            await _session.SaveAsync(streetlet).ConfigureAwait(false);
             List<(string rackCode, RackSide side, int deep)> racks = new List<(string rack, RackSide side, int deep)>();
             if (args.DoubleDeep)
             {
-                racks.Add(($"{args.LanewayCode}1", RackSide.Left, 2));
-                racks.Add(($"{args.LanewayCode}2", RackSide.Left, 1));
-                racks.Add(($"{args.LanewayCode}3", RackSide.Right, 1));
-                racks.Add(($"{args.LanewayCode}4", RackSide.Right, 2));
+                racks.Add(($"{args.StreetletCode}1", RackSide.Left, 2));
+                racks.Add(($"{args.StreetletCode}2", RackSide.Left, 1));
+                racks.Add(($"{args.StreetletCode}3", RackSide.Right, 1));
+                racks.Add(($"{args.StreetletCode}4", RackSide.Right, 2));
             }
             else
             {
-                racks.Add(($"{args.LanewayCode}1", RackSide.Left, 1));
-                racks.Add(($"{args.LanewayCode}2", RackSide.Right, 1));
+                racks.Add(($"{args.StreetletCode}1", RackSide.Left, 1));
+                racks.Add(($"{args.StreetletCode}2", RackSide.Right, 1));
             }
             int k = 0;
             for (int i = 0; i < levels; i++)
@@ -201,13 +201,13 @@ namespace Swm.Web.Controllers
                         k++;
                         int col = j + 1;
                         int lv = i + 1;
-                        Cell cell = new Cell(laneway)
+                        Cell cell = new Cell(streetlet)
                         {
                             Side = side.Key,
                             Column = col,
                             Level = lv,
-                            i1 = laneway.LanewayId * 10000 + k,
-                            o1 = laneway.LanewayId * 10000 + k
+                            i1 = streetlet.StreetletId * 10000 + k,
+                            o1 = streetlet.StreetletId * 10000 + k
                         };
 
                         foreach (var rack in side)
@@ -216,7 +216,7 @@ namespace Swm.Web.Controllers
                             Location loc = _locationFactory.Invoke();
                             loc.LocationCode = locCode;
                             loc.LocationType = LocationTypes.S;
-                            loc.Laneway = laneway;
+                            loc.Streetlet = streetlet;
                             loc.Column = col;
                             loc.Level = lv;
                             loc.InboundLimit = 1;
@@ -244,33 +244,33 @@ namespace Swm.Web.Controllers
 
             ISQLQuery q1 = _session.CreateSQLQuery(@"
 MERGE Cells c
-USING (SELECT CellId, ROW_NUMBER() OVER(ORDER BY [Level], [Column], Side) + :lanewayId * 10000 AS i1
+USING (SELECT CellId, ROW_NUMBER() OVER(ORDER BY [Level], [Column], Side) + :streetletId * 10000 AS i1
 		FROM Cells
-        WHERE LanewayId = :lanewayId
+        WHERE StreetletId = :streetletId
     ) AS t
 ON c.CellId = t.CellId
 WHEN MATCHED THEN UPDATE SET c.i1 = t.i1;");
             await q1
-                .SetInt32("lanewayId", laneway.LanewayId)
+                .SetInt32("streetletId", streetlet.StreetletId)
                 .ExecuteUpdateAsync()
                 .ConfigureAwait(false);
 
             ISQLQuery q2 = _session.CreateSQLQuery(@"
 MERGE Cells c
-USING (SELECT CellId, ROW_NUMBER() OVER(ORDER BY [Level], [Column], Side) + :lanewayId * 10000 AS o1
+USING (SELECT CellId, ROW_NUMBER() OVER(ORDER BY [Level], [Column], Side) + :streetletId * 10000 AS o1
 		FROM Cells
-        WHERE LanewayId = :lanewayId
+        WHERE StreetletId = :streetletId
     ) AS t
 ON c.CellId = t.CellId
 WHEN MATCHED THEN UPDATE SET c.o1 = t.o1;");
             await q2
-                .SetInt32("lanewayId", laneway.LanewayId)
+                .SetInt32("streetletId", streetlet.StreetletId)
                 .ExecuteUpdateAsync()
                 .ConfigureAwait(false);
 
-            await _locationHelper.RebuildLanewayStatAsync(laneway).ConfigureAwait(false);
+            await _locationHelper.RebuildStreetletStatAsync(streetlet).ConfigureAwait(false);
 
-            return this.Success(laneway.LanewayCode);
+            return this.Success(streetlet.StreetletCode);
         }
     }
 }

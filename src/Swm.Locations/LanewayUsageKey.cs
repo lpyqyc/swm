@@ -21,9 +21,9 @@ namespace Swm.Locations
     /// <summary>
     /// 巷道使用信息的 Key。
     /// </summary>
-    public class LanewayUsageKey : IEquatable<LanewayUsageKey>
+    public class StreetletUsageKey : IEquatable<StreetletUsageKey>
     {
-        public LanewayUsageKey()
+        public StreetletUsageKey()
         {
         }
 
@@ -53,10 +53,10 @@ namespace Swm.Locations
 
         public override bool Equals(object? obj)
         {
-            return this.Equals(obj as LanewayUsageKey);
+            return this.Equals(obj as StreetletUsageKey);
         }
 
-        public virtual bool Equals(LanewayUsageKey? other)
+        public virtual bool Equals(StreetletUsageKey? other)
         {
             if (other == null)
             {
@@ -78,12 +78,12 @@ namespace Swm.Locations
             return hashCode;
         }
 
-        public static bool operator ==(LanewayUsageKey? left, LanewayUsageKey? right)
+        public static bool operator ==(StreetletUsageKey? left, StreetletUsageKey? right)
         {
-            return EqualityComparer<LanewayUsageKey>.Default.Equals(left, right);
+            return EqualityComparer<StreetletUsageKey>.Default.Equals(left, right);
         }
 
-        public static bool operator !=(LanewayUsageKey? left, LanewayUsageKey? right)
+        public static bool operator !=(StreetletUsageKey? left, StreetletUsageKey? right)
         {
             return !(left == right);
         }

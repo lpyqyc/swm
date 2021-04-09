@@ -17,18 +17,18 @@ using NHibernate.Mapping.ByCode.Conformist;
 
 namespace Swm.Locations.Mappings
 {
-    internal class LanewayMapping : ClassMapping<Laneway>
+    internal class StreetletMapping : ClassMapping<Streetlet>
     {
-        public LanewayMapping()
+        public StreetletMapping()
         {
-            Table("Laneways");
+            Table("Streetlets");
             DynamicUpdate(true);
             BatchSize(10);
 
-            Id(cl => cl.LanewayId, id => id.Generator(Generators.Identity));
+            Id(cl => cl.StreetletId, id => id.Generator(Generators.Identity));
 
             NaturalId(npm => {
-                npm.Property(cl => cl.LanewayCode, prop => prop.Update(false));
+                npm.Property(cl => cl.StreetletCode, prop => prop.Update(false));
             }, m => m.Mutable(false));
 
             Version(cl => cl.v, v => v.Column("v"));
@@ -45,7 +45,7 @@ namespace Swm.Locations.Mappings
                 set.BatchSize(10);
                 set.Cache(cache => cache.Usage(CacheUsage.ReadWrite));
                 set.Key(key => { 
-                    key.Column("LanewayId");
+                    key.Column("StreetletId");
                     key.NotNullable(true);
                     key.Update(false);
                 });
@@ -64,7 +64,7 @@ namespace Swm.Locations.Mappings
                 set.BatchSize(10);
                 set.Cache(cache => cache.Usage(CacheUsage.ReadWrite));
                 set.Key(key => {
-                    key.Column("LanewayId");
+                    key.Column("StreetletId");
                     key.NotNullable(true);
                     key.Update(false);
                 });
@@ -76,17 +76,17 @@ namespace Swm.Locations.Mappings
                 cl => cl.Usage, 
                 map =>
                 {
-                    map.Table("LanewayUsage");
+                    map.Table("StreetletUsage");
                     map.BatchSize(100);
                     map.Cascade(Cascade.All | Cascade.DeleteOrphans);
                     map.Key(key =>
                     {
-                        key.Column("LanewayId");
+                        key.Column("StreetletId");
                         key.NotNullable(true);
                     });
                 },
                 key => key.Component(comp => { }),
-                el => el.Component(comp => comp.Class<LanewayUsageData>()));
+                el => el.Component(comp => comp.Class<StreetletUsageData>()));
 
             Property(cl => cl.TotalOfflineHours);
             

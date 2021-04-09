@@ -27,8 +27,8 @@ namespace Swm.Locations.Mappings
 
             Id(cl => cl.CellId, id => id.Generator(Generators.Identity));
             
-            ManyToOne(cl => cl.Laneway, m => {
-                m.Column("LanewayId");
+            ManyToOne(cl => cl.Streetlet, m => {
+                m.Column("StreetletId");
                 m.Update(false);
             });
 

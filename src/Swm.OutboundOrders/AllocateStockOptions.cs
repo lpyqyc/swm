@@ -29,7 +29,7 @@ namespace Swm.OutboundOrders
         ///// <summary>
         ///// 指示排除哪些巷道
         ///// </summary>
-        //public Laneway[] ExcludeLaneways { get; init; } = new Laneway[0];
+        //public Streetlet[] ExcludeStreetlets { get; init; } = new Streetlet[0];
 
         /// <summary>
         /// 指示包含哪些托盘，这些托盘优先参与分配
@@ -55,7 +55,7 @@ namespace Swm.OutboundOrders
         /// <summary>
         /// 指示是否跳过脱机的巷道。已脱机巷道的托盘无法下架，但跳过会打破先入先出规则。默认为 false
         /// </summary>
-        public bool SkipOfflineLaneways { get; set; } = false;
+        public bool SkipOfflineStreetlets { get; set; } = false;
 
         /// <summary>
         /// 从数据库加载数据的块大小，默认为 10

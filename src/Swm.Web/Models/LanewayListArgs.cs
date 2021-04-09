@@ -22,18 +22,18 @@ namespace Swm.Web.Controllers
     /// <summary>
     /// 巷道列表的查询参数
     /// </summary>
-    public class LanewayListArgs
+    public class StreetletListArgs
     {
         /// <summary>
         /// 巷道编码。支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
         /// </summary>
         [SearchArg(SearchMode.Like)]
-        public string? LanewayCode { get; set; }
+        public string? StreetletCode { get; set; }
 
         /// <summary>
         /// 排序字段
         /// </summary>
-        public string? Sort { get; set; } = "LanewayId";
+        public string? Sort { get; set; } = "StreetletId";
 
         /// <summary>
         /// 基于 1 的当前页面，默认值为 1。

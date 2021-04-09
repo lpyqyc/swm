@@ -10,9 +10,9 @@ namespace Swm.Palletization.Tests
         {
             Location loc = new Location();
             loc.LocationType = LocationTypes.S;
-            loc.Laneway = For<Laneway>();
+            loc.Streetlet = For<Streetlet>();
             loc.Cell = For<Cell>();
-            loc.Laneway?.Automated.Returns(true);
+            loc.Streetlet?.Automated.Returns(true);
             loc.InboundLimit = 1;
             loc.OutboundLimit = 1;
             return loc;

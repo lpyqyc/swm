@@ -128,7 +128,7 @@ namespace Swm.Web.Controllers
         /// 托盘所在巷道
         /// </summary>
         [SearchArg]
-        public int? LanewayId { get; set; }
+        public int? StreetletId { get; set; }
 
         /// <summary>
         /// 托盘所在货位号，支持模糊查找

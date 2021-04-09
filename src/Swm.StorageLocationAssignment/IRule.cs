@@ -38,7 +38,7 @@ namespace Swm.StorageLocationAssignment
         /// <summary>
         /// 在巷道内选择货位。
         /// </summary>
-        /// <param name="laneway"></param>
+        /// <param name="streetlet"></param>
         /// <param name="storageInfo"></param>
         /// <param name="excludedIdList"></param>
         /// <param name="excludedColumnList"></param>
@@ -46,7 +46,7 @@ namespace Swm.StorageLocationAssignment
         /// <param name="orderBy"></param>
         /// <returns>返回 Location，表示分配到的目标货位。若分配失败，返回 null。</returns>
         Task<Location?> SelectAsync(
-            Laneway laneway,
+            Streetlet streetlet,
             StorageInfo storageInfo,
             int[]? excludedIdList,
             int[]? excludedColumnList,

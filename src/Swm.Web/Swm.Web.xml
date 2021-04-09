@@ -358,14 +358,14 @@
             <param name="eventBus"></param>
             <param name="logger"></param>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.GetLanewayList(Swm.Web.Controllers.LanewayListArgs)">
+        <member name="M:Swm.Web.Controllers.LocController.GetStreetletList(Swm.Web.Controllers.StreetletListArgs)">
             <summary>
             巷道列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.GetLanewayOptions">
+        <member name="M:Swm.Web.Controllers.LocController.GetStreetletOptions">
             <summary>
             获取巷道的选项列表
             </summary>
@@ -399,10 +399,10 @@
             <summary>
             巷道侧视图
             </summary>
-            <param name="lanewayCode">巷道编号</param>
+            <param name="streetletCode">巷道编号</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.LocController.RebuildLanewaysStat">
+        <member name="M:Swm.Web.Controllers.LocController.RebuildStreetletsStat">
             <summary>
             重建所有巷道的统计信息，这个操作消耗资源较多
             </summary>
@@ -698,7 +698,7 @@
             <param name="password">密码</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.SetupController.GenerateLaneway(Swm.Web.Controllers.GenerateLanewayArgs)">
+        <member name="M:Swm.Web.Controllers.SetupController.GenerateStreetlet(Swm.Web.Controllers.GenerateStreetletArgs)">
             <summary>
             生成巷道
             </summary>
@@ -1226,14 +1226,14 @@
             Batch 查询条件
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.LanewayIdList">
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.StreetletIdList">
             <summary>
             巷道Id列表
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.LanewayIdListExpr">
+        <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.StreetletIdListExpr">
             <summary>
-            LanewayIdList 的查询条件
+            StreetletIdList 的查询条件
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.ArchivedTaskListArgs.Sort">
@@ -1326,7 +1326,7 @@
             所在货位编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemInfo.LanewayCode">
+        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemInfo.StreetletCode">
             <summary>
             所在巷道编码
             </summary>
@@ -1892,27 +1892,27 @@
             每页大小，默认值为 10。
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.GenerateLanewayArgs">
+        <member name="T:Swm.Web.Controllers.GenerateStreetletArgs">
             <summary>
             生成巷道的操作参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.GenerateLanewayArgs.LanewayCode">
+        <member name="P:Swm.Web.Controllers.GenerateStreetletArgs.StreetletCode">
             <summary>
             巷道编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.GenerateLanewayArgs.DoubleDeep">
+        <member name="P:Swm.Web.Controllers.GenerateStreetletArgs.DoubleDeep">
             <summary>
             是否双深
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.GenerateLanewayArgs.Columns">
+        <member name="P:Swm.Web.Controllers.GenerateStreetletArgs.Columns">
             <summary>
             列数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.GenerateLanewayArgs.Levels">
+        <member name="P:Swm.Web.Controllers.GenerateStreetletArgs.Levels">
             <summary>
             层数
             </summary>
@@ -2372,142 +2372,142 @@
             每页大小，默认值为 10。
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.LanewayInfo">
+        <member name="T:Swm.Web.Controllers.StreetletInfo">
             <summary>
             巷道信息
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.LanewayId">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.StreetletId">
             <summary>
             巷道Id
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.LanewayCode">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.StreetletCode">
             <summary>
             巷道编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.Automated">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.Automated">
             <summary>
             是否自动化巷道
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.DoubleDeep">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.DoubleDeep">
             <summary>
             是否双深
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.Offline">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.Offline">
             <summary>
             是否离线
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.OfflineComment">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.OfflineComment">
             <summary>
             离线备注
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.TotalLocationCount">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.TotalLocationCount">
             <summary>
             货位总数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.AvailableLocationCount">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.AvailableLocationCount">
             <summary>
             可用货位数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.ReservedLocationCount">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.ReservedLocationCount">
             <summary>
             保留货位数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.UsageRate">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.UsageRate">
             <summary>
             货位使用率
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.UsageInfos">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.UsageInfos">
             <summary>
             货位使用数据
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.Ports">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.Ports">
             <summary>
             可到达的出口
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayInfo.TotalOfflineHours">
+        <member name="P:Swm.Web.Controllers.StreetletInfo.TotalOfflineHours">
             <summary>
             总脱机时间
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.LanewayListArgs">
+        <member name="T:Swm.Web.Controllers.StreetletListArgs">
             <summary>
             巷道列表的查询参数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayListArgs.LanewayCode">
+        <member name="P:Swm.Web.Controllers.StreetletListArgs.StreetletCode">
             <summary>
             巷道编码。支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayListArgs.Sort">
+        <member name="P:Swm.Web.Controllers.StreetletListArgs.Sort">
             <summary>
             排序字段
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayListArgs.Current">
+        <member name="P:Swm.Web.Controllers.StreetletListArgs.Current">
             <summary>
             基于 1 的当前页面，默认值为 1。
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayListArgs.PageSize">
+        <member name="P:Swm.Web.Controllers.StreetletListArgs.PageSize">
             <summary>
             每页大小，默认值为 10。
             </summary>
         </member>
-        <member name="T:Swm.Web.Controllers.LanewayUsageInfo">
+        <member name="T:Swm.Web.Controllers.StreetletUsageInfo">
             <summary>
             巷道使用数据
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.StorageGroup">
+        <member name="P:Swm.Web.Controllers.StreetletUsageInfo.StorageGroup">
             <summary>
             货位存储分组
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.Specification">
+        <member name="P:Swm.Web.Controllers.StreetletUsageInfo.Specification">
             <summary>
             货位规格
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.WeightLimit">
+        <member name="P:Swm.Web.Controllers.StreetletUsageInfo.WeightLimit">
             <summary>
             货位限重
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.HeightLimit">
+        <member name="P:Swm.Web.Controllers.StreetletUsageInfo.HeightLimit">
             <summary>
             货位限高
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.Total">
+        <member name="P:Swm.Web.Controllers.StreetletUsageInfo.Total">
             <summary>
             总货位数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.Available">
+        <member name="P:Swm.Web.Controllers.StreetletUsageInfo.Available">
             <summary>
             当前可用的货位数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.Loaded">
+        <member name="P:Swm.Web.Controllers.StreetletUsageInfo.Loaded">
             <summary>
             当前有货的货位数
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.LanewayUsageInfo.InboundDisabled">
+        <member name="P:Swm.Web.Controllers.StreetletUsageInfo.InboundDisabled">
             <summary>
             当前已禁止入站的货位数
             </summary>
@@ -3156,7 +3156,7 @@
             出口的关键点2，可能为 null
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.PortInfo.Laneways">
+        <member name="P:Swm.Web.Controllers.PortInfo.Streetlets">
             <summary>
             可到达此出口的巷道
             </summary>
@@ -3333,7 +3333,7 @@
             侧视图数据。
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.SideViewData.LanewayCode">
+        <member name="P:Swm.Web.Controllers.SideViewData.StreetletCode">
             <summary>
             巷道编码
             </summary>
@@ -3528,12 +3528,12 @@
             货位编码
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.StorageLocationInfo.LanewayId">
+        <member name="P:Swm.Web.Controllers.StorageLocationInfo.StreetletId">
             <summary>
             巷道 Id
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.StorageLocationInfo.LanewayCode">
+        <member name="P:Swm.Web.Controllers.StorageLocationInfo.StreetletCode">
             <summary>
             巷道编码
             </summary>
@@ -3608,7 +3608,7 @@
             货位编码。支持模糊查找，使用 ? 表示单个字符，使用 * 表示任意个字符
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.LanewayIdList">
+        <member name="P:Swm.Web.Controllers.StorageLocationListArgs.StreetletIdList">
             <summary>
             货位所在巷道
             </summary>
@@ -3793,14 +3793,14 @@
             Batch 查询条件
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.TaskListArgs.LanewayIdList">
+        <member name="P:Swm.Web.Controllers.TaskListArgs.StreetletIdList">
             <summary>
             巷道Id列表
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.TaskListArgs.LanewayIdListExpr">
+        <member name="P:Swm.Web.Controllers.TaskListArgs.StreetletIdListExpr">
             <summary>
-            LanewayIdList 的查询条件
+            StreetletIdList 的查询条件
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.UnitloadDetail">
@@ -3908,7 +3908,7 @@
             所在货位类型
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadInfo.LanewayCode">
+        <member name="P:Swm.Web.Controllers.UnitloadInfo.StreetletCode">
             <summary>
             所在巷道编码
             </summary>
@@ -4053,7 +4053,7 @@
             库存状态
             </summary>
         </member>
-        <member name="P:Swm.Web.Controllers.UnitloadListArgs.LanewayId">
+        <member name="P:Swm.Web.Controllers.UnitloadListArgs.StreetletId">
             <summary>
             托盘所在巷道
             </summary>

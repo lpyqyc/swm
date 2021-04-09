@@ -25,13 +25,13 @@ namespace Swm.Locations
         public Port(string portCode)
         {
             this.ctime = DateTime.Now;
-            this.Laneways = new HashSet<Laneway>();
+            this.Streetlets = new HashSet<Streetlet>();
             this.PortCode = portCode;
         }
 
         protected Port()
         {
-            this.Laneways = new HashSet<Laneway>();
+            this.Streetlets = new HashSet<Streetlet>();
             this.PortCode = default!;
         }
 
@@ -55,7 +55,7 @@ namespace Swm.Locations
         public virtual string? Comment { get; set; }
 
 
-        public virtual ISet<Laneway> Laneways { get; protected set; }
+        public virtual ISet<Streetlet> Streetlets { get; protected set; }
 
         // TODO 重命名
         public virtual object? CurrentUat { get; protected set; }
