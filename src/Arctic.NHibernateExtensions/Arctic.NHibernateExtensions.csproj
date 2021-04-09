@@ -12,10 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.0.0" />
-    <PackageReference Include="NHibernate" Version="5.3.5" />
+    <PackageReference Include="Autofac" Version="6.1.0" />
+    <PackageReference Include="NHibernate" Version="5.3.8" />
     <PackageReference Include="NHibernate.Logging.Serilog" Version="5.1.4" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.6" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />
   </ItemGroup>
 
   <ItemGroup>
