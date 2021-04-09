@@ -42,6 +42,12 @@ namespace Swm.Web.Controllers
         public string? MaterialCode { get; set; }
 
         /// <summary>
+        /// 物料类型
+        /// </summary>
+        public string? MaterialType { get; set; }
+
+
+        /// <summary>
         /// 物料描述
         /// </summary>
         [Required]

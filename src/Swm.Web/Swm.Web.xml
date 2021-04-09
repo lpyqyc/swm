@@ -1762,6 +1762,11 @@
             物料编码
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.FlowInfo.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.FlowInfo.Description">
             <summary>
             物料描述

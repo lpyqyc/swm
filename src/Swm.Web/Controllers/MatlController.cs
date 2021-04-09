@@ -302,7 +302,8 @@ namespace Swm.Web.Controllers
             {
                 FlowId = x.FlowId,
                 ctime = x.ctime,
-                MaterialCode = x.Material.MaterialCode,
+                MaterialCode = x.Material?.MaterialCode,
+                MaterialType = x.Material?.MaterialType,
                 Description = x.Material.Description,
                 Batch = x.Batch,
                 StockStatus = x.StockStatus,
