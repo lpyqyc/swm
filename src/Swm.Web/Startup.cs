@@ -49,6 +49,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Threading.Tasks;
 
 #pragma warning disable 1591
 
@@ -156,6 +157,17 @@ namespace Swm.Web
                         ValidIssuer = jwtSetting.Issuer,
                         ValidAudience = jwtSetting.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.SecurityKey)),
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add("Token-Expired", "true");
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 })
                 .AddIdentityCookies(o => { });

@@ -47,14 +47,12 @@ namespace Swm.Web
 
             public override void OnActionExecuting(ActionExecutingContext context)
             {
-                _logger.Debug("{url} 共有 {argCount} 个参数", context.HttpContext.Request.GetDisplayUrl(), context.ActionArguments.Count);
+                _logger.Debug("{url}", context.HttpContext.Request.GetDisplayUrl());
 
-                int i = 0;
                 foreach (var entry in context.ActionArguments)
                 {
-                    i++;
                     string val = JsonSerializer.Serialize(entry.Value);
-                    _logger.Debug("{i}. 名称 {argName} 值 {argValue}", i, entry.Key, val);
+                    _logger.Debug("  参数 {argName} 值 {argValue}",entry.Key, val);
                 }
             }
         }

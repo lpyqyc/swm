@@ -1,9 +1,9 @@
 ﻿// 参考：https://blog.csdn.net/sd7o95o/article/details/114504446
+// 参考：https://www.blinkingcaret.com/2018/05/30/refresh-tokens-in-asp-net-core-web-api/
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,6 +49,96 @@ namespace Swm.Web.Controllers
             _logger = logger;
         }
 
+        private string GenerateToken(IEnumerable<Claim> claims)
+        {
+            var key = Encoding.UTF8.GetBytes(_jwtSetting.Value.SecurityKey);
+
+            //创建令牌
+            var token = new JwtSecurityToken(
+              issuer: _jwtSetting.Value.Issuer,
+              audience: _jwtSetting.Value.Audience,
+              signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+              claims: claims,
+              notBefore: DateTime.Now,
+              expires: DateTime.Now.AddMinutes(_jwtSetting.Value.TokenExpiry)
+            );
+
+            string jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return jwt;
+        }
+
+
+
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var key = Encoding.UTF8.GetBytes(_jwtSetting.Value.SecurityKey);
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new SecurityTokenException("Invalid token");
+            }
+
+            return principal;
+        }
+
+        /// <summary>
+        /// 刷新访问令牌
+        /// </summary>
+        /// <param name="token">老的访问令牌</param>
+        /// <param name="refreshToken">刷新令牌</param>
+        /// <returns></returns>
+        [HttpPost("refresh-token")]
+        [DebugShowArgs]
+        public async Task<IActionResult> RefreshToken(string token, string refreshToken)
+        {
+            _logger.Debug("正在刷新访问令牌");
+            var principal = GetPrincipalFromExpiredToken(token);
+            var username = principal.Identity?.Name;
+            ApplicationUser? user = await _userManager.FindByNameAsync(username) ?? throw new("用户不存在");
+
+            if (user.RefreshToken != refreshToken)
+            {
+                throw new SecurityTokenException("无效的刷新令牌");
+            }
+            if (user.RefreshTokenExpireTime < DateTime.Now)
+            {
+                throw new SecurityTokenException("刷新令牌已过期");
+            }
+
+            var newJwtToken = GenerateToken(principal.Claims);
+
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+            }
+            user.RefreshToken = Convert.ToBase64String(randomNumber);
+            user.RefreshTokenTime = DateTime.Now;
+            user.RefreshTokenExpireTime = DateTime.Now.AddDays(7);
+
+            _logger.Information("已刷新访问令牌");
+
+            return new ObjectResult(new
+            {
+                token = newJwtToken,
+                refreshToken = user.RefreshToken
+            });
+        }
+
         /// <summary>
         /// 用户登录
         /// </summary>
@@ -76,13 +167,11 @@ namespace Swm.Web.Controllers
                 var roles = await _userManager.GetRolesAsync(user);
 
                 //创建用户身份标识，可按需要添加更多信息
-                bool admin = await _userManager.IsInRoleAsync(user, "admin");
                 var claims = new List<Claim>
                 {
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(ClaimTypes.NameIdentifier, user.Id, ClaimValueTypes.String), // 用户id
                     new Claim(ClaimTypes.Name, user.UserName), // 用户名
-                    new Claim("admin", admin.ToString() ,ClaimValueTypes.Boolean), // 是否是管理员
                 };
 
                 claims.AddRange(await _userManager.GetClaimsAsync(user));
@@ -95,19 +184,7 @@ namespace Swm.Web.Controllers
                     claims.AddRange(await _roleManager.GetClaimsAsync(appRole));
                 }
 
-                var key = Encoding.UTF8.GetBytes(_jwtSetting.Value.SecurityKey);
-
-                //创建令牌
-                var token = new JwtSecurityToken(
-                  issuer: _jwtSetting.Value.Issuer,
-                  audience: _jwtSetting.Value.Audience,
-                  signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                  claims: claims,
-                  notBefore: DateTime.Now,
-                  expires: DateTime.Now.AddMinutes(_jwtSetting.Value.TokenExpiry)
-                );
-
-                string jwt = new JwtSecurityTokenHandler().WriteToken(token);
+                var jwt = GenerateToken(claims);
 
                 return Ok(new
                 {
@@ -163,7 +240,6 @@ namespace Swm.Web.Controllers
         [Authorize]
         public async Task<AntProCurrentUserInfo> GetCurrentUser()
         {
-
             ApplicationUser? user = await _userManager.FindByNameAsync(User?.Identity?.Name);
 
             AntProCurrentUserInfo userInfo = new AntProCurrentUserInfo();
@@ -180,33 +256,5 @@ namespace Swm.Web.Controllers
 
     }
 
-
-    // TODO 处理下面的代码
-    public class ClaimRequirementAttribute : TypeFilterAttribute
-    {
-        public ClaimRequirementAttribute(string claimType, string claimValue) : base(typeof(ClaimRequirementFilter))
-        {
-            Arguments = new object[] { new Claim(claimType, claimValue) };
-        }
-    }
-
-    public class ClaimRequirementFilter : IAuthorizationFilter
-    {
-        readonly Claim _claim;
-
-        public ClaimRequirementFilter(Claim claim)
-        {
-            _claim = claim;
-        }
-
-        public void OnAuthorization(AuthorizationFilterContext context)
-        {
-            var hasClaim = context.HttpContext.User.Claims.Any(c => c.Type == _claim.Type && c.Value == _claim.Value);
-            if (!hasClaim)
-            {
-                context.Result = new ForbidResult();
-            }
-        }
-    }
 
 }

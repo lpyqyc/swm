@@ -148,6 +148,14 @@
             </summary>
             <param name="logger"></param>
         </member>
+        <member name="M:Swm.Web.Controllers.AccountController.RefreshToken(System.String,System.String)">
+            <summary>
+            刷新访问令牌
+            </summary>
+            <param name="token">老的访问令牌</param>
+            <param name="refreshToken">刷新令牌</param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.AccountController.Login(Swm.Web.Controllers.LoginArgs)">
             <summary>
             用户登录
@@ -4199,6 +4207,31 @@
         <member name="P:Swm.Web.Controllers.UserListArgs.PageSize">
             <summary>
             每页大小，默认值为 10。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ApplicationUser.IsBuiltIn">
+            <summary>
+            是否内置用户
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ApplicationUser.Comment">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ApplicationUser.RefreshToken">
+            <summary>
+            刷新令牌
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ApplicationUser.RefreshTokenTime">
+            <summary>
+            刷新令牌的生成时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.ApplicationUser.RefreshTokenExpireTime">
+            <summary>
+            刷新令牌的过期时间
             </summary>
         </member>
         <member name="T:Swm.Web.DebugShowArgsAttribute">
