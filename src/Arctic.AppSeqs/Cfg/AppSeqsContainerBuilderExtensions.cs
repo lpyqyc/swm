@@ -1,4 +1,4 @@
-﻿// Copyright 2020-2021 王建军
+// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.AppSeqs.Mappings;
 using Arctic.NHibernateExtensions;
+using Autofac;
 
-namespace Swm.InboundOrders.Mappings
+namespace Arctic.AppSeqs
 {
-    internal class Mapper : XModelMapper
+    public static class AppSeqsContainerBuilderExtensions
     {
-        public Mapper()
+        public static void AddAppSeqs(this ContainerBuilder builder)
         {
-            // 添加映射类
-            this.AddMapping<InboundOrderMapping>();
-            this.AddMapping<InboundLineMapping>();
+            builder.AddModelMapperConfigurer(new ModelMapperConfigurer());
+            builder.RegisterType<AppSeqService>().As<IAppSeqService>().InstancePerLifetimeScope();
         }
     }
 }

@@ -36,6 +36,7 @@ using Serilog.Context;
 using Swm.InboundOrders;
 using Swm.Locations;
 using Swm.Materials;
+using Swm.Materials.Mappings;
 using Swm.Model.Extentions;
 using Swm.Ops;
 using Swm.OutboundOrders;
@@ -188,6 +189,7 @@ namespace Swm.Web
                     .UseFlow<Flow>()
                     .UseStock<Stock>()
                     .UseMonthlyReportItem<MonthlyReportItem>()
+                    .UseFifoProvider<DefaultFifoProvider>()
                     .UseStockKey<DefaultStockKey>();
             });
 
@@ -230,7 +232,8 @@ namespace Swm.Web
             builder.AddInboundOrders(module => 
             {
                 module.UseInboundOrder<InboundOrder>()
-                    .UseInboundLine<InboundLine>();
+                    .UseInboundLine<InboundLine>()
+                    ;
             });
 
             builder.AddEventBus(Configuration.GetSection("EventBus").Get<SimpleEventBusOptions>());

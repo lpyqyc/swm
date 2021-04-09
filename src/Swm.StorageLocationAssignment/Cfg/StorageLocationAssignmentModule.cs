@@ -35,7 +35,7 @@ namespace Swm.StorageLocationAssignment
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<SAllocationHelper>().AsSelf();
-            foreach (var ruleType in _moduleBuilder._ruleTypes)
+            foreach (var ruleType in _moduleBuilder.RuleTypes)
             {
                 builder.RegisterType(ruleType).AsImplementedInterfaces();
                 _logger.Information("已注册分配货位规则：{ruleType}", ruleType);

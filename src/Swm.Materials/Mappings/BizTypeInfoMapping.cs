@@ -33,5 +33,4 @@ namespace Swm.Materials.Mappings
             Property(cl => cl.Scope);
         }
     }
-
 }

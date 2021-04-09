@@ -19,13 +19,19 @@ namespace Swm.Palletization
 {
     public class PalletizationModuleBuilder
     {
-        internal Func<Unitload>? _unitloadFactory;
-        internal Func<UnitloadItem>? _unitloadItemFactory;
-        internal Func<UnitloadSnapshot>? _unitloadSnapshotFactory;
-        internal Func<UnitloadItemSnapshot>? _unitloadItemSnapshotFactory;
-        internal IPalletCodeValidator?  palletCodeValidator;
-        internal XModelMapper? _extensionModelMapper;
-        internal Type? _unitloadStorageInfoProviderType;
+        public Func<Unitload> UnitloadFactory { get; private set; } = () => new Unitload();
+        public Func<UnitloadItem> UnitloadItemFactory { get; private set; } = () => new UnitloadItem();
+        public Func<UnitloadSnapshot> UnitloadSnapshotFactory { get; private set; } = () => new UnitloadSnapshot();
+        public Func<UnitloadItemSnapshot> UnitloadItemSnapshotFactory { get; private set; } = () => new UnitloadItemSnapshot();
+
+        /// <summary>
+        /// 获取实体扩展部分（如果有）的映射配置程序
+        /// </summary>
+        public IModelMapperConfigurer? ExtensionModelMapperConfigurer { get; private set; }
+
+        public IPalletCodeValidator?  palletCodeValidator;
+
+        public Type UnitloadStorageInfoProviderType { get; private set; } = typeof(DefaultUnitloadStorageInfoProvider);
 
         internal PalletizationModuleBuilder()
         {
@@ -35,28 +41,28 @@ namespace Swm.Palletization
         public PalletizationModuleBuilder UseUnitload<T>()
             where T : Unitload, new()
         {
-            _unitloadFactory = () => new T();
+            UnitloadFactory = () => new T();
             return this;
         }
 
         public PalletizationModuleBuilder UseUnitloadItem<T>()
             where T : UnitloadItem, new()
         {
-            _unitloadItemFactory = () => new T();
+            UnitloadItemFactory = () => new T();
             return this;
         }
 
         public PalletizationModuleBuilder UseUnitloadSnapshot<T>()
             where T : UnitloadSnapshot, new()
         {
-            _unitloadSnapshotFactory = () => new T();
+            UnitloadSnapshotFactory = () => new T();
             return this;
         }
 
         public PalletizationModuleBuilder UseUnitloadItemSnapshot<T>()
             where T : UnitloadItemSnapshot, new()
         {
-            _unitloadItemSnapshotFactory = () => new T();
+            UnitloadItemSnapshotFactory = () => new T();
             return this;
         }
 
@@ -69,20 +75,23 @@ namespace Swm.Palletization
         public PalletizationModuleBuilder UseUnitloadStorageInfoProvider<T>()
             where T : IUnitloadStorageInfoProvider
         {
-            this._unitloadStorageInfoProviderType = typeof(T);
+            this.UnitloadStorageInfoProviderType = typeof(T);
             return this;
         }
+
         /// <summary>
-        /// 如果使用子类扩展了实体模型，则使用此方法添加扩展部分的模型映射类，将实体添加到 NHibernate 中。
+        /// 为实体的扩展部分（如果有）添加映射配置程序
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="extensionModelMapper"></param>
+        /// <param name="modelMapperConfigurer"></param>
         /// <returns></returns>
-        public PalletizationModuleBuilder AddExtensionModelMapper<T>(XModelMapper extensionModelMapper)
+        public PalletizationModuleBuilder AddExtensionModelMapperConfigurer(IModelMapperConfigurer modelMapperConfigurer)
         {
-            _extensionModelMapper = extensionModelMapper;
+            ExtensionModelMapperConfigurer = modelMapperConfigurer;
             return this;
         }
+
+
+
         internal PalletizationModule Build()
         {
             return new PalletizationModule(this);

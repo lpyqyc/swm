@@ -19,8 +19,13 @@ namespace Swm.Locations
 {
     public class LocationsModuleBuilder
     {
-        internal Func<Location>? _locationFactory;
-        internal XModelMapper? _extensionModelMapper;
+        public Func<Location> LocationFactory { get; private set; } = () => new Location();
+
+        /// <summary>
+        /// 获取实体扩展部分（如果有）的映射配置程序
+        /// </summary>
+        public IModelMapperConfigurer? ExtensionModelMapperConfigurer { get; private set; }
+
 
         internal LocationsModuleBuilder()
         {
@@ -30,21 +35,22 @@ namespace Swm.Locations
         public LocationsModuleBuilder UseLocation<T>()
             where T : Location, new()
         {
-            _locationFactory = () => new T();
+            LocationFactory = () => new T();
             return this;
         }
 
+
         /// <summary>
-        /// 如果使用子类扩展了实体模型，则使用此方法添加扩展部分的模型映射类，将实体添加到 NHibernate 中。
+        /// 为实体的扩展部分（如果有）添加映射配置程序
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="extensionModelMapper"></param>
+        /// <param name="modelMapperConfigurer"></param>
         /// <returns></returns>
-        public LocationsModuleBuilder AddExtensionModelMapper<T>(XModelMapper extensionModelMapper)
+        public LocationsModuleBuilder AddExtensionModelMapperConfigurer(IModelMapperConfigurer modelMapperConfigurer)
         {
-            _extensionModelMapper = extensionModelMapper;
+            ExtensionModelMapperConfigurer = modelMapperConfigurer;
             return this;
         }
+
 
 
         internal LocationsModule Build()

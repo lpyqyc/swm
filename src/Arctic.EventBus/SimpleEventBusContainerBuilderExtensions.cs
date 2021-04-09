@@ -37,7 +37,7 @@ namespace Arctic.EventBus
                 List<Type> handlerTypes = new List<Type>();
                 foreach (var handlerTypeName in eventConfig.Handlers ?? Array.Empty<string>())
                 {
-                    _logger.Information("添加事件处理程序 {eventType} --> {handlerType}", eventConfig.EventType, handlerTypeName);
+                    _logger.Information("  事件类型 {eventType} --> 处理程序类型 {handlerType}", eventConfig.EventType, handlerTypeName);
 
                     var handlerType = Type.GetType(handlerTypeName);
 

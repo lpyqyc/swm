@@ -13,16 +13,22 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using NHibernate.Mapping.ByCode;
 
-namespace Swm.TransportTasks.Mappings
+namespace Swm.Materials.Mappings
 {
-    internal class Mapper : XModelMapper
+    internal class ModelMapperConfigurer : IModelMapperConfigurer
     {
-        public Mapper()
+        public void ConfigureModelMapper(ModelMapper modelMapper)
         {
-            // 添加映射类
-            this.AddMapping<TransportTaskMapping>();
-            this.AddMapping<ArchivedTransportTaskMapping>();
+            modelMapper.AddMapping<BizTypeInfoMapping>();
+            modelMapper.AddMapping<FlowMapping>();
+            modelMapper.AddMapping<MaterialMapping>();
+            modelMapper.AddMapping<MaterialTypeInfoMapping>();
+            modelMapper.AddMapping<MonthlyReportMapping>();
+            modelMapper.AddMapping<MonthlyReportItemMapping>();
+            modelMapper.AddMapping<StockMapping>();
+            modelMapper.AddMapping<StockStatusInfoMapping>();
         }
     }
 }

@@ -19,7 +19,11 @@ namespace Swm.StorageLocationAssignment
 {
     public class StorageLocationAssignmentModuleBuilder
     {
-        internal List<Type> _ruleTypes = new List<Type>();
+        List<Type> _ruleTypes = new List<Type>();
+        public IReadOnlyList<Type> RuleTypes 
+        { 
+            get => _ruleTypes.AsReadOnly(); 
+        }
 
 
         internal StorageLocationAssignmentModuleBuilder()

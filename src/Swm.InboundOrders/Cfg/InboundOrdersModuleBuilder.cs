@@ -19,9 +19,14 @@ namespace Swm.InboundOrders
 {
     public class InboundOrdersModuleBuilder
     {
-        internal Func<InboundOrder>? _inboundOrderFactory;
-        internal Func<InboundLine>? _inboundLineFactory;
-        internal XModelMapper? _extensionModelMapper;
+        public Func<InboundOrder> InboundOrderFactory { get; private set; } = () => new InboundOrder();
+        public Func<InboundLine> InboundLineFactory { get; private set; } = () => new InboundLine();
+
+
+        /// <summary>
+        /// 获取实体扩展部分（如果有）的映射配置程序
+        /// </summary>
+        public IModelMapperConfigurer? ExtensionModelMapperConfigurer { get; private set; }
 
 
         internal InboundOrdersModuleBuilder()
@@ -31,28 +36,28 @@ namespace Swm.InboundOrders
         public InboundOrdersModuleBuilder UseInboundOrder<T>()
             where T : InboundOrder, new()
         {
-            _inboundOrderFactory = () => new T();
+            InboundOrderFactory = () => new T();
             return this;
         }
 
         public InboundOrdersModuleBuilder UseInboundLine<T>()
             where T : InboundLine, new()
         {
-            _inboundLineFactory = () => new T();
+            InboundLineFactory = () => new T();
             return this;
         }
 
         /// <summary>
-        /// 如果使用子类扩展了实体模型，则使用此方法添加扩展部分的模型映射类，将实体添加到 NHibernate 中。
+        /// 为实体的扩展部分（如果有）添加映射配置程序
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="extensionModelMapper"></param>
+        /// <param name="modelMapperConfigurer"></param>
         /// <returns></returns>
-        public InboundOrdersModuleBuilder AddExtensionModelMapper<T>(XModelMapper extensionModelMapper)
+        public InboundOrdersModuleBuilder AddExtensionModelMapperConfigurer(IModelMapperConfigurer modelMapperConfigurer)
         {
-            _extensionModelMapper = extensionModelMapper;
+            ExtensionModelMapperConfigurer = modelMapperConfigurer;
             return this;
         }
+
 
         internal InboundOrdersModule Build()
         {

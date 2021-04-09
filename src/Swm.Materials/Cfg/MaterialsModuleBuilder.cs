@@ -21,17 +21,39 @@ namespace Swm.Materials
     {
         internal Type? _stockKeyType;
 
-        internal Func<Material>? _materialFactory;
-        internal Func<Flow>? _flowFactory;
-        internal Func<Stock>? _stockFactory;
-        internal Func<MonthlyReportItem>? _monthlyReportItemFactory;
-        internal XModelMapper? _extensionModelMapper;
-        internal Type? _fifoProviderType;
+        /// <summary>
+        /// 获取实体扩展部分（如果有）的映射配置程序
+        /// </summary>
+        public IModelMapperConfigurer? ExtensionModelMapperConfigurer { get; private set; }
+
+        /// <summary>
+        /// 获取 <see cref="Material"/> 的实体工厂
+        /// </summary>
+        public Func<Material> MaterialFactory { get; private set; } = () => new Material();
+
+        /// <summary>
+        /// 获取 <see cref="Flow"/ 的实体工厂
+        /// </summary>
+        public Func<Flow> FlowFactory { get; private set; } = () => new Flow();
+
+        /// <summary>
+        /// 获取 <see cref="Stock"/ 的实体工厂
+        /// </summary>
+        public Func<Stock> StockFactory { get; private set; } = () => new Stock();
+
+        /// <summary>
+        /// 获取 <see cref="MonthlyReportItem"/ 的实体工厂
+        /// </summary>
+        public Func<MonthlyReportItem> MonthlyReportItemFactory { get; private set; } = () => new MonthlyReportItem();
+
+        /// <summary>
+        /// 获取 <see cref="IFifoProvider"/> 的类型
+        /// </summary>
+        public Type? FifoProviderType { get; private set; } = typeof(DefaultFifoProvider);
 
         internal MaterialsModuleBuilder()
         {
         }
-
 
         public MaterialsModuleBuilder UseStockKey<TStockKey>() where TStockKey : StockKeyBase
         {
@@ -43,49 +65,49 @@ namespace Swm.Materials
         public MaterialsModuleBuilder UseMaterial<T>() 
             where T : Material, new()
         {
-            _materialFactory = () => new T();
+            MaterialFactory = () => new T();
             return this;
         }
 
         public MaterialsModuleBuilder UseFlow<T>()
             where T : Flow, new()
         {
-            _flowFactory = () => new T();
+            FlowFactory = () => new T();
             return this;
         }
 
         public MaterialsModuleBuilder UseStock<T>()
             where T : Stock, new()
         {
-            _stockFactory = () => new T();
+            StockFactory = () => new T();
             return this;
         }
 
         public MaterialsModuleBuilder UseMonthlyReportItem<T>()
             where T : MonthlyReportItem, new()
         {
-            _monthlyReportItemFactory = () => new T();
+            MonthlyReportItemFactory = () => new T();
             return this;
         }
 
         public MaterialsModuleBuilder UseFifoProvider<T>()
             where T : IFifoProvider
         {
-            _fifoProviderType = typeof(T);
+            FifoProviderType = typeof(T);
             return this;
         }
 
         /// <summary>
-        /// 如果使用子类扩展了实体模型，则使用此方法添加扩展部分的模型映射类，将实体添加到 NHibernate 中。
+        /// 为实体的扩展部分（如果有）添加映射配置程序
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="extensionModelMapper"></param>
+        /// <param name="modelMapperConfigurer"></param>
         /// <returns></returns>
-        public MaterialsModuleBuilder AddExtensionModelMapper<T>(XModelMapper extensionModelMapper)
+        public MaterialsModuleBuilder AddExtensionModelMapperConfigurer(IModelMapperConfigurer modelMapperConfigurer)
         {
-            _extensionModelMapper = extensionModelMapper;
+            ExtensionModelMapperConfigurer = modelMapperConfigurer;
             return this;
         }
+
 
 
         internal MaterialsModule Build()

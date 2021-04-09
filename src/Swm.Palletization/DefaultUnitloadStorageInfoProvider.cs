@@ -18,7 +18,7 @@ using System.Linq;
 
 namespace Swm.Palletization
 {
-    public class UnitloadStorageInfoProvider : IUnitloadStorageInfoProvider
+    public class DefaultUnitloadStorageInfoProvider : IUnitloadStorageInfoProvider
     {
         public virtual string GetOutFlag(Unitload unitload)
         {

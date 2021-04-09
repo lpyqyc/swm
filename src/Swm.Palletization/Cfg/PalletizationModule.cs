@@ -26,8 +26,6 @@ namespace Swm.Palletization
     /// </summary>
     public class PalletizationModule : Autofac.Module
     {
-
-        static readonly ILogger _logger = Log.ForContext<PalletizationModule>();
         PalletizationModuleBuilder _moduleBuilder;
         
         internal PalletizationModule(PalletizationModuleBuilder moduleBuilder)
@@ -37,38 +35,27 @@ namespace Swm.Palletization
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper(new Mapper());
-
-            if (_moduleBuilder._extensionModelMapper != null)
+            builder.AddModelMapperConfigurer(new ModelMapperConfigurer());
+            if (_moduleBuilder.ExtensionModelMapperConfigurer != null)
             {
-                builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
+                builder.AddModelMapperConfigurer(_moduleBuilder.ExtensionModelMapperConfigurer);
             }
 
             builder.RegisterType<PalletizationHelper>();
             builder.RegisterType<UnitloadSnapshopHelper>();
-            builder.RegisterType<UnitloadStorageInfoProvider>().AsImplementedInterfaces();
+            builder.RegisterType(_moduleBuilder.UnitloadStorageInfoProviderType).AsImplementedInterfaces();
 
-            RegisterFactory(_moduleBuilder._unitloadFactory);
-            RegisterFactory(_moduleBuilder._unitloadItemFactory);
-            RegisterFactory(_moduleBuilder._unitloadSnapshotFactory);
-            RegisterFactory(_moduleBuilder._unitloadItemSnapshotFactory);
+            builder.RegisterEntityFactory(_moduleBuilder.UnitloadFactory);
+            builder.RegisterEntityFactory(_moduleBuilder.UnitloadItemFactory);
+            builder.RegisterEntityFactory(_moduleBuilder.UnitloadSnapshotFactory);
+            builder.RegisterEntityFactory(_moduleBuilder.UnitloadItemSnapshotFactory);
             builder.RegisterInstance(_moduleBuilder.palletCodeValidator ?? throw new())
                 .AsImplementedInterfaces()
                 .SingleInstance();
-            if (_moduleBuilder._unitloadStorageInfoProviderType != null)
+            if (_moduleBuilder.UnitloadStorageInfoProviderType != null)
             {
-                builder.RegisterType(_moduleBuilder._unitloadStorageInfoProviderType).AsImplementedInterfaces();
             }
 
-
-
-            void RegisterFactory<T>(Func<T>? factory) where T : notnull
-            {
-                if (factory != null)
-                {
-                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
-                }
-            }
         }
     }
 

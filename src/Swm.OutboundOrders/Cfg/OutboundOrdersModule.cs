@@ -15,7 +15,6 @@
 using Arctic.NHibernateExtensions;
 using Autofac;
 using Serilog;
-using Swm.OutboundOrders.Mappings;
 using System;
 
 namespace Swm.OutboundOrders
@@ -35,30 +34,19 @@ namespace Swm.OutboundOrders
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper(new Mapper());
+            builder.AddModelMapperConfigurer(new ModelMapperConfigurer());
+            if (_moduleBuilder.ExtensionModelMapperConfigurer != null)
+            {
+                builder.AddModelMapperConfigurer(_moduleBuilder.ExtensionModelMapperConfigurer);
+            }
             builder.RegisterType<OutboundOrderPickHelper>();
             builder.RegisterType<DefaultOutboundOrderAllocator>().AsImplementedInterfaces();
 
-            if (_moduleBuilder._extensionModelMapper != null)
-            {
-                builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
-            }
+            builder.RegisterEntityFactory(_moduleBuilder.OutboundOrderFactory);
+            builder.RegisterEntityFactory(_moduleBuilder.OutboundLineFactory);
 
-            RegisterFactory(_moduleBuilder._outboundOrderFactory);
-            RegisterFactory(_moduleBuilder._outboundLineFactory);
+            builder.RegisterType(_moduleBuilder.OutboundOrderAllocatorType).AsImplementedInterfaces();
 
-            if (_moduleBuilder._outboundOrderAllocatorType != null)
-            {
-                builder.RegisterType(_moduleBuilder._outboundOrderAllocatorType).AsImplementedInterfaces();
-            }
-
-            void RegisterFactory<T>(Func<T>? factory) where T : notnull
-            {
-                if (factory != null)
-                {
-                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
-                }
-            }
         }
     }
 }

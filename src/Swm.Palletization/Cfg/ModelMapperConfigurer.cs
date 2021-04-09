@@ -13,14 +13,16 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using NHibernate.Mapping.ByCode;
+using Swm.Palletization.Mappings;
 
-namespace Swm.Palletization.Mappings
+namespace Swm.Palletization
 {
-    internal class Mapper : XModelMapper
+    internal class ModelMapperConfigurer : IModelMapperConfigurer
     {
-        public Mapper()
+        public void ConfigureModelMapper(ModelMapper modelMapper)
         {
-            Component<StorageInfo>(comp => {
+            modelMapper.Component<StorageInfo>(comp => {
                 comp.Property(cl => cl.ContainerSpecification);
                 comp.Property(cl => cl.Weight);
                 comp.Property(cl => cl.Height);
@@ -29,11 +31,14 @@ namespace Swm.Palletization.Mappings
             });
 
             // 添加映射类
-            this.AddMapping<UnitloadItemAllocationMapping>();
-            this.AddMapping<UnitloadItemMapping>();
-            this.AddMapping<UnitloadItemSnapshotMapping>();
-            this.AddMapping<UnitloadMapping>();
-            this.AddMapping<UnitloadSnapshotMapping>();
+            modelMapper.AddMapping<UnitloadItemAllocationMapping>();
+            modelMapper.AddMapping<UnitloadItemMapping>();
+            modelMapper.AddMapping<UnitloadItemSnapshotMapping>();
+            modelMapper.AddMapping<UnitloadMapping>();
+            modelMapper.AddMapping<UnitloadSnapshotMapping>();
+
         }
     }
+
+
 }

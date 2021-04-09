@@ -14,9 +14,7 @@
 
 using Arctic.NHibernateExtensions;
 using Autofac;
-using Serilog;
 using Swm.Materials.Mappings;
-using System;
 
 namespace Swm.Materials
 {
@@ -31,35 +29,24 @@ namespace Swm.Materials
             _moduleBuilder = moduleBuilder;
         }
 
-        static ILogger _logger = Log.ForContext<MaterialsModule>();
         
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper(new Mapper());
+            builder.AddModelMapperConfigurer(new ModelMapperConfigurer());
+            if (_moduleBuilder.ExtensionModelMapperConfigurer != null)
+            {
+                builder.AddModelMapperConfigurer(_moduleBuilder.ExtensionModelMapperConfigurer);
+            }
+
             builder.RegisterType<FlowHelper>();
             builder.RegisterType<DefaultFifoProvider>().AsImplementedInterfaces();
+            builder.RegisterEntityFactory(_moduleBuilder.MaterialFactory);
+            builder.RegisterEntityFactory(_moduleBuilder.FlowFactory);
+            builder.RegisterEntityFactory(_moduleBuilder.StockFactory);
+            builder.RegisterEntityFactory(_moduleBuilder.MonthlyReportItemFactory);
 
-            if (_moduleBuilder._extensionModelMapper != null)
-            {
-                builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
-            }
-            RegisterFactory(_moduleBuilder._materialFactory);
-            RegisterFactory(_moduleBuilder._flowFactory);
-            RegisterFactory(_moduleBuilder._stockFactory);
-            RegisterFactory(_moduleBuilder._monthlyReportItemFactory);
-            if(_moduleBuilder._fifoProviderType != null)
-            {
-                builder.RegisterType(_moduleBuilder._fifoProviderType).AsImplementedInterfaces();
-            }
-
-
-            void RegisterFactory<T>(Func<T>? factory) where T : notnull
-            {
-                if (factory != null)
-                {
-                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
-                }
-            }
+            builder.RegisterType(_moduleBuilder.FifoProviderType ?? throw new()).AsImplementedInterfaces();
+            
         }
     }
 }

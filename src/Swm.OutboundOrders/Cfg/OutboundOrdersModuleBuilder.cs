@@ -19,10 +19,16 @@ namespace Swm.OutboundOrders
 {
     public class OutboundOrdersModuleBuilder
     {
-        internal Func<OutboundOrder>? _outboundOrderFactory;
-        internal Func<OutboundLine>? _outboundLineFactory;
-        internal XModelMapper? _extensionModelMapper;
-        internal Type? _outboundOrderAllocatorType;
+        public Func<OutboundOrder> OutboundOrderFactory { get; private set; } = () => new OutboundOrder();
+
+        public Func<OutboundLine> OutboundLineFactory { get; private set; } = () => new OutboundLine();
+
+        public Type OutboundOrderAllocatorType { get; private set; } = typeof(DefaultOutboundOrderAllocator);
+
+        /// <summary>
+        /// 获取实体扩展部分（如果有）的映射配置程序
+        /// </summary>
+        public IModelMapperConfigurer? ExtensionModelMapperConfigurer { get; private set; }
 
         internal OutboundOrdersModuleBuilder()
         {
@@ -31,35 +37,35 @@ namespace Swm.OutboundOrders
         public OutboundOrdersModuleBuilder UseOutboundOrder<T>()
             where T : OutboundOrder, new()
         {
-            _outboundOrderFactory = () => new T();
+            OutboundOrderFactory = () => new T();
             return this;
         }
 
         public OutboundOrdersModuleBuilder UseOutboundLine<T>()
             where T : OutboundLine, new()
         {
-            _outboundLineFactory = () => new T();
+            OutboundLineFactory = () => new T();
             return this;
         }
 
         public OutboundOrdersModuleBuilder UseOutboundOrderAllocator<T>()
             where T : IOutboundOrderAllocator
         {
-            _outboundOrderAllocatorType = typeof(T);
+            OutboundOrderAllocatorType = typeof(T);
             return this;
         }
 
         /// <summary>
-        /// 如果使用子类扩展了实体模型，则使用此方法添加扩展部分的模型映射类，将实体添加到 NHibernate 中。
+        /// 为实体的扩展部分（如果有）添加映射配置程序
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="extensionModelMapper"></param>
+        /// <param name="modelMapperConfigurer"></param>
         /// <returns></returns>
-        public OutboundOrdersModuleBuilder AddExtensionModelMapper<T>(XModelMapper extensionModelMapper)
+        public OutboundOrdersModuleBuilder AddExtensionModelMapperConfigurer(IModelMapperConfigurer modelMapperConfigurer)
         {
-            _extensionModelMapper = extensionModelMapper;
+            ExtensionModelMapperConfigurer = modelMapperConfigurer;
             return this;
         }
+
 
         internal OutboundOrdersModule Build()
         {

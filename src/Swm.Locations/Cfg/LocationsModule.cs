@@ -15,19 +15,15 @@
 using Arctic.NHibernateExtensions;
 using Autofac;
 using Serilog;
-using Swm.Locations.Mappings;
 using System;
-using System.Reflection;
 
 namespace Swm.Locations
 {
     /// <summary>
     /// 
     /// </summary>
-    internal class LocationsModule : Autofac.Module
+    internal class LocationsModule : Module
     {
-        static ILogger _logger = Log.ForContext<LocationsModule>();
-
         LocationsModuleBuilder _moduleBuilder;
         internal LocationsModule(LocationsModuleBuilder moduleBuilder)
         {
@@ -36,26 +32,14 @@ namespace Swm.Locations
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper(new Mapper());
-
+            builder.AddModelMapperConfigurer(new ModelMapperConfigurer());
+            if (_moduleBuilder.ExtensionModelMapperConfigurer != null)
+            {
+                builder.AddModelMapperConfigurer(_moduleBuilder.ExtensionModelMapperConfigurer);
+            }
 
             builder.RegisterType<LocationHelper>();
-
-            if (_moduleBuilder._extensionModelMapper != null)
-            {
-                builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
-            }
-            RegisterFactory(_moduleBuilder._locationFactory);
-
-
-            void RegisterFactory<T>(Func<T>? factory) where T : notnull
-            {
-                if (factory != null)
-                {
-                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
-                }
-            }
-
+            builder.RegisterEntityFactory(_moduleBuilder.LocationFactory);
         }
 
     }

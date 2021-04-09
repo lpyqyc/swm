@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,17 +13,18 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using NHibernate.Mapping.ByCode;
+using Swm.Ops.Mappings;
 
-namespace Arctic.AppSettings.Mappings
+namespace Swm.Ops
 {
-    internal class Mapper : XModelMapper
+    internal class ModelMapperConfigurer : IModelMapperConfigurer
     {
-        public Mapper()
+        public void ConfigureModelMapper(ModelMapper modelMapper)
         {
             // 添加映射类
-            this.AddMapping<AppSettingMapping>();
+            modelMapper.AddMapping<OpMapping>();
         }
-
     }
 
 }

@@ -15,7 +15,6 @@
 using Arctic.NHibernateExtensions;
 using Autofac;
 using Serilog;
-using Swm.InboundOrders.Mappings;
 using System;
 
 namespace Swm.InboundOrders
@@ -35,25 +34,17 @@ namespace Swm.InboundOrders
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper(new Mapper());
-
-
-            if (_moduleBuilder._extensionModelMapper != null)
+            builder.AddModelMapperConfigurer(new ModelMapperConfigurer());
+            if (_moduleBuilder.ExtensionModelMapperConfigurer != null)
             {
-                builder.AddModelMapper(_moduleBuilder._extensionModelMapper);
+                builder.AddModelMapperConfigurer(_moduleBuilder.ExtensionModelMapperConfigurer);
             }
-            RegisterFactory(_moduleBuilder._inboundOrderFactory);
-            RegisterFactory(_moduleBuilder._inboundLineFactory);
 
+            builder.RegisterEntityFactory(_moduleBuilder.InboundOrderFactory);
+            builder.RegisterEntityFactory(_moduleBuilder.InboundLineFactory);
 
-            void RegisterFactory<T>(Func<T>? factory) where T : notnull
-            {
-                if (factory != null)
-                {
-                    builder.Register(c => factory.Invoke()).As<T>().InstancePerDependency();
-                }
-            }
         }
 
     }
+
 }

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.NHibernateExtensions;
 using System;
 using System.Collections.Generic;
 
@@ -19,9 +20,21 @@ namespace Swm.TransportTasks
 {
     public class TransportTasksModuleBuilder
     {
-        internal Dictionary<string, Type> _requestHandlerTypes = new Dictionary<string, Type>();
-        internal Dictionary<string, Type> _completedTaskHandlerTypes = new Dictionary<string, Type>();
-        internal Type? _taskSenderType;
+        List<(string requestType, Type handlerType)> _requestHandlerTypes = new List<(string requestType, Type handlerType)>();
+        List<(string taskType, Type handlerType)> _completedTaskHandlerTypes = new List<(string taskType, Type handlerType)>();
+
+        public IReadOnlyList<(string requestType, Type handlerType)> RequestHandlerTypes
+        {
+            get => _requestHandlerTypes.AsReadOnly();
+        }
+
+        public IReadOnlyList<(string taskType, Type handerType)> CompletedTaskHandlerTypes
+        {
+            get => _completedTaskHandlerTypes.AsReadOnly();
+        }
+
+        public Type TaskSenderType { get; private set; } = typeof(FakeTaskSender);
+
 
         internal TransportTasksModuleBuilder()
         {
@@ -34,7 +47,7 @@ namespace Swm.TransportTasks
             {
                 throw new ArgumentException("请求类型不能为空", nameof(requestType));
             }
-            _requestHandlerTypes.Add(requestType.Trim(), typeof(T));
+            _requestHandlerTypes.Add((requestType.Trim(), typeof(T)));
             return this;
         }
 
@@ -45,17 +58,16 @@ namespace Swm.TransportTasks
             {
                 throw new ArgumentException("任务类型不能为空", nameof(taskType));
             }
-            _completedTaskHandlerTypes.Add(taskType.Trim(), typeof(T));
+            _completedTaskHandlerTypes.Add((taskType.Trim(), typeof(T)));
             return this;
         }
 
         public TransportTasksModuleBuilder UseTaskSender<T>()
             where T : ITaskSender
         {
-            _taskSenderType = typeof(T);
+            TaskSenderType = typeof(T);
             return this;
         }
-
 
         internal TransportTasksModule Build()
         {

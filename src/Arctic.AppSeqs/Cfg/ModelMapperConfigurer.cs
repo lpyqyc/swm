@@ -12,23 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.AppSeqs.Mappings;
 using Arctic.NHibernateExtensions;
+using NHibernate.Mapping.ByCode;
 
-namespace Swm.Materials.Mappings
+namespace Arctic.AppSeqs
 {
-    public class Mapper : XModelMapper
+    internal class ModelMapperConfigurer : IModelMapperConfigurer
     {
-        public Mapper()
+        public void ConfigureModelMapper(ModelMapper modelMapper)
         {
-            // 添加映射类
-            this.AddMapping<BizTypeInfoMapping>();
-            this.AddMapping<FlowMapping>();
-            this.AddMapping<MaterialMapping>();
-            this.AddMapping<MaterialTypeInfoMapping>();
-            this.AddMapping<MonthlyReportMapping>();
-            this.AddMapping<MonthlyReportItemMapping>();
-            this.AddMapping<StockMapping>();
-            this.AddMapping<StockStatusInfoMapping>();
+            modelMapper.AddMapping<AppSeqMapping>();
         }
     }
 }

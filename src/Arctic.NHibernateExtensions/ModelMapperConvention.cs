@@ -21,16 +21,22 @@ using System.Reflection;
 namespace Arctic.NHibernateExtensions
 {
     /// <summary>
-    /// 自动应用规则：
+    /// 实现以下约定：
     /// 如果属性或多对一关联上标记了 <see cref="RequiredAttribute"/>，则使数据库字段不可为 null；
     /// 如果属性是值类型且不是可空类型，则使数据库字段不可为 null；
     /// 如果属性上标记了 <see cref="MaxLengthAttribute"/>，则指定使数据库字段的长度；
     /// </summary>
-    public abstract class XModelMapper : ModelMapper
+    internal class ModelMapperConvention : IModelMapperConfigurer
     {
-        public XModelMapper()
+        public void ConfigureModelMapper(ModelMapper modelMapper)
         {
-            BeforeMapManyToOne += (insp, prop, map) => {
+            ApplyConventions(modelMapper);
+        }
+
+        private ModelMapper ApplyConventions(ModelMapper modelMapper)
+        {
+            // 多对一
+            modelMapper.BeforeMapManyToOne += (insp, prop, map) => {
                 // 应用 RequiredAttribute 列不可空
                 if (prop.LocalMember.IsDefined(typeof(RequiredAttribute), true))
                 {
@@ -39,7 +45,7 @@ namespace Arctic.NHibernateExtensions
             };
 
             // 属性
-            this.BeforeMapProperty += (insp, prop, map) =>
+            modelMapper.BeforeMapProperty += (insp, prop, map) =>
             {
                 // 不可空值类型对应的列也不可空
                 PropertyInfo? p = prop.LocalMember as PropertyInfo;
@@ -64,6 +70,9 @@ namespace Arctic.NHibernateExtensions
                     map.Length(attr.Length);
                 }
             };
+
+
+            return modelMapper;
         }
 
 

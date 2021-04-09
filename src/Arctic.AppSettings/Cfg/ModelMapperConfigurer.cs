@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.AppSettings.Mappings;
 using Arctic.NHibernateExtensions;
+using NHibernate.Mapping.ByCode;
 
-namespace Swm.Ops.Mappings
+namespace Arctic.AppSettings
 {
-    internal class Mapper : XModelMapper
+    internal class ModelMapperConfigurer : IModelMapperConfigurer
     {
-        public Mapper()
+        public void ConfigureModelMapper(ModelMapper modelMapper)
         {
-            // 添加映射类
-            this.AddMapping<OpMapping>();
+            modelMapper.AddMapping<AppSettingMapping>();
         }
     }
 }

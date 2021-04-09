@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.AppSettings.Mappings;
 using Arctic.NHibernateExtensions;
-using Autofac;
+using NHibernate.Mapping.ByCode;
+using Swm.InboundOrders.Mappings;
 
-namespace Arctic.AppSettings
+namespace Swm.InboundOrders
 {
-    public static class AppSettingsContainerBuilderExtensions
+    internal class ModelMapperConfigurer : IModelMapperConfigurer
     {
-        public static void AddAppSettings(this ContainerBuilder builder)
+        public void ConfigureModelMapper(ModelMapper modelMapper)
         {
-            builder.AddModelMapper(new Mapper());
-            builder.RegisterType<AppSettingService>().As<IAppSettingService>().InstancePerLifetimeScope();
+            modelMapper.AddMapping<InboundOrderMapping>();
+            modelMapper.AddMapping<InboundLineMapping>();
         }
     }
+
 }

@@ -15,9 +15,7 @@
 using Arctic.NHibernateExtensions;
 using Autofac;
 using Serilog;
-using Swm.TransportTasks.Mappings;
-using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace Swm.TransportTasks
 {
@@ -38,13 +36,11 @@ namespace Swm.TransportTasks
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.AddModelMapper(new Mapper());
-            builder.RegisterType<TaskHelper>();
-            
-            if (_moduleBuilder._taskSenderType != null)
-            {
-                builder.RegisterType(_moduleBuilder._taskSenderType).AsImplementedInterfaces();
-            }
+            builder.AddModelMapperConfigurer(new ModelMapperConfigurer());
+
+            builder.RegisterType<TaskHelper>();            
+            builder.RegisterType(_moduleBuilder.TaskSenderType).AsImplementedInterfaces();
+
 
             ConfigureRequestHandlers(builder);
             ConfigureCompletedTaskHandlers(builder);
@@ -55,7 +51,7 @@ namespace Swm.TransportTasks
             _logger.Information("正在配置请求处理程序");
 
 
-            foreach (var (requestType, handlerType) in _moduleBuilder._requestHandlerTypes)
+            foreach (var (requestType, handlerType) in _moduleBuilder.RequestHandlerTypes)
             {
                 builder.RegisterType(handlerType ?? throw new())
                     .Keyed<IRequestHandler>(requestType ?? throw new());
@@ -71,7 +67,7 @@ namespace Swm.TransportTasks
         {
             _logger.Information("正在配置完成处理程序");
 
-            foreach (var (taskType, handlerType) in _moduleBuilder._completedTaskHandlerTypes)
+            foreach (var (taskType, handlerType) in _moduleBuilder.CompletedTaskHandlerTypes)
             {
                 builder.RegisterType(handlerType ?? throw new())
                     .Keyed<ICompletedTaskHandler>(taskType ?? throw new());
@@ -81,11 +77,15 @@ namespace Swm.TransportTasks
 
             builder.RegisterInstance(new TaskTypesProvider
             {
-                TaskTypes = _moduleBuilder._completedTaskHandlerTypes.Keys,
+                TaskTypes = _moduleBuilder.CompletedTaskHandlerTypes
+                    .Select(x => x.taskType)
+                    .ToList()
+                    .AsReadOnly(),
             }).SingleInstance();
 
             _logger.Information("已配置完成处理程序");
         }
 
     }
+
 }

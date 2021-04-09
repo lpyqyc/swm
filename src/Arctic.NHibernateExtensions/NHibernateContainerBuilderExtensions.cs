@@ -17,7 +17,9 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Event;
 using NHibernate.Logging.Serilog;
+using NHibernate.Mapping.ByCode;
 using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Security.Principal;
 
@@ -27,16 +29,14 @@ namespace Arctic.NHibernateExtensions
     {
         static readonly ILogger _logger = Log.ForContext(typeof(NHibernateContainerBuilderExtensions));
 
-
         /// <summary>
         /// 设置 NHiberernate 使用 <see cref="SerilogLoggerFactory"/>；
         /// 使用 hibernate.cfg.xml 配置 NHibernate；
-        /// 从容器解析 <see cref="XModelMapper"/> 添加到 <see cref="Configuration"/>；
+        /// 从容器解析 <see cref="ModelMapperExtensions"/> 添加到 <see cref="Configuration"/>；
         /// 根据选项添加 <see cref="CheckTransactionListener"/>；
         /// 向容器注册 <see cref="Configuration"/>；
         /// 向容器注册添加了 <see cref="AuditInterceptor"/> 的 <see cref="ISessionFactory"/>；
         /// 向容器注册 <see cref="ISession"/>；
-        /// 在调用之前，应使用 <see cref="AddModelMapper{TModelMapper}(ContainerBuilder)"/> 添加 <see cref="XModelMapper"/>。
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options">配置选项。</param>
@@ -47,21 +47,29 @@ namespace Arctic.NHibernateExtensions
             NHibernateLogger.SetLoggersFactory(new SerilogLoggerFactory());
             _logger.Information("使用 LoggerFactory: {loggerFactory}", typeof(SerilogLoggerFactory));
 
+            builder.AddModelMapperConfigurer(new ModelMapperConvention());
+
             builder.Register(c =>
             {
                 Configuration configuration = new Configuration();
                 configuration.Configure();
+                configuration.SetNamingStrategy(ImprovedNamingStrategy.Instance);
 
-                foreach (var mapper in c.Resolve<IEnumerable<XModelMapper>>())
+                var mapper = new ModelMapper();
+
+                // 添加映射
                 {
-                    _logger.Information("从容器解析到 ModelMapper {modelMapperType}", mapper.GetType());
+                    var modelMapperConfigurers = c.Resolve<IEnumerable<IModelMapperConfigurer>>();
+                    foreach (var configurer in modelMapperConfigurers)
+                    {
+                        configurer.ConfigureModelMapper(mapper);
+                    }
                     var mappings = mapper.CompileMappingForEachExplicitlyAddedEntity();
                     foreach (var mapping in mappings)
                     {
                         configuration.AddMapping(mapping);
                     }
                 }
-
                 // 开始：nh 事件，检查事务，要求必须打开事务
                 CheckTransactionListener checkTransactionListener = new CheckTransactionListener();
                 configuration.AppendListeners(ListenerType.PreInsert, new IPreInsertEventListener[] { checkTransactionListener });
@@ -93,18 +101,31 @@ namespace Arctic.NHibernateExtensions
                     // 添加审计拦截器
                     .Interceptor(interceptor)
                     .OpenSession();
-            }
-            
-            ).InstancePerLifetimeScope();
+            }).InstancePerLifetimeScope();
+
 
             _logger.Information("已配置 NHibernate");
         }
-
-
-        public static void AddModelMapper(this ContainerBuilder builder, XModelMapper modelMapper)
+    
+    
+        /// <summary>
+        /// 向容器添加 <see cref="ModelMapper"/> 的配置程序。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="builder"></param>
+        public static void AddModelMapperConfigurer(this ContainerBuilder builder, IModelMapperConfigurer modelMapperConfigurer)
         {
-            builder.RegisterInstance(modelMapper).As<XModelMapper>().SingleInstance();
-            _logger.Information("向容器注册了 ModelMapper {modelMapperType}", modelMapper.GetType());
+            builder.RegisterInstance(modelMapperConfigurer).As<IModelMapperConfigurer>().SingleInstance();
+        }
+
+        public static void RegisterEntityFactory<TEntity>(this ContainerBuilder builder, Func<TEntity> factory) where TEntity : notnull, new()
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException(nameof(factory));
+            }
+
+            builder.Register(c => factory.Invoke()).As<TEntity>().InstancePerDependency();
         }
     }
 }

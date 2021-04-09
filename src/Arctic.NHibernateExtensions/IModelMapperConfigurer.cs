@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.AppSeqs.Mappings;
-using Arctic.NHibernateExtensions;
-using Autofac;
+using NHibernate.Mapping.ByCode;
 
-namespace Arctic.AppSeqs
+namespace Arctic.NHibernateExtensions
 {
-    public static class AppSeqsContainerBuilderExtensions
+    /// <summary>
+    /// 用于对 <see cref="ModelMapper"/> 进行配置。
+    /// </summary>
+    public interface IModelMapperConfigurer
     {
-        public static void AddAppSeqs(this ContainerBuilder builder)
-        {
-            builder.AddModelMapper(new Mapper());
-            builder.RegisterType<AppSeqService>().As<IAppSeqService>().InstancePerLifetimeScope();
-        }
+        void ConfigureModelMapper(ModelMapper modelMapper);
     }
 }

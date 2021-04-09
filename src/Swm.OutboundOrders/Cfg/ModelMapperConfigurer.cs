@@ -13,16 +13,17 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using NHibernate.Mapping.ByCode;
+using Swm.OutboundOrders.Mappings;
 
-namespace Swm.OutboundOrders.Mappings
+namespace Swm.OutboundOrders
 {
-    internal class Mapper : XModelMapper
+    internal class ModelMapperConfigurer : IModelMapperConfigurer
     {
-        public Mapper()
+        public void ConfigureModelMapper(ModelMapper modelMapper)
         {
-            // 添加映射类
-            this.AddMapping<OutboundLineMapping>();
-            this.AddMapping<OutboundOrderMapping>();
+            modelMapper.AddMapping<OutboundOrderMapping>();
+            modelMapper.AddMapping<OutboundLineMapping>();
         }
     }
 }

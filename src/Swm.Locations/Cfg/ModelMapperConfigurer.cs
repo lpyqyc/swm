@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,14 +13,16 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using NHibernate.Mapping.ByCode;
+using Swm.Locations.Mappings;
 
-namespace Swm.Locations.Mappings
+namespace Swm.Locations
 {
-    internal class Mapper : XModelMapper
+    internal class ModelMapperConfigurer : IModelMapperConfigurer
     {
-        public Mapper()
+        public void ConfigureModelMapper(ModelMapper modelMapper)
         {
-            Component<LanewayUsageKey>(comp =>
+            modelMapper.Component<LanewayUsageKey>(comp =>
             {
                 comp.Property(cl => cl.StorageGroup);
                 comp.Property(cl => cl.Specification);
@@ -28,7 +30,7 @@ namespace Swm.Locations.Mappings
                 comp.Property(cl => cl.HeightLimit);
             });
 
-            Component<LanewayUsageData>(comp =>
+            modelMapper.Component<LanewayUsageData>(comp =>
             {
                 comp.Property(cl => cl.mtime);
                 comp.Property(cl => cl.Total);
@@ -39,11 +41,11 @@ namespace Swm.Locations.Mappings
 
 
             // 添加映射类
-            this.AddMapping<CellMapping>();
-            this.AddMapping<LanewayMapping>();
-            this.AddMapping<LocationMapping>();
-            this.AddMapping<LocationOpMapping>();
-            this.AddMapping<PortMapping>();
+            modelMapper.AddMapping<CellMapping>();
+            modelMapper.AddMapping<LanewayMapping>();
+            modelMapper.AddMapping<LocationMapping>();
+            modelMapper.AddMapping<LocationOpMapping>();
+            modelMapper.AddMapping<PortMapping>();
         }
     }
 }

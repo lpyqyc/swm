@@ -12,22 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.AppSettings.Mappings;
 using Arctic.NHibernateExtensions;
 using Autofac;
 
-namespace Swm.Ops
+namespace Arctic.AppSettings
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    internal class OpsModule : Module
+    public static class AppSettingsContainerBuilderExtensions
     {
-        protected override void Load(ContainerBuilder builder)
+        public static void AddAppSettings(this ContainerBuilder builder)
         {
             builder.AddModelMapperConfigurer(new ModelMapperConfigurer());
-            builder.RegisterType<OpHelper>().AsSelf();
+            builder.RegisterType<AppSettingService>().As<IAppSettingService>().InstancePerLifetimeScope();
         }
-
     }
-
 }

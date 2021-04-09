@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Autofac;
-using System;
 
 namespace Swm.Ops
 {

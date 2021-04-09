@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using NHibernate;
+using NHibernate.Mapping.ByCode.Conformist;
 using Serilog;
 using Swm.Locations;
 using Swm.Palletization;
@@ -138,5 +139,4 @@ namespace Swm.Model.Extentions
         }
 
     }
-
 }
