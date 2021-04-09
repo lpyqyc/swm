@@ -22,6 +22,7 @@ using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using Serilog;
 using Swm.Locations;
+using Swm.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,14 +94,26 @@ namespace Swm.Web.Controllers
             await export.CreateAsync(true, true);
             _logger.Information("已导出数据库架构");
 
+            
             _logger.Information("正在创建 N 位置");
             Location loc = _locationFactory.Invoke();
             loc.LocationCode = LocationCodes.N;
             loc.LocationType = LocationTypes.N;
             loc.InboundLimit = 999;
             loc.OutboundLimit = 999;
-            await _session.SaveAsync(loc).ConfigureAwait(false);
+            await _session.SaveAsync(loc);
             _logger.Information("已创建 N 位置");
+
+            await _session.SaveAsync(new MaterialTypeInfo { MaterialType = "原材料", DisplayName = "原材料", DisplayOrder = 1,  Visible = true });
+            await _session.SaveAsync(new MaterialTypeInfo { MaterialType = "成品", DisplayName = "成品", DisplayOrder = 2, Visible = true });
+
+            await _session.SaveAsync(new BizTypeInfo { BizType = "独立入库", DisplayName = "独立入库", DisplayOrder = 1, Scope = "入库单", Visible = true });
+            await _session.SaveAsync(new BizTypeInfo { BizType = "独立出库", DisplayName = "独立出库", DisplayOrder = 2, Scope = "出库单", Visible = true });
+
+            await _session.SaveAsync(new StockStatusInfo { StockStatus = "待检", DisplayName = "待检", DisplayOrder = 1, Visible = true });
+            await _session.SaveAsync(new StockStatusInfo { StockStatus = "合格", DisplayName = "合格", DisplayOrder = 2, Visible = true });
+            await _session.SaveAsync(new StockStatusInfo { StockStatus = "不合格", DisplayName = "不合格", DisplayOrder = 3, Visible = true });
+
 
             return this.Success();
         }
@@ -146,6 +159,8 @@ namespace Swm.Web.Controllers
 
             return this.Success();
         }
+
+
 
         /// <summary>
         /// 生成巷道
