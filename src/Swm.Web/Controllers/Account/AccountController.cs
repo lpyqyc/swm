@@ -30,7 +30,6 @@ namespace Swm.Web.Controllers
         readonly RoleManager<ApplicationRole> _roleManager;
         readonly SignInManager<ApplicationUser> _signInManager;
         readonly ILogger _logger;
-
         /// <summary>
         /// 初始化新实例
         /// </summary>
@@ -66,6 +65,19 @@ namespace Swm.Web.Controllers
             string jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
+        }
+
+        private async Task GenerateRefreshTokenAsync(ApplicationUser user)
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+            }
+            user.RefreshToken = Convert.ToBase64String(randomNumber);
+            user.RefreshTokenTime = DateTime.Now;
+            user.RefreshTokenExpireTime = DateTime.Now.AddHours(1);
+            await _userManager.UpdateAsync(user);
         }
 
 
@@ -121,14 +133,7 @@ namespace Swm.Web.Controllers
 
             var newJwtToken = GenerateToken(principal.Claims);
 
-            var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-            }
-            user.RefreshToken = Convert.ToBase64String(randomNumber);
-            user.RefreshTokenTime = DateTime.Now;
-            user.RefreshTokenExpireTime = DateTime.Now.AddDays(7);
+            await GenerateRefreshTokenAsync(user);
 
             _logger.Information("已刷新访问令牌");
 
@@ -185,11 +190,13 @@ namespace Swm.Web.Controllers
                 }
 
                 var jwt = GenerateToken(claims);
+                await GenerateRefreshTokenAsync(user);
 
                 return Ok(new
                 {
                     status = "ok",
                     token = jwt,
+                    refreshToken = user.RefreshToken,
                     type = "Bearer",
                     currentAuthority = roles
                 });
@@ -203,6 +210,32 @@ namespace Swm.Web.Controllers
 
         }
 
+        /// <summary>
+        /// 用户退出登录
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            // TODO 增加操作记录
+            // TODO 打印日志
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity?.Name);
+            if (user != null)
+            {
+                user.RefreshToken = null;
+                user.RefreshTokenExpireTime = null;
+                user.RefreshTokenTime = null;
+                await _userManager.UpdateAsync(user);
+            }
+
+            return Ok(new
+            {
+                status = "ok",
+                message = "退出登录成功"
+            });
+
+        }
 
 
         /// <summary>

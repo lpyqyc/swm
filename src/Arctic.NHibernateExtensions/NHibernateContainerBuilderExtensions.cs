@@ -53,7 +53,6 @@ namespace Arctic.NHibernateExtensions
             {
                 Configuration configuration = new Configuration();
                 configuration.Configure();
-                configuration.SetNamingStrategy(ImprovedNamingStrategy.Instance);
 
                 var mapper = new ModelMapper();
 

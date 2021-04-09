@@ -163,6 +163,12 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.AccountController.Logout">
+            <summary>
+            用户退出登录
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.AccountController.ChangePassword(Swm.Web.Controllers.ChangePasswordArgs)">
             <summary>
             已登录用户更改自己的密码
