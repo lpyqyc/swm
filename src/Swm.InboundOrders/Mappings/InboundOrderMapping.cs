@@ -7,7 +7,7 @@ namespace Swm.InboundOrders.Mappings
     {
         public InboundOrderMapping()
         {
-            Table("InboundOrder");
+            Table("InboundOrders");
             DynamicUpdate(true);
             BatchSize(10);
             Lazy(false);
