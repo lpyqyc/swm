@@ -104,7 +104,7 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 货位规格
         /// </summary>
-        public string Specification { get; set; } = default!;
+        public string? Specification { get; set; }
 
         /// <summary>
         /// 存储分组

@@ -50,6 +50,8 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 初始化新实例
         /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
         /// <param name="locationFactory"></param>
         /// <param name="locationHelper"></param>
         /// <param name="session"></param>

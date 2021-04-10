@@ -146,6 +146,10 @@
             <summary>
             初始化新实例
             </summary>
+            <param name="userManager"></param>
+            <param name="roleManager"></param>
+            <param name="signInManager"></param>
+            <param name="jwtSetting"></param>
             <param name="logger"></param>
         </member>
         <member name="M:Swm.Web.Controllers.AccountController.RefreshToken(System.String,System.String)">
@@ -181,6 +185,111 @@
             或者当前登录用户信息
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Swm.Web.Controllers.AntProCurrentUserInfo">
+            <summary>
+            为 Ant Pro 的 currentUser 返回数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Name">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Userid">
+            <summary>
+            用户 id
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Signature">
+            <summary>
+            签名
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Group">
+            <summary>
+            群组
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Tags">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.NotifyCount">
+            <summary>
+            消息数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.UnreadCount">
+            <summary>
+            未读消息数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Country">
+            <summary>
+            国家
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Geographic">
+            <summary>
+            所在省市
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.AntProCurrentUserInfo.Phone">
+            <summary>
+            电话
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.KeyLabelPair">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyLabelPair.Label">
+            <summary>
+            标签文本
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.KeyLabelPair.Key">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.Geographic">
+            <summary>
+            地理位置
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.Geographic.Province">
+            <summary>
+            省
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.Geographic.City">
+            <summary>
+            市
+            </summary>
         </member>
         <member name="T:Swm.Web.Controllers.ChangePasswordArgs">
             <summary>
@@ -790,6 +899,8 @@
             <summary>
             初始化新实例
             </summary>
+            <param name="userManager"></param>
+            <param name="roleManager"></param>
             <param name="locationFactory"></param>
             <param name="locationHelper"></param>
             <param name="session"></param>

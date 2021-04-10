@@ -30,9 +30,14 @@ namespace Swm.Web.Controllers
         readonly RoleManager<ApplicationRole> _roleManager;
         readonly SignInManager<ApplicationUser> _signInManager;
         readonly ILogger _logger;
+
         /// <summary>
         /// 初始化新实例
         /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
+        /// <param name="signInManager"></param>
+        /// <param name="jwtSetting"></param>
         /// <param name="logger"></param>
         public AccountController(
             UserManager<ApplicationUser> userManager,
