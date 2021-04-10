@@ -17,7 +17,7 @@ using System.Collections.Generic;
 namespace Swm.Palletization
 {
     /// <summary>
-    /// TODO 重命名
+    /// TODO 重命名，Port 也应当使用这个接口
     /// </summary>
     public interface IUnitloadAllocationTable
     {

@@ -233,15 +233,29 @@ namespace Swm.Web.Controllers
         [AutoTransaction]
         public async Task<ApiData> ClearUat(int id)
         {
+            _logger.Debug("正在清除 {portId} 上的单据", id);
             Port? port = await _session.GetAsync<Port>(id);
-            if(port != null)
+            if (port != null)
             {
-                port.ResetCurrentUat();
-                return this.Success();
+                if (port.CurrentUat != null)
+                {
+                    object uat = port.CurrentUat;
+                    port.ResetCurrentUat();
+                    _logger.Information("已清除 {portCode} 上的 {uat}", port.PortCode, uat);
+                    return this.Success();
+                }
+                else
+                {
+                    _logger.Warning("{portCode} 上没有单据", port.PortCode);
+                    return this.Failure("出货口上没有单据");
+                }
             }
-            return this.Failure("出货口不存在");
+            else
+            {
+                _logger.Warning("{portId} 不存在", id);
+                return this.Failure("出货口不存在");
+            }
         }
-
 
         /// <summary>
         /// 巷道侧视图
