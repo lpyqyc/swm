@@ -70,11 +70,11 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("get-inbound-order-list")]
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看入库单)]
-        public async Task<ListData<InboundOrderInfo>> List([FromQuery] InboundOrderListArgs args)
+        public async Task<ListData<InboundOrderInfo>> GetInboundOrderList([FromQuery] InboundOrderListArgs args)
         {
             var pagedList = await _session.Query<InboundOrder>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return this.ListData(pagedList, x => new InboundOrderInfo
@@ -119,7 +119,7 @@ namespace Swm.Web.Controllers
         [DebugShowArgs]
         [AutoTransaction]
         [OperationType(OperationTypes.查看入库单)]
-        public async Task<ApiData<InboundOrderInfo>> Detail(int id)
+        public async Task<ApiData<InboundOrderInfo>> GetInboundOrderDetail(int id)
         {
             var inboundOrder = await _session.GetAsync<InboundOrder>(id);
             return this.Success(new InboundOrderInfo

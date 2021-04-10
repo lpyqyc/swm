@@ -32,13 +32,12 @@ using System.Threading.Tasks;
 
 namespace Swm.Web.Controllers
 {
-    // TODO 改名为 obo，前端一同更改
     /// <summary>
     /// 提供出入库 api。
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class WioController : ControllerBase
+    public class OboController : ControllerBase
     {
         readonly ISession _session;
         readonly ILogger _logger;
@@ -53,13 +52,20 @@ namespace Swm.Web.Controllers
         /// </summary>
         /// <param name="session"></param>
         /// <param name="outboundOrderAllocator">出库单库存分配程序</param>
+        /// <param name="outboundOrderPickHelper"></param>
         /// <param name="appSeqService"></param>
         /// <param name="opHelper"></param>
         /// <param name="simpleEventBus"></param>
         /// <param name="logger"></param>
-        public WioController(ISession session, IOutboundOrderAllocator outboundOrderAllocator,
+        public OboController(
+            ISession session, 
+            IOutboundOrderAllocator outboundOrderAllocator,
             OutboundOrderPickHelper outboundOrderPickHelper,
-            IAppSeqService appSeqService, OpHelper opHelper, SimpleEventBus simpleEventBus, ILogger logger)
+            IAppSeqService appSeqService, 
+            OpHelper opHelper, 
+            SimpleEventBus simpleEventBus, 
+            ILogger logger
+            )
         {
             _session = session;
             _outboundOrderAllocator = outboundOrderAllocator;
@@ -235,6 +241,7 @@ namespace Swm.Web.Controllers
         /// 编辑出库单
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost("update-outbound-order/{id}")]
         [OperationType(OperationTypes.编辑出库单)]

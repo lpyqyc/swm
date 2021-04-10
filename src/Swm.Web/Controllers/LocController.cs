@@ -15,8 +15,6 @@
 using Arctic.AspNetCore;
 using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using NHibernate.Linq;

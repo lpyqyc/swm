@@ -292,14 +292,14 @@
             <param name="simpleEventBus"></param>
             <param name="logger"></param>
         </member>
-        <member name="M:Swm.Web.Controllers.IboController.List(Swm.Web.Controllers.InboundOrderListArgs)">
+        <member name="M:Swm.Web.Controllers.IboController.GetInboundOrderList(Swm.Web.Controllers.InboundOrderListArgs)">
             <summary>
             入库单列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.IboController.Detail(System.Int32)">
+        <member name="M:Swm.Web.Controllers.IboController.GetInboundOrderDetail(System.Int32)">
             <summary>
             入库单详细
             </summary>
@@ -626,6 +626,123 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="T:Swm.Web.Controllers.OboController">
+            <summary>
+            提供出入库 api。
+            </summary>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.#ctor(NHibernate.ISession,Swm.OutboundOrders.IOutboundOrderAllocator,Swm.OutboundOrders.OutboundOrderPickHelper,Arctic.AppSeqs.IAppSeqService,Swm.Ops.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="session"></param>
+            <param name="outboundOrderAllocator">出库单库存分配程序</param>
+            <param name="outboundOrderPickHelper"></param>
+            <param name="appSeqService"></param>
+            <param name="opHelper"></param>
+            <param name="simpleEventBus"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.GetOutboundOrderList(Swm.Web.Controllers.OutboundOrderListArgs)">
+            <summary>
+            出库单列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.GetOutboundOrderDetail(System.Int32)">
+            <summary>
+            出库单详细
+            </summary>
+            <param name="id">出库单Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.GetAllocatedUnitloads(System.Int32)">
+            <summary>
+            获取分配给出库单的货载
+            </summary>
+            <param name="outboundOrderId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.CreateOutboundOrder(Swm.Web.Controllers.CreateOutboundOrderArgs)">
+            <summary>
+            创建出库单
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.UpdateOutboundOrder(System.Int32,Swm.Web.Controllers.UpdateOutboundOrderArgs)">
+            <summary>
+            编辑出库单
+            </summary>
+            <param name="id"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.DeleteOutboundOrder(System.Int32)">
+            <summary>
+            删除出库单
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.Close(System.Int32)">
+            <summary>
+            关闭出库单
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.Allocate(System.Int32,Swm.OutboundOrders.AllocateStockOptions)">
+            <summary>
+            为出库单分配库存
+            </summary>
+            <param name="id"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.DeallocateInRack(System.Int32)">
+            <summary>
+            为出库单取消库内分配
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.Deallocate(System.Int32,Swm.Web.Controllers.OutboundOrderDeallocateArgs)">
+            <summary>
+            将托盘从出库单中取消分配
+            </summary>
+            <param name="id"></param>
+            <param name="args">取消参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.AttachToPorts(System.Int32,System.String[])">
+            <summary>
+            出库单下架
+            </summary>
+            <param name="id">出库单 Id</param>
+            <param name="ports">出口编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.CheckOnCloseAsync(Swm.OutboundOrders.OutboundOrder)">
+            <summary>
+            对出库单进行关闭前检查。
+            </summary>
+            <param name="outboundOrder"></param>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.GetAvailableQuantity(Swm.Web.Controllers.GetAvailableQuantityArgs)">
+            <summary>
+            获取可用库存数量
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.OboController.Pick(System.String,Swm.OutboundOrders.OutboundOrderPickInfo[])">
+            <summary>
+            从托盘中为出库单拣货
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.Controllers.RptController">
             <summary>
             提供报表 api
@@ -904,121 +1021,6 @@
             </summary>
             <param name="id">角色Id</param>
             <param name="args">操作参数</param>
-            <returns></returns>
-        </member>
-        <member name="T:Swm.Web.Controllers.WioController">
-            <summary>
-            提供出入库 api。
-            </summary>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.#ctor(NHibernate.ISession,Swm.OutboundOrders.IOutboundOrderAllocator,Swm.OutboundOrders.OutboundOrderPickHelper,Arctic.AppSeqs.IAppSeqService,Swm.Ops.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
-            <summary>
-            初始化新实例。
-            </summary>
-            <param name="session"></param>
-            <param name="outboundOrderAllocator">出库单库存分配程序</param>
-            <param name="appSeqService"></param>
-            <param name="opHelper"></param>
-            <param name="simpleEventBus"></param>
-            <param name="logger"></param>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.GetOutboundOrderList(Swm.Web.Controllers.OutboundOrderListArgs)">
-            <summary>
-            出库单列表
-            </summary>
-            <param name="args">查询参数</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.GetOutboundOrderDetail(System.Int32)">
-            <summary>
-            出库单详细
-            </summary>
-            <param name="id">出库单Id</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.GetAllocatedUnitloads(System.Int32)">
-            <summary>
-            获取分配给出库单的货载
-            </summary>
-            <param name="outboundOrderId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.CreateOutboundOrder(Swm.Web.Controllers.CreateOutboundOrderArgs)">
-            <summary>
-            创建出库单
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.UpdateOutboundOrder(System.Int32,Swm.Web.Controllers.UpdateOutboundOrderArgs)">
-            <summary>
-            编辑出库单
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.DeleteOutboundOrder(System.Int32)">
-            <summary>
-            删除出库单
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.Close(System.Int32)">
-            <summary>
-            关闭出库单
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.Allocate(System.Int32,Swm.OutboundOrders.AllocateStockOptions)">
-            <summary>
-            为出库单分配库存
-            </summary>
-            <param name="id"></param>
-            <param name="options"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.DeallocateInRack(System.Int32)">
-            <summary>
-            为出库单取消库内分配
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.Deallocate(System.Int32,Swm.Web.Controllers.OutboundOrderDeallocateArgs)">
-            <summary>
-            将托盘从出库单中取消分配
-            </summary>
-            <param name="id"></param>
-            <param name="args">取消参数</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.AttachToPorts(System.Int32,System.String[])">
-            <summary>
-            出库单下架
-            </summary>
-            <param name="id">出库单 Id</param>
-            <param name="ports">出口编码</param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.CheckOnCloseAsync(Swm.OutboundOrders.OutboundOrder)">
-            <summary>
-            对出库单进行关闭前检查。
-            </summary>
-            <param name="outboundOrder"></param>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.GetAvailableQuantity(Swm.Web.Controllers.GetAvailableQuantityArgs)">
-            <summary>
-            获取可用库存数量
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Swm.Web.Controllers.WioController.Pick(System.String,Swm.OutboundOrders.OutboundOrderPickInfo[])">
-            <summary>
-            从托盘中为出库单拣货
-            </summary>
             <returns></returns>
         </member>
         <member name="T:Swm.Web.Controllers.AgeReportItemInfo">
