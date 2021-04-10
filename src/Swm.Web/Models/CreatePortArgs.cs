@@ -17,12 +17,12 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 创建出口的操作参数
+    /// 创建出货口的操作参数
     /// </summary>
     public class CreatePortArgs
     {
         /// <summary>
-        /// 出口编码
+        /// 出货口编码
         /// </summary>
         [Required]
         public string PortCode { get; set; } = default!;

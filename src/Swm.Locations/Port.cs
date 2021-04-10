@@ -95,7 +95,7 @@ namespace Swm.Locations
 
             if (this.CurrentUat != null)
             {
-                throw new InvalidOperationException($"出口已被占用。【{this.CurrentUat}】");
+                throw new InvalidOperationException($"出货口已被占用。【{this.CurrentUat}】");
             }
 
             this.CurrentUat = uat;

@@ -498,10 +498,17 @@
         </member>
         <member name="M:Swm.Web.Controllers.LocController.SetPorts(System.Int32,Swm.Web.Controllers.SetPortsArgs)">
             <summary>
-            设置巷道可以到达的出口
+            设置巷道可以到达的出货口
             </summary>
             <param name="id">巷道Id</param>
             <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.LocController.ClearUat(System.Int32)">
+            <summary>
+            清除出货口的单据
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.LocController.GetSideViewData(System.String)">
@@ -519,14 +526,14 @@
         </member>
         <member name="M:Swm.Web.Controllers.LocController.GetPortList(Swm.Web.Controllers.PortListArgs)">
             <summary>
-            出口列表
+            出货口列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.LocController.GetPortOptions">
             <summary>
-            获取出口的选项列表
+            获取出货口的选项列表
             </summary>
             <returns></returns>
         </member>
@@ -589,7 +596,7 @@
         </member>
         <member name="M:Swm.Web.Controllers.LocController.CreatePort(Swm.Web.Controllers.CreatePortArgs)">
             <summary>
-            创建出口
+            创建出货口
             </summary>
             <param name="args"></param>
             <returns></returns>
@@ -830,7 +837,7 @@
             出库单下架
             </summary>
             <param name="id">出库单 Id</param>
-            <param name="ports">出口编码</param>
+            <param name="ports">出货口编码</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.OboController.CheckOnCloseAsync(Swm.OutboundOrders.OutboundOrder)">
@@ -1661,12 +1668,12 @@
         </member>
         <member name="T:Swm.Web.Controllers.CreatePortArgs">
             <summary>
-            创建出口的操作参数
+            创建出货口的操作参数
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.CreatePortArgs.PortCode">
             <summary>
-            出口编码
+            出货口编码
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.CreatePortArgs.KP1">
@@ -2552,7 +2559,7 @@
         </member>
         <member name="P:Swm.Web.Controllers.StreetletInfo.Ports">
             <summary>
-            可到达的出口
+            可到达的出货口
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.StreetletInfo.TotalOfflineHours">
@@ -3251,32 +3258,32 @@
         </member>
         <member name="T:Swm.Web.Controllers.PortInfo">
             <summary>
-            出口信息
+            出货口信息
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.PortId">
             <summary>
-            出口Id
+            出货口Id
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.PortCode">
             <summary>
-            出口编码
+            出货口编码
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.KP1">
             <summary>
-            出口的关键点1，不为 null
+            出货口的关键点1，不为 null
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.KP2">
             <summary>
-            出口的关键点2，可能为 null
+            出货口的关键点2，可能为 null
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.Streetlets">
             <summary>
-            可到达此出口的巷道
+            可到达此出货口的巷道
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.CurrentUat">
@@ -3286,17 +3293,17 @@
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.CheckedAt">
             <summary>
-            最近一次为此出口调度下架的时间
+            最近一次为此出货口调度下架的时间
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortInfo.CheckMessage">
             <summary>
-            最近一次为此出口调度下架的消息
+            最近一次为此出货口调度下架的消息
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.PortListArgs">
             <summary>
-            出口列表的查询参数
+            出货口列表的查询参数
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.PortListArgs.PortCode">
@@ -3408,12 +3415,12 @@
         </member>
         <member name="T:Swm.Web.Controllers.SetPortsArgs">
             <summary>
-            设置巷道可到达的出口的操作参数。
+            设置巷道可到达的出货口的操作参数。
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.SetPortsArgs.PortIdList">
             <summary>
-            出口Id列表
+            出货口Id列表
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.SetStorageGroupArgs">

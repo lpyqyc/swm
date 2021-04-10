@@ -194,13 +194,13 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 设置巷道可以到达的出口
+        /// 设置巷道可以到达的出货口
         /// </summary>
         /// <param name="id">巷道Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost("set-ports/{id}")]
-        [OperationType(OperationTypes.设置出口)]
+        [OperationType(OperationTypes.设置出货口)]
         [AutoTransaction]
         public async Task<ApiData> SetPorts(int id, SetPortsArgs args)
         {
@@ -222,6 +222,26 @@ namespace Swm.Web.Controllers
 
             return this.Success();
         }
+
+        /// <summary>
+        /// 清除出货口的单据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("clear-uat/{id}")]
+        [OperationType(OperationTypes.清除出货口单据)]
+        [AutoTransaction]
+        public async Task<ApiData> ClearUat(int id)
+        {
+            Port? port = await _session.GetAsync<Port>(id);
+            if(port != null)
+            {
+                port.ResetCurrentUat();
+                return this.Success();
+            }
+            return this.Failure("出货口不存在");
+        }
+
 
         /// <summary>
         /// 巷道侧视图
@@ -306,14 +326,14 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 出口列表
+        /// 出货口列表
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
         [HttpGet("get-port-list")]
         [DebugShowArgs]
         [AutoTransaction]
-        [OperationType(OperationTypes.查看出口)]
+        [OperationType(OperationTypes.查看出货口)]
         public async Task<ListData<PortInfo>> GetPortList([FromQuery] PortListArgs args)
         {
             var pagedList = await _session.Query<Port>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
@@ -331,7 +351,7 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 获取出口的选项列表
+        /// 获取出货口的选项列表
         /// </summary>
         /// <returns></returns>
         [HttpGet("get-port-options")]
@@ -770,11 +790,11 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
-        /// 创建出口
+        /// 创建出货口
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [OperationType(OperationTypes.创建出口)]
+        [OperationType(OperationTypes.创建出货口)]
         [AutoTransaction]
         [HttpPost("create-port")]
         public async Task<ApiData> CreatePort(CreatePortArgs args)

@@ -18,35 +18,35 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 出口信息
+    /// 出货口信息
     /// </summary>
     public class PortInfo
     {
         /// <summary>
-        /// 出口Id
+        /// 出货口Id
         /// </summary>
         public int PortId { get; init; }
 
         /// <summary>
-        /// 出口编码
+        /// 出货口编码
         /// </summary>
         [Required]
         public string? PortCode { get; init; }
 
 
         /// <summary>
-        /// 出口的关键点1，不为 null
+        /// 出货口的关键点1，不为 null
         /// </summary>
         [Required]
         public string? KP1 { get; init; }
 
         /// <summary>
-        /// 出口的关键点2，可能为 null
+        /// 出货口的关键点2，可能为 null
         /// </summary>
         public string? KP2 { get; init; }
 
         /// <summary>
-        /// 可到达此出口的巷道
+        /// 可到达此出货口的巷道
         /// </summary>
         public string[]? Streetlets { get; init; }
 
@@ -59,12 +59,12 @@ namespace Swm.Web.Controllers
 
         // TODO 重命名
         /// <summary>
-        /// 最近一次为此出口调度下架的时间
+        /// 最近一次为此出货口调度下架的时间
         /// </summary>
         public DateTime? CheckedAt { get; init; }
 
         /// <summary>
-        /// 最近一次为此出口调度下架的消息
+        /// 最近一次为此出货口调度下架的消息
         /// </summary>
         public string? CheckMessage { get; init; }
 

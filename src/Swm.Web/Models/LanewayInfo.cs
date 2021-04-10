@@ -75,7 +75,7 @@ namespace Swm.Web.Controllers
         public StreetletUsageInfo[]? UsageInfos { get; init; }
 
         /// <summary>
-        /// 可到达的出口
+        /// 可到达的出货口
         /// </summary>
         public PortInfo[] Ports { get; init; } = default!;
 

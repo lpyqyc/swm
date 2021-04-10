@@ -79,7 +79,7 @@ namespace Swm.Locations
         public virtual int ReservedLocationCount { get; set; }
 
         /// <summary>
-        /// 获取此巷道能够到达的出口
+        /// 获取此巷道能够到达的出货口
         /// </summary>
         public virtual ISet<Port> Ports { get; protected set; }
 

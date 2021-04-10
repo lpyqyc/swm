@@ -17,12 +17,12 @@ using System.ComponentModel.DataAnnotations;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 设置巷道可到达的出口的操作参数。
+    /// 设置巷道可到达的出货口的操作参数。
     /// </summary>
     public class SetPortsArgs
     {
         /// <summary>
-        /// 出口Id列表
+        /// 出货口Id列表
         /// </summary>
         [Required]
         public int[] PortIdList { get; set; } = default!;

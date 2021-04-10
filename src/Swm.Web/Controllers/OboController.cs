@@ -503,7 +503,7 @@ namespace Swm.Web.Controllers
         /// 出库单下架
         /// </summary>
         /// <param name="id">出库单 Id</param>
-        /// <param name="ports">出口编码</param>
+        /// <param name="ports">出货口编码</param>
         /// <returns></returns>
         [AutoTransaction]
         [OperationType(OperationTypes.出库单下架)]
@@ -511,9 +511,9 @@ namespace Swm.Web.Controllers
         public async Task<ApiData> AttachToPorts(int id, string[] ports)
         {
             OutboundOrder obo = _session.Get<OutboundOrder>(id);
-            _logger.Information("正在将出库单附加到出口");
+            _logger.Debug("正在将出库单附加到出货口");
             _logger.Debug("出库单 Id 是 {outboundOrderId}", id);
-            _logger.Debug("出口是 {ports}", ports);
+            _logger.Debug("出货口是 {ports}", ports);
 
             if (obo == null || obo.Closed)
             {
@@ -570,7 +570,7 @@ namespace Swm.Web.Controllers
             if (ports.Count() > 0)
             {
                 string str = string.Join(", ", ports.Select(x => x));
-                string msg = string.Format("出库单正在下架。在出口 {1}。", outboundOrder.OutboundOrderCode, str);
+                string msg = string.Format("出库单正在下架。在出货口 {1}。", outboundOrder.OutboundOrderCode, str);
                 throw new InvalidOperationException(msg);
             }
 

@@ -17,7 +17,7 @@ using Arctic.NHibernateExtensions;
 namespace Swm.Web.Controllers
 {
     /// <summary>
-    /// 出口列表的查询参数
+    /// 出货口列表的查询参数
     /// </summary>
     public class PortListArgs
     {
