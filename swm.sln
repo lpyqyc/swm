@@ -57,6 +57,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.EventBus.Tests", "te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.NHibernateExtensions.Tests", "test\Arctic.NHibernateExtensions.Tests\Arctic.NHibernateExtensions.Tests.csproj", "{CE9DD8C3-A17C-4732-88D1-136560E516CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swm.SRgv", "src\Swm.SRgv\Swm.SRgv.csproj", "{DE27E22E-8B0B-4ABA-A2EF-D078405C41A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -163,6 +165,10 @@ Global
 		{CE9DD8C3-A17C-4732-88D1-136560E516CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE9DD8C3-A17C-4732-88D1-136560E516CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE9DD8C3-A17C-4732-88D1-136560E516CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE27E22E-8B0B-4ABA-A2EF-D078405C41A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE27E22E-8B0B-4ABA-A2EF-D078405C41A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE27E22E-8B0B-4ABA-A2EF-D078405C41A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE27E22E-8B0B-4ABA-A2EF-D078405C41A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +199,7 @@ Global
 		{A71C3E2A-7442-4516-8C65-A45133AD66DA} = {9E748864-D1D5-408A-A410-DE9D7691EB00}
 		{441EA6CC-F5A4-4BB3-82B2-0DBCE4BCFC98} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
 		{CE9DD8C3-A17C-4732-88D1-136560E516CD} = {7E4A12C9-3FBA-4F28-BDD2-7847381BC7F5}
+		{DE27E22E-8B0B-4ABA-A2EF-D078405C41A5} = {9E748864-D1D5-408A-A410-DE9D7691EB00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F5F75AD-B077-4655-9340-A2B9DB7DB6F5}
