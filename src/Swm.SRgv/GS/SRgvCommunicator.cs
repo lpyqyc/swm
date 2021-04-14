@@ -15,26 +15,46 @@ namespace Swm.SRgv.GS
     {
         readonly ILogger _logger;
 
-        readonly IPAddress _address;
-        readonly int _port;
-        IChannel clientChannel;
-        Bootstrap _bootstrap;
-        MultithreadEventLoopGroup _group;
+        readonly IPEndPoint _endPoint;
+        Bootstrap? _bootstrap;
+        MultithreadEventLoopGroup? _group;
+        IChannel? clientChannel;
 
-        public SRgvCommunicator(IPAddress address, int port, MultithreadEventLoopGroup group, ILogger logger)
+        private bool _connecting;
+
+        public SRgvCommunicator(IPEndPoint endPoint, ILogger logger)
         {
-            _address = address;
-            _port = port;
-            _group = group;
+            _endPoint = endPoint;
             _logger = logger;
         }
 
+        /// <summary>
+        /// 连接到设备
+        /// </summary>
+        /// <returns></returns>
         public async Task ConnectAsync()
         {
-            // TODO 防止重复调用
+            _logger.Debug("正在连接到设备");
+            lock (this)
+            {
+                if (_connecting)
+                {
+                    _logger.Warning("不必要的调用：当前正在连接设备");
+                    return;
+                }
+
+                if (clientChannel?.Active == true)
+                {
+                    _logger.Warning("不必要的调用：当前已连接到设备");
+                    return;
+                }
+
+                _connecting = true;
+            }
 
             if (_bootstrap == null)
             {
+                _group = new MultithreadEventLoopGroup();
                 _bootstrap = new Bootstrap()
                     .Group(_group)
                     .Channel<TcpSocketChannel>()
@@ -43,70 +63,117 @@ namespace Swm.SRgv.GS
                     {
                         IChannelPipeline pipeline = c.Pipeline;
 
-                        //配置编码解码器
-                        //pipeline.AddLast(new CommonClientEncoder());
+                        // 配置编码解码器
                         pipeline.AddLast(new DelimiterBasedFrameDecoder(4096, Delimiters.TexlexDelimiter())); // TCP拆包
                         pipeline.AddLast(new StringDecoder());          // 字节流 --> 字符串
-                        pipeline.AddLast(new SRgvStateDecoder());       // 字符串 --> 通用状态
+                        pipeline.AddLast(new SRgvStateDecoder());       // 字符串 --> 状态
 
                         pipeline.AddLast(new StringEncoder());          // 字节流 <-- 字符串
-                        pipeline.AddLast(new SRgvDirectiveEncoder());    // 字符串 <-- 通用指令
+                        pipeline.AddLast(new SRgvDirectiveEncoder());   // 字符串 <-- 指令
 
                         pipeline.AddLast(new SRgvHandler(this));
                     }));
             }
 
-
-            if (clientChannel != null && clientChannel.Active)
-            {
-                _logger.Warning("已连接，忽略");
-                return;
-            }
             try
             {
-                _logger.Debug("正在连接");
-                clientChannel = await _bootstrap.ConnectAsync(new IPEndPoint(_address, _port));
-                _logger.Information("连接成功");
+                clientChannel = await _bootstrap.ConnectAsync(_endPoint);
+                _logger.Information("连接设备成功");
             }
             catch (Exception ex)
             {
-                throw new Exception("连接失败", ex);
+                throw new Exception("连接设备失败", ex);
+            }
+            finally
+            {
+                _connecting = false;
             }
         }
 
+        /// <summary>
+        /// 从设备断开连接
+        /// </summary>
+        /// <returns></returns>
         public async Task DisconnectAsync()
         {
-            if (clientChannel == null && clientChannel.Active == false)
+            if (clientChannel == null || clientChannel.Active == false)
             {
                 _logger.Warning("未连接，忽略");
                 return;
             }
 
             await clientChannel.CloseAsync();
+            clientChannel = null;
+            _logger.Information("已与设备断开连接");
         }
 
-        public bool IsConnected
+        /// <summary>
+        /// 指示当前是否连接到了设备
+        /// </summary>
+        public DeviceConnectionState ConnectionState
         {
             get
             {
-                return clientChannel?.Active == true;
+                if (clientChannel?.Active == true)
+                {
+                    return DeviceConnectionState.Connected;
+                }
+                else if (_connecting)
+                {
+                    return DeviceConnectionState.Connecting;
+                }
+                else
+                {
+                    return DeviceConnectionState.Disconnected;
+                }
             }
         }
 
-        public string ProtocolVersion => "合肥井松智能";
+        public string ProtocolVersion => "合肥井松";
 
-        public event EventHandler<SRgvState> StateReceived;
+        public CommunicatorStatistics Statistics { get; private set; } = CommunicatorStatistics.Empty;
 
-        internal void OnMessageReceived(SRgvState e)
+        /// <summary>
+        /// 收到设备上报的状态时引发，如果设备将相同状态连续发送两次，则此事件会引发两次。
+        /// </summary>
+        public event EventHandler<SRgvState>? StateMessageReceived;
+
+        /// <summary>
+        /// 引发 <see cref="StateMessageReceived"/> 事件。
+        /// </summary>
+        /// <param name="e"></param>
+        internal void OnStateMessageReceived(SRgvState e)
         {
-            StateReceived?.Invoke(this, e);
+            Statistics = Statistics with
+            {
+                LastState = e,
+                LastStateTime = DateTime.Now,
+                StateMessageCount = Statistics.StateMessageCount + 1,
+            };
+            StateMessageReceived?.Invoke(this, e);
         }
 
         public async Task SendDirectiveAsync(SRgvDirective directive)
         {
-            await clientChannel.WriteAndFlushAsync(directive);
+            if (clientChannel != null)
+            {
+                await clientChannel.WriteAndFlushAsync(directive);
+            }
         }
 
-    }
+        public async Task ShutdownAsync()
+        {
+            if (this.ConnectionState == DeviceConnectionState.Connected)
+            {
+                await this.DisconnectAsync();
+            }
 
+            _bootstrap = null;
+            if (_group != null)
+            {
+                await this._group.ShutdownGracefullyAsync();
+                _group = null;
+            }
+        }
+    }
 }

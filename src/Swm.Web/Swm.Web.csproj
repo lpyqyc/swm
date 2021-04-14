@@ -54,6 +54,7 @@
 		<ProjectReference Include="..\Swm.Ops\Swm.Ops.csproj" />
 		<ProjectReference Include="..\Swm.OutboundOrders\Swm.OutboundOrders.csproj" />
 		<ProjectReference Include="..\Swm.Palletization\Swm.Palletization.csproj" />
+		<ProjectReference Include="..\Swm.SRgv\Swm.SRgv.csproj" />
 		<ProjectReference Include="..\Swm.TransportTasks\Swm.TransportTasks.csproj" />
 
 		<ProjectReference Include="..\Arctic.AppSeqs\Arctic.AppSeqs.csproj" />

@@ -6,8 +6,8 @@ namespace Swm.Device
     /// <summary>
     /// 表示与设备通信的程序
     /// </summary>
-    /// <typeparam name="TState">设备向上发送的消息类型</typeparam>
-    /// <typeparam name="TDirective">向设备下发的消息类型</typeparam>
+    /// <typeparam name="TDirective">下发给设备的指令</typeparam>
+    /// <typeparam name="TState">设备上报的状态</typeparam>
     public interface ICommunicator<TDirective, TState>
         where TDirective : notnull
         where TState : notnull
@@ -18,14 +18,14 @@ namespace Swm.Device
         string ProtocolVersion { get; }
 
         /// <summary>
-        /// 指示是否已连接到设备
+        /// 指示是否设备连接状态
         /// </summary>
-        bool IsConnected { get; }
+        DeviceConnectionState ConnectionState { get; }
 
         /// <summary>
         /// 在收到设备传来的状态消息时引发
         /// </summary>
-        event EventHandler<TState> StateReceived;
+        event EventHandler<TState> StateMessageReceived;
 
         /// <summary>
         /// 连接到设备
@@ -40,13 +40,21 @@ namespace Swm.Device
         Task DisconnectAsync();
 
         /// <summary>
+        /// 与设备断开连接，并释放资源。
+        /// </summary>
+        /// <returns></returns>
+        Task ShutdownAsync();
+
+        /// <summary>
         /// 向设备下发指令
         /// </summary>
         /// <param name="directive">要发送的指令</param>
         /// <returns></returns>
         Task SendDirectiveAsync(TDirective directive);
 
-
+        /// <summary>
+        /// 获取统计数据
+        /// </summary>
+        CommunicatorStatistics Statistics { get; }
     }
-
 }

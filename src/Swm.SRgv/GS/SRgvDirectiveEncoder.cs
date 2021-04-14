@@ -21,29 +21,29 @@ namespace Swm.SRgv.GS
                 SRgvDirective.Inquire => throw new NotSupportedException(),
                 SRgvDirective.SendTask dir => dir.TaskInfo switch
                 {
-                    SRgvTaskInfo.WalkWithoutPallet task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Walk.WithoutPallet task => new SRgvDirectiveTelex
                     {
-                        TypeFlag = "HB",
+                        TypeFlag = "HS",
                         TaskId = task.TaskNo,
                         PalletCode = 0,
                         StartingStation = 0,
                         StartingStationAction = ChainAction.None,
                         DestinationStation = Convert.ToUInt16(task.ToStation),
                         DestinationStationAction = ChainAction.None,
-                        TaskMode = RailGuidedVehicleTaskMode.Walk
+                        TaskMode = SRgvTaskMode.Walk
                     },
-                    SRgvTaskInfo.WalkWithPallet task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Walk.WithPallet task => new SRgvDirectiveTelex
                     {
-                        TypeFlag = "HB",
+                        TypeFlag = "HS",
                         TaskId = task.TaskNo,
                         PalletCode = Convert.ToUInt32(task.PalletCode),
                         StartingStation = 0,
                         StartingStationAction = ChainAction.None,
                         DestinationStation = Convert.ToUInt16(task.ToStation),
                         DestinationStationAction = ChainAction.None,
-                        TaskMode = RailGuidedVehicleTaskMode.Walk
+                        TaskMode = SRgvTaskMode.WalkWithGoods
                     },
-                    SRgvTaskInfo.LeftLoad task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Convey.Load.LeftLoad task => new SRgvDirectiveTelex
                     {
                         TypeFlag = "HB",
                         TaskId = task.TaskNo,
@@ -52,9 +52,9 @@ namespace Swm.SRgv.GS
                         StartingStationAction = ChainAction.LeftPicking,
                         DestinationStation = 0,
                         DestinationStationAction = ChainAction.None,
-                        TaskMode = RailGuidedVehicleTaskMode.Picking,
+                        TaskMode = SRgvTaskMode.Picking,
                     },
-                    SRgvTaskInfo.RightLoad task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Convey.Load.RightLoad task => new SRgvDirectiveTelex
                     {
                         TypeFlag = "HB",
                         TaskId = task.TaskNo,
@@ -63,9 +63,9 @@ namespace Swm.SRgv.GS
                         StartingStationAction = ChainAction.RightPicking,
                         DestinationStation = 0,
                         DestinationStationAction = ChainAction.None,
-                        TaskMode = RailGuidedVehicleTaskMode.Picking,
+                        TaskMode = SRgvTaskMode.Picking,
                     },
-                    SRgvTaskInfo.LeftUnload task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Convey.Unload.LeftUnload task => new SRgvDirectiveTelex
                     {
                         TypeFlag = "HB",
                         TaskId = task.TaskNo,
@@ -74,9 +74,9 @@ namespace Swm.SRgv.GS
                         StartingStationAction = ChainAction.None,
                         DestinationStation = Convert.ToUInt16(task.Station),
                         DestinationStationAction = ChainAction.LeftUnloading,
-                        TaskMode = RailGuidedVehicleTaskMode.Putting,
+                        TaskMode = SRgvTaskMode.Putting,
                     },
-                    SRgvTaskInfo.RightUnload task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Convey.Unload.RightUnload task => new SRgvDirectiveTelex
                     {
                         TypeFlag = "HB",
                         TaskId = task.TaskNo,
@@ -85,7 +85,7 @@ namespace Swm.SRgv.GS
                         StartingStationAction = ChainAction.None,
                         DestinationStation = Convert.ToUInt16(task.Station),
                         DestinationStationAction = ChainAction.RightUnloading,
-                        TaskMode = RailGuidedVehicleTaskMode.Putting,
+                        TaskMode = SRgvTaskMode.Putting,
                     },
                     _ => throw new("无效的任务类型"),
                 },
@@ -98,11 +98,8 @@ namespace Swm.SRgv.GS
                     StartingStationAction = ChainAction.None,
                     DestinationStation = 0,
                     DestinationStationAction = ChainAction.None,
-                    TaskMode = RailGuidedVehicleTaskMode.Initialized,
+                    TaskMode = SRgvTaskMode.Initialized,
                 },
-                SRgvDirective.Lock => throw new NotSupportedException(),
-                SRgvDirective.Unlock => throw new NotSupportedException(),
-                SRgvDirective.EStop => throw new NotSupportedException(),
                 _ => throw new("无效的指令类型"),
             };
         }

@@ -44,6 +44,7 @@ using Swm.Palletization;
 using Swm.StorageLocationAssignment;
 using Swm.TransportTasks;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Mime;
 using System.Reflection;
@@ -181,6 +182,12 @@ namespace Swm.Web
             {
                 Configuration.GetSection("JwtSetting").Bind(options);
             });
+
+
+            services.Configure<List<RgvOptions>>(Configuration.GetSection("Device:Rgvs"));
+            services.AddSingleton<RgvService>();
+            services.AddHostedService(provider => provider.GetRequiredService<RgvService>());
+
         }
 
         // ConfigureContainer is where you can register things directly

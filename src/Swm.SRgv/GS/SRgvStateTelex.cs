@@ -28,7 +28,7 @@
         /// <summary>
         /// 状态
         /// </summary>
-        public RailGuidedVehicleStatus State { get; init; }
+        public SRgvStatus State { get; init; }
 
         /// <summary>
         /// 事件
@@ -58,7 +58,7 @@
         /// <summary>
         /// 任务模式
         /// </summary>
-        public RailGuidedVehicleTaskMode TaskMode { get; init; }
+        public SRgvTaskMode TaskMode { get; init; }
 
         /// <summary>
         /// 不带前缀和后缀的原始报文

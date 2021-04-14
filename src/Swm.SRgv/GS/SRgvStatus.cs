@@ -5,7 +5,7 @@ namespace Swm.SRgv.GS
     /// <summary>
     /// 穿梭车状态
     /// </summary>
-    public enum RailGuidedVehicleStatus
+    public enum SRgvStatus
     {
         /// <summary>
         /// 初始化

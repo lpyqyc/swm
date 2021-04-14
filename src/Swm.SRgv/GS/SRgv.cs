@@ -3,62 +3,47 @@ using Swm.Device;
 using Swm.Device.Rgv;
 using Swm.Device.SRgv;
 using System;
-using System.Threading;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
-namespace Swm.SRgv.GS
+namespace Swm.SRgv
 {
     /// <summary>
     /// 单工位 RGV
     /// </summary>
     public class SRgv
     {
-        IDeviceTaskNoGenerator _deviceTaskNoGenerator;
+        readonly IDeviceTaskNoGenerator _deviceTaskNoGenerator;
+        readonly ILogger _logger;
+        readonly ICommunicator<SRgvDirective, SRgvState> _rgvCommunicator;
 
         // TODO 改为可配置
         public static readonly TimeSpan RespondTimeout = TimeSpan.FromMilliseconds(30000);
-        readonly ICommunicator<SRgvDirective, SRgvState> _rgvCommunicator;
 
-        readonly ILogger _logger;
 
-        public SRgv(IDeviceTaskNoGenerator deviceTaskNoGenerator, ICommunicator<SRgvDirective, SRgvState> rgvCommunicator, ILogger logger)
+        public SRgv(string name, IDeviceTaskNoGenerator deviceTaskNoGenerator, ICommunicator<SRgvDirective, SRgvState> rgvCommunicator, ILogger logger)
         {
+            this.Name = name;
             _deviceTaskNoGenerator = deviceTaskNoGenerator;
             _rgvCommunicator = rgvCommunicator;
             _logger = logger;
-            _rgvCommunicator.StateReceived += _rgvCommunicator_StateReceived;
+            _rgvCommunicator.StateMessageReceived += _rgvCommunicator_StateMessageReceived;
         }
 
-        private void _rgvCommunicator_StateReceived(object? sender, SRgvState e)
+        private void _rgvCommunicator_StateMessageReceived(object? sender, SRgvState e)
         {
-            // TODO：rgvCommunicator_MessageReceived 是否使用 async
-            // 1，如果使用 async 标记，那么一旦某个报文的处理程序卡住，则后到的报文会先处理完成，出现错误的次序
-            // 2，如果不使用 async 标记，那么一旦某个报文的处理程序卡住，则其他设备会一起卡住收不到报文
-
-            //if (this.Name == "穿梭车1")
-            //{
-            //    Console.WriteLine(ReceivedMessageCount);
-            //    if (random.NextDouble() < 0.2)
-            //    {
-            //        int x = Interlocked.Increment(ref i);
-
-            //        Console.WriteLine($"开始处理 {x}");
-            //        int d = random.Next(100, 1500);
-            //        await Task.Delay(d);
-            //        Console.WriteLine($"处理完成 {x}, 耗时 {d}");
-            //    }
-            //}
-
             SetState(e);
         }
 
 
 
-        public string Name { get; set; }
+        public string Name { get; init; }
 
-
-        public event EventHandler<SRgvStateChangedEventArgs> RgvStateChanged;
+        /// <summary>
+        /// 在设备上报的状态发送变化时引发。如果设备连续发送两个相同的状态，则不引发此事件。
+        /// </summary>
+        public event EventHandler<SRgvStateChangedEventArgs>? RgvStateChanged;
 
         internal void OnRgvStateChanged(SRgvStateChangedEventArgs e)
         {
@@ -75,26 +60,29 @@ namespace Swm.SRgv.GS
             return _rgvCommunicator.DisconnectAsync();
         }
 
-        public void SetState(SRgvState state)
+        private void SetState(SRgvState newState)
         {
-            if (Equals(PreviousState, state))
+            if (Equals(CurrentState?.State, newState))
             {
+                CurrentState = (newState, DateTime.Now);
                 return;
             }
-            SRgvStateChangedEventArgs e = new SRgvStateChangedEventArgs(PreviousState, state);
-            PreviousState = state;
+            SRgvStateChangedEventArgs e = new SRgvStateChangedEventArgs(CurrentState?.State, newState);
+            CurrentState = (newState, DateTime.Now);
             OnRgvStateChanged(e);
         }
 
         /// <summary>
-        /// 上一个状态，刚启动时为 null
-        /// </summary>
-        public SRgvState? PreviousState { get; private set; }
-
-        /// <summary>
         /// 当前状态，刚启动时为 null
         /// </summary>
-        public SRgvState? CurrentState { get; private set; }
+        public (SRgvState State, DateTime Time)? CurrentState { get; private set; }
+
+
+        /// <summary>
+        /// 获取正在下发、尚未确定是否成功的指令，下发成功或者失败后设为 null。此属性用于避免下发重叠的指令。
+        /// </summary>
+        public (SRgvDirective Directive, DateTime Time)? PendingDirective { get; private set; }
+
 
         /// <summary>
         /// 无货行走
@@ -103,7 +91,7 @@ namespace Swm.SRgv.GS
         /// <returns></returns>
         public async Task<int> WalkWithoutPalletAsync(int toStation)
         {
-            var station = this.CurrentState?.StationNo;
+            var station = this.CurrentState?.State?.StationNo;
             if (station == null)
             {
                 throw new InvalidOperationException("不在站点");
@@ -111,10 +99,10 @@ namespace Swm.SRgv.GS
 
             var taskNo = _deviceTaskNoGenerator.GetNextTaskNo();
             var directive = new SRgvDirective.SendTask(
-                new SRgvTaskInfo.WalkWithoutPallet(taskNo, null, toStation)
+                new SRgvTaskInfo.Walk.WithoutPallet(taskNo, toStation)
                 );
 
-            await SendAsync(directive, RespondTimeout);
+            await SendDirectiveAsync(directive, RespondTimeout);
             return taskNo;
         }
 
@@ -126,7 +114,7 @@ namespace Swm.SRgv.GS
         /// <returns></returns>
         public async Task<int> WalkWithPalletAsync(string palletCode, int toStation)
         {
-            var station = this.CurrentState?.StationNo;
+            var station = this.CurrentState?.State?.StationNo;
             if (station == null)
             {
                 throw new InvalidOperationException("不在站点");
@@ -134,10 +122,10 @@ namespace Swm.SRgv.GS
 
             var taskNo = _deviceTaskNoGenerator.GetNextTaskNo();
             var directive = new SRgvDirective.SendTask(
-                new SRgvTaskInfo.WalkWithPallet(taskNo, palletCode, null, toStation)
+                new SRgvTaskInfo.Walk.WithPallet(taskNo, palletCode, toStation)
                 );
 
-            await SendAsync(directive, RespondTimeout);
+            await SendDirectiveAsync(directive, RespondTimeout);
             return taskNo;
         }
 
@@ -148,7 +136,7 @@ namespace Swm.SRgv.GS
         /// <returns></returns>
         public async Task<int> LeftLoadAsync(string palletCode)
         {
-            var station = this.CurrentState?.StationNo;
+            var station = this.CurrentState?.State?.StationNo;
             if (station == null)
             {
                 throw new InvalidOperationException("不在站点");
@@ -156,10 +144,10 @@ namespace Swm.SRgv.GS
 
             var taskNo = _deviceTaskNoGenerator.GetNextTaskNo();
             var directive = new SRgvDirective.SendTask(
-                new SRgvTaskInfo.LeftLoad(taskNo, palletCode, station.Value)
+                new SRgvTaskInfo.Convey.Load.LeftLoad(taskNo, palletCode, station.Value)
                 );
 
-            await SendAsync(directive, RespondTimeout);
+            await SendDirectiveAsync(directive, RespondTimeout);
             return taskNo;
         }
 
@@ -171,7 +159,7 @@ namespace Swm.SRgv.GS
         /// <returns></returns>
         public async Task<int> LeftUnloadAsync(string palletCode)
         {
-            var station = this.CurrentState?.StationNo;
+            var station = this.CurrentState?.State?.StationNo;
             if (station == null)
             {
                 throw new InvalidOperationException("不在站点");
@@ -179,10 +167,10 @@ namespace Swm.SRgv.GS
 
             var taskNo = _deviceTaskNoGenerator.GetNextTaskNo();
             var directive = new SRgvDirective.SendTask(
-                new SRgvTaskInfo.LeftUnload(taskNo, palletCode, station.Value)
+                new SRgvTaskInfo.Convey.Unload.LeftUnload(taskNo, palletCode, station.Value)
                 );
 
-            await SendAsync(directive, RespondTimeout);
+            await SendDirectiveAsync(directive, RespondTimeout);
             return taskNo;
         }
 
@@ -194,7 +182,7 @@ namespace Swm.SRgv.GS
         /// <returns></returns>
         public async Task<int> RightLoadAsync(string palletCode)
         {
-            var station = this.CurrentState?.StationNo;
+            var station = this.CurrentState?.State?.StationNo;
             if (station == null)
             {
                 throw new InvalidOperationException("不在站点");
@@ -202,10 +190,10 @@ namespace Swm.SRgv.GS
 
             var taskNo = _deviceTaskNoGenerator.GetNextTaskNo();
             var directive = new SRgvDirective.SendTask(
-                new SRgvTaskInfo.RightLoad(taskNo, palletCode, station.Value)
+                new SRgvTaskInfo.Convey.Load.RightLoad(taskNo, palletCode, station.Value)
                 );
 
-            await SendAsync(directive, RespondTimeout);
+            await SendDirectiveAsync(directive, RespondTimeout);
             return taskNo;
         }
 
@@ -216,7 +204,7 @@ namespace Swm.SRgv.GS
         /// <returns></returns>
         public async Task<int> RightUnloadAsync(string palletCode)
         {
-            var station = this.CurrentState?.StationNo;
+            var station = this.CurrentState?.State?.StationNo;
             if (station == null)
             {
                 throw new InvalidOperationException("不在站点");
@@ -224,10 +212,10 @@ namespace Swm.SRgv.GS
 
             var taskNo = _deviceTaskNoGenerator.GetNextTaskNo();
             var directive = new SRgvDirective.SendTask(
-                new SRgvTaskInfo.RightUnload(taskNo, palletCode, station.Value)
+                new SRgvTaskInfo.Convey.Unload.RightUnload(taskNo, palletCode, station.Value)
                 );
 
-            await SendAsync(directive, RespondTimeout);
+            await SendDirectiveAsync(directive, RespondTimeout);
             return taskNo;
         }
 
@@ -238,7 +226,7 @@ namespace Swm.SRgv.GS
         public async Task ClearTaskAsync()
         {
             var directive = new SRgvDirective.ClearTask();
-            await SendAsync(directive, RespondTimeout);
+            await SendDirectiveAsync(directive, RespondTimeout);
         }
 
         // TODO 重试逻辑
@@ -249,118 +237,151 @@ namespace Swm.SRgv.GS
         /// <param name="timeout">超时时间</param>
         /// <exception cref="NotRespondedException">在超时时间内未收到成功回复</exception>
         /// <returns></returns>
-        private async Task SendAsync(SRgvDirective directive, TimeSpan timeout)
+        private async Task SendDirectiveAsync(SRgvDirective directive, TimeSpan timeout)
         {
-            _logger.Debug("正在下发指令：" + directive);
+            _logger.Debug("正在下发指令 {directive}", directive);
 
-            if (directive.IsSuccessfulResponse(this.PreviousState))
+            if (directive.IsSuccessfulResponse(this.CurrentState?.State))
             {
-                _logger.Warning("不需下发的指令 {directive}", directive);
+                _logger.Warning("不需下发的指令");
                 return;
             }
 
-            if (CanSendDirective(out CannotSendDirectiveReason reason) == false)
+            if (PendingDirective != null)
             {
-                //TODO 执行方式需要循环执行
-                throw new CannotSendDirectiveException(reason);
+                throw new CannotSendDirectiveException(new List<string> { "有一个挂起的指令" });
             }
 
-
-            DateTime startTime = DateTime.Now;
-
-            await _rgvCommunicator.SendDirectiveAsync(directive);
-            _logger.Debug("已写入");
-
-            while (true)
+            if (CanSendDirective(directive, out List<string> errors) == false)
             {
-                if (directive.IsSuccessfulResponse(PreviousState))
+                // TODO 执行方式需要循环执行
+                throw new CannotSendDirectiveException(errors);
+            }
+
+            try
+            {
+                DateTime time = DateTime.Now;
+                PendingDirective = (directive, time);
+                _logger.Verbose("将 PendingDirective 属性设置为了 {PendingDirective}", PendingDirective);
+                await _rgvCommunicator.SendDirectiveAsync(directive);
+                _logger.Debug("已向网络写入指令数据");
+
+                while (true)
                 {
-                    _logger.Debug("已收到响应，当前状态：" + PreviousState);
-                    //lock (Outlet)
-                    //{
-                    //    Outlet.State = DirectiveState.Successful;
-                    //}
-                    break;
+                    await Task.Delay(10);
+                    _logger.Verbose("轮询 CurrentState 属性判断设备是否已成功响应 {CurrentState}", CurrentState);
+                    if (directive.IsSuccessfulResponse(CurrentState?.State))
+                    {
+                        _logger.Debug("收到设备的成功响应");
+                        break;
+                    }
+
+                    if (DateTime.Now.Subtract(time) > timeout)
+                    {
+                        throw new NotRespondedException();
+                    }
                 }
-
-                if (DateTime.Now.Subtract(startTime) > timeout)
-                {
-                    //lock (Outlet)
-                    //{
-                    //    Outlet.State = DirectiveState.Timedout;
-                    //}
-
-                    throw new NotRespondedException();
-                }
-
-                Thread.Sleep(30);
+            }
+            finally
+            {
+                PendingDirective = null;
             }
         }
 
+        public CommunicatorStatistics Statistics => _rgvCommunicator.Statistics;
 
-        public bool CanSendDirective(out CannotSendDirectiveReason reason)
+        public bool CanSendDirective(SRgvDirective directive, out List<string> errors)
         {
-            // TODO 设备锁概念
-            reason = CannotSendDirectiveReason.可以下发指令;
-            if (!this.IsConnected)
+            errors = new List<string>();
+            if (this.ConnectionState != DeviceConnectionState.Connected)
             {
-                reason |= CannotSendDirectiveReason.未连接到设备;
+                errors.Add("未连接到设备");
+                return false;
             }
-            //TODO 穿梭车下发取消指令货堆垛机下发急停指令时 设备本身可能存在任务
-            //lock (Outlet)
-            //{
-            //    if (Outlet.Directive != null && Outlet.State == DirectiveState.Pending)
-            //    {
-            //        reason |= CannotSendDirectiveReason.有正在处理的指令;
-            //    }
-            //}
 
-            var currentState = this.PreviousState;
-            if (currentState == null)
+            switch (directive)
             {
-                reason |= CannotSendDirectiveReason.设备状态未知;
-            }
-            else
-            {
-                //设备处于手动模式
-                if (currentState.InManualMode)
-                {
-                    reason |= CannotSendDirectiveReason.设备处于手动模式;
-                }
+                case SRgvDirective.Inquire:
+                    {
+                        return true;
+                    }
+                case SRgvDirective.SendTask:
+                    {
+                        if (CurrentState == null)
+                        {
+                            errors.Add("设备状态未知");
+                            return false;
+                        }
 
-                if (currentState.ErrorCode != null)
-                {
-                    reason |= CannotSendDirectiveReason.设备报警停机;
-                }
+                        //设备处于手动模式
+                        if (CurrentState.Value.State.InManualMode)
+                        {
+                            errors.Add("设备处于手动模式");
+                        }
 
-                // TODO 防止 二次下发穿梭车任务
-                //if (currentState.Event == SRgvEvent.TaskCompletionByManual || currentState.Event == SRgvEvent.AutomaticTaskCompletion)
-                //{
-                //    reason |= CannotSendDirectiveReason.任务手动或自动完成;
-                //}
-                //TODO 与上面提到的 <有正在处理的指令> 可能存在重复判断
-                if (currentState.TaskInfo != null)
-                {
-                    reason |= CannotSendDirectiveReason.设备有任务;
-                }
+                        if (CurrentState.Value.State.ErrorCode != null)
+                        {
+                            errors.Add("设备报错");
+                        }
 
-                if (currentState.ErrorCode != 0)
-                {
-                    reason |= CannotSendDirectiveReason.设备出错;
-                }
-            }
-            return reason == CannotSendDirectiveReason.可以下发指令;
+                        if (CurrentState.Value.State.TaskInfo != null)
+                        {
+                            errors.Add("设备已有任务");
+                        }
+
+                        return errors.Count == 0;
+                    }
+                case SRgvDirective.ClearError:
+                    {
+                        if (CurrentState == null)
+                        {
+                            errors.Add("设备状态未知");
+                            return false;
+                        }
+
+                        if (CurrentState.Value.State.ErrorCode == null)
+                        {
+                            errors.Add("设备无错误");
+                        }
+
+                        return errors.Count == 0;
+                    }
+                case SRgvDirective.ClearTask:
+                    {
+                        if (CurrentState == null)
+                        {
+                            errors.Add("设备状态未知");
+                            return false;
+                        }
+
+                        if (CurrentState.Value.State.TaskInfo == null)
+                        {
+                            errors.Add("设备无任务");
+                        }
+
+                        return errors.Count == 0;
+                    }
+                default:
+                    throw new();
+            };
         }
 
 
-        public bool IsConnected
+        public DeviceConnectionState ConnectionState
         {
             get
             {
-                return _rgvCommunicator.IsConnected;
+                return _rgvCommunicator.ConnectionState;
             }
         }
 
+        public async Task ShutdownAsync()
+        {
+            await _rgvCommunicator.ShutdownAsync();
+        }
     }
+
+
+
 }
 

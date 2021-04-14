@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Swm.Device
 {
     [Serializable]
     public class CannotSendDirectiveException : Exception
     {
-        public CannotSendDirectiveException(CannotSendDirectiveReason reason)
+        public CannotSendDirectiveException(List<string> errors)
         {
-            this.Reason = reason;
+            this.Errors = errors;
         }
         public CannotSendDirectiveException(string message) : base(message) { }
         public CannotSendDirectiveException(string message, Exception inner) : base(message, inner) { }
@@ -16,7 +17,7 @@ namespace Swm.Device
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 
 
-        public CannotSendDirectiveReason Reason { get; }
+        public List<string> Errors { get; }
     }
 
 

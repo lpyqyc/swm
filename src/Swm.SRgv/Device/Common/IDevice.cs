@@ -20,7 +20,13 @@ namespace Swm.Device
         /// <summary>
         /// 连接状态
         /// </summary>
-        DeviceConnectState ConnectState { get; }
+        DeviceConnectionState ConnectionState { get; }
+
+
+        /// <summary>
+        /// 与断开连接，并释放资源。
+        /// </summary>
+        Task ShutdownAsync();
 
         /// <summary>
         /// 锁定设备
@@ -38,14 +44,6 @@ namespace Swm.Device
         /// 指示设备是否被锁定
         /// </summary>
         bool IsLocked { get; }
-
-
-        /// <summary>
-        /// 停止设备正在进行的任何动作
-        /// </summary>
-        /// <returns></returns>
-        Task EStopAsync();
-
 
         /// <summary>
         /// 状态发生变化时引发

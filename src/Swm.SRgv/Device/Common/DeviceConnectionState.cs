@@ -3,7 +3,7 @@
     /// <summary>
     /// 表示设备连接状态
     /// </summary>
-    public enum DeviceConnectState
+    public enum DeviceConnectionState
     {        
         /// <summary>
         /// 未连接或已断开
@@ -20,4 +20,5 @@
         /// </summary>
         Connected,
     }
+
 }

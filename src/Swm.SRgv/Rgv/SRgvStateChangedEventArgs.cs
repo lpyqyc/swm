@@ -1,9 +1,17 @@
-﻿namespace Swm.Device.Rgv
-{
-    public record SRgvStateChangedEventArgs(SRgvState? PreviousState, SRgvState NewState)
-    {
-        public SRgvState? PreviousState { get; init; } = PreviousState;
+﻿using System;
 
-        public SRgvState NewState { get; init; } = NewState;
+namespace Swm.Device.Rgv
+{
+    public class SRgvStateChangedEventArgs : EventArgs
+    {
+        public SRgvStateChangedEventArgs(SRgvState? previousState, SRgvState newState)
+        {
+            this.PreviousState = previousState;
+            this.NewState = newState;
+        }
+
+        public SRgvState? PreviousState { get; init; }
+
+        public SRgvState NewState { get; init; }
     }
 }

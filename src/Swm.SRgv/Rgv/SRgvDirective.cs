@@ -16,19 +16,13 @@ namespace Swm.Device.Rgv
                  Inquire _ => state != null,
                  SendTask sendTask => state?.TaskInfo?.TaskNo == sendTask.TaskInfo.TaskNo,
                  ClearTask _ => state != null && state.TaskInfo == null,
-                 Lock _ => state?.Locked == true,
-                 Unlock _ => state?.Locked == false,
-                 EStop _ => state?.EStopped == true,
                  _ => throw new Exception("不认识的分支")
              };
 
         /// <summary>
         /// 查询指令
         /// </summary>
-        public record Inquire() : SRgvDirective
-        {
-
-        }
+        public record Inquire : SRgvDirective;
 
         /// <summary>
         /// 发送任务指令
@@ -44,36 +38,12 @@ namespace Swm.Device.Rgv
         /// <summary>
         /// 清除任务指令
         /// </summary>
-        public record ClearTask() : SRgvDirective
-        {
-
-        }
-
+        public record ClearTask() : SRgvDirective;
 
         /// <summary>
-        /// 锁定指令
+        /// 清除错误指令
         /// </summary>
-        public record Lock() : SRgvDirective
-        {
-
-        }
-
-        /// <summary>
-        /// 解锁指令
-        /// </summary>
-        public record Unlock() : SRgvDirective
-        {
-
-        }
-
-        /// <summary>
-        /// 急停指令
-        /// </summary>
-        public record EStop() : SRgvDirective
-        {
-
-        }
-    
+        public record ClearError() : SRgvDirective;
     }
 
 }

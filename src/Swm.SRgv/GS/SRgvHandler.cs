@@ -44,13 +44,13 @@ namespace Swm.SRgv.GS
 
         protected override void ChannelRead0(IChannelHandlerContext ctx, SRgvState msg)
         {
+            Console.WriteLine(msg);
             if (msg == null)
             {
                 return;
             }
 
-            _rgvCommunicator.OnMessageReceived(msg);
+            _rgvCommunicator.OnStateMessageReceived(msg);
         }
     }
-
 }

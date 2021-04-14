@@ -6,7 +6,7 @@ namespace Swm.SRgv.GS
     /// <summary>
     /// 任务模式
     /// </summary>
-    public enum RailGuidedVehicleTaskMode
+    public enum SRgvTaskMode
     {
         /// <summary>无任务类型</summary>
         [Description("无任务类型")]

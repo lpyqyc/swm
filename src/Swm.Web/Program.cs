@@ -17,9 +17,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Serilog;
+using Swm.SRgv;
+using Swm.SRgv.GS;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 #pragma warning disable 1591
 
@@ -31,6 +39,7 @@ namespace Swm.Web
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddJsonFile("logsettings.json")
+            .AddJsonFile("device.json")
             .AddEnvironmentVariables()
             .Build();
 
@@ -65,6 +74,68 @@ namespace Swm.Web
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+    }
+
+
+    public class RgvOptions
+    {
+        public string? Name { get; set; }
+
+        public string? IP { get; set; }
+
+        public int Port { get; set; }
+    }
+
+
+    public class RgvService : IHostedService
+    {
+        IOptions<List<RgvOptions>> _rgvOptions;
+        List<SRgv.SRgv> _rgvList = new List<SRgv.SRgv>();
+
+        public IReadOnlyList<SRgv.SRgv> RgvList
+        {
+            get
+            {
+                return _rgvList;
+            }
+        }
+
+
+        public RgvService(IOptions<List<RgvOptions>> rgvOptions)
+        {
+            _rgvOptions = rgvOptions;
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            List<SRgv.SRgv> list = new List<SRgv.SRgv>();
+            foreach (var options in _rgvOptions.Value)
+            {
+                IPAddress ip = IPAddress.Parse(options.IP ?? throw new ());
+                var port = options.Port;
+                var endPoint = new IPEndPoint(ip, port);
+                SRgvCommunicator communicator = new SRgvCommunicator(endPoint, Log.ForContext<SRgvCommunicator>());
+                SRgv.SRgv rgv = new SRgv.SRgv(options.Name ?? throw new(),
+                                              new FakeDeviceTaskNoGenerator(),
+                                              communicator,
+                                              Log.ForContext<SRgv.SRgv>());
+
+                list.Add(rgv);
+            }
+
+            _rgvList = list;
+
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            if (RgvList != null)
+            {
+                return Task.WhenAll(RgvList.Select(x => x.ShutdownAsync()));
+            }
+            return Task.CompletedTask;
+        }
     }
 }
 

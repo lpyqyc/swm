@@ -33,7 +33,7 @@
         /// <summary>
         /// 任务模式
         /// </summary>
-        public RailGuidedVehicleTaskMode TaskMode { get; init; }
+        public SRgvTaskMode TaskMode { get; init; }
 
 
         /// <summary>
@@ -65,7 +65,6 @@
                (int)DestinationStationAction,
                (int)TaskMode,
                suffix);
-
         }
     }
 

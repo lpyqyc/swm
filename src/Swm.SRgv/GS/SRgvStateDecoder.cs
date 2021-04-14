@@ -24,7 +24,7 @@ namespace Swm.SRgv.GS
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        internal static SRgvStateTelex ParseTelex(string message)
+        internal static SRgvStateTelex ParseTelex(string? message)
         {
             if (string.IsNullOrEmpty(message))
             {
@@ -44,53 +44,60 @@ namespace Swm.SRgv.GS
             {
                 Position = Convert.ToUInt32(message.Substring(2, 7)),
                 CurrentStation = Convert.ToUInt16(message.Substring(9, 3)),
-                AtStation = !Convert.ToBoolean(Convert.ToInt32(message.Substring(12, 1))),
+                AtStation = Convert.ToBoolean(Convert.ToInt32(message.Substring(12, 1))),
                 ErrorCode = Convert.ToInt32(message.Substring(13, 2)),
-                State = (RailGuidedVehicleStatus)Enum.Parse(typeof(RailGuidedVehicleStatus), message.Substring(15, 1)),
+                State = (SRgvStatus)Enum.Parse(typeof(SRgvStatus), message.Substring(15, 1)),
                 Event = (SRgvEvent)Enum.Parse(typeof(SRgvEvent), message.Substring(16, 1)),
                 TaskId = Convert.ToInt32(message.Substring(17, 8)),
                 ContainerCode = Convert.ToUInt32(message.Substring(25, 4)),
                 FromStation = Convert.ToUInt16(message.Substring(29, 3)),
                 ToStation = Convert.ToUInt16(message.Substring(32, 3)),
-                TaskMode = (RailGuidedVehicleTaskMode)Enum.Parse(typeof(RailGuidedVehicleTaskMode), message.Substring(35, 1)),
+                TaskMode = (SRgvTaskMode)Enum.Parse(typeof(SRgvTaskMode), message.Substring(35, 1)),
                 RawMessage = message,
             };
         }
 
-
         protected override void Decode(IChannelHandlerContext context, string message, List<object> output)
         {
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+
             SRgvStateTelex telex = ParseTelex(message);
 
             SRgvState state = new SRgvState
             {
-                ErrorCode = telex.ErrorCode,
-                Walking = telex.State == RailGuidedVehicleStatus.无货运行
-                    || telex.State == RailGuidedVehicleStatus.有货运行,
-                InManualMode = telex.State == RailGuidedVehicleStatus.手动模式,
-                EStopped = null,
-                Locked = null,
-                Occupied = telex.State == RailGuidedVehicleStatus.有货运行
-                    || telex.State == RailGuidedVehicleStatus.有货待命
-                    || telex.State == RailGuidedVehicleStatus.有货,
-                Loading = telex.State == RailGuidedVehicleStatus.输送线运行
-                    && telex.TaskMode == RailGuidedVehicleTaskMode.Picking,
-                Unloading = telex.State == RailGuidedVehicleStatus.输送线运行
-                    && telex.TaskMode == RailGuidedVehicleTaskMode.Putting,
+                ErrorCode = telex.ErrorCode == 0 ? null : telex.ErrorCode,
+                InManualMode = telex.State == SRgvStatus.手动模式,
                 Position = Convert.ToInt32(telex.Position),
                 StationNo = telex.AtStation ? Convert.ToInt32(telex.CurrentStation) : null,
-                TaskInfo = telex.TaskMode == RailGuidedVehicleTaskMode.Initialized
-                    ? null
-                    : telex.TaskMode switch
-                    {
-                        RailGuidedVehicleTaskMode.Initialized => null,
-                        RailGuidedVehicleTaskMode.AutomaticTask => throw new global::System.NotImplementedException(),
-                        RailGuidedVehicleTaskMode.Picking => new SRgvTaskInfo.LeftLoad(telex.TaskId, telex.ContainerCode.ToString(), telex.CurrentStation),
-                        RailGuidedVehicleTaskMode.Putting => throw new global::System.NotImplementedException(),
-                        RailGuidedVehicleTaskMode.WalkWithGoods => throw new global::System.NotImplementedException(),
-                        RailGuidedVehicleTaskMode.Walk => throw new global::System.NotImplementedException(),
-                    }
+                TaskInfo = telex.TaskMode switch
+                {
+                    SRgvTaskMode.Initialized => null,
+                    SRgvTaskMode.Picking => new SRgvTaskInfo.Convey.Load(telex.TaskId, telex.ContainerCode.ToString(), telex.CurrentStation),
+                    SRgvTaskMode.Putting => new SRgvTaskInfo.Convey.Unload(telex.TaskId, telex.ContainerCode.ToString(), telex.CurrentStation),
+                    SRgvTaskMode.WalkWithGoods => new SRgvTaskInfo.Walk.WithPallet(telex.TaskId, telex.ContainerCode.ToString(), telex.ToStation),
+                    SRgvTaskMode.Walk => new SRgvTaskInfo.Walk.WithoutPallet(telex.TaskId, telex.ToStation),
+                    _ => throw new(),
+                },
+                TaskCompleted = telex.Event == SRgvEvent.AutomaticTaskCompletion || telex.Event == SRgvEvent.TaskCompletionByManual,
+                ActionState = telex.State switch
+                {
+                    SRgvStatus.初始化 or
+                    SRgvStatus.手动模式 or
+                    SRgvStatus.有货待命 or
+                    SRgvStatus.停止 or
+                    SRgvStatus.报警停机 or
+                    SRgvStatus.有货 or
+                    SRgvStatus.无货待命 => new SRgvActionState.None(),
+                    SRgvStatus.无货运行 => new SRgvActionState.Walking.WithoutPallet(),
+                    SRgvStatus.有货运行 => new SRgvActionState.Walking.WithPallet(),
+                    SRgvStatus.输送线运行 => new SRgvActionState.Conveying(),
+                    _ => throw new("不支持的状态值"),
+                }
             };
+
             output.Add(state);
         }
     }
