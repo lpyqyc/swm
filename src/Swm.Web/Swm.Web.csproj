@@ -21,6 +21,7 @@
 		<Compile Remove="Controllers\AccountController.DEBUG.cs" />
 		<Compile Remove="Controllers\Account\AccountController.DEBUG.cs" />
 		<Compile Remove="Controllers\Account\AccountDebugController.cs" />
+		<Compile Remove="Controllers\RgvController.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
