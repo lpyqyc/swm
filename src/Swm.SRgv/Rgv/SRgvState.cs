@@ -18,12 +18,23 @@ namespace Swm.Device.Rgv
         public int? ErrorCode { get; init; }
 
         /// <summary>
-        /// 穿梭车接受的任务信息，未接受任务时为 null
+        /// 穿梭车接受的任务号，未接受任务时为 0。
+        /// 任务号是由软件生成的正整数，保证不重复。
         /// </summary>
         /// <remarks>
-        /// 如果协议不完善，穿梭车上报的任务信息与下发的任务信息相比可能会有信息丢失，例如，下发时任务是左取货任务，上报时变为取货任务
+        /// 不需要设备上报任务类型，因为有些协议不完善，上报的任务类型会丢失信息，例如，下发时任务是左取货任务，上报时变为取货任务。
         /// </remarks>
-        public SRgvTaskInfo? TaskInfo { get; init; }
+        public uint TaskNo { get; init; }
+
+        /// <summary>
+        /// 指示是否有错
+        /// </summary>
+        public bool HasError => ErrorCode != null;
+
+        /// <summary>
+        /// 指示是否有任务
+        /// </summary>
+        public bool HasTask => TaskNo > 0;
 
         /// <summary>
         /// 指示穿梭车是否已完成当前任务。

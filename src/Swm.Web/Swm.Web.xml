@@ -884,6 +884,36 @@
             <param name="toStation"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.RgvController.LeftLoad">
+            <summary>
+            左取
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.RgvController.RightLoad">
+            <summary>
+            左取
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.RgvController.LeftUnload">
+            <summary>
+            右放
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.RgvController.ClearTask">
+            <summary>
+            右放
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Swm.Web.Controllers.RgvController.RightUnload">
+            <summary>
+            右放
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.Controllers.RgvController.Stat">
             <summary>
             查看统计数据

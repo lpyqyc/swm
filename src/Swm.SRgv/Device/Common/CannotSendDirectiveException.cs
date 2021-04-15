@@ -17,7 +17,9 @@ namespace Swm.Device
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 
 
-        public List<string> Errors { get; }
+        public List<string> Errors { get; } = new List<string>();
+
+        public override string Message => string.Join(", ", this.Errors);
     }
 
 

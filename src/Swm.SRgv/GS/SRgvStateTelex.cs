@@ -38,7 +38,7 @@
         /// <summary>
         /// 任务号
         /// </summary>
-        public int TaskId { get; init; }
+        public uint TaskId { get; init; }
 
         /// <summary>
         /// 托盘号

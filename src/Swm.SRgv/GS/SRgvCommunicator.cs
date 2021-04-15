@@ -138,19 +138,37 @@ namespace Swm.SRgv.GS
         /// </summary>
         public event EventHandler<SRgvState>? StateMessageReceived;
 
+        public event EventHandler? Connected;
+
+        public event EventHandler? Disconnected;
+
+        internal void OnConnected(EventArgs e)
+        {
+            Connected?.Invoke(this, e);
+        }
+
+        internal void OnDisconnected(EventArgs e)
+        {
+            Disconnected?.Invoke(this, e);
+        }
+
+
         /// <summary>
         /// 引发 <see cref="StateMessageReceived"/> 事件。
         /// </summary>
         /// <param name="e"></param>
         internal void OnStateMessageReceived(SRgvState e)
         {
-            Statistics = Statistics with
+            if (this.ConnectionState == DeviceConnectionState.Connected)
             {
-                LastState = e,
-                LastStateTime = DateTime.Now,
-                StateMessageCount = Statistics.StateMessageCount + 1,
-            };
-            StateMessageReceived?.Invoke(this, e);
+                Statistics = Statistics with
+                {
+                    LastState = e,
+                    LastStateTime = DateTime.Now,
+                    StateMessageCount = Statistics.StateMessageCount + 1,
+                };
+                StateMessageReceived?.Invoke(this, e);
+            }
         }
 
         public async Task SendDirectiveAsync(SRgvDirective directive)

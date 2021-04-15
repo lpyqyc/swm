@@ -18,7 +18,17 @@ namespace Swm.SRgv.GS
         {
             return directive switch
             {
-                SRgvDirective.Inquire => throw new NotSupportedException(),
+                SRgvDirective.Inquire => new SRgvDirectiveTelex
+                {
+                    TypeFlag = "HQ",
+                    TaskId = 0,
+                    PalletCode = 0,
+                    StartingStation = 0,
+                    StartingStationAction = ChainAction.None,
+                    DestinationStation = 0,
+                    DestinationStationAction = ChainAction.None,
+                    TaskMode = 0
+                },
                 SRgvDirective.SendTask dir => dir.TaskInfo switch
                 {
                     SRgvTaskInfo.Walk.WithoutPallet task => new SRgvDirectiveTelex
@@ -43,7 +53,7 @@ namespace Swm.SRgv.GS
                         DestinationStationAction = ChainAction.None,
                         TaskMode = SRgvTaskMode.WalkWithGoods
                     },
-                    SRgvTaskInfo.Convey.Load.LeftLoad task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Convey task when task.ConveyingType == RgvConveyingType.LeftLoad => new SRgvDirectiveTelex
                     {
                         TypeFlag = "HB",
                         TaskId = task.TaskNo,
@@ -54,7 +64,7 @@ namespace Swm.SRgv.GS
                         DestinationStationAction = ChainAction.None,
                         TaskMode = SRgvTaskMode.Picking,
                     },
-                    SRgvTaskInfo.Convey.Load.RightLoad task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Convey task when task.ConveyingType == RgvConveyingType.RightLoad => new SRgvDirectiveTelex
                     {
                         TypeFlag = "HB",
                         TaskId = task.TaskNo,
@@ -65,7 +75,7 @@ namespace Swm.SRgv.GS
                         DestinationStationAction = ChainAction.None,
                         TaskMode = SRgvTaskMode.Picking,
                     },
-                    SRgvTaskInfo.Convey.Unload.LeftUnload task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Convey task when task.ConveyingType == RgvConveyingType.LeftUnload => new SRgvDirectiveTelex
                     {
                         TypeFlag = "HB",
                         TaskId = task.TaskNo,
@@ -76,7 +86,7 @@ namespace Swm.SRgv.GS
                         DestinationStationAction = ChainAction.LeftUnloading,
                         TaskMode = SRgvTaskMode.Putting,
                     },
-                    SRgvTaskInfo.Convey.Unload.RightUnload task => new SRgvDirectiveTelex
+                    SRgvTaskInfo.Convey task when task.ConveyingType == RgvConveyingType.RightUnload => new SRgvDirectiveTelex
                     {
                         TypeFlag = "HB",
                         TaskId = task.TaskNo,
@@ -91,7 +101,7 @@ namespace Swm.SRgv.GS
                 },
                 SRgvDirective.ClearTask => new SRgvDirectiveTelex
                 {
-                    TypeFlag = "HB",
+                    TypeFlag = "HP",
                     TaskId = 0,
                     PalletCode = 0,
                     StartingStation = 0,

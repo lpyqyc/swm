@@ -15,10 +15,12 @@ namespace Swm.SRgv.GS
         public override void ChannelActive(IChannelHandlerContext context)
         {
             Console.WriteLine("ChannelActive");
+            _rgvCommunicator.OnConnected(EventArgs.Empty);
         }
 
         public override void ChannelInactive(IChannelHandlerContext context)
         {
+            _rgvCommunicator.OnDisconnected(EventArgs.Empty);
             Console.WriteLine("ChannelInactive");
         }
 
@@ -44,7 +46,6 @@ namespace Swm.SRgv.GS
 
         protected override void ChannelRead0(IChannelHandlerContext ctx, SRgvState msg)
         {
-            Console.WriteLine(msg);
             if (msg == null)
             {
                 return;

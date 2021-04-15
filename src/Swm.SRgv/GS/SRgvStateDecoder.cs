@@ -48,7 +48,7 @@ namespace Swm.SRgv.GS
                 ErrorCode = Convert.ToInt32(message.Substring(13, 2)),
                 State = (SRgvStatus)Enum.Parse(typeof(SRgvStatus), message.Substring(15, 1)),
                 Event = (SRgvEvent)Enum.Parse(typeof(SRgvEvent), message.Substring(16, 1)),
-                TaskId = Convert.ToInt32(message.Substring(17, 8)),
+                TaskId = Convert.ToUInt32(message.Substring(17, 8)),
                 ContainerCode = Convert.ToUInt32(message.Substring(25, 4)),
                 FromStation = Convert.ToUInt16(message.Substring(29, 3)),
                 ToStation = Convert.ToUInt16(message.Substring(32, 3)),
@@ -72,15 +72,7 @@ namespace Swm.SRgv.GS
                 InManualMode = telex.State == SRgvStatus.手动模式,
                 Position = Convert.ToInt32(telex.Position),
                 StationNo = telex.AtStation ? Convert.ToInt32(telex.CurrentStation) : null,
-                TaskInfo = telex.TaskMode switch
-                {
-                    SRgvTaskMode.Initialized => null,
-                    SRgvTaskMode.Picking => new SRgvTaskInfo.Convey.Load(telex.TaskId, telex.ContainerCode.ToString(), telex.CurrentStation),
-                    SRgvTaskMode.Putting => new SRgvTaskInfo.Convey.Unload(telex.TaskId, telex.ContainerCode.ToString(), telex.CurrentStation),
-                    SRgvTaskMode.WalkWithGoods => new SRgvTaskInfo.Walk.WithPallet(telex.TaskId, telex.ContainerCode.ToString(), telex.ToStation),
-                    SRgvTaskMode.Walk => new SRgvTaskInfo.Walk.WithoutPallet(telex.TaskId, telex.ToStation),
-                    _ => throw new(),
-                },
+                TaskNo = telex.TaskId,
                 TaskCompleted = telex.Event == SRgvEvent.AutomaticTaskCompletion || telex.Event == SRgvEvent.TaskCompletionByManual,
                 ActionState = telex.State switch
                 {

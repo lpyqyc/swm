@@ -14,8 +14,8 @@ namespace Swm.Device.Rgv
              this switch
              {
                  Inquire _ => state != null,
-                 SendTask sendTask => state?.TaskInfo?.TaskNo == sendTask.TaskInfo.TaskNo,
-                 ClearTask _ => state != null && state.TaskInfo == null,
+                 SendTask sendTask => state?.TaskNo == sendTask.TaskInfo.TaskNo,
+                 ClearTask _ => state != null && state.HasTask == false,
                  _ => throw new Exception("不认识的分支")
              };
 

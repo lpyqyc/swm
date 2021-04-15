@@ -74,6 +74,65 @@ namespace Swm.Web.Controllers
         }
 
         /// <summary>
+        /// 左取
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("left-load")]
+        public async Task<ApiData> LeftLoad()
+        {
+            await _rgvService.RgvList.First().LeftLoadAsync("123");
+            return this.Success();
+        }
+
+        /// <summary>
+        /// 左取
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("right-load")]
+        public async Task<ApiData> RightLoad()
+        {
+            await _rgvService.RgvList.First().RightLoadAsync("123");
+            return this.Success();
+        }
+
+
+        /// <summary>
+        /// 右放
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("left-unload")]
+        public async Task<ApiData> LeftUnload()
+        {
+            await _rgvService.RgvList.First().LeftUnloadAsync("123");
+            return this.Success();
+        }
+
+
+        /// <summary>
+        /// 右放
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("clear-task")]
+        public async Task<ApiData> ClearTask()
+        {
+            await _rgvService.RgvList.First().ClearTaskAsync();
+            return this.Success();
+        }
+
+        /// <summary>
+        /// 右放
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("right-unload")]
+        public async Task<ApiData> RightUnload()
+        {
+            await _rgvService.RgvList.First().RightUnloadAsync("123");
+            return this.Success();
+        }
+
+
+
+        /// <summary>
         /// 查看统计数据
         /// </summary>
         /// <returns></returns>

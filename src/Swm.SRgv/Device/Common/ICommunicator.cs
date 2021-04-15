@@ -23,7 +23,7 @@ namespace Swm.Device
         DeviceConnectionState ConnectionState { get; }
 
         /// <summary>
-        /// 在收到设备传来的状态消息时引发
+        /// 在收到设备传来的状态消息时引发，若设备断开，则留在缓冲区尚未消耗的消息不会引发此事件
         /// </summary>
         event EventHandler<TState> StateMessageReceived;
 
@@ -38,6 +38,16 @@ namespace Swm.Device
         /// </summary>
         /// <returns></returns>
         Task DisconnectAsync();
+
+        /// <summary>
+        /// 在与设备连接成功后引发
+        /// </summary>
+        event EventHandler? Connected;
+
+        /// <summary>
+        /// 在与设备断开连接后引发
+        /// </summary>
+        event EventHandler? Disconnected;
 
         /// <summary>
         /// 与设备断开连接，并释放资源。

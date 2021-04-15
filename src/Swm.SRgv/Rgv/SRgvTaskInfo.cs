@@ -13,7 +13,7 @@
         /// <summary>
         /// 表示行走任务
         /// </summary>
-        public record Walk(int TaskNo, int ToStation) : SRgvTaskInfo(TaskNo)
+        public abstract record Walk(int TaskNo, int ToStation) : SRgvTaskInfo(TaskNo)
         {
             /// <summary>
             /// 行走任务的目的站
@@ -39,10 +39,15 @@
         }
 
         /// <summary>
-        /// 表示输送任务，
+        /// 表示输送任务
         /// </summary>
-        public record Convey(int TaskNo, string PalletCode, int Station) : SRgvTaskInfo(TaskNo)
+        public record Convey(int TaskNo, RgvConveyingType ConveyingType , string PalletCode, int Station) : SRgvTaskInfo(TaskNo)
         {
+            /// <summary>
+            /// 输送类型
+            /// </summary>
+            public RgvConveyingType ConveyingType { get; init; } = ConveyingType;
+
             /// <summary>
             /// 获取任务关联的托盘号
             /// </summary>
@@ -53,38 +58,6 @@
             /// </summary>
             public int Station { get; init; } = Station;
 
-            /// <summary>
-            /// 表示取货任务
-            /// </summary>
-            public record Load(int TaskNo, string PalletCode, int Station) : Convey(TaskNo, PalletCode, Station)
-            {
-                /// <summary>
-                /// 表示左取货任务
-                /// </summary>
-                public record LeftLoad(int TaskNo, string PalletCode, int Station) : Load(TaskNo, PalletCode, Station);
-
-                /// <summary>
-                /// 表示右取货任务
-                /// </summary>
-                public record RightLoad(int TaskNo, string PalletCode, int Station) : Load(TaskNo, PalletCode, Station);
-            }
-
-            /// <summary>
-            /// 表示放货任务
-            /// </summary>
-            public record Unload(int TaskNo, string PalletCode, int Station) : Convey(TaskNo, PalletCode, Station)
-            {
-                /// <summary>
-                /// 表示左放货任务
-                /// </summary>
-                public record LeftUnload(int TaskNo, string PalletCode, int Station) : Unload(TaskNo, PalletCode, Station);
-
-                /// <summary>
-                /// 表示右放货任务
-                /// </summary>
-                public record RightUnload(int TaskNo, string PalletCode, int Station) : Unload(TaskNo, PalletCode, Station);
-
-            }
         }
     }
 }
