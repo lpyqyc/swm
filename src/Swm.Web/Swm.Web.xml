@@ -100,6 +100,14 @@
             <param name="errorMessage"></param>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.ApiDataExtensions.Failure``1(Microsoft.AspNetCore.Mvc.ControllerBase,System.String)">
+            <summary>
+            生成表示操作失败的 <see cref="T:Swm.Web.ApiData"/> 对象。
+            </summary>
+            <param name="controller"></param>
+            <param name="errorMessage"></param>
+            <returns></returns>
+        </member>
         <member name="M:Swm.Web.ApiDataExtensions.ListData``1(Microsoft.AspNetCore.Mvc.ControllerBase,Arctic.NHibernateExtensions.PagedList{``0})">
             <summary>
             生成表示分页数据列表的对象。
@@ -152,12 +160,10 @@
             <param name="jwtSetting"></param>
             <param name="logger"></param>
         </member>
-        <member name="M:Swm.Web.Controllers.AccountController.RefreshToken(System.String,System.String)">
+        <member name="M:Swm.Web.Controllers.AccountController.RefreshToken(Swm.Web.Controllers.RefreshTokenArgs)">
             <summary>
             刷新访问令牌
             </summary>
-            <param name="token">老的访问令牌</param>
-            <param name="refreshToken">刷新令牌</param>
             <returns></returns>
         </member>
         <member name="M:Swm.Web.Controllers.AccountController.Login(Swm.Web.Controllers.LoginArgs)">
@@ -324,6 +330,36 @@
         <member name="P:Swm.Web.Controllers.LoginArgs.Password">
             <summary>
             密码
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.RefreshTokenArgs">
+            <summary>
+            刷新令牌的操作参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RefreshTokenArgs.RefreshToken">
+            <summary>
+            当前的刷新令牌，用于换取新的访问令牌和刷新令牌
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.RefreshTokenInfo">
+            <summary>
+            刷新令牌操作的结果
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RefreshTokenInfo.Token">
+            <summary>
+            新的访问令牌
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RefreshTokenInfo.TokenExpiry">
+            <summary>
+            访问令牌的有效时间（分钟）
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.RefreshTokenInfo.RefreshToken">
+            <summary>
+            新的刷新令牌
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.DebugController">

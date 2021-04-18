@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -81,71 +82,70 @@ namespace Swm.Web.Controllers
             }
             user.RefreshToken = Convert.ToBase64String(randomNumber);
             user.RefreshTokenTime = DateTime.Now;
-            user.RefreshTokenExpireTime = DateTime.Now.AddHours(1);
+            user.RefreshTokenExpireTime = DateTime.Now.AddDays(30);
             await _userManager.UpdateAsync(user);
         }
 
+        //private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        //{
+        //    var key = Encoding.UTF8.GetBytes(_jwtSetting.Value.SecurityKey);
 
+        //    var tokenValidationParameters = new TokenValidationParameters
+        //    {
+        //        ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
+        //        ValidateIssuer = false,
+        //        ValidateIssuerSigningKey = true,
+        //        IssuerSigningKey = new SymmetricSecurityKey(key),
+        //        ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+        //    };
 
-        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
-        {
-            var key = Encoding.UTF8.GetBytes(_jwtSetting.Value.SecurityKey);
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+        //    SecurityToken securityToken;
+        //    var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+        //    var jwtSecurityToken = securityToken as JwtSecurityToken;
+        //    if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        //    {
+        //        throw new SecurityTokenException("Invalid token");
+        //    }
 
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
-                ValidateIssuer = false,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken securityToken;
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-            {
-                throw new SecurityTokenException("Invalid token");
-            }
-
-            return principal;
-        }
+        //    return principal;
+        //}
 
         /// <summary>
         /// 刷新访问令牌
         /// </summary>
-        /// <param name="token">老的访问令牌</param>
-        /// <param name="refreshToken">刷新令牌</param>
         /// <returns></returns>
         [HttpPost("refresh-token")]
         [DebugShowArgs]
-        public async Task<IActionResult> RefreshToken(string token, string refreshToken)
+        [Authorize]
+        public async Task<ApiData<RefreshTokenInfo>> RefreshToken(RefreshTokenArgs args)
         {
+            string refreshToken = args.RefreshToken;
+
             _logger.Debug("正在刷新访问令牌");
-            var principal = GetPrincipalFromExpiredToken(token);
-            var username = principal.Identity?.Name;
+            var username = this.User.Identity?.Name;
             ApplicationUser? user = await _userManager.FindByNameAsync(username) ?? throw new("用户不存在");
 
             if (user.RefreshToken != refreshToken)
             {
-                throw new SecurityTokenException("无效的刷新令牌");
+                return this.Failure<RefreshTokenInfo>("无效的刷新令牌");
             }
             if (user.RefreshTokenExpireTime < DateTime.Now)
             {
-                throw new SecurityTokenException("刷新令牌已过期");
+                return this.Failure<RefreshTokenInfo>("刷新令牌已过期");
             }
 
-            var newJwtToken = GenerateToken(principal.Claims);
+            var newJwtToken = GenerateToken(this.User.Claims);
 
             await GenerateRefreshTokenAsync(user);
 
             _logger.Information("已刷新访问令牌");
 
-            return new ObjectResult(new
+            return this.Success(new RefreshTokenInfo
             {
-                token = newJwtToken,
-                refreshToken = user.RefreshToken
+                Token = newJwtToken,
+                TokenExpiry = _jwtSetting.Value.TokenExpiry,
+                RefreshToken = user.RefreshToken
             });
         }
 
@@ -201,6 +201,7 @@ namespace Swm.Web.Controllers
                 {
                     status = "ok",
                     token = jwt,
+                    tokenExpiry = _jwtSetting.Value.TokenExpiry,
                     refreshToken = user.RefreshToken,
                     type = "Bearer",
                     currentAuthority = roles

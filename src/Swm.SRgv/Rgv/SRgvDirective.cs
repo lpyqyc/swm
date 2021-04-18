@@ -44,6 +44,7 @@ namespace Swm.Device.Rgv
         /// 清除错误指令
         /// </summary>
         public record ClearError() : SRgvDirective;
+
     }
 
 }

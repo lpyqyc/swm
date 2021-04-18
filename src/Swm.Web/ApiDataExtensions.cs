@@ -79,6 +79,23 @@ namespace Swm.Web
         }
 
         /// <summary>
+        /// 生成表示操作失败的 <see cref="ApiData"/> 对象。
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
+        public static ApiData<TData> Failure<TData>(this ControllerBase controller, string? errorMessage)
+        {
+            return new ApiData<TData>
+            {
+                Success = false,
+                ErrorMessage = errorMessage,
+                Host = controller.Request.Host.ToString(),
+                TraceId = controller.HttpContext.TraceIdentifier,
+            };
+        }
+
+        /// <summary>
         /// 生成表示分页数据列表的对象。
         /// </summary>
         /// <typeparam name="T"></typeparam>
