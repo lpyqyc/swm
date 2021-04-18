@@ -19,9 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.International.Converters.PinYinConverter;
 using NHibernate.Linq;
 using Serilog;
-using Swm.Constants;
 using Swm.Materials;
-using Swm.Model;
 using Swm.Ops;
 using Swm.Palletization;
 using System;
@@ -46,13 +44,14 @@ namespace Swm.Web.Controllers
         readonly OpHelper _opHelper;
         readonly FlowHelper _flowHelper;
         readonly PalletizationHelper _palletizationHelper;
-
+        readonly IPalletCodeValidator _palletCodeValidator;
         public MatlController(
             NHibernate.ISession session,
             Func<Material> materialFactory, 
             FlowHelper flowHelper, 
             PalletizationHelper palletizationHelper, 
-            OpHelper opHelper, 
+            OpHelper opHelper,
+            IPalletCodeValidator palletCodeValidator,
             ILogger logger)
         {
             _logger = logger;
@@ -61,6 +60,7 @@ namespace Swm.Web.Controllers
             _flowHelper = flowHelper;
             _palletizationHelper = palletizationHelper;
             _session = session;
+            _palletCodeValidator = palletCodeValidator;
         }
 
         /// <summary>
@@ -360,6 +360,29 @@ namespace Swm.Web.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 验证托盘号
+        /// </summary>
+        /// <param name="palletCode"></param>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpGet("validate-pallet-code")]
+        public async Task<ApiData> ValidatePalletCode(string palletCode)
+        {
+            var b = _palletCodeValidator.IsWellFormed(palletCode, out string msg);
+            if (b == false)
+            {
+                return this.Failure(msg);
+            }
+
+            bool e = await _session.Query<Unitload>().AnyAsync(x => x.PalletCode == palletCode);
+            if (e)
+            {
+                return this.Failure("托盘号已占用");
+            }
+
+            return this.Success();
+        }
 
         /// <summary>
         /// 货载列表
