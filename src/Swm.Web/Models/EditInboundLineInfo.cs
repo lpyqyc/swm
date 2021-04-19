@@ -47,10 +47,9 @@ namespace Swm.Web.Controllers
 
 
         /// <summary>
-        /// 要入库的批号，不可以为空
+        /// 要入库的批号，可以为空
         /// </summary>
-        [Required]
-        public string Batch { get; set; } = default!;
+        public string? Batch { get; set; } = default!;
 
 
         /// <summary>

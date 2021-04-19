@@ -50,7 +50,7 @@ namespace Swm.Palletization
             builder.RegisterEntityFactory(_moduleBuilder.UnitloadSnapshotFactory);
             builder.RegisterEntityFactory(_moduleBuilder.UnitloadItemSnapshotFactory);
             builder.RegisterInstance(_moduleBuilder.palletCodeValidator ?? throw new())
-                .AsImplementedInterfaces()
+                .As<IPalletCodeValidator>()
                 .SingleInstance();
             if (_moduleBuilder.UnitloadStorageInfoProviderType != null)
             {

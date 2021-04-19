@@ -46,7 +46,7 @@ namespace Swm.Web.Controllers
         readonly IAppSeqService _appSeqService;
         readonly SimpleEventBus _simpleEventBus;
         readonly PalletizationHelper _palletizationHelper;
-
+        readonly IBatchService _batchService;
         /// <summary>
         /// 初始化新实例。
         /// </summary>
@@ -55,7 +55,7 @@ namespace Swm.Web.Controllers
         /// <param name="opHelper"></param>
         /// <param name="simpleEventBus"></param>
         /// <param name="logger"></param>
-        public IboController(ISession session, IAppSeqService appSeqService, PalletizationHelper palletizationHelper, OpHelper opHelper, SimpleEventBus simpleEventBus, ILogger logger)
+        public IboController(ISession session, IAppSeqService appSeqService, IBatchService batchService, PalletizationHelper palletizationHelper, OpHelper opHelper, SimpleEventBus simpleEventBus, ILogger logger)
         {
             _session = session;
             _appSeqService = appSeqService;
@@ -63,6 +63,7 @@ namespace Swm.Web.Controllers
             _simpleEventBus = simpleEventBus;
             _logger = logger;
             _palletizationHelper = palletizationHelper;
+            _batchService = batchService;
         }
 
         /// <summary>
@@ -192,7 +193,7 @@ namespace Swm.Web.Controllers
                 line.Material = material;
                 line.QuantityExpected = lineInfo.QuantityExpected;
                 line.QuantityReceived = 0;
-                line.Batch = lineInfo.Batch;
+                line.Batch = _batchService.Normalize(lineInfo.Batch);
                 line.StockStatus = lineInfo.StockStatus;
                 line.Uom = lineInfo.Uom;
 
@@ -279,7 +280,7 @@ namespace Swm.Web.Controllers
                             line.Material = material;
                             line.QuantityExpected = lineInfo.QuantityExpected;
                             line.QuantityReceived = 0;
-                            line.Batch = lineInfo.Batch;
+                            line.Batch = _batchService.Normalize(lineInfo.Batch);
                             line.StockStatus = lineInfo.StockStatus;
                             line.Uom = lineInfo.Uom;
 

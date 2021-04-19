@@ -427,7 +427,7 @@
             操作入库单。
             </summary>
         </member>
-        <member name="M:Swm.Web.Controllers.IboController.#ctor(NHibernate.ISession,Arctic.AppSeqs.IAppSeqService,Swm.Palletization.PalletizationHelper,Swm.Ops.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
+        <member name="M:Swm.Web.Controllers.IboController.#ctor(NHibernate.ISession,Arctic.AppSeqs.IAppSeqService,Swm.Materials.IBatchService,Swm.Palletization.PalletizationHelper,Swm.Ops.OpHelper,Arctic.EventBus.SimpleEventBus,Serilog.ILogger)">
             <summary>
             初始化新实例。
             </summary>
@@ -1834,7 +1834,7 @@
         </member>
         <member name="P:Swm.Web.Controllers.EditInboundLineInfo.Batch">
             <summary>
-            要入库的批号，不可以为空
+            要入库的批号，可以为空
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.EditInboundLineInfo.StockStatus">

@@ -45,8 +45,9 @@ namespace Swm.Materials
             builder.RegisterEntityFactory(_moduleBuilder.StockFactory);
             builder.RegisterEntityFactory(_moduleBuilder.MonthlyReportItemFactory);
 
-            builder.RegisterType(_moduleBuilder.FifoProviderType ?? throw new()).AsImplementedInterfaces();
-            
+            builder.RegisterType(_moduleBuilder.FifoProviderType).As<IFifoProvider>();
+            builder.RegisterType(_moduleBuilder.BatchServiceType).As<IBatchService>();
+
         }
     }
 }

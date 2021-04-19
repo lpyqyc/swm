@@ -237,6 +237,7 @@ namespace Swm.Web
                     .UseStock<Stock>()
                     .UseMonthlyReportItem<MonthlyReportItem>()
                     .UseFifoProvider<DefaultFifoProvider>()
+                    .UseBatchService<DefaultBatchService>()
                     .UseStockKey<DefaultStockKey>();
             });
 

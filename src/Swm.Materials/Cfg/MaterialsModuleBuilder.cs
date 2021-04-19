@@ -49,7 +49,12 @@ namespace Swm.Materials
         /// <summary>
         /// 获取 <see cref="IFifoProvider"/> 的类型
         /// </summary>
-        public Type? FifoProviderType { get; private set; } = typeof(DefaultFifoProvider);
+        public Type FifoProviderType { get; private set; } = typeof(DefaultFifoProvider);
+
+        /// <summary>
+        /// 获取 <see cref="IBatchService"/> 的类型
+        /// </summary>
+        public Type BatchServiceType { get; private set; } = typeof(DefaultBatchService);
 
         internal MaterialsModuleBuilder()
         {
@@ -94,6 +99,13 @@ namespace Swm.Materials
             where T : IFifoProvider
         {
             FifoProviderType = typeof(T);
+            return this;
+        }
+
+        public MaterialsModuleBuilder UseBatchService<T>()
+            where T : IBatchService
+        {
+            BatchServiceType = typeof(T);
             return this;
         }
 

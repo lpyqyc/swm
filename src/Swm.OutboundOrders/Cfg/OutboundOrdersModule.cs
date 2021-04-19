@@ -45,7 +45,7 @@ namespace Swm.OutboundOrders
             builder.RegisterEntityFactory(_moduleBuilder.OutboundOrderFactory);
             builder.RegisterEntityFactory(_moduleBuilder.OutboundLineFactory);
 
-            builder.RegisterType(_moduleBuilder.OutboundOrderAllocatorType).AsImplementedInterfaces();
+            builder.RegisterType(_moduleBuilder.OutboundOrderAllocatorType).As<IOutboundOrderAllocator>();
 
         }
     }
