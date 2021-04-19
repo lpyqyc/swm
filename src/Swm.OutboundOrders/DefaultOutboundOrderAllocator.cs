@@ -114,7 +114,8 @@ namespace Swm.OutboundOrders
             var candidateItems = _session
                 .Query<UnitloadItem>()
                 .Where(x => 
-                    included.Contains(x) == false   // 显式包含的货载项已在上面处理过，这里需排除
+                    x.Unitload!.CurrentLocation!.LocationType == Locations.LocationTypes.S
+                    && included.Contains(x) == false   // 显式包含的货载项已在上面处理过，这里需排除
                     && x.Material == line.Material)
                 .OrderBy(x => x.Fifo)
                 .ThenBy(x => x.Unitload!.CurrentLocation!.Cell!.oByShape)
