@@ -39,7 +39,6 @@ namespace Swm.Materials
             }
 
             builder.RegisterType<FlowHelper>();
-            builder.RegisterType<DefaultFifoProvider>().AsImplementedInterfaces();
             builder.RegisterEntityFactory(_moduleBuilder.MaterialFactory);
             builder.RegisterEntityFactory(_moduleBuilder.FlowFactory);
             builder.RegisterEntityFactory(_moduleBuilder.StockFactory);

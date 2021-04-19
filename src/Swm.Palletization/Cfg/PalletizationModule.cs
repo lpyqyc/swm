@@ -43,7 +43,7 @@ namespace Swm.Palletization
 
             builder.RegisterType<PalletizationHelper>();
             builder.RegisterType<UnitloadSnapshopHelper>();
-            builder.RegisterType(_moduleBuilder.UnitloadStorageInfoProviderType).AsImplementedInterfaces();
+            builder.RegisterType(_moduleBuilder.UnitloadStorageInfoProviderType).As<IUnitloadStorageInfoProvider>();
 
             builder.RegisterEntityFactory(_moduleBuilder.UnitloadFactory);
             builder.RegisterEntityFactory(_moduleBuilder.UnitloadItemFactory);
@@ -52,10 +52,6 @@ namespace Swm.Palletization
             builder.RegisterInstance(_moduleBuilder.palletCodeValidator ?? throw new())
                 .As<IPalletCodeValidator>()
                 .SingleInstance();
-            if (_moduleBuilder.UnitloadStorageInfoProviderType != null)
-            {
-            }
-
         }
     }
 

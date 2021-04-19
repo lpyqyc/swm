@@ -40,8 +40,6 @@ namespace Swm.OutboundOrders
                 builder.AddModelMapperConfigurer(_moduleBuilder.ExtensionModelMapperConfigurer);
             }
             builder.RegisterType<OutboundOrderPickHelper>();
-            builder.RegisterType<DefaultOutboundOrderAllocator>().AsImplementedInterfaces();
-
             builder.RegisterEntityFactory(_moduleBuilder.OutboundOrderFactory);
             builder.RegisterEntityFactory(_moduleBuilder.OutboundLineFactory);
 

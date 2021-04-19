@@ -38,9 +38,8 @@ namespace Swm.TransportTasks
         {
             builder.AddModelMapperConfigurer(new ModelMapperConfigurer());
 
-            builder.RegisterType<TaskHelper>();            
-            builder.RegisterType(_moduleBuilder.TaskSenderType).AsImplementedInterfaces();
-
+            builder.RegisterType<TaskHelper>();
+            builder.RegisterType(_moduleBuilder.TaskSenderType).As<ITaskSender>();
 
             ConfigureRequestHandlers(builder);
             ConfigureCompletedTaskHandlers(builder);
