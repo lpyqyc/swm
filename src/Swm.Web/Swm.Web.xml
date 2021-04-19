@@ -756,7 +756,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MatlController.GetChangeStockStatusUnitloadItemList(Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs)">
+        <member name="M:Swm.Web.Controllers.MatlController.GetUnitloadItemsToChangeStockStatusList(Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs)">
             <summary>
             货载项列表，用于在变更状态页面展示货载项
             </summary>
@@ -777,7 +777,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Swm.Web.Controllers.MatlController.ChangeStockStatus(System.String,Swm.Web.Controllers.ChangeStockStatusArgs)">
+        <member name="M:Swm.Web.Controllers.MatlController.ChangeStockStatus(Swm.Web.Controllers.ChangeStockStatusArgs)">
             <summary>
             更改库存状态
             </summary>
@@ -1459,14 +1459,24 @@
             库存状态变更的操作参数
             </summary>
         </member>
+        <member name="P:Swm.Web.Controllers.ChangeStockStatusArgs.UnitloadItemIds">
+            <summary>
+            要变更状态的货载项
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.ChangeStockStatusArgs.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
         <member name="P:Swm.Web.Controllers.ChangeStockStatusArgs.IssuingStockStatus">
             <summary>
-            发货库存状态
+            获取发货库存状态
             </summary>
         </member>
         <member name="P:Swm.Web.Controllers.ChangeStockStatusArgs.ReceivingStockStatus">
             <summary>
-            收货库存状态
+            获取收货库存状态
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.ChangeStockStatusUnitloadItemInfo">
@@ -1562,51 +1572,6 @@
         <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemInfo.ReasonWhyStockStatusCannotBeChanged">
             <summary>
             不可变更库存状态的原因
-            </summary>
-        </member>
-        <member name="T:Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs">
-            <summary>
-            货载明细列表的查询参数
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs.PalletCode">
-            <summary>
-            托盘号
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs.MaterialType">
-            <summary>
-            物料类型
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs.MaterialCode">
-            <summary>
-            物料编码
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs.Batch">
-            <summary>
-            批号
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs.StockStatus">
-            <summary>
-            库存状态
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs.Sort">
-            <summary>
-            排序字段
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs.Current">
-            <summary>
-            基于 1 的当前页面，默认值为 1。
-            </summary>
-        </member>
-        <member name="P:Swm.Web.Controllers.ChangeStockStatusUnitloadItemListArgs.PageSize">
-            <summary>
-            每页大小，默认值为 10。
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.CreateAppSettingArgs">
@@ -2108,6 +2073,56 @@
         <member name="P:Swm.Web.Controllers.GetAvailableQuantityArgs.OutboundOrderCode">
             <summary>
             出库单号
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs">
+            <summary>
+            货载明细列表的查询参数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs.BizType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs.PalletCode">
+            <summary>
+            托盘号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs.MaterialType">
+            <summary>
+            物料类型
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs.MaterialCode">
+            <summary>
+            物料编码
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs.Batch">
+            <summary>
+            批号
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs.StockStatus">
+            <summary>
+            库存状态
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs.Current">
+            <summary>
+            基于 1 的当前页面，默认值为 1。
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.GetUnitloadItemsToChangeStockStatusArgs.PageSize">
+            <summary>
+            每页大小，默认值为 10。
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.IboPalletizeArgs">

@@ -114,6 +114,7 @@ namespace Swm.Web.Controllers
                     Description = x.Description,
                     Specification = x.Specification,
                     MaterialType = x.MaterialType,
+                    BatchEnabled = x.BatchEnabled,
                     Uom = x.Uom,
                 })
                 .Take(args.Limit ?? 10)
@@ -404,9 +405,9 @@ namespace Swm.Web.Controllers
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpGet("get-unitload-item-list")]
+        [HttpGet("get-unitload-items-to-change-stock-status")]
         [OperationType(OperationTypes.查看货载)]
-        public async Task<ListData<ChangeStockStatusUnitloadItemInfo>> GetChangeStockStatusUnitloadItemList([FromQuery] ChangeStockStatusUnitloadItemListArgs args)
+        public async Task<ListData<ChangeStockStatusUnitloadItemInfo>> GetUnitloadItemsToChangeStockStatusList([FromQuery] GetUnitloadItemsToChangeStockStatusArgs args)
         {
             var pagedList = await _session.Query<UnitloadItem>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
 
@@ -488,37 +489,23 @@ namespace Swm.Web.Controllers
         /// <summary>
         /// 更改库存状态
         /// </summary>
-        /// <param name="itemIds">半角逗号分隔的货载项Id</param>
         /// <param name="args"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpPost("change-stock-status/{itemIds}")]
+        [HttpPost("change-stock-status")]
         [OperationType(OperationTypes.更改库存状态)]
-        public async Task<ApiData> ChangeStockStatus(string itemIds, ChangeStockStatusArgs args)
+        public async Task<ApiData> ChangeStockStatus(ChangeStockStatusArgs args)
         {
-            if (string.IsNullOrWhiteSpace(args.IssuingStockStatus))
+            if (string.IsNullOrWhiteSpace(args.BizType))
             {
-                throw new InvalidOperationException("未提供发出状态。");
-            }
-            if (string.IsNullOrWhiteSpace(args.ReceivingStockStatus))
-            {
-                throw new InvalidOperationException("未提供接收状态。");
+                throw new InvalidOperationException("未提供业务类型。");
             }
 
-            if (args.IssuingStockStatus == args.ReceivingStockStatus)
-            {
-                throw new InvalidOperationException("发出状态和接收状态不能相同。");
-            }
-
-            List<int> list = itemIds
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Select(x => int.Parse(x))
-                .ToList();
             List<UnitloadItem> unitloadItems = await _session.Query<UnitloadItem>()
-                .Where(x => list.Contains(x.UnitloadItemId))
+                .Where(x => args.UnitloadItemIds.Contains(x.UnitloadItemId))
                 .ToListAsync();
 
-            const string bizType = "库存状态变更";
+            string bizType = args.BizType ?? throw new();
 
             if (unitloadItems.Count == 0)
             {

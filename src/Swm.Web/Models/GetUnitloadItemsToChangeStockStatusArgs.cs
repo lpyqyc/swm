@@ -13,14 +13,23 @@
 // limitations under the License.
 
 using Arctic.NHibernateExtensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Swm.Web.Controllers
 {
     /// <summary>
     /// 货载明细列表的查询参数
     /// </summary>
-    public class ChangeStockStatusUnitloadItemListArgs
+    public class GetUnitloadItemsToChangeStockStatusArgs
     {
+        /// <summary>
+        /// 业务类型
+        /// </summary>
+        [Required]
+        public string? BizType { get; set; }
+
+
+
         /// <summary>
         /// 托盘号
         /// </summary>
@@ -47,11 +56,19 @@ namespace Swm.Web.Controllers
         [SearchArg]
         public string? Batch { get; set; }
 
+        // TODO 重复的代码
         /// <summary>
         /// 库存状态
         /// </summary>
         [SearchArg]
-        public string? StockStatus { get; set; }
+        public string? StockStatus => BizType switch
+        {
+            "待检转合格" => "待检",
+            "待检转不合格" => "待检",
+            "不合格转合格" => "不合格",
+            "合格转不合格" => "合格",
+            _ => throw new(),
+        };
 
 
         /// <summary>
