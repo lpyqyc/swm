@@ -18,7 +18,7 @@ namespace Swm.Materials
     {
         public string GetValueForNoBatch()
         { 
-            return string.Empty;
+            return "*****";
         }
 
         public string Normalize(string? batch)
