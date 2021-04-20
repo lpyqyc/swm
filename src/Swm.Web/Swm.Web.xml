@@ -781,7 +781,6 @@
             <summary>
             更改库存状态
             </summary>
-            <param name="itemIds">半角逗号分隔的货载项Id</param>
             <param name="args"></param>
             <returns></returns>
         </member>

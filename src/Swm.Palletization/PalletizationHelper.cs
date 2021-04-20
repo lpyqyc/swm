@@ -14,7 +14,6 @@
 
 using NHibernate;
 using Serilog;
-using Swm.Constants;
 using Swm.Locations;
 using Swm.Materials;
 using System;

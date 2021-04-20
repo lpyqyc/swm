@@ -356,7 +356,9 @@ namespace Swm.Web.Controllers
         [HttpGet("get-stock-status-options")]
         public async Task<OptionsData<StockStatusInfo>> GetStockStatusOptions()
         {
-            var list = await _session.Query<StockStatusInfo>().ToListAsync();
+            var list = await _session.Query<StockStatusInfo>()
+                .OrderBy(x => x.DisplayOrder)
+                .ToListAsync();
             var result = this.OptionsData(list);
             return result;
         }
