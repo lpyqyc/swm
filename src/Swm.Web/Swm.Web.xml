@@ -939,6 +939,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Swm.Web.Controllers.RptController.GetDashboardData">
+            <summary>
+            获取仪表盘数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Swm.Web.Controllers.SetupController">
             <summary>
             安装工具。
@@ -1756,6 +1762,137 @@
         <member name="P:Swm.Web.Controllers.CreateUserArgs.Password">
             <summary>
             密码
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.DashboardData">
+            <summary>
+            仪表盘数据
+            </summary>
+        </member>
+        <member name="T:Swm.Web.Controllers.DashboardData.DateValuePair`1">
+            <summary>
+            表示与日期关联的值
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.DateValuePair`1.Date">
+            <summary>
+            日期
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.DateValuePair`1.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.LocationData.StreetletCount">
+            <summary>
+            巷道总数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.LocationData.LocationCount">
+            <summary>
+            货位总数
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.LocationData.LocationUsageRate">
+            <summary>
+            当前的货位利用率（有货货位/货位总数）
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.LocationData.LocationUsageRate7">
+            <summary>
+            近7日（不含今日）每天的货位利用率（每天 23:50 采样数据）
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.LocationData.AvailableLocationCount">
+            <summary>
+            可供入库的货位数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.LocationData.DisabledLocationCount">
+            <summary>
+            已禁入或禁出的货位数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.InboundOrderData.OpenInboundOrderCount">
+            <summary>
+            当前开启状态的入库单数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.InboundOrderData.InboundOrderCount7">
+            <summary>
+            近7日（不含今日）每天创建的入库单数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.OutboundOrderData.OpenOutboundOrderCount">
+            <summary>
+            当前开启状态的出库单数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.OutboundOrderData.OutboundOrderCount7">
+            <summary>
+            近7日（不含今日）每天创建的出库单数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.StockData.FlowInCount7">
+            <summary>
+            近7日（不含今日）每天产生的流入数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.StockData.FlowOutCount7">
+            <summary>
+            近7日（含今日）每天产生的流出数量
+            </summary>不
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.StockData.UnitloadCount">
+            <summary>
+            当前货载数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.StockData.EmptyPalletCount">
+            <summary>
+            当前库内的空托盘数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.TaskData.TaskCount">
+            <summary>
+            当前任务数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.TaskData.TaskCount7">
+            <summary>
+            近7日（不含今日）每天下发的任务数量
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.Time">
+            <summary>
+            查询时间
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.Location">
+            <summary>
+            货位数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.InboundOrder">
+            <summary>
+            入库单数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.OutboundOrder">
+            <summary>
+            出库单数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.Stock">
+            <summary>
+            库存数据
+            </summary>
+        </member>
+        <member name="P:Swm.Web.Controllers.DashboardData.Task">
+            <summary>
+            任务数据
             </summary>
         </member>
         <member name="T:Swm.Web.Controllers.DisableLocationArgs">

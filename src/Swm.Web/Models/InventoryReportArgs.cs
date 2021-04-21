@@ -1,5 +1,4 @@
 ﻿using Arctic.NHibernateExtensions;
-using System;
 
 namespace Swm.Web.Controllers
 {

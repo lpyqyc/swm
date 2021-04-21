@@ -6,12 +6,12 @@ using NHibernate.Linq;
 using NHibernate.Transform;
 using Serilog;
 using Swm.Materials;
-using Swm.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Swm.Web.Controllers.DashboardData;
 
 namespace Swm.Web.Controllers
 {
@@ -282,7 +282,7 @@ GROUP BY m.MaterialCode, m.Description, m.Specification, i.Batch, i.StockStatus,
                     {
                         MaterialCode = item.MaterialCode!,
                         Description = item.Description!,
-                        Specification = item.Specification!,                        
+                        Specification = item.Specification!,
                         Batch = item.Batch!,
                         StockStatus = item.StockStatus!,
                         Uom = item.Uom!,
@@ -315,6 +315,115 @@ GROUP BY m.MaterialCode, m.Description, m.Specification, i.Batch, i.StockStatus,
                 Data = ages,
                 Total = ages.Count,
             };
+        }
+
+        // TODO 使用真实数据替换假数据
+        // TODO 使用缓存提升性能
+        /// <summary>
+        /// 获取仪表盘数据
+        /// </summary>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpGet("get-dashboard-data")]
+        public async Task<ApiData<DashboardData>> GetDashboardData()
+        {
+            Random random = new Random();
+            DashboardData dashboardData = new DashboardData
+            {
+                Location = new LocationData
+                {
+                    StreetletCount = 5,
+                    AvailableLocationCount = 392,
+                    DisabledLocationCount = 29,
+                    LocationCount = 7349,
+                    LocationUsageRate = 0.235f,
+                    LocationUsageRate7 = Enumerable.Range(-7, 7)
+                        .Select(x => new DateValuePair<double>()
+                        {
+                            Date = DateTime.Now.Date.AddDays(x),
+                            Value = random.NextDouble()
+                        })
+                        .ToList(),
+                },
+                InboundOrder = new InboundOrderData
+                {
+                    InboundOrderCount7 = Enumerable.Range(-7, 7)
+                        .Select(x => new DateValuePair<int>
+                        {
+                            Date = DateTime.Now.Date.AddDays(x),
+                            Value = random.Next(0, 100)
+                        })
+                        .ToList(),
+                    OpenInboundOrderCount = 12,
+                },
+                OutboundOrder = new OutboundOrderData
+                {
+                    OpenOutboundOrderCount = 8,
+                    OutboundOrderCount7 = Enumerable.Range(-7, 7)
+                        .Select(x => new DateValuePair<int>
+                        {
+                            Date = DateTime.Now.Date.AddDays(x),
+                            Value = random.Next(0, 100)
+                        })
+                        .ToList(),
+                },
+                Stock = new StockData
+                {
+                    UnitloadCount = 1499,
+                    EmptyPalletCount = 362,
+                    FlowInCount7 = Enumerable.Range(-7, 7)
+                        .Select(x => new DateValuePair<int>
+                        {
+                            Date = DateTime.Now.Date.AddDays(x),
+                            Value = random.Next(0, 3000)
+                        })
+                        .ToList(),
+                    FlowOutCount7 = Enumerable.Range(-7, 7)
+                        .Select(x => new DateValuePair<int>
+                        {
+                            Date = DateTime.Now.Date.AddDays(x),
+                            Value = random.Next(0, 3000)
+                        })
+                        .ToList(),
+                },
+                Task = new TaskData
+                {
+                    TaskCount = 29,
+                    TaskCount7 = Enumerable.Range(-7, 7)
+                        .Select(x => new DateValuePair<int>
+                        {
+                            Date = DateTime.Now.Date.AddDays(x),
+                            Value = random.Next(1000, 4000)
+                        }).ToList(),
+                },
+            };
+
+            await Task.CompletedTask;
+            return this.Success(dashboardData);
+
+
+            /*
+
+            DashboardData dashboardData = new DashboardData();
+            dashboardData.Location.StreetletCount = await _session.Query<Streetlet>().CountAsync();
+            dashboardData.Location.LocationCount = await _session.Query<Location>()
+                .Where(x => x.LocationType == LocationTypes.S
+                    && x.Exists)
+                .CountAsync();
+            dashboardData.Location.AvailableLocationCount = await _session.Query<Location>()
+                .Where(x => x.LocationType == LocationTypes.S
+                    && x.Exists
+                    && x.InboundDisabled == false)
+                .CountAsync();
+            dashboardData.Location.DisabledLocationCount = await _session.Query<Location>()
+                .Where(x => x.LocationType == LocationTypes.S
+                    && x.Exists
+                    && (x.InboundDisabled || x.OutboundDisabled))
+                .CountAsync();
+
+             
+             
+             */
         }
 
 
